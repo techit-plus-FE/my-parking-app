@@ -1,31 +1,95 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import url("https://webssfont.github.io/nanumSquareNeo/nanumSquareNeo.css");
+@import url("https://websfont.github.io/gmarket/gmarket.css");
+
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --mainEng-font: "Montserrat";
+  --mainKor-font: "nanumSquareNeo";
+  --mainNum-font: "gmarket";
+
+  font-family: var(--mainEng-fontm), var(--mainKor-font);
+  font-size: 16px;
   line-height: 1.5;
   font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
+  -webkit-text-size-adjust: 100%;
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+  --color-white: #fff;
+  --color-dark: #000;
+
+  --color-error-light: #ce0000;
+  --color-error-dark: #c11c0a;
+
+  --color-gray-100: #f4f3f1;
+  --color-gray-200: #dddbd8;
+  --color-gray-300: #ccc9c6;
+  --color-gray-400: #aeaba7;
+  --color-gray-500: #8a8784;
+  --color-gray-600: #656360;
+  --color-gray-700: #4b4a47;
+  --color-gray-800: #31302e;
+  --color-gray-900: #1f1d1b;
+
+  --color-primary-100: #e6e9fe;
+  --color-primary-200: #ccd4fc;
+  --color-primary-300: #b0c0fb;
+  --color-primary-400: #92abf9;
+  --color-primary-500: #7098f6;
+  --color-primary-600: #4285f4;
+  --color-primary-700: #34579c;
+  --color-primary-800: #212d4c;
+  --color-primary-900: #161a28;
+
+  --color-sub-100: #ffffc4;
+  --color-sub-200: #ffffa6;
+  --color-sub-300: #ffff86;
+  --color-sub-400: #f9ff37;
+  --color-sub-500: #cbd032;
+  --color-sub-600: #9fa22c;
+  --color-sub-700: #767725;
+  --color-sub-800: #2a2913;
 }
 
 body {
+  width: 100%;
+  height: 100%;
+}
+
+ul {
+  list-style: none;
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  padding: 0;
+}
+
+/*폰트 초기화*/
+body,
+button,
+input,
+select,
+table,
+textarea {
+  font-family: var(--mainEng-font), var(--mainKor-font), "Apple SD Gothic Neo",
+    "Malgun Gothic", "맑은 고딕", helvetica, sans-serif;
+}
+
+/* 링크 초기화 */
+a,
+a:hover,
+a:focus {
+  text-decoration: none;
+}
+
+img {
+  vertical-align: top;
+  width: 100%;
 }
