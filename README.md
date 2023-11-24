@@ -122,8 +122,7 @@ my-parking-app
 
 **api 정보**
 * api server : [https://github.com/uzoolove/FESP01-project]
-* - git pull https://github.com/uzoolove/FESP01-project.git
-* - cd api
-* - npm i
-* - npm start
-
+* git pull https://github.com/uzoolove/FESP01-project.git
+* cd api
+* npm i
+* npm start
