@@ -1,7 +1,7 @@
 import React from "react";
 
-const Card = () => {
+const Error = () => {
   return <div></div>;
 };
 
-export default Card;
+export default Error;

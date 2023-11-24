@@ -1,4 +1,5 @@
 /* 전역 스타일 집어넣기*/
-
 :root {
+  --primary-color: #4285f4;
+  --white-color: #fff;
 }
