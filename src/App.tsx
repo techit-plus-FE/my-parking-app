@@ -70,19 +70,19 @@ const router = createBrowserRouter([
         path: "/products",
         children: [
           {
-            path: "/products/regist",
+            path: "regist",
             element: <ProductRegistPage />,
           },
           {
             id: "product-detail",
-            path: "products/:productId",
+            path: ":productId",
             children: [
               {
-                path: "/products/:productId",
+                path: ":productId",
                 element: <ProductDetailPage />,
               },
               {
-                path: "/products/:productId/edit",
+                path: ":productId/edit",
                 element: <ProductEditPage />,
               },
             ],
