@@ -1,6 +1,7 @@
 // 최초 접속시 보이는 페이지 입니다.
-function LandingPage() {
-  return <div>랜딩페이지 입니다.</div>;
-}
+
+const LandingPage = () => {
+  return <div>여긴 랜딩페이지</div>;
+};
 
 export default LandingPage;

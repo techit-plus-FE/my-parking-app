@@ -20,17 +20,20 @@ import OrderHistoryDetailPage from "./pages/order-hisotry/OrderHistoryDetailPage
 // 구매
 import PurchasePage from "./pages/purchase/PurchaseFormPage";
 import PurchaseResultPage from "./pages/purchase/PurchaseResultPage";
+import SearchPage from "./pages/SearchPage";
 
 // 라우터 설정
 const router = createBrowserRouter([
   {
     path: "/",
-    id: "root",
-    element: <RootLayout />,
+    id: "NoLayout",
+    element: (
+      <RootLayout hasHeader={false} hasFooter={false} hasSearchHeader={false} />
+    ),
     errorElement: <ErrorPage />,
     children: [
       {
-        index: true,
+        path: "/",
         element: <LandingPage />,
       },
       {
@@ -41,14 +44,34 @@ const router = createBrowserRouter([
         path: "/signup",
         element: <SignUpPage />,
       },
+    ],
+  },
+  {
+    path: "/",
+    id: "withSearchHeaderAndFooterLayout",
+    element: (
+      <RootLayout hasHeader={false} hasFooter={true} hasSearchHeader={true} />
+    ),
+    errorElement: <ErrorPage />,
+    children: [
       {
         path: "/home",
         element: <HomePage />,
       },
       {
-        path: "/home",
-        element: <HomePage />,
+        path: "/search",
+        element: <SearchPage />,
       },
+    ],
+  },
+  {
+    path: "/",
+    id: "withHeaderAndFooterLayout",
+    element: (
+      <RootLayout hasHeader={true} hasFooter={true} hasSearchHeader={false} />
+    ),
+    errorElement: <ErrorPage />,
+    children: [
       // 회원
       {
         id: "mypage",
@@ -75,14 +98,14 @@ const router = createBrowserRouter([
           },
           {
             id: "product-detail",
-            path: ":productId",
+            path: "/products/:productId",
             children: [
               {
-                path: ":productId",
+                path: "/products/:productId",
                 element: <ProductDetailPage />,
               },
               {
-                path: ":productId/edit",
+                path: "/products/:productId/edit",
                 element: <ProductEditPage />,
               },
             ],
