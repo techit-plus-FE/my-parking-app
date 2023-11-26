@@ -1,6 +1,7 @@
 // import { useState } from "react";
 import { Outlet } from "react-router-dom";
 
+import PageContainer from "../../components/layouts/PageContainer";
 import Header from "../../components/layouts/Header";
 import Footer from "../../components/layouts/Footer";
 import SearchHeader from "../../components/layouts/SearchHeader";
@@ -16,12 +17,12 @@ interface LayoutProps {
 const RootLayout = (props: LayoutProps) => {
   const { hasHeader, hasFooter, hasSearchHeader } = props;
   return (
-    <>
+    <PageContainer>
       {hasHeader && <Header />}
       {hasSearchHeader && <SearchHeader />}
       <Outlet />
       {hasFooter && <Footer />}
-    </>
+    </PageContainer>
   );
 };
 
