@@ -1,4 +1,3 @@
-/// <reference types="vite-plugin-svgr/client" />
 import React from "react";
 import IconUser from "../../assets/icon/icon-user.svg?react";
 import IconHome from "../../assets/icon/icon-home.svg?react";
@@ -6,7 +5,6 @@ import IconSearch from "../../assets/icon/icon-search.svg?react";
 import { useNavigate } from "react-router-dom";
 
 const Footer: React.FC = () => {
-  
   const navigate = useNavigate();
 
   const navigatePage = (path: string) => {
