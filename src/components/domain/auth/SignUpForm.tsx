@@ -9,7 +9,7 @@ enum UserInputElements {
   phone,
   address,
   type,
-  extra 
+  extra,
 }
 
 type UserInputType = {
@@ -17,11 +17,10 @@ type UserInputType = {
 };
 
 const getDefaultUserInputElements: ()=> UserInputType = () => {
-
   const UserInputKeys = Object.keys(UserInputElements).filter((v) => isNaN(Number(v)))
   const DefaultUserInputElements: UserInputType = {} as UserInputType;
   UserInputKeys.forEach(item =>{
-    DefaultUserInputElements[item]= ""
+    DefaultUserInputElements[item as keyof UserInputType]= ""
   })  
   return DefaultUserInputElements
 }
@@ -32,10 +31,10 @@ const [userInputs, setUserInputs] = useState<UserInputType>(
   getDefaultUserInputElements()
 )
 
-// console.log(getDefaultUserInputElements())
 //const {email, password}: UserInputType = userInputs;
 
 const saveUserInputs : ChangeEventHandler<HTMLInputElement> = (event: ChangeEvent<HTMLInputElement>): void => {
+  console.log(userInputs)
   const {name, value} = event.target as HTMLInputElement;
 
   setUserInputs((prev: UserInputType) => ({
@@ -48,23 +47,13 @@ console.log(userInputs)
 
   return( 
   <form onSubmit = {(e)=> e.preventDefault()}>
-    {Object.keys(userInputs).map(item => {return <div>
+    {Object.keys(userInputs).map(item => {return (
+      <div>
       <label>
-        <input value = {item} name = {item} onChange= {saveUserInputs}></input>
+        <input value = {userInputs[item as keyof UserInputType]} name = {item} onChange= {saveUserInputs}></input>
       </label>
-      </div>})}
-    {/* <div>
-      <label>
-        email
-          <input value={email} name="email" onChange={saveUserInputs}/>
-      </label>
-    </div>
-    <div>
-      <label>
-        password
-          <input value={password} name="password" onChange={saveUserInputs}/>
-      </label>
-    </div> */}
+      </div>
+      )})}
     <button > 회원가입 </button>
   </form>
   )
