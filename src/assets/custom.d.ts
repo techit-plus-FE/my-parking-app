@@ -4,10 +4,9 @@
 
 // .svg 확장자 파일에서 ReactComponent의 존재를 인식시켜주기
 declare module "*.svg" {
-  import { FC, SVGProps } from "react";
-
-  export const content: FC<SVGProps<SVGAElement>>;
-
+  import React = require("react");
+  const ReactComponent: React.FC<React.SVGProps<SVGSVGElement>>;
   const src: string;
   export default src;
+  export { ReactComponent };
 }
