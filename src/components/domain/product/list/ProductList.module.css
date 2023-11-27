@@ -1,0 +1,9 @@
+.container {
+  padding: 10px;
+}
+
+.container h2 {
+  font-family: inherit;
+  font-size: 30px;
+  color: var(--color-primary-800);
+}
