@@ -6,6 +6,7 @@ import IconSearch from "../../assets/icon/icon-search.svg?react";
 import { useNavigate } from "react-router-dom";
 
 const Footer: React.FC = () => {
+  
   const navigate = useNavigate();
 
   const navigatePage = (path: string) => {
