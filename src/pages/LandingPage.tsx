@@ -1,6 +1,7 @@
 // 최초 접속시 보이는 페이지 입니다.
-function LandingPage() {
-  return <div>랜딩페이지 입니다.</div>;
-}
+import Landing from "../components/common/Landing";
+const LandingPage = () => {
+  return <Landing />;
+};
 
 export default LandingPage;

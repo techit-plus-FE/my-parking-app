@@ -4,7 +4,7 @@
 // 'seller' => 프로필 컴포넌트(MyProfile.tsx), 상품 목록 컴포넌트(ProductList.tsx),
 
 const MyPage = () => {
-  return <div></div>;
+  return <div>마이 페이지 입니다.</div>;
 };
 
 export default MyPage;

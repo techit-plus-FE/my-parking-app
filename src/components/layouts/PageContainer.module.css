@@ -1,0 +1,6 @@
+.container {
+  /* 기본 모바일 뷰 사이즈로 설정 */
+  width: 430px;
+  height: 932px;
+  margin: 0 auto;
+}
