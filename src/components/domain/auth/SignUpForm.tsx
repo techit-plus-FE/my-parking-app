@@ -2,58 +2,72 @@ import React, { ChangeEvent, ChangeEventHandler } from "react";
 import {useState} from 'react';
 
 
-enum UserInputElements {
-  email,
-  password,
-  name,
-  phone,
-  address,
-  type,
-  extra,
+// type UserInputElements = {
+  type UserInputType = {
+  email: string,
+  password: string,
+  name: string,
+  phone: string,
+  address: string,
+  type: string,
+  extra: extraType,
 }
 
-type UserInputType = {
-  [key in keyof UserInputElements]: string;
-};
+type extraType = {
+    X_position: string
+    Y_position: string
+  }
 
-const getDefaultUserInputElements: ()=> UserInputType = () => {
-  const UserInputKeys = Object.keys(UserInputElements).filter((v) => isNaN(Number(v)))
-  const DefaultUserInputElements: UserInputType = {} as UserInputType;
-  UserInputKeys.forEach(item =>{
-    DefaultUserInputElements[item as keyof UserInputType]= ""
-  })  
-  return DefaultUserInputElements
+class CustomerInput implements UserInputType {
+  email: string;
+  password: string;
+  name: string;
+  phone: string;
+  address: string;
+  type: string;
+  extra: extraType;
+
+  constructor(){
+    this.email = ""
+    this.password = ""
+    this.name = ""
+    this.phone = ""
+    this.address = ""
+    this.type = "customer"
+    this.extra = {
+      X_position: "",
+      Y_position: ""
+    }
+  }
 }
 
 
 const SignUpForm = () => {
 const [userInputs, setUserInputs] = useState<UserInputType>(
-  getDefaultUserInputElements()
+  new CustomerInput()
 )
 
-//const {email, password}: UserInputType = userInputs;
-
 const saveUserInputs : ChangeEventHandler<HTMLInputElement> = (event: ChangeEvent<HTMLInputElement>): void => {
-  console.log(userInputs)
   const {name, value} = event.target as HTMLInputElement;
 
-  setUserInputs((prev: UserInputType) => ({
+  setUserInputs((prev: CustomerInput) => ({
     ...prev,
     [name]: value,
   }));
 }
 
-console.log(userInputs)
-
   return( 
   <form onSubmit = {(e)=> e.preventDefault()}>
-    {Object.keys(userInputs).map(item => {return (
+    {Object.keys(userInputs).filter((v)=>(v!=='extra' && v!=='type')).map(item => {return (
       <div>
+        <div>
+        {item }   
+        </div>
       <label>
-        <input value = {userInputs[item as keyof UserInputType]} name = {item} onChange= {saveUserInputs}></input>
+        <input value = {userInputs[item as keyof UserInputType] as string} name = {item} onChange= {saveUserInputs}></input>
       </label>
       </div>
-      )})}
+    )})}
     <button > 회원가입 </button>
   </form>
   )
