@@ -9,11 +9,12 @@ type Props = {
   onSubmit: (d1: string, d2: string) => void;
 };
 const SecondRegistForm = ({ onSubmit, onNext, onPrev }: Props) => {
-  const [startDate, setStartDate] = useState(""); // 대여 시작일을 저장할 상태 변수
-  const [endDate, setEndDate] = useState(""); // 대여 종료일을 저장할 상태 변수
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
 
   const handleNext = () => {
-    onSubmit(startDate, endDate); // 상태 변수들을 전달하여 부모 컴포넌트의 onSubmit 함수 호출
+    // 상태 변수들을 전달하여 부모 컴포넌트의 onSubmit 함수 호출
+    onSubmit(startDate, endDate);
     onNext();
   };
 

@@ -19,12 +19,13 @@ const ThirdRegistForm = ({ onSubmit, onPrev }: Props) => {
   const [mainImages, setMainImages] = useState<string[]>([]);
 
   // 이미지 저장 이벤트 함수
-  const handleAddImages = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleAddImagesChange = (e: ChangeEvent<HTMLInputElement>) => {
     const imageLists = e.target.files;
     // 받은 이미지 파일들 복사후 배열에 저장
     let imageUrlLists = [...mainImages];
 
     for (let i = 0; i < imageLists!.length; i++) {
+      // 해당 filelist 객체를 url로 반환시켜주는 메소드 적용
       const currentImageUrl = URL.createObjectURL(imageLists![i]);
       imageUrlLists.push(currentImageUrl);
     }
@@ -83,14 +84,14 @@ const ThirdRegistForm = ({ onSubmit, onPrev }: Props) => {
             type="file"
             multiple
             required
-            onChange={handleAddImages}
+            onChange={handleAddImagesChange}
           />
 
           {/* 이미지 미리보기 */}
           {mainImages.map((image, id) => (
             <div className={classes["img-pre-list"]} key={id}>
-              <img src={image} alt="" />
-              <button type="button" onClick={handleDeleteImage}>
+              <img src={image} alt={`${image}-${id}`} />
+              <button type="button" onClick={() => handleDeleteImage(id)}>
                 삭제
               </button>
             </div>
