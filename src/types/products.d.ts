@@ -36,3 +36,18 @@ interface ProductRes {
   ok: 0 | 1;
   item: [ProductItemResponseType];
 }
+
+// 상품 등록양식 전체 데이터 타입
+interface ProductAllFormDataType {
+  location: string; // x,y좌표(카카오 지도로부터 받은 위치)
+  startDate: string;
+  endDate: string;
+  othersInfo: ProductOthersInfoType;
+  mainImages: string[];
+}
+// 상품등록 마지막에 받을 양식 타입
+interface ProductOthersInfoType {
+  name: string;
+  price: string;
+  content: string;
+}
