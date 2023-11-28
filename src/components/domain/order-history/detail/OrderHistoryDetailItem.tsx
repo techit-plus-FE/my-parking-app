@@ -1,31 +1,23 @@
 import React from "react";
+import classes from "./OrderHistoryDetail.module.css";
 
 const OrderHistoryDetailItem = () => {
   return (
-    <article>
-      <span>2023.05.05</span>
-      <div>
-        <h2>주문번호: 5456465</h2>
-        <div>
-          <div>총 가격</div>
-          <div>결제 수단</div>
-        </div>
-        <h3>주문목록</h3>
-        <div>
-          <div className="order-history-list-wrapper">
-            <img src="https://picsum.photos/200/300" alt="" />
-          </div>
-          <div>
-            <h4>애플트리 건물주</h4>
-            <time>1201.54.4564</time>
-            <address>
-              <p>강남구 어쩌고</p>
-            </address>
-            <span>1000원</span>
-          </div>
+    <div className={classes.OrderHistoryDetailContainer}>
+      <div className="order-history-list-wrapper">
+        <div className={classes.imgWrapper}>
+          <img src="https://picsum.photos/100/100" alt="" />
         </div>
       </div>
-    </article>
+      <div>
+        <h4>애플트리 건물주</h4>
+        <span>1201.54.4564</span>
+        <address>
+          <p>강남구 어쩌고</p>
+        </address>
+        <span>1000원</span>
+      </div>
+    </div>
   );
 };
 
