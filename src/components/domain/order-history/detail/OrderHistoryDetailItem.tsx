@@ -1,9 +1,8 @@
 import React from "react";
-import classes from "./OrderHistoryDatailItem.module.css";
 
 const OrderHistoryDetailItem = () => {
   return (
-    <article className={classes.orderHistoryDetailContainer}>
+    <article>
       <span>2023.05.05</span>
       <div>
         <h2>주문번호: 5456465</h2>

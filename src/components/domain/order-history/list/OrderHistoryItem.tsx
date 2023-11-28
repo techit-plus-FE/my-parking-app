@@ -1,17 +1,25 @@
 import React from "react";
 import classes from "./OrderHistory.module.css";
+import { useNavigate } from "react-router-dom";
 
 interface OrderHistoryItemProps {
   orderTitle: string;
   orderDate: string;
   orderPrice: string;
+  orderId: number;
 }
 
 const OrderHistoryItem: React.FC<OrderHistoryItemProps> = ({
   orderTitle,
   orderDate,
   orderPrice,
+  orderId,
 }) => {
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate(`/order-history/${orderId}`);
+  };
+
   return (
     <article className={classes.orderHistoryItemContainer}>
       <div>
@@ -22,7 +30,7 @@ const OrderHistoryItem: React.FC<OrderHistoryItemProps> = ({
       </div>
       <div>
         <a href="">
-          <span>상세보기 </span>
+          <button onClick={handleClick}>상세보기 </button>
         </a>
         <h2>{orderTitle}</h2>
         <time>2023.3.485</time>

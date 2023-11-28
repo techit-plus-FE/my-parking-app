@@ -16,17 +16,23 @@ const OrderHistoryList: React.FC = () => {
   }, []);
 
   return (
-    <div>
-      {getData?.map(() => {
+    <>
+      {getData?.map((data: OrderHistoryMapData) => {
+        {
+          console.log(data);
+        }
         return (
-          <OrderHistoryItem
-            orderTitle={"이거 샀어요!!"}
-            orderDate={"2032년50월1일"}
-            orderPrice={"10000원"}
-          />
+          <div key={data._id}>
+            <OrderHistoryItem
+              orderId={data._id}
+              orderTitle={"이거 샀어요!!"}
+              orderDate={"2032년50월1일"}
+              orderPrice={"10000원"}
+            />
+          </div>
         );
       })}
-    </div>
+    </>
   );
 };
 
