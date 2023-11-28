@@ -11,7 +11,7 @@ const Footer: React.FC = () => {
     <nav>
       <h1>footer !!</h1>
       <div>
-        <NavLink to={"/main"}>
+        <NavLink to="/main">
           {({ isActive }) => (
             <IconUser fill={isActive ? iconActiveFill : "none"} />
           )}
@@ -21,7 +21,7 @@ const Footer: React.FC = () => {
             <IconHome fill={isActive ? iconActiveFill : "none"} />
           )}
         </NavLink>
-        <NavLink to={"/search"}>
+        <NavLink to="/search">
           {({ isActive }) => (
             <IconSearch fill={isActive ? iconActiveFill : "none"} />
           )}
