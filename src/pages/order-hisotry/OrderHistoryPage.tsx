@@ -1,11 +1,10 @@
 import React from "react";
-import OrderHistoryDetailItem from "../../components/domain/order-history/detail/OrderHistoryDetailItem";
+import OrderHistoryList from "../../components/domain/order-history/list/OrderHistoryList";
 
 const OrderHistoryPage = () => {
   return (
     <div>
-      주문 기록 페이지 입니다.
-      <OrderHistoryDetailItem />
+      <OrderHistoryList />
     </div>
   );
 };
