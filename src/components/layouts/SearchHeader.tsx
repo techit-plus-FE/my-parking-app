@@ -1,7 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
+import IconSearch from "../../assets/icon/icon-search.svg?react";
 
 const SearchHeader = () => {
-  return <div></div>;
+  const [isClicked, setIsClicked] = useState(true);
+
+  return isClicked ? (
+    <header>
+      <IconSearch
+        onClick={() => {
+          setIsClicked(!isClicked);
+        }}
+      />
+    </header>
+  ) : (
+    <header>
+      <input type="text" />
+      <IconSearch
+        onClick={() => {
+          setIsClicked(!isClicked);
+        }}
+      />
+    </header>
+  );
 };
 
 export default SearchHeader;
