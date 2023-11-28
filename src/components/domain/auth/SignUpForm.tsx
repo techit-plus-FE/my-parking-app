@@ -1,74 +1,64 @@
 import React, { ChangeEvent, ChangeEventHandler } from "react";
 import {useState} from 'react';
+import { useBoundStore } from "../../../store/index"
 
 
 // type UserInputElements = {
-  type UserInputType = {
-  email: string,
-  password: string,
-  name: string,
-  phone: string,
-  address: string,
-  type: string,
-  extra: extraType,
-}
-
-type extraType = {
-    X_position: string
-    Y_position: string
-  }
-
-class CustomerInput implements UserInputType {
-  email: string;
-  password: string;
-  name: string;
-  phone: string;
-  address: string;
-  type: string;
-  extra: extraType;
-
-  constructor(){
-    this.email = ""
-    this.password = ""
-    this.name = ""
-    this.phone = ""
-    this.address = ""
-    this.type = "customer"
-    this.extra = {
-      X_position: "",
-      Y_position: ""
+  class CustomerInput implements UserInputType {
+    email: string;
+    password: string;
+    name: string;
+    phone: string;
+    address: string;
+    type: string;
+    extra: extraType;
+  
+    constructor(){
+      this.email = ""
+      this.password = ""
+      this.name = ""
+      this.phone = ""
+      this.address = ""
+      this.type = "user"
+      this.extra = {
+        X_position: "",
+        Y_position: ""
+      }
     }
   }
-}
 
 
 const SignUpForm = () => {
-const [userInputs, setUserInputs] = useState<UserInputType>(
-  new CustomerInput()
-)
+  const signUp: AuthSlice["signUp"] = useBoundStore((state) => state.signUp)
+  const [userInputs, setUserInputs] = useState<UserInputType>(
+    // Customer일 때 
+    new CustomerInput()
+    // Seller일 때 
+    // new SellerInput()
+  )
 
-const saveUserInputs : ChangeEventHandler<HTMLInputElement> = (event: ChangeEvent<HTMLInputElement>): void => {
-  const {name, value} = event.target as HTMLInputElement;
+  const saveUserInputs : ChangeEventHandler<HTMLInputElement> = (event: ChangeEvent<HTMLInputElement>): void => {
+    const {name, value} = event.target as HTMLInputElement;
 
-  setUserInputs((prev: CustomerInput) => ({
-    ...prev,
-    [name]: value,
-  }));
-}
+    setUserInputs((prev: UserInputType ) => ({
+      ...prev,
+      [name]: value,
+    }));
+  }
 
   return( 
   <form onSubmit = {(e)=> e.preventDefault()}>
     {Object.keys(userInputs).filter((v)=>(v!=='extra' && v!=='type')).map(item => {return (
       <div>
         <div>
-        {item }   
+        {item}   
         </div>
       <label>
         <input value = {userInputs[item as keyof UserInputType] as string} name = {item} onChange= {saveUserInputs}></input>
       </label>
       </div>
     )})}
-    <button > 회원가입 </button>
+    <button onClick={()=>signUp(userInputs)}> 회원가입 </button>
   </form>
   )
 };
