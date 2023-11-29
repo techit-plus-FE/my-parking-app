@@ -2,40 +2,30 @@ import React from "react";
 import IconUser from "../../assets/icon/icon-user.svg?react";
 import IconHome from "../../assets/icon/icon-home.svg?react";
 import IconSearch from "../../assets/icon/icon-search.svg?react";
-import { useNavigate } from "react-router-dom";
-
+import { NavLink } from "react-router-dom";
 const Footer: React.FC = () => {
-  const navigate = useNavigate();
-
-  const navigatePage = (path: string) => {
-    navigate(path);
-  };
+  //수정하기 변경하기
+  const iconActiveFill = "var(--color-gray-400)";
 
   return (
     <nav>
       <h1>footer !!</h1>
       <div>
-        <button
-          onClick={() => {
-            navigatePage("/main");
-          }}
-        >
-          <IconUser />
-        </button>
-        <button
-          onClick={() => {
-            navigatePage("/home");
-          }}
-        >
-          <IconHome />
-        </button>
-        <button
-          onClick={() => {
-            navigatePage("/search");
-          }}
-        >
-          <IconSearch />
-        </button>
+        <NavLink to="/main">
+          {({ isActive }) => (
+            <IconUser fill={isActive ? iconActiveFill : "none"} />
+          )}
+        </NavLink>
+        <NavLink to="/home">
+          {({ isActive }) => (
+            <IconHome fill={isActive ? iconActiveFill : "none"} />
+          )}
+        </NavLink>
+        <NavLink to="/search">
+          {({ isActive }) => (
+            <IconSearch fill={isActive ? iconActiveFill : "none"} />
+          )}
+        </NavLink>
       </div>
     </nav>
   );
