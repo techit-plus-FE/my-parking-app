@@ -10,7 +10,10 @@ const ProductRegist = () => {
   const [step, setStep] = useState(1);
   // 각 컴포넌트에서 받은 데이터를 저장할 상태 변수
   const [formData, setFormData] = useState<ProductAllFormDataType>({
-    location: "",
+    location: {
+      x: "",
+      y: "",
+    },
     startDate: "",
     endDate: "",
     othersInfo: {
@@ -33,17 +36,35 @@ const ProductRegist = () => {
   const handleFormSubmit = async (formData: ProductAllFormDataType) => {
     // const token = localStorage.getItem('token', token)
 
-    const response = await axios.post(`${BASE_URL}/seller/products`, formData, {
-      headers: {
-        Authorization: `Bearer token`,
+    // 서버 데이터필드에 맞게 데이터들 정제해서 세팅하기
+    const sendFormData = {
+      name: formData.othersInfo.name,
+      content: formData.othersInfo.content,
+      price: Number(formData.othersInfo.price),
+      mainImages: formData.mainImages,
+      extra: {
+        periodForm: formData.startDate,
+        periodTo: formData.endDate,
+        location_x: formData.location.x,
+        location_y: formData.location.y,
       },
-    });
+    };
+
+    const response = await axios.post(
+      `${BASE_URL}/seller/products`,
+      sendFormData,
+      {
+        headers: {
+          Authorization: `Bearer token`,
+        },
+      }
+    );
     const data = response.data;
     console.log(data);
   };
 
   // 첫번째 양식 받기
-  const handleFirstFormSubmit = (location: string) => {
+  const handleFirstFormSubmit = (location: ProductLocationType) => {
     setFormData((prevData) => ({
       ...prevData,
       location: location,

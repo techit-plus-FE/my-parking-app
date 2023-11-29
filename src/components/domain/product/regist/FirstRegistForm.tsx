@@ -7,11 +7,14 @@ import classes from "./FirstRegistForm.module.css";
 
 type Props = {
   onNext: () => void;
-  onSubmit: (s: string) => void;
+  onSubmit: (l: ProductLocationType) => void;
 };
 
 const FirstRegistForm = ({ onSubmit, onNext }: Props) => {
-  const [location, setLocation] = useState(""); // 위치 정보를 저장할 상태 변수
+  const [location, setLocation] = useState<ProductLocationType>({
+    x: "",
+    y: "",
+  }); // 위치 정보를 저장할 상태 변수
 
   const handleNext = () => {
     onSubmit(location); // 상태 변수를 전달하여 부모 컴포넌트의 onSubmit 함수 호출
