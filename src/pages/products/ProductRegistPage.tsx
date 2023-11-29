@@ -1,7 +1,11 @@
-import React from "react";
+import ProductRegist from "../../components/domain/product/regist/ProductRegist";
 
 const ProductRegistPage = () => {
-  return <div></div>;
+  return (
+    <>
+      <ProductRegist />
+    </>
+  );
 };
 
 export default ProductRegistPage;

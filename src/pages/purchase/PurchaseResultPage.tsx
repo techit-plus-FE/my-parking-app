@@ -1,9 +1,7 @@
 // 결제결과 페이지
 
-import React from "react";
-
 const PurchaseResultPage = () => {
-  return <div></div>;
+  return <div>결제 결과 페이지 입니다.</div>;
 };
 
 export default PurchaseResultPage;
