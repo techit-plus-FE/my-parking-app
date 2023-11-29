@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 import { BASE_URL } from "../../../../services/BaseUrl";
@@ -9,35 +9,57 @@ import SellerInfoComponent from "./SellerInfoComponent";
 import DetailComponent from "./DetailComponent";
 import PriceAndBtnComponent from "./PriceAndBtnComponent";
 
-const ProductDetail = () => {
-  // const location = useLocation();
-  // const params = new URLSearchParams(location.search);
-  // const _id = params.get("_id");
+import classes from "./ProductDetail.module.css";
 
-  const { _id } = useParams();
-  console.log(_id);
+const ProductDetail = () => {
+  const { productId } = useParams();
+
+  const [productData, setProductData] = useState<ProductDetailItemType>({
+    name: "",
+    content: "",
+    createdAt: "",
+    mainImages: [""],
+    price: 0,
+    extra: {
+      periodFrom: "",
+      periodTo: "",
+      locationX: "",
+      locationY: "",
+    },
+  });
 
   const getProduct = async () => {
-    const response = await axios.get<ProductRes>(`${BASE_URL}/products/${_id}`);
-
-    console.log(response);
+    const response = await axios.get<ProductRes>(
+      `${BASE_URL}/products/${productId}`
+    );
+    console.log(response.data.item);
+    const resItem = response.data.item;
+    // 응답 아이템에서 실제 보여줄 데이터만 정제
+    setProductData({
+      name: resItem.name,
+      content: resItem.content,
+      createdAt: resItem.createdAt,
+      mainImages: resItem.mainImages,
+      price: resItem.price,
+      extra: resItem.extra,
+    });
   };
 
   useEffect(() => {
     getProduct();
-  }, [_id]);
+  }, [productId]);
 
   return (
-    <>
+    <div className={classes.container}>
       {/* 상품 이미지 컴포넌트 */}
-      <MainImagesComponent />
+      <MainImagesComponent product={productData} />
       {/* 판매자 정보 컴포넌트 */}
       <SellerInfoComponent />
       {/* 상품 상세 정보 컴포넌트 */}
-      <DetailComponent />
+      <DetailComponent product={productData} />
       {/* 구매 및 가격 컴포넌트 */}
-      <PriceAndBtnComponent />
-    </>
+      <PriceAndBtnComponent product={productData} />
+    </div>
   );
 };
 
