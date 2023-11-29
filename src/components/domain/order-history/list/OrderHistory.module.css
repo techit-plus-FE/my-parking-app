@@ -1,0 +1,19 @@
+.orderHistoryItemContainer {
+  box-shadow: inset 0px 0px 3px 1px rgb(0, 38, 255);
+  background-color: #767676;
+  border-radius: 10px;
+  display: flex;
+
+}
+
+.imgWrapper {
+  overflow: hidden;
+  width: 132px;
+  height: 85px;
+  background-color: red;
+  border-radius: 10px;
+}
+
+img {
+  width: 100%;
+}
