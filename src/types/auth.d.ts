@@ -1,4 +1,4 @@
-type UserInputType = {
+interface UserInputType {
   email: string;
   password: string;
   name: string;
@@ -6,13 +6,52 @@ type UserInputType = {
   address: string;
   type: string;
   extra: extraType;
-};
+}
 
 type extraType = {
   X_position: string;
   Y_position: string;
 };
 
+// function Customer(this: UserInputType){
+//   this.email = ""
+//   this.password = ""
+//   this.name = ""
+//   this.phone = ""
+//   this.address = ""
+//   this.type = "user"
+//   this.extra = {
+//     X_position: "",
+//     Y_position: ""
+//   }
+// }
+
+// type CustomerInputType = typeof Customer & {
+//   new (): UserInputType
+// }
+
+export class CustomerInput implements UserInputType {
+  email: string;
+  password: string;
+  name: string;
+  phone: string;
+  address: string;
+  type: string;
+  extra: extraType;
+
+  constructor(){
+    this.email = ""
+    this.password = ""
+    this.name = ""
+    this.phone = ""
+    this.address = ""
+    this.type = "user"
+    this.extra = {
+      X_position: "",
+      Y_position: ""
+    }
+  }
+}
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface AuthSlice {
   signUp: (UserInput: UserInputType) => void;
@@ -21,6 +60,7 @@ interface AuthSlice {
   // 인증
   // 인가
 }
+
 
 interface PostLoginData {
   address: string;

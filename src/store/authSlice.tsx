@@ -1,6 +1,7 @@
 // import { create } from "zustand";
 import axios from "axios"
 import {StateCreator} from 'zustand'
+import { AuthSlice, UserInputType } from "../types/Auth"
 
 //index.ts Store에서 AuthSlice를 참조하기 때문에 types 파일에 AuthSlice를 넣었습니다. 
 
@@ -57,8 +58,6 @@ export const createAuthSlice: StateCreator<
 AuthSlice, 
 []
 > = (set) => ({
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  verifyEmail: (email: string) => set((state)=>({...requestEmailVerification(email)})),
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  signUp: (UserInput: UserInputType)=>set((state) =>({...requestSignUp(UserInput)})),
+  verifyEmail: (email: string) => set(()=>(requestEmailVerification(email))),
+  signUp: (UserInput: UserInputType)=>set(() =>(requestSignUp(UserInput))),
 })
