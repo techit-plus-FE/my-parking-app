@@ -2,12 +2,7 @@
 import axios from "axios"
 import {StateCreator} from 'zustand'
 
-// interface AuthSlice {
-//   signUp: (UserInput: UserInputType) => void;
-//   // logIn: 
-//   // 인증
-//   // 인가
-// }
+//index.ts Store에서 AuthSlice를 참조하기 때문에 types 파일에 AuthSlice를 넣었습니다. 
 
 const requestSignUp: (arg: UserInputType) => AuthSlice = (UserInput: UserInputType) => {
   console.log('request')
@@ -31,10 +26,31 @@ const requestSignUp: (arg: UserInputType) => AuthSlice = (UserInput: UserInputTy
   }
 }
 
+// const requestEmailVerification: (arg: string) => AuthSlice = (email: string) => {
+//   console.log('Email Verification')
+//   try {
+//     // eslint-disable-next-line @typescript-eslint/no-unused-vars
+//     const response = axios.get<string>(
+//       "https://localhost/api/users/email",
+//       email,
+//     // eslint-disable-next-line @typescript-eslint/no-unused-vars
+//     ).then((response) => {
+//       alert("이메일 인증이 완료되었습니다.");
+//   })
+// return {} as AuthSlice
+
+// // eslint-disable-next-line @typescript-eslint/no-explicit-any
+// } catch(Error: any) {
+// console.error("Error:", Error);
+// return {} as AuthSlice
+// }
+// }
+
 export const createAuthSlice: StateCreator<
 AuthSlice, 
 []
 > = (set) => ({
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-var
+  // verifyEmail: (email: string) => set((state)=>{...requestEmailVerification(email)})
   signUp: (UserInput: UserInputType)=>set((state) =>({...requestSignUp(UserInput)})),
 })

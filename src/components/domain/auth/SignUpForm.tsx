@@ -30,6 +30,7 @@ import { useBoundStore } from "../../../store/index"
 
 const SignUpForm = () => {
   const signUp: AuthSlice["signUp"] = useBoundStore((state) => state.signUp)
+  
   const [userInputs, setUserInputs] = useState<UserInputType>(
     // Customer일 때 
     new CustomerInput()
@@ -48,7 +49,18 @@ const SignUpForm = () => {
 
   return( 
   <form onSubmit = {(e)=> e.preventDefault()}>
-    {Object.keys(userInputs).filter((v)=>(v!=='extra' && v!=='type')).map(item => {return (
+    <div>
+        <div>
+        email
+        </div>
+      <label>
+        <input value = {userInputs.email as string} name = "email" onChange= {saveUserInputs}></input>
+      </label>
+      <button>
+        이메일 중복확인
+      </button>
+    </div>
+    {Object.keys(userInputs).filter((v)=>(v!=='email' && v!=='extra' && v!=='type')).map(item => {return (
       <div>
         <div>
         {item}   
