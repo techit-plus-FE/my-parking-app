@@ -11,9 +11,7 @@ const OrderHistoryDetailList = () => {
 
   useEffect(() => {
     const getData = async () => {
-      const response = await axios.get(
-        `https://localhost/api//products/${_id}`
-      );
+      const response = await axios.get(`https://localhost/api/products/${_id}`);
       console.log(response.data.item);
       return setGetData(response.data.item);
     };
