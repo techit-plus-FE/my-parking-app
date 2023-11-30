@@ -7,8 +7,10 @@ import ProductItem from "./ProductItem";
 import classes from "./ProductList.module.css";
 
 import { BASE_URL } from "../../../../services/BaseUrl";
+import { useNavigate } from "react-router-dom";
 
 const ProductList = () => {
+  const navigage = useNavigate();
   const [products, setProudcts] = useState<ProductResList>([]);
 
   useEffect(() => {
@@ -28,6 +30,9 @@ const ProductList = () => {
   return (
     <div className={classes.container}>
       <h2>주차장 리스트</h2>
+      <button type="button" onClick={() => navigage("/products/regist")}>
+        내 주차장 등록하기
+      </button>
       <ul className={classes["product-list"]}>
         {products?.map((product) => {
           return <ProductItem key={product._id} product={product} />;
