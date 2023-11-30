@@ -1,17 +1,16 @@
 import React, { ChangeEvent, ChangeEventHandler } from "react";
 import {useState} from 'react';
 import { useBoundStore } from "../../../store/index"
-import { AuthSlice, CustomerInput, UserInputType } from "../../../types/Auth.d";
+import { AuthSlice, Person, UserInputType } from "../../../types/Auth.d";
 
 
 const SignUpForm = () => {
   const AuthSlice: AuthSlice = useBoundStore((state)=>(state)) 
   const [userInputs, setUserInputs] = useState<UserInputType>(
     // Customer일 때 
-    //new (Customer as CustomerInputType)()
-    new CustomerInput()
+    new Person()
       // Seller일 때 
-    // new SellerInput()
+    // new Person("seller")
     );
 
   

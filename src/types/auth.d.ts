@@ -9,12 +9,14 @@ interface UserInputType {
 }
 
 type extraType = {
-  X_position: string;
-  Y_position: string;
+  x_position?: string;
+  y_position?: string;
+  carNumber?: string;
+  profileImage?: string;
 };
 
 
-export class CustomerInput implements UserInputType {
+export class Person implements UserInputType {
   email: string;
   password: string;
   name: string;
@@ -31,8 +33,6 @@ export class CustomerInput implements UserInputType {
     this.address = ""
     this.type = "user"
     this.extra = {
-      X_position: "",
-      Y_position: ""
     }
   }
 }
