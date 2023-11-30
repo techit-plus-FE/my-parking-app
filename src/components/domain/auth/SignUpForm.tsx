@@ -1,7 +1,7 @@
 import React, { ChangeEvent, ChangeEventHandler } from "react";
 import {useState} from 'react';
 import { useBoundStore } from "../../../store/index"
-import { AuthSlice, Person, UserInputType } from "../../../types/Auth.d";
+import {Person} from "../../../types/ClassImplementations";
 
 
 const SignUpForm = () => {

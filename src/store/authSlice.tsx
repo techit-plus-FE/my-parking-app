@@ -1,7 +1,6 @@
 // import { create } from "zustand";
 import axios from "axios"
 import {StateCreator} from 'zustand'
-import { AuthSlice, UserInputType, AuthResponseType} from "../types/Auth"
 import { BASE_URL } from "../services/BaseUrl"
 
 //index.ts Store에서도 AuthSlice를 참조하기 때문에 types 파일에 AuthSlice type을 선언하였습니다. 
