@@ -1,57 +1,35 @@
 // 실제 사용자와 인터렉션
 import React, { ChangeEvent, useState } from "react";
 import LoginInput from "./LoginInput";
-import axios from "axios";
+import { useBoundStore } from "../../../store/index";
 
 const LoginForm = () => {
+  const AuthSlice = useBoundStore();
+
   const [userInputId, setUserInputId] = useState("");
   const [userInputPassword, setUserInputPassword] = useState("");
 
+  // input의 id name에 따라 값이 담김
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.id === "user-id") {
+    if (e.target.id === "user-email") {
       setUserInputId(e.target.value);
     } else if (e.target.id === "user-password") {
       setUserInputPassword(e.target.value);
     }
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    // post 작업
-    postUserInfo();
-  };
-
   // axios 부분 수정해야함 변경해야함
-  const postUserInfo = async () => {
-    // axios body
-    const userInfo = {
-      email: userInputId,
-      password: userInputPassword,
-    };
-
-    const response = await axios.post(
-      "https://localhost/api/users/login",
-      userInfo
-    );
-    const userLoginData = response.data.item;
-
-    localStorage.setItem(
-      "userToken",
-      JSON.stringify(userLoginData.token.accessToken)
-    );
-
-    if (response.data.ok) {
-      alert("로그인완");
-    }
-  };
 
   return (
     <div>
       <h2>로그인</h2>
-      <form onSubmit={handleSubmit}>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault(), AuthSlice.login(userInputId, userInputPassword);
+        }}
+      >
         <LoginInput
-          id="user-id"
+          id="user-email"
           label="로그인"
           value={userInputId}
           placeholder="아이디"
