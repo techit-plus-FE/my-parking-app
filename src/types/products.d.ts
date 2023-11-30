@@ -51,7 +51,7 @@ type ProductResList = ProductItemResponseType[];
 // Axios GET Response
 interface ProductRes {
   ok: 0 | 1;
-  item: ProductItemResponseType;
+  item: ProductItemResponseType[];
 }
 
 // 상품 등록양식 전체 데이터 타입
@@ -65,8 +65,9 @@ interface ProductAllFormDataType {
 
 // 위치 좌표 타입
 interface ProductLocationType {
-  x: string;
-  y: string;
+  address: string;
+  lat: string;
+  lng: string;
 }
 
 // 상품등록 마지막에 받을 양식 타입
