@@ -49,12 +49,12 @@ export const createAuthSlice: StateCreator<
 AuthSlice, 
 []
 > = (set) => ({
-  verifyEmail: async (email: string) => {
-    await requestEmailVerification(email)
+  verifyEmail: (email: string) => {
+    requestEmailVerification(email)
     set(()=>({}))
   },
-  signUp: async (UserInput: UserInputType)=>{
-    await requestSignUp(UserInput)
+  signUp: (UserInput: UserInputType)=>{
+    requestSignUp(UserInput)
     set(() =>({}))
   },
 })
