@@ -68,24 +68,28 @@ const userLogin = async (email: string, password: string) => {
       email: email,
       password: password,
     };
-    console.log(userInfo);
+    // console.log(userInfo);
 
     const response = await axios.post(
       "https://localhost/api/users/login",
       userInfo
     );
-    const userLoginData = response.data.item;
+    const LoginResponseData = response.data.item;
 
+    localStorage.setItem("userDetailData", JSON.stringify(LoginResponseData));
     localStorage.setItem(
       "userToken",
-      JSON.stringify(userLoginData.token.accessToken)
+      JSON.stringify(LoginResponseData.token.accessToken)
     );
 
     if (response.data.ok) {
+      // console.log(LoginResponseData);
+
       alert("로그인완");
     }
 
-    return userLoginData.token.accessToken;
+    // response 객체 안에 item return
+    return LoginResponseData;
   } catch {
     console.error("로그인이 실패하였습니다.");
   }
@@ -99,9 +103,15 @@ export const createAuthSlice: StateCreator<AuthSlice, []> = (set) => ({
   signUp: (UserInput: UserInputType) =>
     set((state) => ({ ...requestSignUp(UserInput) })),
 
-  userToken: localStorage.getItem("userToken") || "",
-  login: async (email: string, password: string) => {
-    const token = await userLogin(email, password);
-    set(() => ({ userToken: token }));
+  handleLoginResponse: async (email: string, password: string) => {
+    const userDetailDataResponse = await userLogin(email, password);
+
+    set(() => ({
+      userToken: userDetailDataResponse.token.accessToken,
+    }));
+    set(() => ({ loginDetailData: userDetailDataResponse }));
   },
+
+  loginDetailData: JSON.parse(localStorage.getItem("userDetailData") || "{}"),
+  userToken: localStorage.getItem("userToken") || "",
 });

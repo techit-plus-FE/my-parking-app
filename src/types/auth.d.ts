@@ -17,8 +17,10 @@ type extraType = {
 interface AuthSlice {
   signUp: (UserInput: UserInputType) => void;
   verifyEmail: (email: string) => void;
-  login: (email: string, password: string) => Promise<void>; // 인증
+  // login: (email: string, password: string) => Promise<void>; // 인증
   userToken: string;
+  handleLoginResponse: (email: string, password: string) => Promise<void>; // 인증
+  loginDetailData: UserDetailDataType;
 }
 
 interface PostLoginData {
@@ -35,4 +37,19 @@ interface PostLoginData {
   type: string;
   updatedAt: string;
   _id: number;
+}
+
+interface UserDetailDataType {
+  _id: number;
+  email: string;
+  name: string;
+  type: string;
+  phone: string;
+  address: string;
+  createdAt: string;
+  updatedAt: string;
+  token: {
+    accessToken: string;
+    refreshToken: string;
+  };
 }

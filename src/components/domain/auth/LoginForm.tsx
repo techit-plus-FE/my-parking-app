@@ -4,7 +4,7 @@ import LoginInput from "./LoginInput";
 import { useBoundStore } from "../../../store/index";
 
 const LoginForm = () => {
-  const AuthSlice = useBoundStore();
+  const AuthSlice = useBoundStore((state) => state);
 
   const [userInputId, setUserInputId] = useState("");
   const [userInputPassword, setUserInputPassword] = useState("");
@@ -25,7 +25,9 @@ const LoginForm = () => {
       <h2>로그인</h2>
       <form
         onSubmit={(e) => {
-          e.preventDefault(), AuthSlice.login(userInputId, userInputPassword);
+          e.preventDefault(),
+            // AuthSlice.login(userInputId, userInputPassword),
+            AuthSlice.handleLoginResponse(userInputId, userInputPassword);
         }}
       >
         <LoginInput
