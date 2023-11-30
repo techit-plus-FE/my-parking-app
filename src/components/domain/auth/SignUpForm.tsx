@@ -1,7 +1,7 @@
 import React, { ChangeEvent, ChangeEventHandler } from "react";
 import {useState} from 'react';
 import { useBoundStore } from "../../../store/index"
-import {Person} from "../../../types/ClassImplementations";
+import {Person} from "../../../types/classImplementations";
 
 
 const SignUpForm = () => {
