@@ -13,22 +13,6 @@ type extraType = {
   Y_position: string;
 };
 
-// function Customer(this: UserInputType){
-//   this.email = ""
-//   this.password = ""
-//   this.name = ""
-//   this.phone = ""
-//   this.address = ""
-//   this.type = "user"
-//   this.extra = {
-//     X_position: "",
-//     Y_position: ""
-//   }
-// }
-
-// type CustomerInputType = typeof Customer & {
-//   new (): UserInputType
-// }
 
 export class CustomerInput implements UserInputType {
   email: string;
@@ -76,4 +60,13 @@ interface PostLoginData {
   type: string;
   updatedAt: string;
   _id: number;
+}
+
+
+interface AuthResponseType {
+  config: object;
+  data: {
+    ok : number,
+    message? : string
+  }
 }
