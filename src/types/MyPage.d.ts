@@ -1,9 +1,21 @@
+import {Person} from './Auth.d'
+
 interface MyPageSlice {
-  personalInfo: UserInfoType
+  myInfo: MyInfo
+  fetchAndSetMyInfo: (id: number) => void
 }
 
-type UserInfoType = UserInputType & {
-  nickname?: string,
-  introduction?: string,
-  carNumber?: number,
+type MyInfo = Person & {
+  _id : number,
+  createdAt: string,
+  updatedAt: string
+}
+
+interface MyPageResponseType {
+  config: object;
+  data: {
+    ok : number,
+    message? : string
+    item?: MyInfo
+  }
 }
