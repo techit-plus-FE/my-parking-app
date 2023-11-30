@@ -1,4 +1,4 @@
-import KakaoMap from "../../../common/KakaoMap";
+import KakaoMap from "../../../common/map/KakaoMap";
 import classes from "./DetailComponent.module.css";
 
 const DetailComponent = ({ product }: { product: ProductDetailItemType }) => {

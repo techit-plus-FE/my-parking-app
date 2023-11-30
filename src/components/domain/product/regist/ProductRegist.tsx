@@ -11,8 +11,9 @@ const ProductRegist = () => {
   // 각 컴포넌트에서 받은 데이터를 저장할 상태 변수
   const [formData, setFormData] = useState<ProductAllFormDataType>({
     location: {
-      x: "",
-      y: "",
+      address: "",
+      lat: "",
+      lng: "",
     },
     startDate: "",
     endDate: "",
@@ -23,14 +24,6 @@ const ProductRegist = () => {
     },
     mainImages: [],
   });
-  // 다음 단계로 이동
-  const handleNext = () => {
-    setStep((prevStep) => prevStep + 1);
-  };
-  // 이전 단계로 이동
-  const handlePrev = () => {
-    setStep((prevStep) => prevStep - 1);
-  };
 
   // 최종 Submit
   const handleFormSubmit = async (formData: ProductAllFormDataType) => {
@@ -45,8 +38,9 @@ const ProductRegist = () => {
       extra: {
         periodForm: formData.startDate,
         periodTo: formData.endDate,
-        location_x: formData.location.x,
-        location_y: formData.location.y,
+        location_lat: formData.location.lat,
+        location_lng: formData.location.lng,
+        address: formData.location.address,
       },
     };
 
@@ -92,6 +86,15 @@ const ProductRegist = () => {
     }));
     // 모든 양식이 작성되었을 때 서버에 폼 데이터 전송
     handleFormSubmit(formData);
+  };
+
+  // 다음 단계로 이동
+  const handleNext = () => {
+    setStep((prevStep) => prevStep + 1);
+  };
+  // 이전 단계로 이동
+  const handlePrev = () => {
+    setStep((prevStep) => prevStep - 1);
   };
 
   return (
