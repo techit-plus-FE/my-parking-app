@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import OrderHistoryDetailItem from "./OrderHistoryDetailItem";
-import classes from "./OrderHistoryDetail.module.css";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import classes from "./OrderHistory.module.css";
 
 const OrderHistoryDetailList = () => {
   const [getData, setGetData] = useState<OrderHistoryDetailData>();

@@ -3,11 +3,10 @@
 }
 
 .OrderHistoryDetailListContainer {
-  background-color: gray;
+  box-shadow: inset 0px 0px 3px 1px rgb(0, 38, 255);
 }
 
 .OrderHistoryDetailContainer {
-  box-shadow: inset 0px 0px 3px 1px rgb(0, 38, 255);
   display: flex;
 }
 
@@ -17,8 +16,4 @@
 
 .OrderHistoryDetailContainer .imgWrapper img {
   width: 100%;
-}
-
-.paymentWrapper {
-  background-color: rgb(185, 185, 185);
 }

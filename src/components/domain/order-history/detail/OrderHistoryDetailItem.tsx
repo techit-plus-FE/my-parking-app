@@ -1,5 +1,5 @@
 import React from "react";
-import classes from "./OrderHistoryDetail.module.css";
+import classes from "./OrderHistory.module.css";
 
 const OrderHistoryDetailItem = () => {
   return (
