@@ -26,6 +26,7 @@ const Footer: React.FC = () => {
             <IconSearch fill={isActive ? iconActiveFill : "none"} />
           )}
         </NavLink>
+        <NavLink to="/login">로그인 하러가기</NavLink>
       </div>
     </nav>
   );
