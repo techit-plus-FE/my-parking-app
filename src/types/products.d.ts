@@ -61,6 +61,9 @@ interface ProductAllFormDataType {
   endDate: string;
   othersInfo: ProductOthersInfoType;
   mainImages: string[];
+  shippingFees: number;
+  show: boolean;
+  active: boolean;
 }
 
 // 위치 좌표 타입
