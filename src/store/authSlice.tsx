@@ -104,18 +104,17 @@ export const createAuthSlice: StateCreator<AuthSlice, []> = (set) => ({
     set((state) => ({ ...requestSignUp(UserInput) })),
 
   //로그인 시 실행되는 함수
+  userDetailInfo: JSON.parse(localStorage.getItem("userDetailData") || "{}"),
+  userToken: localStorage.getItem("userToken") || "",
   handleLoginResponse: async (email: string, password: string) => {
     const userDetailDataResponse = await userLogin(email, password);
 
     // user 토큰 값 저장
     set(() => ({
       userToken: userDetailDataResponse.token.accessToken,
+      userDetailInfo: userDetailDataResponse,
     }));
 
     // user 정보 저장
-    set(() => ({ userDetailInfo: userDetailDataResponse }));
   },
-
-  userDetailInfo: JSON.parse(localStorage.getItem("userDetailData") || "{}"),
-  userToken: localStorage.getItem("userToken") || "",
 });
