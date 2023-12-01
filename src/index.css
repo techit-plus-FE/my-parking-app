@@ -82,6 +82,7 @@
 body {
   width: 100vw;
   height: 100vh;
+  overflow-y: hidden;
 }
 
 ul {
@@ -95,6 +96,7 @@ a,
 a:hover,
 a:focus {
   text-decoration: none;
+  color: var(--color-dark);
 }
 
 img {

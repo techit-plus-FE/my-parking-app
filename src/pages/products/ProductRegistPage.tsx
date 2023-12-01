@@ -1,7 +1,11 @@
-import React from "react";
+import ProductRegist from "../../components/domain/product/regist/ProductRegist";
 
 const ProductRegistPage = () => {
-  return <div>상품 등록 페이지 입니다.</div>;
+  return (
+    <>
+      <ProductRegist />
+    </>
+  );
 };
 
 export default ProductRegistPage;
