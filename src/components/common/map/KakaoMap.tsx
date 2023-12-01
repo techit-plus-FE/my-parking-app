@@ -1,72 +1,42 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ChangeEvent, useEffect, useState, useRef } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 
 import classes from "./KakaoMap.module.css";
 
-declare global {
-  interface Window {
-    kakao: any;
-    daum: any;
-  }
-}
+// declare global {
+//   interface Window {
+//     kakao: any;
+//     daum: any;
+//   }
+// }
 
 type Props = {
   setLocation: (l: ProductLocationType) => void;
 };
 
 // lat: 위도(y좌표), lng: 경도(x좌표)
+// 위치 등록시 사용할 카카오 맵 컴포넌트
+// props로 받는 상태중에 location정보(adress,lat,lng)이 있으면 검색인풋창 안보이고 맵만 랜더링 되게해야함
 const KakaoMap = ({ setLocation }: Props) => {
-  const mapRef = useRef(); // 표시한 지도 객체가 담길 요소
-  const [mapState, setMapState] = useState({
-    center: {
-      lat: 33.450701,
-      lng: 126.570667,
-    },
-    isPanto: true, // 위치 변경시 부드럽게 이동하는 동작 설정여부
+  // 지도의 초기 중심좌표위치(카카오본사)
+  const [mapLocation, setMapLocation] = useState({
+    lat: 33.450701,
+    lng: 126.570667,
   });
-  const [searchAddress, setSearchAddress] = useState<string>(""); // 검색한 텍스트
-  const [latAndLng, setLatAndLng] = useState({
-    lat: "",
-    lng: "",
-  }); // 검색한 주소 좌표
+  // 검색한 텍스트
+  const [searchAddress, setSearchAddress] = useState<string>("");
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearchAddress(e.target.value);
-  };
+  // 1. 주소 검색시 위치 이동 렌더링
+  useEffect(() => {}, []);
 
-  useEffect(() => {
-    const map = mapRef.current;
-    // 장소 겁색 객체 생성
-    const places = new kakao.maps.services.Places(map);
-
-    // 키워드 검색이 끝나고 호출될 콜백 함수
-    const placesSearchCB = (data: string, status: any) => {
-      if (status === kakao.maps.services.Status.OK) {
-        for (let i = 0; i < data.length; i++) {
-          displayMarker(data[i]);
-        }
-      }
-    };
-
-    // 키워드로 장소 검색
-    places.keywordSearch("치킨", placesSearchCB, {
-      useMapBounds: true,
-    });
-
-    // 지도에 마커를 표시해주는 함수
-    const displayMarker = (place) => {
-      const marker = new kakao.maps.Marker({
-        map: map,
-        position: new kakao.maps.LatLng(place.y, place.x),
-      });
-    };
-  }, []);
-
-  // 입력된 주소로 검색시 원하는 주소로 이동
-  const handleSearchAddress = () => {
+  // 입력된 주소로 지도 업데이팅 함수
+  const handleSearchMapUpdate = () => {
+    //주소-좌표간 변환 서비스 객체를 생성
     const geoCoder = new kakao.maps.services.Geocoder();
+    //장소 검색 서비스 객체
+    const ps = new kakao.maps.services.Places();
 
     if (searchAddress.trim() !== "") {
       // 해당 주소값으로 좌표를 반환할 콜백함수
@@ -74,28 +44,27 @@ const KakaoMap = ({ setLocation }: Props) => {
         if (status === kakao.maps.services.Status.OK) {
           const newSearch = result[0];
           // 지도에 표시할 상태 변경
-          setMapState({
-            ...mapState,
-            center: { lat: newSearch.y, lng: newSearch.x },
+          setMapLocation({
+            lat: newSearch.y,
+            lng: newSearch.x,
           });
-          // 좌표값 상태 업데이트
-          setLatAndLng({
+          // 부모에서 전달받은 props 상태 변경해주기
+          setLocation({
+            address: searchAddress,
             lat: newSearch.y,
             lng: newSearch.x,
           });
         }
       };
-
-      // 위경도 좌표로 검색메소드 사용(올바른 주소 검색으로 밸리데이션 필요함)
+      // 위경도 좌표로 이동
       geoCoder.addressSearch(`${searchAddress}`, callback);
+      // 마커 표시
+      ps.keywordSearch(`${searchAddress}`, callback);
     }
+  };
 
-    // 부모에서 전달받은 props 상태 변경해주기
-    setLocation({
-      address: searchAddress,
-      lat: latAndLng.lat,
-      lng: latAndLng.lng,
-    });
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearchAddress(e.target.value);
   };
 
   return (
@@ -107,29 +76,21 @@ const KakaoMap = ({ setLocation }: Props) => {
           onChange={handleChange}
           placeholder="등록할 주차장 주소를 입력하세요."
         />
-        <button type="button" onClick={handleSearchAddress}>
+        <button type="button" onClick={handleSearchMapUpdate}>
           검색
         </button>
       </div>
       {/* 지도 */}
       <Map
-        ref={mapRef}
-        center={mapState.center}
-        isPanto={mapState.isPanto}
+        center={{ lat: mapLocation.lat, lng: mapLocation.lng }}
         style={{ width: "100%", height: "400px" }}
-        level={3}
+        level={4}
       >
-        <MapMarker position={{ lat: 33.450701, lng: 126.570667 }}>
-          <div style={{ color: "var(--color-primary-700)" }}>
-            여기는 카카오 본사
-          </div>
-        </MapMarker>
+        {/* 추후 상품들 데이터리스트를 맵핑해서 해당 위치값을 마커로 보여주게 해야함 */}
+        <MapMarker
+          position={{ lat: mapLocation.lat, lng: mapLocation.lng }}
+        ></MapMarker>
       </Map>
-
-      <div style={{ marginTop: "30px" }}>
-        {/* 검색한 주소의 위경도 표시 */}
-        {latAndLng.lat} {latAndLng.lng}
-      </div>
     </div>
   );
 };
