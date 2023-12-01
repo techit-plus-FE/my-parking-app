@@ -15,9 +15,9 @@ const DetailComponent = ({ product }: { product: ProductDetailItemType }) => {
 
       <div className={classes.period}>
         <h3>대여기간</h3>
-        <span>{product.extra?.periodFrom || "2023.11.22"} </span>
+        <span>{product.extra?.startDate || "2023.11.22"} </span>
         {"~"}
-        <span> {product.extra?.periodTo || "2023.11.23"}</span>
+        <span> {product.extra?.endDate || "2023.11.23"}</span>
       </div>
 
       <div className={classes["replies-list"]}>

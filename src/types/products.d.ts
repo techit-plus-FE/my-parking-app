@@ -37,8 +37,8 @@ interface ProductDetailItemType {
   price: number;
   extra:
     | {
-        periodFrom: string;
-        periodTo: string;
+        startDate: string;
+        endDate: string;
         locationX: string;
         locationY: string;
       }

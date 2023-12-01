@@ -21,8 +21,8 @@ const ProductDetail = () => {
     mainImages: [""],
     price: 0,
     extra: {
-      periodFrom: "",
-      periodTo: "",
+      startDate: "",
+      endDate: "",
       locationX: "",
       locationY: "",
     },
