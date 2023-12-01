@@ -4,6 +4,7 @@ import { useState } from "react";
 import KakaoMap from "../../../common/map/KakaoMap";
 
 import classes from "./FirstRegistForm.module.css";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   onNext: () => void;
@@ -11,6 +12,7 @@ type Props = {
 };
 
 const FirstRegistForm = ({ onSubmit, onNext }: Props) => {
+  const navigate = useNavigate();
   const [location, setLocation] = useState<ProductLocationType>({
     address: "",
     lat: "",
@@ -29,7 +31,9 @@ const FirstRegistForm = ({ onSubmit, onNext }: Props) => {
         <KakaoMap setLocation={setLocation} />
       </div>
       <div className={classes.active}>
-        <button className={classes.prevBtn}>이전</button>
+        <button className={classes.prevBtn} onClick={() => navigate("/home")}>
+          이전
+        </button>
         <button className={classes.nextBtn} onClick={handleNext}>
           다음
         </button>

@@ -5,6 +5,8 @@ import ThirdRegistForm from "./ThirdRegistForm";
 import axios from "axios";
 import { BASE_URL } from "../../../../services/BaseUrl";
 
+import classes from "./ProductRegist.module.css";
+
 const ProductRegist = () => {
   // 현재 단계를 나타내는 상태 변수
   const [step, setStep] = useState(1);
@@ -98,7 +100,7 @@ const ProductRegist = () => {
   };
 
   return (
-    <>
+    <div className={classes.container}>
       {step === 1 && (
         <FirstRegistForm onSubmit={handleFirstFormSubmit} onNext={handleNext} />
       )}
@@ -112,7 +114,7 @@ const ProductRegist = () => {
       {step === 3 && (
         <ThirdRegistForm onSubmit={handleThirdFormSubmit} onPrev={handlePrev} />
       )}
-    </>
+    </div>
   );
 };
 

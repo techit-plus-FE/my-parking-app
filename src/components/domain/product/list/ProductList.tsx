@@ -20,7 +20,7 @@ const ProductList = () => {
       const response = await axios.get<ProductRes>(`${BASE_URL}/products`);
       const responseData = response.data.item;
 
-      console.log(responseData);
+      // console.log(responseData);
       setProudcts(responseData);
     };
 
