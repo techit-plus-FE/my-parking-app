@@ -1,0 +1,43 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.title {
+  font-size: 25px;
+  margin-bottom: 20px;
+  color: var(--color-primary-700);
+}
+
+.createdAt {
+  color: var(--color-primary-400);
+  align-self: flex-end;
+}
+
+.location-box h3 {
+  font-size: 20px;
+  color: var(--color-primary-700);
+  margin-bottom: 20px;
+}
+
+.period {
+  margin: 30px 0;
+}
+
+.period h3 {
+  font-size: 20px;
+  color: var(--color-primary-700);
+  margin-bottom: 20px;
+}
+
+.replies-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.replies-list h3 {
+  font-size: 20px;
+  color: var(--color-primary-700);
+  margin-bottom: 20px;
+}
