@@ -1,4 +1,4 @@
-type UserInputType = {
+interface UserInputType {
   email: string;
   password: string;
   name: string;
@@ -6,22 +6,25 @@ type UserInputType = {
   address: string;
   type: string;
   extra: extraType;
-};
+}
 
 type extraType = {
-  X_position: string;
-  Y_position: string;
+  x_position?: string;
+  y_position?: string;
+  carNumber?: string;
+  profileImage?: string;
 };
+
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface AuthSlice {
+  userToken: string;
+  userDetailInfo: UserDetailDataType;
   signUp: (UserInput: UserInputType) => void;
   verifyEmail: (email: string) => void;
-  // login: (email: string, password: string) => Promise<void>; // 인증
-  userToken: string;
   handleLoginResponse: (email: string, password: string) => Promise<void>; // 인증
-  userDetailInfo: UserDetailDataType;
 }
+
 
 interface PostLoginData {
   address: string;
@@ -39,6 +42,14 @@ interface PostLoginData {
   _id: number;
 }
 
+
+interface AuthResponseType {
+  config: object;
+  data: {
+    ok : number,
+    message? : string
+  }
+}
 interface UserDetailDataType {
   _id: number;
   email: string;

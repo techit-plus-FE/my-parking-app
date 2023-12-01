@@ -1,39 +1,17 @@
-import React, { ChangeEvent, ChangeEventHandler } from "react";
-import { useState } from "react";
+import React, { ChangeEvent, ChangeEventHandler, useState } from "react";
+import {Person} from "../../../types/classImplementations";
 import { useBoundStore } from "../../../store/index";
 
-// type UserInputElements = {
-class CustomerInput implements UserInputType {
-  email: string;
-  password: string;
-  name: string;
-  phone: string;
-  address: string;
-  type: string;
-  extra: extraType;
-
-  constructor() {
-    this.email = "";
-    this.password = "";
-    this.name = "";
-    this.phone = "";
-    this.address = "";
-    this.type = "user";
-    this.extra = {
-      X_position: "",
-      Y_position: "",
-    };
-  }
-}
 
 const SignUpForm = () => {
   const AuthSlice: AuthSlice = useBoundStore((state) => state);
   const [userInputs, setUserInputs] = useState<UserInputType>(
-    // Customer일 때
-    new CustomerInput()
-    // Seller일 때
-    // new SellerInput()
-  );
+    // Customer일 때 
+    new Person()
+      // Seller일 때 
+    // new Person("seller")
+    );
+
 
   const saveUserInputs: ChangeEventHandler<HTMLInputElement> = (
     event: ChangeEvent<HTMLInputElement>
