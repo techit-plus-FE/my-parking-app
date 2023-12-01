@@ -20,7 +20,7 @@ interface AuthSlice {
   // login: (email: string, password: string) => Promise<void>; // 인증
   userToken: string;
   handleLoginResponse: (email: string, password: string) => Promise<void>; // 인증
-  userDetailDataInfo: UserDetailDataType;
+  userDetailInfo: UserDetailDataType;
 }
 
 interface PostLoginData {

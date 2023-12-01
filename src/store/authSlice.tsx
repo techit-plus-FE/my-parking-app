@@ -113,11 +113,9 @@ export const createAuthSlice: StateCreator<AuthSlice, []> = (set) => ({
     }));
 
     // user 정보 저장
-    set(() => ({ userDetailDataInfo: userDetailDataResponse }));
+    set(() => ({ userDetailInfo: userDetailDataResponse }));
   },
 
-  userDetailDataInfo: JSON.parse(
-    localStorage.getItem("userDetailData") || "{}"
-  ),
+  userDetailInfo: JSON.parse(localStorage.getItem("userDetailData") || "{}"),
   userToken: localStorage.getItem("userToken") || "",
 });
