@@ -1,78 +1,67 @@
-import React, { ChangeEvent, ChangeEventHandler } from "react";
-import {useState} from 'react';
-import { useBoundStore } from "../../../store/index"
-
-
-// type UserInputElements = {
-  class CustomerInput implements UserInputType {
-    email: string;
-    password: string;
-    name: string;
-    phone: string;
-    address: string;
-    type: string;
-    extra: extraType;
-  
-    constructor(){
-      this.email = ""
-      this.password = ""
-      this.name = ""
-      this.phone = ""
-      this.address = ""
-      this.type = "user"
-      this.extra = {
-        X_position: "",
-        Y_position: ""
-      }
-    }
-  }
+import React, { ChangeEvent, ChangeEventHandler, useState } from "react";
+import {Person} from "../../../types/classImplementations";
+import { useBoundStore } from "../../../store/index";
+import { useNavigate } from "react-router-dom";
 
 
 const SignUpForm = () => {
-  const signUp: AuthSlice["signUp"] = useBoundStore((state) => state.signUp)
-  
+  const AuthSlice: AuthSlice = useBoundStore((state) => state);
+  const navigate = useNavigate();
   const [userInputs, setUserInputs] = useState<UserInputType>(
     // Customer일 때 
-    new CustomerInput()
-    // Seller일 때 
-    // new SellerInput()
-  )
+    new Person()
+      // Seller일 때 
+    // new Person("seller")
+    );
 
-  const saveUserInputs : ChangeEventHandler<HTMLInputElement> = (event: ChangeEvent<HTMLInputElement>): void => {
-    const {name, value} = event.target as HTMLInputElement;
 
-    setUserInputs((prev: UserInputType ) => ({
+  const saveUserInputs: ChangeEventHandler<HTMLInputElement> = (
+    event: ChangeEvent<HTMLInputElement>
+  ): void => {
+    const { name, value } = event.target as HTMLInputElement;
+
+    setUserInputs((prev: UserInputType) => ({
       ...prev,
       [name]: value,
     }));
-  }
+  };
 
-  return( 
-  <form onSubmit = {(e)=> e.preventDefault()}>
-    <div>
-        <div>
-        email
-        </div>
-      <label>
-        <input value = {userInputs.email as string} name = "email" onChange= {saveUserInputs}></input>
-      </label>
-      <button>
-        이메일 중복확인
-      </button>
-    </div>
-    {Object.keys(userInputs).filter((v)=>(v!=='email' && v!=='extra' && v!=='type')).map(item => {return (
+  return (
+    <form onSubmit={(e) => e.preventDefault()}>
       <div>
-        <div>
-        {item}   
-        </div>
-      <label>
-        <input value = {userInputs[item as keyof UserInputType] as string} name = {item} onChange= {saveUserInputs}></input>
-      </label>
+        <div>email</div>
+        <label>
+          <input
+            value={userInputs.email as string}
+            name="email"
+            onChange={saveUserInputs}
+          ></input>
+        </label>
+        <button onClick={() => AuthSlice.verifyEmail(userInputs.email)}>
+          이메일 중복확인
+        </button>
       </div>
-    )})}
-    <button onClick={()=>signUp(userInputs)}> 회원가입 </button>
-  </form>
-  )
+      {Object.keys(userInputs)
+        .filter((v) => v !== "email" && v !== "extra" && v !== "type")
+        .map((item) => {
+          return (
+            <div>
+              <div>{item}</div>
+              <label>
+                <input
+                  value={userInputs[item as keyof UserInputType] as string}
+                  name={item}
+                  onChange={saveUserInputs}
+                ></input>
+              </label>
+            </div>
+          );
+        })}
+      <button onClick={() => {AuthSlice.signUp(userInputs)
+      navigate('/login')
+      }}> 회원가입 </button>
+    </form>
+  );
 };
 
 export default SignUpForm;

@@ -1,5 +1,19 @@
 .container {
   padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.container button {
+  align-self: flex-end;
+  border: none;
+  border-radius: 10px;
+  background-color: var(--color-primary-600);
+  color: var(--color-white);
+  padding: 8px 10px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
 }
 
 .container h2 {
