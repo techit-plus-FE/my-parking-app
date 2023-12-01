@@ -9,7 +9,6 @@ const Footer: React.FC = () => {
 
   return (
     <nav>
-      <h1>footer !!</h1>
       <div>
         <NavLink to="/main">
           {({ isActive }) => (
@@ -26,6 +25,7 @@ const Footer: React.FC = () => {
             <IconSearch fill={isActive ? iconActiveFill : "none"} />
           )}
         </NavLink>
+        <NavLink to="/login">로그인 하러가기</NavLink>
       </div>
     </nav>
   );
