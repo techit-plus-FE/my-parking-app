@@ -18,11 +18,11 @@ type extraType = {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface AuthSlice {
+  userToken: string;
+  userDetailInfo: UserDetailDataType;
   signUp: (UserInput: UserInputType) => void;
   verifyEmail: (email: string) => void;
-  // logIn:
-  // 인증
-  // 인가
+  handleLoginResponse: (email: string, password: string) => Promise<void>; // 인증
 }
 
 
@@ -49,4 +49,18 @@ interface AuthResponseType {
     ok : number,
     message? : string
   }
+}
+interface UserDetailDataType {
+  _id: number;
+  email: string;
+  name: string;
+  type: string;
+  phone: string;
+  address: string;
+  createdAt: string;
+  updatedAt: string;
+  token: {
+    accessToken: string;
+    refreshToken: string;
+  };
 }
