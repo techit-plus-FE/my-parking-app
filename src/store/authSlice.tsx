@@ -54,7 +54,6 @@ const userLogin = async (email: string, password: string) => {
       email: email,
       password: password,
     };
-    // console.log(userInfo);
 
     const response = await axios.post(
       "https://localhost/api/users/login",
