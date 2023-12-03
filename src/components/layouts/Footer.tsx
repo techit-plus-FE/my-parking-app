@@ -8,7 +8,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import SearchIcon from "@mui/icons-material/Search";
 import PersonIcon from "@mui/icons-material/Person";
 import { useNavigate } from "react-router-dom";
-
+import classes from "./Footer.module.css";
 const Footer: React.FC = () => {
   //수정하기 변경하기
   // const iconActiveFill = "var(--color-gray-400)";
@@ -19,7 +19,7 @@ const Footer: React.FC = () => {
     navigate(path);
   };
   return (
-    <Box sx={{ width: 500 }}>
+    <Box sx={{ width: "100%" }} className={classes.footerContainer}>
       <BottomNavigation
         showLabels
         value={value}
@@ -38,7 +38,7 @@ const Footer: React.FC = () => {
           icon={<SearchIcon />}
           onClick={() =>
             //검색페이지 없음
-            handelNavigate("")
+            handelNavigate("home")
           }
         />
         <BottomNavigationAction
