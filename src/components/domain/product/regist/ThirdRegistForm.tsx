@@ -88,14 +88,16 @@ const ThirdRegistForm = ({ onSubmit, onPrev }: Props) => {
           />
 
           {/* 이미지 미리보기 */}
-          {mainImages.map((image, id) => (
-            <div className={classes["img-pre-list"]} key={id}>
-              <img src={image} alt={`${image}-${id}`} />
-              <button type="button" onClick={() => handleDeleteImage(id)}>
-                삭제
-              </button>
-            </div>
-          ))}
+          <div className={classes["img-pre-list"]}>
+            {mainImages.map((image, id) => (
+              <div key={id} className={classes["img-pre-item"]}>
+                <img src={image} alt={`${image}-${id}`} />
+                <button type="button" onClick={() => handleDeleteImage(id)}>
+                  삭제
+                </button>
+              </div>
+            ))}
+          </div>
         </div>
 
         <label htmlFor="price">가격</label>

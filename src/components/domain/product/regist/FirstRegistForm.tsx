@@ -1,17 +1,23 @@
 // 첫번째 양식 컴포넌트
 // 카카오 지도 api로 등록할 주차장의 좌표 위치를 stirng값으로 전달받는다.
 import { useState } from "react";
-import KakaoMap from "../../../common/KakaoMap";
+import KakaoMap from "../../../common/map/KakaoMap";
 
 import classes from "./FirstRegistForm.module.css";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   onNext: () => void;
-  onSubmit: (s: string) => void;
+  onSubmit: (l: ProductLocationType) => void;
 };
 
 const FirstRegistForm = ({ onSubmit, onNext }: Props) => {
-  const [location, setLocation] = useState(""); // 위치 정보를 저장할 상태 변수
+  const navigate = useNavigate();
+  const [location, setLocation] = useState<ProductLocationType>({
+    address: "",
+    lat: "",
+    lng: "",
+  }); // 위치 정보를 저장할 상태 변수
 
   const handleNext = () => {
     onSubmit(location); // 상태 변수를 전달하여 부모 컴포넌트의 onSubmit 함수 호출
@@ -25,7 +31,9 @@ const FirstRegistForm = ({ onSubmit, onNext }: Props) => {
         <KakaoMap setLocation={setLocation} />
       </div>
       <div className={classes.active}>
-        <button className={classes.prevBtn}>이전</button>
+        <button className={classes.prevBtn} onClick={() => navigate("/home")}>
+          이전
+        </button>
         <button className={classes.nextBtn} onClick={handleNext}>
           다음
         </button>

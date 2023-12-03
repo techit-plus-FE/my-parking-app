@@ -5,12 +5,21 @@ import ThirdRegistForm from "./ThirdRegistForm";
 import axios from "axios";
 import { BASE_URL } from "../../../../services/BaseUrl";
 
+import classes from "./ProductRegist.module.css";
+import { useBoundStore } from "../../../../store";
+
 const ProductRegist = () => {
+  const token = useBoundStore((state) => state.userToken);
+  // console.log(token);
   // 현재 단계를 나타내는 상태 변수
   const [step, setStep] = useState(1);
   // 각 컴포넌트에서 받은 데이터를 저장할 상태 변수
   const [formData, setFormData] = useState<ProductAllFormDataType>({
-    location: "",
+    location: {
+      address: "",
+      lat: "",
+      lng: "",
+    },
     startDate: "",
     endDate: "",
     othersInfo: {
@@ -19,31 +28,51 @@ const ProductRegist = () => {
       content: "",
     },
     mainImages: [],
+    shippingFees: 0,
+    show: true,
+    active: true,
   });
-  // 다음 단계로 이동
-  const handleNext = () => {
-    setStep((prevStep) => prevStep + 1);
-  };
-  // 이전 단계로 이동
-  const handlePrev = () => {
-    setStep((prevStep) => prevStep - 1);
-  };
 
   // 최종 Submit
   const handleFormSubmit = async (formData: ProductAllFormDataType) => {
     // const token = localStorage.getItem('token', token)
-
-    const response = await axios.post(`${BASE_URL}/seller/products`, formData, {
-      headers: {
-        Authorization: `Bearer token`,
+    console.log(formData);
+    // 서버 데이터필드에 맞게 데이터들 정제해서 세팅하기
+    const sendFormData = {
+      name: formData.othersInfo.name,
+      content: formData.othersInfo.content,
+      price: Number(formData.othersInfo.price),
+      mainImages: formData.mainImages,
+      extra: {
+        periodForm: formData.startDate,
+        periodTo: formData.endDate,
+        location_lat: formData.location.lat,
+        location_lng: formData.location.lng,
+        address: formData.location.address,
       },
-    });
+      shippingFees: 0,
+      show: true,
+      active: true,
+    };
+
+    console.log(sendFormData);
+
+    const response = await axios.post(
+      `${BASE_URL}/seller/products`,
+      sendFormData,
+      {
+        headers: {
+          "Content-Type": "application/json;charset=UTF-8",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     const data = response.data;
     console.log(data);
   };
 
   // 첫번째 양식 받기
-  const handleFirstFormSubmit = (location: string) => {
+  const handleFirstFormSubmit = (location: ProductLocationType) => {
     setFormData((prevData) => ({
       ...prevData,
       location: location,
@@ -73,8 +102,17 @@ const ProductRegist = () => {
     handleFormSubmit(formData);
   };
 
+  // 다음 단계로 이동
+  const handleNext = () => {
+    setStep((prevStep) => prevStep + 1);
+  };
+  // 이전 단계로 이동
+  const handlePrev = () => {
+    setStep((prevStep) => prevStep - 1);
+  };
+
   return (
-    <>
+    <div className={classes.container}>
       {step === 1 && (
         <FirstRegistForm onSubmit={handleFirstFormSubmit} onNext={handleNext} />
       )}
@@ -88,7 +126,7 @@ const ProductRegist = () => {
       {step === 3 && (
         <ThirdRegistForm onSubmit={handleThirdFormSubmit} onPrev={handlePrev} />
       )}
-    </>
+    </div>
   );
 };
 
