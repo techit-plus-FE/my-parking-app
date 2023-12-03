@@ -88,7 +88,6 @@ const persistStore = (localStorageKey: string, stateKey: string) => {
   return {
     // getState는 현재 상태를 가져오는 메서드 입니다.
     getState: () => store.getState()[stateKey],
-
     //upDate 메서드는 상태를 업데이트 하는 메서드 입니다.
     upDate: (newState) => {
       const currentState = store.getState();
@@ -99,6 +98,7 @@ const persistStore = (localStorageKey: string, stateKey: string) => {
 };
 
 export const createAuthSlice: StateCreator<AuthSlice, []> = (set) => ({
+  isLoggedIn: false,
   verifyEmail: (email: string) => {
     requestEmailVerification(email);
     set(() => ({}));
@@ -120,6 +120,21 @@ export const createAuthSlice: StateCreator<AuthSlice, []> = (set) => ({
     const userDetailInfo = persistStore("user-detail-info", "userDetailInfo");
     userDetailInfo.upDate(userDetailDataResponse);
 
+    //로그인 상태 업데이트
+    const isLoggedIn = persistStore("is-logged-in", "isLoggedIn");
+    isLoggedIn.upDate(true);
+
     return userDetailDataResponse;
+  },
+
+  handleLogout: () => {
+    const userToken = persistStore("user-access-token", "userAccessToken");
+    const userDetailInfo = persistStore("user-detail-info", "userDetailInfo");
+    userToken.upDate("");
+    userDetailInfo.upDate("");
+
+    //로그아웃 상태 업데이트
+    const isLoggedOut = persistStore("is-logged-in", "isLoggedIn");
+    isLoggedOut.upDate(false);
   },
 });

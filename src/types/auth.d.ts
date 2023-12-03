@@ -23,6 +23,8 @@ interface AuthSlice {
     email: string,
     password: string
   ) => Promise<UserDetailDataType>; // 인증
+  handleLogout: () => void;
+  isLoggedIn: boolean;
 }
 
 interface PostLoginData {
