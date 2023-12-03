@@ -20,7 +20,7 @@ type extraType = {
 interface AuthSlice {
   userToken: string;
   userDetailInfo: UserDetailDataType;
-  signUp: (UserInput: UserInputType) => void;
+  signUp: (UserInput: UserInputType) => Promise<boolean>;
   verifyEmail: (email: string) => void;
   handleLoginResponse: (email: string, password: string) => Promise<void>; // 인증
 }

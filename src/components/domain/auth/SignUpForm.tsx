@@ -9,10 +9,7 @@ const SignUpForm = () => {
   const AuthSlice: AuthSlice = useBoundStore((state) => state);
   const navigate = useNavigate();
   const [userInputs, setUserInputs] = useState<UserInputType>(
-    // Customer일 때 
     new Person()
-      // Seller일 때 
-    // new Person("seller")
     );
 
 
@@ -26,6 +23,12 @@ const SignUpForm = () => {
       [name]: value,
     }));
   };
+
+  const handleSignUp: (userInputs: UserInputType) => void  = async (userInputs: UserInputType) => {
+    if (await AuthSlice.signUp(userInputs) == true){
+      navigate('/login')
+    }
+  }
 
   return (
     <form onSubmit={(e) => e.preventDefault()}>
@@ -68,9 +71,7 @@ const SignUpForm = () => {
             </div>
           );
         })}
-      <button onClick={() => {AuthSlice.signUp(userInputs)
-      navigate('/login')
-      }}> 회원가입 </button>
+      <button onClick={() => handleSignUp(userInputs)}> 회원가입 </button>
     </form>
   );
 };

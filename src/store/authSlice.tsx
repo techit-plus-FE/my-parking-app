@@ -6,17 +6,17 @@ import { BASE_URL } from "../services/BaseUrl"
 
 //index.ts Store에서도 AuthSlice를 참조하기 때문에 types 파일에 AuthSlice type을 선언하였습니다. 
 
-const requestSignUp: (arg: UserInputType) => void = async (UserInput: UserInputType) => {
+const requestSignUp: (arg: UserInputType) => Promise<boolean> = async (UserInput: UserInputType) => {
 
   // 서버로 회원가입 요청 보내기
   try {
-
-        const response = await axios.post<UserInputType, AuthResponseType>(
+        const response: AuthResponseType = await axios.post<UserInputType, AuthResponseType>(
           `${BASE_URL}/users/`,
           UserInput,
         )
         if (response.data.ok === 1) {
           alert("회원가입이 완료되었습니다.")
+          return true
         } 
   }
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -25,7 +25,9 @@ const requestSignUp: (arg: UserInputType) => void = async (UserInput: UserInputT
       alert(Error.response.data.message)
       }
     console.error("Error:", Error);
+    return false
     }
+  return false
   }
 
 const requestEmailVerification: (arg: string) => void =  async (email: string) => {
@@ -92,11 +94,9 @@ AuthSlice,
 
   verifyEmail: (email: string) => {
     requestEmailVerification(email)
-    set(()=>({}))
   },
   signUp: (UserInput: UserInputType)=>{
-    requestSignUp(UserInput)
-    set(() =>({}))
+    return requestSignUp(UserInput)
   },
   
   handleLoginResponse: async (email: string, password: string) => {
