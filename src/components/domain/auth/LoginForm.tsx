@@ -2,10 +2,11 @@
 import React, { ChangeEvent, useState } from "react";
 import LoginInput from "./LoginInput";
 import { useBoundStore } from "../../../store/index";
+import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
   const AuthSlice = useBoundStore((state) => state);
-
+  const navigate = useNavigate();
   const [userInputId, setUserInputId] = useState("");
   const [userInputPassword, setUserInputPassword] = useState("");
 
@@ -20,16 +21,16 @@ const LoginForm = () => {
 
   // axios 부분 수정해야함 변경해야함
 
+  const submitFc = (e) => {
+    e.preventDefault();
+    AuthSlice.handleLoginResponse(userInputId, userInputPassword);
+    navigate("/home");
+  };
+
   return (
     <div>
       <h2>로그인</h2>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault(),
-            // AuthSlice.login(userInputId, userInputPassword),
-            AuthSlice.handleLoginResponse(userInputId, userInputPassword);
-        }}
-      >
+      <form onSubmit={submitFc}>
         <LoginInput
           id="user-email"
           label="로그인"

@@ -1,10 +1,12 @@
 import React, { ChangeEvent, ChangeEventHandler, useState } from "react";
 import {Person} from "../../../types/classImplementations";
 import { useBoundStore } from "../../../store/index";
+import { useNavigate } from "react-router-dom";
 
 
 const SignUpForm = () => {
   const AuthSlice: AuthSlice = useBoundStore((state) => state);
+  const navigate = useNavigate();
   const [userInputs, setUserInputs] = useState<UserInputType>(
     // Customer일 때 
     new Person()
@@ -55,7 +57,9 @@ const SignUpForm = () => {
             </div>
           );
         })}
-      <button onClick={() => AuthSlice.signUp(userInputs)}> 회원가입 </button>
+      <button onClick={() => {AuthSlice.signUp(userInputs)
+      navigate('/login')
+      }}> 회원가입 </button>
     </form>
   );
 };
