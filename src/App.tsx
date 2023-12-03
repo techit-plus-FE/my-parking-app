@@ -55,11 +55,11 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
-        path: "/home",
+        path: "home",
         element: <HomePage />,
       },
       {
-        path: "/search",
+        path: "search",
         element: <SearchPage />,
       },
     ],
@@ -75,14 +75,14 @@ const router = createBrowserRouter([
       // 회원
       {
         id: "mypage",
-        path: "/mypage/:userId",
+        path: "mypage",
         children: [
           {
-            path: "/mypage/:userId",
+            path: ":userId",
             element: <MyPage />,
           },
           {
-            path: "/mypage/:userId/edit",
+            path: ":userId/edit",
             element: <MyPageEditPage />,
           },
         ],
@@ -90,7 +90,7 @@ const router = createBrowserRouter([
       // 상품
       {
         id: "products",
-        path: "/products",
+        path: "products",
         children: [
           {
             path: "regist",
@@ -98,27 +98,28 @@ const router = createBrowserRouter([
           },
           {
             id: "product-detail",
-            path: "/products/:productId",
+            path: ":productId",
             children: [
               {
-                path: "/products/:productId",
+                index: true,
                 element: <ProductDetailPage />,
               },
               {
-                path: "/products/:productId/edit",
+                path: ":productId/edit",
                 element: <ProductEditPage />,
               },
             ],
           },
         ],
       },
+
       // 주문
       {
         id: "order-history",
-        path: "/order-history",
+        path: "order-history",
         children: [
           {
-            path: "/order-history",
+            index: true,
             element: <OrderHistoryPage />,
           },
           {

@@ -1,5 +1,7 @@
+import ProductDetail from "../../components/domain/product/detail/ProductDetail";
+
 const ProductDetailPage = () => {
-  return <div>상품 상세 페이지 입니다.</div>;
+  return <ProductDetail />;
 };
 
 export default ProductDetailPage;
