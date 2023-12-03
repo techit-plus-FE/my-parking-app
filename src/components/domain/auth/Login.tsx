@@ -19,14 +19,12 @@ const Login = () => {
     }
   };
 
-  // axios 부분 수정해야함 변경해야함
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     AuthSlice.handleLoginResponse(userInputId, userInputPassword);
-    if (AuthSlice.userToken) {
-      navigate("/home");
-    }
+    // if (AuthSlice.userToken) {
+    //   navigate("/home");
+    // }
   };
   return (
     <div>
@@ -36,6 +34,7 @@ const Login = () => {
         userInputId={userInputId}
         userInputPassword={userInputPassword}
       />
+      <button onClick={AuthSlice.logout}></button>
     </div>
   );
 };
