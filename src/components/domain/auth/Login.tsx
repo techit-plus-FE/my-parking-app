@@ -19,15 +19,16 @@ const Login = () => {
     }
   };
 
-  // axios 부분 수정해야함 변경해야함
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    AuthSlice.handleLoginResponse(userInputId, userInputPassword);
-    if (AuthSlice.userToken) {
+    const isLoginSuccess: UserDetailDataType =
+      await AuthSlice.handleLoginResponse(userInputId, userInputPassword);
+
+    if (isLoginSuccess) {
       navigate("/home");
     }
   };
+
   return (
     <div>
       <LoginForm
