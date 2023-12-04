@@ -3,12 +3,17 @@ import React, { ChangeEvent, useState } from "react";
 import LoginForm from "./LoginForm";
 import { useNavigate } from "react-router-dom";
 import { useBoundStore } from "../../../store";
+import { updateToken, upDateUserBasicData } from "../../../store/authSlice";
 
 const Login = () => {
   const AuthSlice = useBoundStore((state) => state);
   const navigate = useNavigate();
   const [userInputId, setUserInputId] = useState("");
   const [userInputPassword, setUserInputPassword] = useState("");
+  const saveUserToken = updateToken((state) => state.updateUserToken);
+  const saveUserBasicData = upDateUserBasicData(
+    (state) => state.updateUserBasicInfo
+  );
 
   // input의 id name에 따라 값이 담김
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -21,12 +26,8 @@ const Login = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const isLoginSuccess: UserDetailDataType =
-      await AuthSlice.handleLoginResponse(userInputId, userInputPassword);
-
-    if (isLoginSuccess) {
-      navigate("/home");
-    }
+    saveUserToken(userInputId, userInputPassword);
+    saveUserBasicData(userInputId, userInputPassword);
   };
 
   return (

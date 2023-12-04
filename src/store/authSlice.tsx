@@ -70,71 +70,59 @@ const userLogin = async (email: string, password: string) => {
   }
 };
 
+export const updateToken = create(
+  persist<PersistStoreType>(
+    (set) => ({
+      token: "",
+      updateUserToken: async (email: string, password: string) => {
+        const userData = await userLogin(email, password);
+        set(() => ({ token: userData.token.accessToken }));
+      },
+    }),
+    {
+      name: "user-token",
+    }
+  )
+);
+
+export const upDateUserBasicData = create(
+  persist<PersistStoreType>(
+    (set) => ({
+      userBasicInfo: {
+        _id: 0,
+        email: "",
+        name: "",
+        type: "",
+        phone: "",
+        address: "",
+        createdAt: "",
+        updatedAt: "",
+        token: {
+          accessToken: "",
+          refreshToken: "",
+        },
+      },
+      updateUserBasicInfo: async (email: string, password: string) => {
+        const userData = await userLogin(email, password);
+        set(() => ({ userBasicInfo: userData }));
+      },
+    }),
+    {
+      name: "user-basic-info",
+    }
+  )
+);
+
 //stateKey는 로컬 스토리지에 저장된 state객체의 keyName 입니다.
 //localStorageKey 는 로컬 스토리지에 저장될 keyName 입니다.
-const persistStore = (localStorageKey: string, stateKey: string) => {
-  const store = create(
-    persist(
-      () => ({
-        //stateKey의 초기값 세팅
-        [stateKey]: "",
-      }),
-      {
-        name: localStorageKey,
-      }
-    )
-  );
-
-  return {
-    // getState는 현재 상태를 가져오는 메서드 입니다.
-    getState: () => store.getState()[stateKey],
-    //upDate 메서드는 상태를 업데이트 하는 메서드 입니다.
-    upDate: (newState) => {
-      const currentState = store.getState();
-      // 기존 data에 state에 중복된 stateKey가 있다면 업데이트가 됩니다.
-      store.setState({ ...currentState, [stateKey]: newState });
-    },
-  };
-};
 
 export const createAuthSlice: StateCreator<AuthSlice, []> = (set) => ({
-  isLoggedIn: false,
   verifyEmail: (email: string) => {
     requestEmailVerification(email);
-    set(() => ({}));
   },
   signUp: (UserInput: UserInputType) => {
     requestSignUp(UserInput);
-    set(() => ({}));
   },
 
-  handleLoginResponse: async (email: string, password: string) => {
-    const userDetailDataResponse = await userLogin(email, password);
-
-    // localStorage 의 key, state의 key 이름을 정의합니다.
-    const userToken = persistStore("user-access-token", "userAccessToken");
-
-    // 업데이트 할 데이터를 넣어줍니다.
-    userToken.upDate(userDetailDataResponse.token.accessToken);
-
-    const userDetailInfo = persistStore("user-detail-info", "userDetailInfo");
-    userDetailInfo.upDate(userDetailDataResponse);
-
-    //로그인 상태 업데이트
-    const isLoggedIn = persistStore("is-logged-in", "isLoggedIn");
-    isLoggedIn.upDate(true);
-
-    return userDetailDataResponse;
-  },
-
-  handleLogout: () => {
-    const userToken = persistStore("user-access-token", "userAccessToken");
-    const userDetailInfo = persistStore("user-detail-info", "userDetailInfo");
-    userToken.upDate("");
-    userDetailInfo.upDate("");
-
-    //로그아웃 상태 업데이트
-    const isLoggedOut = persistStore("is-logged-in", "isLoggedIn");
-    isLoggedOut.upDate(false);
-  },
+  login: () => {},
 });

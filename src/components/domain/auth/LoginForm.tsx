@@ -1,5 +1,5 @@
 // 실제 사용자와 인터렉션
-import React, { ChangeEvent, FormEventHandler, useState } from "react";
+import React, { ChangeEvent } from "react";
 
 interface LoginFormProps {
   handleInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
