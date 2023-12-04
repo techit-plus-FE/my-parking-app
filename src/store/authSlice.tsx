@@ -1,8 +1,9 @@
 // import { create } from "zustand";
 
 import axios from "axios";
-import { StateCreator } from "zustand";
+import { StateCreator} from "zustand";
 import { BASE_URL } from "../services/BaseUrl";
+
 
 //index.ts Store에서도 AuthSlice를 참조하기 때문에 types 파일에 AuthSlice type을 선언하였습니다.
 
@@ -59,51 +60,36 @@ const userLogin = async (email: string, password: string) => {
       email: email,
       password: password,
     };
-    // console.log(userInfo);
 
     const response = await axios.post(
       "https://localhost/api/users/login",
       userInfo
     );
-    const LoginResponseData = response.data.item;
-
-    localStorage.setItem("userDetailData", JSON.stringify(LoginResponseData));
-    localStorage.setItem(
-      "userToken",
-      JSON.stringify(LoginResponseData.token.accessToken)
-    );
 
     if (response.data.ok) {
-      // console.log(LoginResponseData);
-
       alert("로그인이 완료되었습니다.");
     }
-
     // response 객체 안에 item return
-    return LoginResponseData;
+    return response.data.item;
   } catch {
     console.error("로그인이 실패하였습니다.");
   }
 };
 
-export const createAuthSlice: StateCreator<AuthSlice, []> = (set) => ({
-  userDetailInfo: JSON.parse(localStorage.getItem("userDetailData") || "{}"),
-  userToken: localStorage.getItem("userToken") || "",
+//stateKey는 로컬 스토리지에 저장된 state객체의 keyName 입니다.
+//localStorageKey 는 로컬 스토리지에 저장될 keyName 입니다.
 
+export const createAuthSlice: StateCreator<AuthSlice, []> = () => ({
+  userToken: "",
+  userDetailInfo: {} as UserDetailDataType,
   verifyEmail: (email: string) => {
     requestEmailVerification(email)
   },
   signUp: (UserInput: UserInputType)=>{
     return requestSignUp(UserInput)
   },
-
-  handleLoginResponse: async (email: string, password: string) => {
-    const userDetailDataResponse = await userLogin(email, password);
-    // user 토큰 값 저장
-    set(() => ({
-      userToken: userDetailDataResponse.token.accessToken,
-      userDetailInfo: userDetailDataResponse,
-    }));
-    // user 정보 저장
+  handleLoginResponse(email, password) {
+    userLogin(email, password)
   },
+
 });
