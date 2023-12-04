@@ -1,4 +1,4 @@
-import {Person} from './ classImplementations'
+import {Person} from './classImplementations'
 
 
 type MyInfo = Person & {

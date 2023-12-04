@@ -4,7 +4,7 @@
 // 'seller' => 프로필 컴포넌트(MyProfile.tsx), 상품 목록 컴포넌트(ProductList.tsx),
 import MyProfile from "../../components/domain/my-services/MyProfile";
 
-const MyPage = () => {
+const MyPage = () => {  
   return (<>
     마이 페이지 입니다.
     <div>

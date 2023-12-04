@@ -1,5 +1,5 @@
 import React, { ChangeEvent, ChangeEventHandler, useState } from "react";
-import {Person} from "../../../types/classImplementations";
+import {Person} from "../../../types/classImplementations"
 import { useBoundStore } from "../../../store/index";
 import { useNavigate } from "react-router-dom";
 import TextField from '@mui/material/TextField';
