@@ -14,22 +14,24 @@ import classes from "./ProductDetail.module.css";
 const ProductDetail = () => {
   const { productId } = useParams();
 
-  const [productData, setProductData] = useState<ProductDetailItemType>({
+  const [productData, setProductData] = useState<ProductItemType>({
     name: "",
     content: "",
-    createdAt: "",
-    mainImages: [""],
     price: 0,
+    mainImages: [""],
+    createdAt: "",
     extra: {
       startDate: "",
       endDate: "",
-      locationX: "",
-      locationY: "",
+      address: "",
+      lat: "",
+      lng: "",
     },
+    replies: [],
   });
 
   const getProduct = async () => {
-    const response = await axios.get<ProductRes>(
+    const response = await axios.get<ProductItemResType>(
       `${BASE_URL}/products/${productId}`
     );
     console.log(response.data.item);
