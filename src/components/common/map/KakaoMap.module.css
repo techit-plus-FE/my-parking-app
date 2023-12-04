@@ -9,18 +9,19 @@
 }
 
 .input-box input {
-  width: 85%;
-  padding: 5px;
-  font-size: 18px;
-  border-radius: 10px;
+  width: 90%;
 }
 
 .input-box button {
-  padding: 0 10px;
+  padding: 10px 20px;
   background-color: var(--color-primary-600);
   color: var(--color-white);
   border: none;
   border-radius: 10px;
+  font-size: 18px;
   font-weight: 600;
   cursor: pointer;
+}
+.input-box button:hover {
+  background-color: var(--color-primary-800);
 }
