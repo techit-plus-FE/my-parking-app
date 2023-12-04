@@ -12,7 +12,7 @@ interface CommonButtonProps {
   className?: string;
 }
 
-const CommonButton: React.FC<CommonButtonProps> = ({
+export const CommonButton: React.FC<CommonButtonProps> = ({
   text,
   bgColor,
   textColor,
@@ -45,4 +45,21 @@ const CommonButton: React.FC<CommonButtonProps> = ({
   );
 };
 
-export default CommonButton;
+// 버튼 크기에 따른 UI
+export const CommonButtonSmall = () => {
+  return <CommonButton width="30%" />;
+};
+
+export const CommonButtonMiddle = () => {
+  return <CommonButton width="60%" />;
+};
+
+export const CommonButtonLarge = () => {
+  return <CommonButton width="90%" />;
+};
+
+// 버튼 색깔에 따른 UI
+export const CommonButtonDark = () => {
+  // props로 내려줄때 다크모드일때 컬러를 지정해서 하드코딩하여 넣어주셔야해요! -> index.css에 있어요
+  return <CommonButton width="90%" bgColor="var()" />;
+};
