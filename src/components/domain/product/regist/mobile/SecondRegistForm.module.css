@@ -1,44 +1,32 @@
 .container {
-  height: 100vh;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
 }
+
 .container h2 {
-  font-size: 35px;
+  font-size: 40px;
   color: var(--color-primary-600);
 }
 
-.form {
+.date-box {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
   padding: 10px;
 }
 
-.form label {
+.date-box label {
   align-self: flex-start;
   font-size: 20px;
   font-weight: 700;
   color: var(--color-primary-800);
 }
 
-.form input,
-.form textarea {
+.date-box input {
   padding: 10px;
   border-color: var(--color-primary-500);
   border-radius: 20px;
 }
-
-.form textarea {
-  height: 100px;
-}
-
-.img-box {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+.date-box input:focus {
+  outline: none;
 }
 
 .active {

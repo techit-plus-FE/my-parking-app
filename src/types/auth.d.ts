@@ -38,11 +38,11 @@ export class Person implements UserInputType {
 }
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface AuthSlice {
-  signUp: (UserInput: UserInputType) => void;
+  userToken: string;
+  userDetailInfo: UserDetailDataType;
+  signUp: (UserInput: UserInputType) => Promise<boolean>;
   verifyEmail: (email: string) => void;
-  // logIn:
-  // 인증
-  // 인가
+  handleLoginResponse: (email: string, password: string) => void; // 인증
 }
 
 

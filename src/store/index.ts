@@ -3,7 +3,6 @@
 
 import { create } from 'zustand'
 import { createAuthSlice } from './AuthSlice'
-import { AuthSlice } from '../types/Auth'
 import { MyPageSlice} from '../types/MyPage'
 import {createMyPageSlice} from './MyPageSlice'
 

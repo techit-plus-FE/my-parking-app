@@ -1,0 +1,27 @@
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-box {
+  display: flex;
+  justify-content: space-between;
+}
+
+.input-box input {
+  width: 90%;
+}
+
+.input-box button {
+  padding: 10px 20px;
+  background-color: var(--color-primary-600);
+  color: var(--color-white);
+  border: none;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.input-box button:hover {
+  background-color: var(--color-primary-800);
+}
