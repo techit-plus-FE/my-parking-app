@@ -2,16 +2,14 @@ import React, { ChangeEvent, ChangeEventHandler, useState } from "react";
 import {Person} from "../../../types/classImplementations";
 import { useBoundStore } from "../../../store/index";
 import { useNavigate } from "react-router-dom";
+import TextField from '@mui/material/TextField';
 
 
 const SignUpForm = () => {
   const AuthSlice: AuthSlice = useBoundStore((state) => state);
   const navigate = useNavigate();
   const [userInputs, setUserInputs] = useState<UserInputType>(
-    // Customer일 때 
     new Person()
-      // Seller일 때 
-    // new Person("seller")
     );
 
 
@@ -26,40 +24,54 @@ const SignUpForm = () => {
     }));
   };
 
+  const handleSignUp: (userInputs: UserInputType) => void  = async (userInputs: UserInputType) => {
+    if (await AuthSlice.signUp(userInputs) == true){
+      navigate('/login')
+    }
+  }
+
   return (
     <form onSubmit={(e) => e.preventDefault()}>
       <div>
         <div>email</div>
-        <label>
-          <input
-            value={userInputs.email as string}
-            name="email"
-            onChange={saveUserInputs}
-          ></input>
-        </label>
-        <button onClick={() => AuthSlice.verifyEmail(userInputs.email)}>
+         <TextField
+          required
+          variant="standard"
+          name = "email"
+          onChange = {saveUserInputs}
+        />
+      </div>
+      <button onClick={() => AuthSlice.verifyEmail(userInputs.email)}>
           이메일 중복확인
-        </button>
+      </button>
+      <div>
+        <div>password</div>
+        <TextField
+          required
+          value={userInputs.password as string}
+          name = "password"
+          type="password"
+          variant="standard"
+          onChange = {saveUserInputs}
+        />
       </div>
       {Object.keys(userInputs)
-        .filter((v) => v !== "email" && v !== "extra" && v !== "type")
+        .filter((v) => v !== "email" &&v!=="password" && v !== "extra" && v !== "type")
         .map((item) => {
           return (
-            <div>
+            <div key = {item}>
               <div>{item}</div>
-              <label>
-                <input
-                  value={userInputs[item as keyof UserInputType] as string}
-                  name={item}
-                  onChange={saveUserInputs}
-                ></input>
-              </label>
+              <TextField
+              required
+              value={userInputs[item as keyof UserInputType] as string}
+              name = {item}           
+              variant="standard"
+              onChange = {saveUserInputs}
+              />
             </div>
           );
         })}
-      <button onClick={() => {AuthSlice.signUp(userInputs)
-      navigate('/login')
-      }}> 회원가입 </button>
+      <button onClick={() => handleSignUp(userInputs)}> 회원가입 </button>
     </form>
   );
 };

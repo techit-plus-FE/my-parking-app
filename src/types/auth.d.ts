@@ -15,16 +15,14 @@ type extraType = {
   profileImage?: string;
 };
 
-
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface AuthSlice {
   userToken: string;
   userDetailInfo: UserDetailDataType;
-  signUp: (UserInput: UserInputType) => void;
+  signUp: (UserInput: UserInputType) => Promise<boolean>;
   verifyEmail: (email: string) => void;
-  handleLoginResponse: (email: string, password: string) => Promise<void>; // 인증
+  handleLoginResponse: (email: string, password: string) => void; // 인증
 }
-
 
 interface PostLoginData {
   address: string;
@@ -42,13 +40,12 @@ interface PostLoginData {
   _id: number;
 }
 
-
 interface AuthResponseType {
   config: object;
   data: {
-    ok : number,
-    message? : string
-  }
+    ok: number;
+    message?: string;
+  };
 }
 interface UserDetailDataType {
   _id: number;
