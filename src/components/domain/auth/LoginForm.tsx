@@ -1,38 +1,49 @@
 // 실제 사용자와 인터렉션
-import React, { ChangeEvent, FormEventHandler, useState } from "react";
+import React, { ChangeEvent, useState } from "react";
+import LoginInput from "./LoginInput";
+import { useBoundStore } from "../../../store/index";
+import { useNavigate } from "react-router-dom";
 
-interface LoginFormProps {
-  handleInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
-  userInputId: string;
-  userInputPassword: string;
-}
+const LoginForm = () => {
+  const AuthSlice = useBoundStore((state) => state);
+  const navigate = useNavigate();
+  const [userInputId, setUserInputId] = useState("");
+  const [userInputPassword, setUserInputPassword] = useState("");
 
-const LoginForm: React.FC<LoginFormProps> = ({
-  handleInputChange,
-  handleSubmit,
-  userInputId,
-  userInputPassword,
-}) => {
+  // input의 id name에 따라 값이 담김
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.id === "user-email") {
+      setUserInputId(e.target.value);
+    } else if (e.target.id === "user-password") {
+      setUserInputPassword(e.target.value);
+    }
+  };
+
+  // axios 부분 수정해야함 변경해야함
+
+  const submitFc = (e) => {
+    e.preventDefault();
+    AuthSlice.handleLoginResponse(userInputId, userInputPassword);
+    navigate("/home");
+  };
+
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="user-email">로그인</label>
-        <input
+      <h2>로그인</h2>
+      <form onSubmit={submitFc}>
+        <LoginInput
           id="user-email"
-          type="email"
-          placeholder="아이디를 입력해주세요"
+          label="로그인"
           value={userInputId}
+          placeholder="아이디"
           onChange={handleInputChange}
         />
-      </form>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="user-password">password</label>
-        <input
+        <LoginInput
           id="user-password"
-          type="password"
-          placeholder="패스워드를 입력해주세요"
+          label="비밀번호"
           value={userInputPassword}
+          placeholder="비밀번호"
+          type="password"
           onChange={handleInputChange}
         />
         <button>로그인</button>
