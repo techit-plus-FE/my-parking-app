@@ -23,27 +23,26 @@ const ProductRegist = () => {
   };
 
   const handleSubmit = async (
-    formData: ProductItemType,
-    mainImages: string[]
+    data: ProductItemType,
+    mainImages: string[] | undefined
   ) => {
-    // 1. 파일 업로드 http post
-    const imagesRes = await axiosInstance.post(`/files`, mainImages);
-    console.log(imagesRes.data.file.path);
-
     // 2. 바이너리양식 이미지 추출해서 최종 Post 보내기
     const sendAllData = {
-      name: formData.name,
-      content: formData.content,
-      price: formData.price,
-      mainImages: imagesRes.data.file.path,
+      name: data.name,
+      content: data.content,
+      shippingFees: 0,
+      price: Number(data.price),
+      mainImages: mainImages,
       extra: {
-        startDate: formData.extra?.startDate,
-        endDate: formData.extra?.endDate,
-        address: formData.extra?.address,
-        lat: formData.extra?.lat,
-        lng: formData.extra?.lng,
+        startDate: data.extra?.startDate,
+        endDate: data.extra?.endDate,
+        address: data.extra?.address,
+        lat: data.extra?.lat,
+        lng: data.extra?.lng,
       },
     };
+
+    console.log(sendAllData);
 
     // 2. 전체 양식 http post
     const response = await axiosInstance.post(`/seller/products`, sendAllData);
