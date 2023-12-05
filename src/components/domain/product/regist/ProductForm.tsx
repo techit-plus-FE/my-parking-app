@@ -7,7 +7,11 @@ import axios from "axios";
 import classes from "./ProductForm.module.css";
 
 import KakaoMap from "../../../common/map/KakaoMap";
+
 import { BASE_URL } from "../../../../services/BaseUrl";
+import { PROTOCAL } from "../../../../services/BaseUrl";
+import { HOST } from "../../../../services/BaseUrl";
+import { PORT } from "../../../../services/BaseUrl";
 
 type Props = {
   onSubmit: (data: ProductItemType, images: string[] | undefined) => void;
@@ -26,11 +30,11 @@ const ProductForm = ({ onSubmit, product }: Props) => {
     content: product.content,
     price: product.price,
     extra: {
-      startDate: product.extra?.startDate || "",
-      endDate: product.extra?.endDate || "",
-      address: product.extra?.address || "",
-      lat: product.extra?.lat || "",
-      lng: product.extra?.lng || "",
+      startDate: product.extra?.startDate,
+      endDate: product.extra?.endDate,
+      address: product.extra?.address,
+      lat: product.extra?.lat,
+      lng: product.extra?.lng,
     },
   });
   // 이미지서버응답값중 path값만 추출해서 담은 배열 -> 추후 상품등록하기때 첨부할 이미지 파일배열 상태
@@ -81,15 +85,23 @@ const ProductForm = ({ onSubmit, product }: Props) => {
             "Content-Type": "multipart/form-data",
           },
         });
-
+        console.log(imagesRes.data);
         // 응답에서 'path' 값만 추출하여 배열로
-        const imageUrlLists: string[] = imagesRes.data.files
-          ? imagesRes.data.files.map((file: FilesResType) => file.path)
-          : imagesRes.data.file.map((file: FilesResType) => file.path);
+        let imageUrlLists: string[] = [];
+
+        if (imagesRes.data.files) {
+          imageUrlLists = imagesRes.data.files.map(
+            (file: FilesResType) => `${PROTOCAL}://${HOST}:${PORT}${file.path}`
+          );
+        }
+        if (imagesRes.data.file) {
+          const imagePath = `${PROTOCAL}://${HOST}:${PORT}${imagesRes.data.file.path}`;
+          imageUrlLists.push(imagePath);
+        }
 
         // 최대 10개까지만
         const slicedImageUrlLists = imageUrlLists.slice(0, 10);
-
+        console.log(slicedImageUrlLists);
         setMainImages(slicedImageUrlLists);
       } catch (err) {
         console.error("이미지를 업로드하는데 문제가 발생하였습니다.", err);
@@ -152,7 +164,7 @@ const ProductForm = ({ onSubmit, product }: Props) => {
           name="name"
           value={formData.name}
           onChange={handleChange}
-          // required
+          required
         />
 
         <label htmlFor="content">내용</label>
@@ -162,7 +174,7 @@ const ProductForm = ({ onSubmit, product }: Props) => {
           value={formData.content}
           cols={30}
           rows={10}
-          // required
+          required
           onChange={handleChange}
         />
 
@@ -173,7 +185,7 @@ const ProductForm = ({ onSubmit, product }: Props) => {
           name="startDate"
           value={formData.extra?.startDate}
           onChange={handleChange}
-          // required
+          required
         />
 
         <label htmlFor="endDate">대여 종료일</label>
@@ -183,6 +195,7 @@ const ProductForm = ({ onSubmit, product }: Props) => {
           name="endDate"
           value={formData.extra?.endDate}
           onChange={handleChange}
+          required
         />
 
         <label htmlFor="price">대여 비용(원)</label>
@@ -193,6 +206,7 @@ const ProductForm = ({ onSubmit, product }: Props) => {
           min={0}
           value={formData.price}
           onChange={handleChange}
+          required
         />
       </div>
       <div className={classes["images-wrapper"]}>
