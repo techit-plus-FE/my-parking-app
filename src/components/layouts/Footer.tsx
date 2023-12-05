@@ -9,16 +9,28 @@ import SearchIcon from "@mui/icons-material/Search";
 import PersonIcon from "@mui/icons-material/Person";
 import { useNavigate } from "react-router-dom";
 import classes from "./Footer.module.css";
-import { updateTokenStore } from "../../store/authSlice";
+import {
+  updateTokenStore,
+  upDateUserBasicDataStore,
+} from "../../store/authSlice";
 const Footer: React.FC = () => {
   //수정하기 변경하기
   // const iconActiveFill = "var(--color-gray-400)";
-  const loggedOut = updateTokenStore((state) => state.deleteUserToken);
+  const deleteUserToken = updateTokenStore((state) => state.deleteUserToken);
+  const deleteUserBasicData = upDateUserBasicDataStore(
+    (state) => state.deleteUserBasicData
+  );
+
   const [value, setValue] = React.useState(0);
   const navigate = useNavigate();
 
   const handelNavigate = (path: string) => {
     navigate(path);
+  };
+
+  const logout = () => {
+    deleteUserToken();
+    deleteUserBasicData();
   };
 
   return (
@@ -52,7 +64,7 @@ const Footer: React.FC = () => {
         <BottomNavigationAction
           label="로그아웃"
           icon={<PersonIcon />}
-          onClick={() => loggedOut()}
+          onClick={() => logout()}
         />
       </BottomNavigation>
     </Box>
