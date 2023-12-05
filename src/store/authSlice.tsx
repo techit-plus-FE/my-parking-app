@@ -119,6 +119,25 @@ export const upDateUserBasicDataStore = create(
         const userData = await userLogin(email, password);
         set(() => ({ userBasicInfo: userData }));
       },
+      deleteUserToken: () => {
+        set(() => ({
+          userBasicInfo: {
+            _id: 0,
+            email: "",
+            name: "",
+            type: "",
+            phone: "",
+            address: "",
+            createdAt: "",
+            updatedAt: "",
+            token: {
+              accessToken: "",
+              refreshToken: "",
+            },
+          },
+          isLoggedIn: false,
+        }));
+      },
     }),
     {
       name: "user-basic-info",

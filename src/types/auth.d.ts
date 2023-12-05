@@ -67,3 +67,4 @@ interface PersistStoreType {
   updateUserToken?: (email: string, password: string) => Promise<void>;
   updateUserBasicInfo?: (email: string, password: string) => Promise<void>;
 }
+
