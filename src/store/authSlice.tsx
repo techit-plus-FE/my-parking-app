@@ -84,7 +84,6 @@ export const updateTokenStore = create(
             //로그인 시 true
             isLoggedIn: true,
           }));
-          return true;
         },
       }),
       {

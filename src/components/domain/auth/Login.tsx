@@ -17,8 +17,6 @@ const Login = () => {
     (state) => state.updateUserBasicInfo
   );
 
-  const isLoggedIn = updateTokenStore((state) => state.isLoggedIn);
-
   // input의 id name에 따라 값이 담김
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.id === "user-email") {
