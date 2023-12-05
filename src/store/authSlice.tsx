@@ -61,7 +61,7 @@ const userLogin = async (email: string, password: string) => {
     );
 
     if (response.data.ok) {
-      // alert("로그인이 완료되었습니다.");
+      alert("로그인이 완료되었습니다.");
     }
     // response 객체 안에 item return
     return response.data.item;
@@ -84,6 +84,10 @@ export const updateTokenStore = create(
             //로그인 시 true
             isLoggedIn: true,
           }));
+        },
+
+        deleteUserToken: () => {
+          set(() => ({ userToken: "", isLoggedIn: false }));
         },
       }),
       {
