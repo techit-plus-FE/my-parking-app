@@ -7,13 +7,14 @@ export class Person implements UserInputType {
   type: string;
   extra: extraType;
 
-  constructor() {
-    this.email = "";
-    this.password = "";
-    this.name = "";
-    this.phone = "";
-    this.address = "";
-    this.type = "seller";
-    this.extra = {};
+  constructor(){
+    this.email = ""
+    this.password = ""
+    this.name = ""
+    this.phone = ""
+    this.address = ""
+    this.type = "user"
+    this.extra = {
+    }
   }
 }

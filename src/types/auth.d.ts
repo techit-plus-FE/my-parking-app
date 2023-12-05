@@ -17,7 +17,9 @@ type extraType = {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface AuthSlice {
-  signUp: (UserInput: UserInputType) => void;
+  userToken: string;
+  userDetailInfo: UserDetailDataType;
+  signUp: (UserInput: UserInputType) => Promise<boolean>;
   verifyEmail: (email: string) => void;
 }
 

@@ -1,7 +1,7 @@
 import KakaoMap from "../../../common/map/KakaoMap";
 import classes from "./DetailComponent.module.css";
 
-const DetailComponent = ({ product }: { product: ProductDetailItemType }) => {
+const DetailComponent = ({ product }: { product: ProductItemType }) => {
   return (
     <div className={classes.wrapper}>
       <h3 className={classes.title}>{product.name}</h3>
