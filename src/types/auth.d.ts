@@ -59,11 +59,14 @@ interface UserBasicDataType {
   };
 }
 
-interface PersistStoreType {
-  userToken?: string;
-  isLoggedIn?: boolean;
+interface updateTokenStoreType {
+  userToken: string;
+  isLoggedIn: boolean;
+  updateUserToken: (email: string, password: string) => Promise<void>;
+}
 
-  userBasicInfo?: UserBasicDataType;
-  updateUserToken?: (email: string, password: string) => Promise<void>;
-  updateUserBasicInfo?: (email: string, password: string) => Promise<void>;
+interface upDateUserBasicDataStoreType {
+  userBasicInfo: UserBasicDataType;
+
+  updateUserBasicInfo: (email: string, password: string) => Promise<void>;
 }

@@ -72,7 +72,7 @@ const userLogin = async (email: string, password: string) => {
 
 export const updateTokenStore = create(
   devtools(
-    persist<PersistStoreType>(
+    persist<updateTokenStoreType>(
       (set) => ({
         //로그인 된 유저의 현재 토큰값이 필요할 때 token 사용하시면 됩니다.
         userToken: "",
@@ -98,7 +98,7 @@ export const updateTokenStore = create(
 );
 
 export const upDateUserBasicDataStore = create(
-  persist<PersistStoreType>(
+  persist<upDateUserBasicDataStoreType>(
     (set) => ({
       //로그인 된 유저의 데이터 값이 필요할 때 userBasicInfo 사용하시면 됩니다.
       userBasicInfo: {
@@ -119,6 +119,25 @@ export const upDateUserBasicDataStore = create(
         const userData = await userLogin(email, password);
         set(() => ({ userBasicInfo: userData }));
       },
+      deleteUserToken: () => {
+        set(() => ({
+          userBasicInfo: {
+            _id: 0,
+            email: "",
+            name: "",
+            type: "",
+            phone: "",
+            address: "",
+            createdAt: "",
+            updatedAt: "",
+            token: {
+              accessToken: "",
+              refreshToken: "",
+            },
+          },
+          isLoggedIn: false,
+        }));
+      },
     }),
     {
       name: "user-basic-info",
@@ -136,6 +155,4 @@ export const createAuthSlice: StateCreator<AuthSlice, []> = (set) => ({
   signUp: (UserInput: UserInputType) => {
     requestSignUp(UserInput);
   },
-
-  login: () => {},
 });
