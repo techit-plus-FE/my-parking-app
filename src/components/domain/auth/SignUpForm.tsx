@@ -38,7 +38,6 @@ const SignUpForm = () => {
     const newPerson: {
       [key in keyof Person] : Person[key]
     } = {...userInputs} satisfies Person
-    console.log(newPerson)
 
     //newPerson을 넣어 회원가입을 진행합니다. 잘 완료되었다면 login 페이지로 이동합니다. 
     if (await AuthSlice.signUp(newPerson) == true){
