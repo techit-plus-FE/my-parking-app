@@ -99,7 +99,7 @@ const SignUpForm = () => {
           isMatching()? false : true}
           helperText={userInputs.password.length===0 ? 
             userInputs.passwordCheck.length!==0 ? "비밀번호를 설정해 주세요" : true :
-            userInputs.passwordCheck.length===0 ? "비밀번호 중복확인을 해 주세요" :
+            userInputs.passwordCheck.length===0 ? "비밀번호를 다시 입력해 주세요" :
             isMatching()? "비밀번호가 일치합니다" : "비밀번호가 일치하지 않습니다"}
           value={userInputs.passwordCheck as string}
           name = "passwordCheck"
