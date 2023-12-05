@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import ProductForm from "./ProductForm";
@@ -33,6 +32,10 @@ const ProductRegist = () => {
       shippingFees: 0,
       price: Number(data.price),
       mainImages: mainImages,
+      show: true, // 기본값
+      active: true, // 기본값
+      quantity: 1, // 기본값
+      buyQuantity: 0, // 기본값
       extra: {
         startDate: data.extra?.startDate,
         endDate: data.extra?.endDate,
@@ -42,18 +45,11 @@ const ProductRegist = () => {
       },
     };
 
-    console.log(sendAllData);
-
-    // 2. 전체 양식 http post
     const response = await axiosInstance.post(`/seller/products`, sendAllData);
 
     console.log(response.data);
     navigate("/home");
   };
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
 
   return <ProductForm onSubmit={handleSubmit} product={initialProduct} />;
 };
