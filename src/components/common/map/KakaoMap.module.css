@@ -6,13 +6,20 @@
 .input-box {
   display: flex;
   justify-content: space-between;
+  gap: 5px;
+  margin: 10px 0;
 }
 
-.input-box input {
-  width: 90%;
+.input-box > input {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  font-size: 18px;
+  box-shadow: 1px 2px 3px rgba(67, 135, 244, 0.2);
 }
 
-.input-box button {
+.input-box > button {
   padding: 10px 20px;
   background-color: var(--color-primary-600);
   color: var(--color-white);
@@ -23,5 +30,5 @@
   cursor: pointer;
 }
 .input-box button:hover {
-  background-color: var(--color-primary-800);
+  background-color: var(--color-primary-700);
 }
