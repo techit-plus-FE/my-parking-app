@@ -10,15 +10,19 @@ import DetailComponent from "./DetailComponent";
 import PriceAndBtnComponent from "./PriceAndBtnComponent";
 
 import classes from "./ProductDetail.module.css";
+import { useBoundStore } from "../../../../store";
+import Loading from "../../../common/Loading";
 
 const ProductDetail = () => {
   const { productId } = useParams();
+  const user = useBoundStore((state) => state.userDetailInfo);
 
+  const [loading, setLoading] = useState(true);
   const [productData, setProductData] = useState<ProductItemType>({
     name: "",
     content: "",
     price: 0,
-    mainImages: [""],
+    mainImages: [],
     createdAt: "",
     extra: {
       startDate: "",
@@ -31,32 +35,39 @@ const ProductDetail = () => {
   });
 
   const getProduct = async () => {
-    const response = await axios.get<ProductItemResType>(
-      `${BASE_URL}/products/${productId}`
-    );
-    console.log(response.data.item);
-    const resItem = response.data.item;
-    // 응답 아이템에서 실제 보여줄 데이터만 정제
-    setProductData({
-      name: resItem.name,
-      content: resItem.content,
-      createdAt: resItem.createdAt,
-      mainImages: resItem.mainImages,
-      price: resItem.price,
-      extra: resItem.extra,
-    });
+    try {
+      const response = await axios.get<ProductItemResType>(
+        `${BASE_URL}/products/${productId}`
+      );
+      const resItem = response.data.item;
+      setProductData({
+        name: resItem.name,
+        content: resItem.content,
+        createdAt: resItem.createdAt,
+        mainImages: resItem.mainImages,
+        price: resItem.price,
+        extra: resItem.extra,
+        replies: resItem.replies,
+      });
+
+      setLoading(false);
+    } catch (err) {
+      console.error("해당 게시글을 불러오는데 실패하였습니다", err);
+    }
   };
 
   useEffect(() => {
     getProduct();
   }, [productId]);
 
+  if (loading) return <Loading />;
+
   return (
     <div className={classes.container}>
       {/* 상품 이미지 컴포넌트 */}
       <MainImagesComponent product={productData} />
       {/* 판매자 정보 컴포넌트 */}
-      <SellerInfoComponent />
+      <SellerInfoComponent user={user} />
       {/* 상품 상세 정보 컴포넌트 */}
       <DetailComponent product={productData} />
       {/* 구매 및 가격 컴포넌트 */}

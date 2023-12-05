@@ -15,6 +15,10 @@
   align-self: flex-end;
 }
 
+.content {
+  margin: 35px 0;
+}
+
 .location-box h3 {
   font-size: 20px;
   color: var(--color-primary-700);
@@ -34,6 +38,7 @@
 .replies-list {
   display: flex;
   flex-direction: column;
+  margin-top: 30px;
 }
 
 .replies-list h3 {
