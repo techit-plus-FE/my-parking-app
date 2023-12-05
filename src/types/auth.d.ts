@@ -63,10 +63,11 @@ interface updateTokenStoreType {
   userToken: string;
   isLoggedIn: boolean;
   updateUserToken: (email: string, password: string) => Promise<void>;
+  deleteUserToken: () => void;
 }
 
 interface upDateUserBasicDataStoreType {
   userBasicInfo: UserBasicDataType;
-
+  deleteUserBasicData: () => void;
   updateUserBasicInfo: (email: string, password: string) => Promise<void>;
 }
