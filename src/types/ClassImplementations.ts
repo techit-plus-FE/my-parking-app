@@ -1,4 +1,4 @@
-export class Person implements UserInputType {
+export class Person implements Person {
   email: string;
   password: string;
   name: string;
@@ -16,5 +16,13 @@ export class Person implements UserInputType {
     this.type = "user"
     this.extra = {
     }
+  }
+}
+
+export class UserInputClass extends Person {
+  passwordCheck: string;
+  constructor(){
+    super(),
+    this.passwordCheck = "";
   }
 }

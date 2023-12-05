@@ -9,5 +9,5 @@ MyPageSlice,
 []
 > = (set) => ({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  personalInfo: ,
+  // personalInfo: 
 })
