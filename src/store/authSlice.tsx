@@ -3,7 +3,7 @@
 import axios from "axios";
 import { StateCreator, create } from "zustand";
 import { BASE_URL } from "../services/BaseUrl";
-import { persist } from "zustand/middleware";
+import { devtools, persist } from "zustand/middleware";
 
 //index.ts Store에서도 AuthSlice를 참조하기 때문에 types 파일에 AuthSlice type을 선언하였습니다.
 const requestSignUp: (arg: UserInputType) => void = async (
@@ -61,7 +61,7 @@ const userLogin = async (email: string, password: string) => {
     );
 
     if (response.data.ok) {
-      alert("로그인이 완료되었습니다.");
+      // alert("로그인이 완료되었습니다.");
     }
     // response 객체 안에 item return
     return response.data.item;
@@ -70,24 +70,34 @@ const userLogin = async (email: string, password: string) => {
   }
 };
 
-export const updateToken = create(
-  persist<PersistStoreType>(
-    (set) => ({
-      token: "",
-      updateUserToken: async (email: string, password: string) => {
-        const userData = await userLogin(email, password);
-        set(() => ({ token: userData.token.accessToken }));
-      },
-    }),
-    {
-      name: "user-token",
-    }
+export const updateTokenStore = create(
+  devtools(
+    persist<PersistStoreType>(
+      (set) => ({
+        //로그인 된 유저의 현재 토큰값이 필요할 때 token 사용하시면 됩니다.
+        userToken: "",
+        isLoggedIn: false,
+        updateUserToken: async (email: string, password: string) => {
+          const userData = await userLogin(email, password);
+          set(() => ({
+            userToken: userData.token.accessToken,
+            //로그인 시 true
+            isLoggedIn: true,
+          }));
+          return true;
+        },
+      }),
+      {
+        name: "user-token",
+      }
+    )
   )
 );
 
-export const upDateUserBasicData = create(
+export const upDateUserBasicDataStore = create(
   persist<PersistStoreType>(
     (set) => ({
+      //로그인 된 유저의 데이터 값이 필요할 때 userBasicInfo 사용하시면 됩니다.
       userBasicInfo: {
         _id: 0,
         email: "",

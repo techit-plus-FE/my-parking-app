@@ -1,19 +1,23 @@
 // 컴포넌트 안에 비즈니스로직이고 반환(return)은 해당 로직에서 사용한 변수나 함수를 전달할 UI컴포넌트 렌더링
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import LoginForm from "./LoginForm";
 import { useNavigate } from "react-router-dom";
 import { useBoundStore } from "../../../store";
-import { updateToken, upDateUserBasicData } from "../../../store/authSlice";
+import {
+  updateTokenStore,
+  upDateUserBasicDataStore,
+} from "../../../store/authSlice";
 
 const Login = () => {
-  const AuthSlice = useBoundStore((state) => state);
   const navigate = useNavigate();
   const [userInputId, setUserInputId] = useState("");
   const [userInputPassword, setUserInputPassword] = useState("");
-  const saveUserToken = updateToken((state) => state.updateUserToken);
-  const saveUserBasicData = upDateUserBasicData(
+  const updateUserToken = updateTokenStore((state) => state.updateUserToken);
+  const updateUserBasicInfo = upDateUserBasicDataStore(
     (state) => state.updateUserBasicInfo
   );
+
+  const isLoggedIn = updateTokenStore((state) => state.isLoggedIn);
 
   // input의 id name에 따라 값이 담김
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -26,8 +30,11 @@ const Login = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    saveUserToken(userInputId, userInputPassword);
-    saveUserBasicData(userInputId, userInputPassword);
+    const updateTokenState = updateUserToken(userInputId, userInputPassword);
+    updateUserBasicInfo(userInputId, userInputPassword);
+
+    //updateTokenState이 resolve시 navigate로 이동
+    updateTokenState.then(() => navigate("/home"));
   };
 
   return (
