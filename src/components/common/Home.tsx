@@ -20,7 +20,7 @@ const Home = () => {
     <div className={classes.container}>
       <div className={classes["map-box"]}>
         {/* 검색해서 넘어가는 카카오 맵컴포넌트가 추가로 필요할까? */}
-        <KakaoMap setLocation={setLocation} />
+        <KakaoMap />
       </div>
 
       <ProductList />

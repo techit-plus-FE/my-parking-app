@@ -10,9 +10,7 @@ type Props = {
   setFormData?: (d: ProductItemType) => void;
 };
 
-// lat: 위도(y좌표), lng: 경도(x좌표)
 // 위치 등록시 사용할 카카오 맵 컴포넌트
-// props로 받는 상태중에 location정보(adress,lat,lng)이 있으면 검색인풋창 안보이고 맵만 랜더링 되게해야함
 const KakaoMap = ({ formData, setFormData }: Props) => {
   // 지도의 초기 중심좌표위치(카카오본사)
   const [mapLocation, setMapLocation] = useState({
@@ -62,6 +60,9 @@ const KakaoMap = ({ formData, setFormData }: Props) => {
       ps.keywordSearch(`${searchAddress}`, callback);
     }
   };
+  // console.log(searchAddress); // 애플트리타워
+  // console.log(mapLocation.lat); // 37.5070100333146
+  // console.log(mapLocation.lng); // 127.055618149788
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchAddress(e.target.value);

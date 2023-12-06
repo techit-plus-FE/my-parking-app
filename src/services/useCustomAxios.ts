@@ -12,7 +12,7 @@ const useCustomAxios = () => {
     baseURL: BASE_URL,
     timeout: 1000 * 3, // 요청이 timeout보다 오래걸리면 요청 중단됨
     headers: {
-      "content-type": "application/json;charset=UTF-8",
+      "Content-Type": "application/json;charset=UTF-8",
       accept: "application/json", // 서버로부터 받고자하는 응답 미디어 타입 지정 -> JSON
     },
     withCredentials: true, // 쿠키, Authorization 인증 헤더, TLS client certifacates를 내포하는 자격 증명을 자동으로 포함시켜 서버전송 가능하도록 설정

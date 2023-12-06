@@ -14,16 +14,19 @@ const ProductList = () => {
   const [products, setProudcts] = useState<ProductListType>([]);
 
   useEffect(() => {
-    // console.log("상품목록조회 컴포넌트가 렌더링 됩니다.");
-
+    window.scrollTo(0, 0);
     const getFetch = async () => {
-      const response = await axios.get<ProductListResType>(
-        `${BASE_URL}/products`
-      );
-      const responseData = response.data.item;
+      try {
+        const response = await axios.get<ProductListResType>(
+          `${BASE_URL}/products`
+        );
+        const responseData = response.data.item;
 
-      // console.log(responseData);
-      setProudcts(responseData);
+        // console.log(responseData);
+        setProudcts(responseData);
+      } catch (error) {
+        console.error("상품 목록을 가져오는데 에러가 발생했습니다.", error);
+      }
     };
 
     getFetch();
@@ -36,9 +39,13 @@ const ProductList = () => {
         내 주차장 등록하기
       </button>
       <ul className={classes["product-list"]}>
-        {products?.map((product) => {
-          return <ProductItem key={product._id} product={product} />;
-        })}
+        {products.length > 0 ? (
+          products.map((product) => {
+            return <ProductItem key={product._id} product={product} />;
+          })
+        ) : (
+          <p>등록된 상품이 암것도 없어요ㅠㅠ</p>
+        )}
       </ul>
     </div>
   );
