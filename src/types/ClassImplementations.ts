@@ -24,6 +24,9 @@ export class UserInputClass extends Person {
   constructor(){
     super(),
     this.passwordCheck = "";
+  }
+}
+
 export class UserBasicInfo implements UserBasicInfoType {
   _id: number;
   email: string;
