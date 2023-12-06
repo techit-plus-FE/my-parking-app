@@ -3,17 +3,17 @@
 import axios from "axios";
 import { StateCreator} from "zustand";
 import { BASE_URL } from "../services/BaseUrl";
-
+import { UserBasicInfo } from "../types/classImplementations";
 
 //index.ts Store에서도 AuthSlice를 참조하기 때문에 types 파일에 AuthSlice type을 선언하였습니다.
 
-const requestSignUp: (arg: UserInputType) => Promise<boolean> = async (
-  UserInput: UserInputType
+const requestSignUp: (arg: Person) => Promise<boolean> = async (
+  UserInput: Person
   ) => {
 
   // 서버로 회원가입 요청 보내기
   try {
-        const response: AuthResponseType = await axios.post<UserInputType, AuthResponseType>(
+        const response: AuthResponseType = await axios.post<Person, AuthResponseType>(
           `${BASE_URL}/users/`,
           UserInput,
         )
@@ -53,7 +53,7 @@ const requestEmailVerification: (arg: string) => void = async (
 };
 
 //로그인 후 토큰 받아오는 함수
-const userLogin = async (email: string, password: string) => {
+const requestUserLogin = async (email: string, password: string) => {
   // axios body
   try {
     const userInfo = {
@@ -61,7 +61,7 @@ const userLogin = async (email: string, password: string) => {
       password: password,
     };
 
-    const response = await axios.post(
+    const response: LoginResponseType = await axios.post(
       "https://localhost/api/users/login",
       userInfo
     );
@@ -71,25 +71,51 @@ const userLogin = async (email: string, password: string) => {
     }
     // response 객체 안에 item return
     return response.data.item;
-  } catch {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (Error: any) {
+    if (Error.response) {
+      alert(Error.response.data.message);
+    }
     console.error("로그인이 실패하였습니다.");
   }
+  return {... new UserBasicInfo(), token : {accessToken : "" , refreshToken : "" }}
 };
+
 
 //stateKey는 로컬 스토리지에 저장된 state객체의 keyName 입니다.
 //localStorageKey 는 로컬 스토리지에 저장될 keyName 입니다.
 
-export const createAuthSlice: StateCreator<AuthSlice, []> = () => ({
-  userToken: "",
-  userDetailInfo: {} as UserDetailDataType,
-  verifyEmail: (email: string) => {
-    requestEmailVerification(email)
+export const createAuthSlice: StateCreator<AuthSlice, []> = (set) => ({
+  userToken : {
+    accessToken : '',
+    refreshToken : '',
   },
-  signUp: (UserInput: UserInputType)=>{
+  userBasicInfo : new UserBasicInfo(), 
+  isLoggedIn : false,
+  verifyEmail: (email: string) => {
+    requestEmailVerification(email);
+  },
+  signUp: (UserInput: Person)=>{
     return requestSignUp(UserInput)
   },
-  handleLoginResponse(email, password) {
-    userLogin(email, password)
+  login: async function (email: string, password: string) {
+    return requestUserLogin(email, password);
   },
-
+  updateUserBasicInfo(userToken: TokenType, userBasicInfo: UserBasicInfoType){
+    set(() => ({
+      userToken : userToken,
+      userBasicInfo: userBasicInfo,
+      isLoggedIn: true,
+    }))
+  },
+  logout: () => {
+    set(()=> ({
+      userToken :{
+        accessToken : "",
+        refreshToken : "",
+      },
+      userBasicInfo : new UserBasicInfo(),
+      isLoggedIn: false,
+  }))
+  }
 });
