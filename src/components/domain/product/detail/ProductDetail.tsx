@@ -15,11 +15,12 @@ import useCustomAxios from "../../../../services/useCustomAxios";
 
 const ProductDetail = () => {
   const { productId } = useParams();
+
   const navigate = useNavigate();
 
   const axiosInstance = useCustomAxios();
 
-  const user = useBoundStore((state) => state.userDetailInfo);
+  const user = useBoundStore((state) => state.userBasicInfo);
 
   const [loading, setLoading] = useState(true);
   const [productData, setProductData] = useState<ProductItemType>({

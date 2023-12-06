@@ -1,11 +1,14 @@
 import { useNavigate } from "react-router-dom";
-
+import axios from "axios";
 import ProductForm from "./ProductForm";
-import useCustomAxios from "../../../../services/useCustomAxios";
+// import useCustomAxios from "../../../../services/useCustomAxios";
+import { BASE_URL } from "../../../../services/BaseUrl";
+import { useBoundStore } from "../../../../store";
 
 const ProductRegist = () => {
   const navigate = useNavigate();
-  const axiosInstance = useCustomAxios();
+  const token = useBoundStore((s) => s.userToken.accessToken);
+  // const axiosInstance = useCustomAxios();
 
   const initialProduct: ProductItemType = {
     name: "",
@@ -45,7 +48,15 @@ const ProductRegist = () => {
       },
     };
 
-    const response = await axiosInstance.post(`/seller/products`, sendAllData);
+    const response = await axios.post(
+      `${BASE_URL}/seller/products`,
+      sendAllData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     console.log(response.data);
     navigate("/home");
