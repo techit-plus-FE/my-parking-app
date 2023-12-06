@@ -1,0 +1,33 @@
+.CommonOrderListUI {
+  /* border: 1px solid red; */
+  padding: 20px;
+  background-color: #e0e0e0;
+  border-radius: 10px;
+}
+
+.orderWrapper {
+  /* border: 1px solid blue; */
+  background-color: #e0e0e0;
+  display: flex;
+  align-items: center;
+}
+
+.imgWrapper {
+  width: 200px;
+  height: 100px;
+}
+
+.imgWrapper img {
+  height: 100%;
+  width: 100%;
+  border-radius: 10px;
+}
+
+.orderPrice {
+  font-weight: bold;
+}
+
+.itemWrapper {
+  flex-grow: 2;
+  text-align: center;
+}
