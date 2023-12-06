@@ -14,7 +14,7 @@ const Home = () => {
     lng: "",
   });
   const test = updateTokenStore((state) => state.isLoggedIn);
-  console.log(test);
+  // console.log(test);
 
   return (
     <div className={classes.container}>

@@ -10,12 +10,12 @@ import DetailComponent from "./DetailComponent";
 import PriceAndBtnComponent from "./PriceAndBtnComponent";
 
 import classes from "./ProductDetail.module.css";
-import { useBoundStore } from "../../../../store";
+import { upDateUserBasicDataStore } from "../../../../store/authSlice";
 import Loading from "../../../common/Loading";
 
 const ProductDetail = () => {
   const { productId } = useParams();
-  const user = useBoundStore((state) => state.userDetailInfo);
+  const userInfo = upDateUserBasicDataStore((state) => state.userBasicInfo);
 
   const [loading, setLoading] = useState(true);
   const [productData, setProductData] = useState<ProductItemType>({
@@ -67,7 +67,7 @@ const ProductDetail = () => {
       {/* 상품 이미지 컴포넌트 */}
       <MainImagesComponent product={productData} />
       {/* 판매자 정보 컴포넌트 */}
-      <SellerInfoComponent user={user} />
+      <SellerInfoComponent user={userInfo} />
       {/* 상품 상세 정보 컴포넌트 */}
       <DetailComponent product={productData} />
       {/* 구매 및 가격 컴포넌트 */}
