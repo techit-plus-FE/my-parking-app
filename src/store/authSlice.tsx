@@ -104,7 +104,8 @@ export const createAuthSlice: StateCreator<AuthSlice, []> = (set) => ({
   updateUserBasicInfo(userToken: TokenType, userBasicInfo: UserBasicInfoType){
     set(() => ({
       userToken : userToken,
-      userBasicInfo: userBasicInfo
+      userBasicInfo: userBasicInfo,
+      isLoggedIn: true,
     }))
   },
   logout: () => {
@@ -113,7 +114,8 @@ export const createAuthSlice: StateCreator<AuthSlice, []> = (set) => ({
         accessToken : "",
         refreshToken : "",
       },
-      userBasicInfo : new UserBasicInfo()
+      userBasicInfo : new UserBasicInfo(),
+      isLoggedIn: false,
   }))
   }
 });
