@@ -1,10 +1,6 @@
 import classes from "./MainImagesComponent.module.css";
 
-const MainImagesComponent = ({
-  product,
-}: {
-  product: ProductDetailItemType;
-}) => {
+const MainImagesComponent = ({ product }: { product: ProductItemType }) => {
   return (
     <div className={classes.wrapper}>
       <img src={product.mainImages[0]} alt="이미지 미리보기"></img>

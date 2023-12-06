@@ -1,31 +1,37 @@
 // import { create } from "zustand";
 
 import axios from "axios";
-import { StateCreator } from "zustand";
+import { StateCreator, create } from "zustand";
 import { BASE_URL } from "../services/BaseUrl";
+import { devtools, persist } from "zustand/middleware";
 
 //index.ts Store에서도 AuthSlice를 참조하기 때문에 types 파일에 AuthSlice type을 선언하였습니다.
 
-const requestSignUp: (arg: UserInputType) => void = async (
+const requestSignUp: (arg: UserInputType) => Promise<boolean> = async (
   UserInput: UserInputType
-) => {
+  ) => {
+
   // 서버로 회원가입 요청 보내기
   try {
-    const response = await axios.post<UserInputType, AuthResponseType>(
-      `${BASE_URL}/users/`,
-      UserInput
-    );
-    if (response.data.ok === 1) {
-      alert("회원가입이 완료되었습니다.");
-    }
-  } catch (Error: any) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    if (Error.response) {
-      alert(Error.response.data.message);
-    }
-    console.error("Error:", Error);
+        const response: AuthResponseType = await axios.post<UserInputType, AuthResponseType>(
+          `${BASE_URL}/users/`,
+          UserInput,
+        )
+        if (response.data.ok === 1) {
+          alert("회원가입이 완료되었습니다.")
+          return true
+        } 
   }
-};
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   catch(Error: any) {
+    if (Error.response){
+      alert(Error.response.data.message)
+      }
+    console.error("Error:", Error);
+    return false
+    }
+  return false
+  }
 
 const requestEmailVerification: (arg: string) => void = async (
   email: string
@@ -37,8 +43,8 @@ const requestEmailVerification: (arg: string) => void = async (
     if (response.data.ok === 1) {
       alert("이메일 인증이 완료되었습니다.");
     }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (Error: any) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     if (Error.response) {
       alert(Error.response.data.message);
     }
@@ -54,53 +60,106 @@ const userLogin = async (email: string, password: string) => {
       email: email,
       password: password,
     };
-    // console.log(userInfo);
 
     const response = await axios.post(
       "https://localhost/api/users/login",
       userInfo
     );
-    const LoginResponseData = response.data.item;
-
-    localStorage.setItem("userDetailData", JSON.stringify(LoginResponseData));
-    localStorage.setItem(
-      "userToken",
-      JSON.stringify(LoginResponseData.token.accessToken)
-    );
 
     if (response.data.ok) {
-      // console.log(LoginResponseData);
-
       alert("로그인이 완료되었습니다.");
     }
-
     // response 객체 안에 item return
-    return LoginResponseData;
+    return response.data.item;
   } catch {
     console.error("로그인이 실패하였습니다.");
   }
 };
 
-export const createAuthSlice: StateCreator<AuthSlice, []> = (set) => ({
-  userDetailInfo: JSON.parse(localStorage.getItem("userDetailData") || "{}"),
-  userToken: localStorage.getItem("userToken") || "",
 
+export const updateTokenStore = create(
+  devtools(
+    persist<updateTokenStoreType>(
+      (set) => ({
+        //로그인 된 유저의 현재 토큰값이 필요할 때 token 사용하시면 됩니다.
+        userToken: "",
+        isLoggedIn: false,
+        updateUserToken: async (email: string, password: string) => {
+          const userData = await userLogin(email, password);
+          set(() => ({
+            userToken: userData.token.accessToken,
+            //로그인 시 true
+            isLoggedIn: true,
+          }));
+        },
+
+        deleteUserToken: () => {
+          set(() => ({ userToken: "", isLoggedIn: false }));
+        },
+      }),
+      {
+        name: "user-token",
+      }
+    )
+  )
+);
+
+export const upDateUserBasicDataStore = create(
+  persist<upDateUserBasicDataStoreType>(
+    (set) => ({
+      //로그인 된 유저의 데이터 값이 필요할 때 userBasicInfo 사용하시면 됩니다.
+      userBasicInfo: {
+        _id: 0,
+        email: "",
+        name: "",
+        type: "",
+        phone: "",
+        address: "",
+        createdAt: "",
+        updatedAt: "",
+        token: {
+          accessToken: "",
+          refreshToken: "",
+        },
+      },
+      updateUserBasicInfo: async (email: string, password: string) => {
+        const userData = await userLogin(email, password);
+        set(() => ({ userBasicInfo: userData }));
+      },
+      deleteUserToken: () => {
+        set(() => ({
+          userBasicInfo: {
+            _id: 0,
+            email: "",
+            name: "",
+            type: "",
+            phone: "",
+            address: "",
+            createdAt: "",
+            updatedAt: "",
+            token: {
+              accessToken: "",
+              refreshToken: "",
+            },
+          },
+          isLoggedIn: false,
+        }));
+      },
+    }),
+    {
+      name: "user-basic-info",
+    }
+  )
+);
+
+//stateKey는 로컬 스토리지에 저장된 state객체의 keyName 입니다.
+//localStorageKey 는 로컬 스토리지에 저장될 keyName 입니다.
+
+export const createAuthSlice: StateCreator<AuthSlice, []> = (set) => ({
   verifyEmail: (email: string) => {
     requestEmailVerification(email);
-    set(() => ({}));
   },
   signUp: (UserInput: UserInputType) => {
     requestSignUp(UserInput);
-    set(() => ({}));
-  },
-
-  handleLoginResponse: async (email: string, password: string) => {
-    const userDetailDataResponse = await userLogin(email, password);
-    // user 토큰 값 저장
-    set(() => ({
-      userToken: userDetailDataResponse.token.accessToken,
-      userDetailInfo: userDetailDataResponse,
-    }));
-    // user 정보 저장
   },
 });
