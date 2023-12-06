@@ -3,7 +3,7 @@ import ProductList from "../domain/product/list/ProductList";
 
 import classes from "./Home.module.css";
 import KakaoMap from "./map/KakaoMap";
-import { updateTokenStore } from "../../store/authSlice";
+// import { updateTokenStore } from "../../store/authSlice";
 
 const Home = () => {
   // 임시 위치 상태 -> 여긴 setLocation이 필요없는 컴폰너트
@@ -13,8 +13,8 @@ const Home = () => {
     lat: "",
     lng: "",
   });
-  const test = updateTokenStore((state) => state.isLoggedIn);
-  console.log(test);
+  // const test = updateTokenStore((state) => state.isLoggedIn);
+  // console.log(test);
 
   return (
     <div className={classes.container}>

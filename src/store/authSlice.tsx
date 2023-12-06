@@ -1,9 +1,9 @@
 // import { create } from "zustand";
 
 import axios from "axios";
-import { StateCreator, create } from "zustand";
+import { StateCreator} from "zustand";
 import { BASE_URL } from "../services/BaseUrl";
-import { devtools, persist } from "zustand/middleware";
+import { UserBasicInfo } from "../types/classImplementations";
 
 //index.ts Store에서도 AuthSlice를 참조하기 때문에 types 파일에 AuthSlice type을 선언하였습니다.
 
@@ -53,7 +53,7 @@ const requestEmailVerification: (arg: string) => void = async (
 };
 
 //로그인 후 토큰 받아오는 함수
-const userLogin = async (email: string, password: string) => {
+const requestUserLogin = async (email: string, password: string) => {
   // axios body
   try {
     const userInfo = {
@@ -61,7 +61,7 @@ const userLogin = async (email: string, password: string) => {
       password: password,
     };
 
-    const response = await axios.post(
+    const response: LoginResponseType = await axios.post(
       "https://localhost/api/users/login",
       userInfo
     );
@@ -71,95 +71,49 @@ const userLogin = async (email: string, password: string) => {
     }
     // response 객체 안에 item return
     return response.data.item;
-  } catch {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (Error: any) {
+    if (Error.response) {
+      alert(Error.response.data.message);
+    }
     console.error("로그인이 실패하였습니다.");
   }
+  return {... new UserBasicInfo(), token : {accessToken : "" , refreshToken : "" }}
 };
 
-
-export const updateTokenStore = create(
-  devtools(
-    persist<updateTokenStoreType>(
-      (set) => ({
-        //로그인 된 유저의 현재 토큰값이 필요할 때 token 사용하시면 됩니다.
-        userToken: "",
-        isLoggedIn: false,
-        updateUserToken: async (email: string, password: string) => {
-          const userData = await userLogin(email, password);
-          set(() => ({
-            userToken: userData.token.accessToken,
-            //로그인 시 true
-            isLoggedIn: true,
-          }));
-        },
-
-        deleteUserToken: () => {
-          set(() => ({ userToken: "", isLoggedIn: false }));
-        },
-      }),
-      {
-        name: "user-token",
-      }
-    )
-  )
-);
-
-export const upDateUserBasicDataStore = create(
-  persist<upDateUserBasicDataStoreType>(
-    (set) => ({
-      //로그인 된 유저의 데이터 값이 필요할 때 userBasicInfo 사용하시면 됩니다.
-      userBasicInfo: {
-        _id: 0,
-        email: "",
-        name: "",
-        type: "",
-        phone: "",
-        address: "",
-        createdAt: "",
-        updatedAt: "",
-        token: {
-          accessToken: "",
-          refreshToken: "",
-        },
-      },
-      updateUserBasicInfo: async (email: string, password: string) => {
-        const userData = await userLogin(email, password);
-        set(() => ({ userBasicInfo: userData }));
-      },
-      deleteUserToken: () => {
-        set(() => ({
-          userBasicInfo: {
-            _id: 0,
-            email: "",
-            name: "",
-            type: "",
-            phone: "",
-            address: "",
-            createdAt: "",
-            updatedAt: "",
-            token: {
-              accessToken: "",
-              refreshToken: "",
-            },
-          },
-          isLoggedIn: false,
-        }));
-      },
-    }),
-    {
-      name: "user-basic-info",
-    }
-  )
-);
 
 //stateKey는 로컬 스토리지에 저장된 state객체의 keyName 입니다.
 //localStorageKey 는 로컬 스토리지에 저장될 keyName 입니다.
 
 export const createAuthSlice: StateCreator<AuthSlice, []> = (set) => ({
+  userToken : {
+    accessToken : '',
+    refreshToken : '',
+  },
+  userBasicInfo : new UserBasicInfo(), 
+  isLoggedIn : false,
   verifyEmail: (email: string) => {
     requestEmailVerification(email);
   },
   signUp: (UserInput: UserInputType) => {
-    requestSignUp(UserInput);
+    return requestSignUp(UserInput);
   },
+  login: async function (email: string, password: string) {
+    return requestUserLogin(email, password);
+  },
+  updateUserBasicInfo(userToken: TokenType, userBasicInfo: UserBasicInfoType){
+    set(() => ({
+      userToken : userToken,
+      userBasicInfo: userBasicInfo
+    }))
+  },
+  logout: () => {
+    set(()=> ({
+      userToken :{
+        accessToken : "",
+        refreshToken : "",
+      },
+      userBasicInfo : new UserBasicInfo()
+  }))
+  }
 });
