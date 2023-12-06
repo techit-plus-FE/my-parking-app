@@ -1,4 +1,4 @@
-interface UserInputType {
+interface Person {
   email: string;
   password: string;
   name: string;

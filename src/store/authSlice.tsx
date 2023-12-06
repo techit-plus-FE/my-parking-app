@@ -7,13 +7,13 @@ import { UserBasicInfo } from "../types/classImplementations";
 
 //index.ts Store에서도 AuthSlice를 참조하기 때문에 types 파일에 AuthSlice type을 선언하였습니다.
 
-const requestSignUp: (arg: UserInputType) => Promise<boolean> = async (
-  UserInput: UserInputType
+const requestSignUp: (arg: Person) => Promise<boolean> = async (
+  UserInput: Person
   ) => {
 
   // 서버로 회원가입 요청 보내기
   try {
-        const response: AuthResponseType = await axios.post<UserInputType, AuthResponseType>(
+        const response: AuthResponseType = await axios.post<Person, AuthResponseType>(
           `${BASE_URL}/users/`,
           UserInput,
         )
@@ -95,8 +95,8 @@ export const createAuthSlice: StateCreator<AuthSlice, []> = (set) => ({
   verifyEmail: (email: string) => {
     requestEmailVerification(email);
   },
-  signUp: (UserInput: UserInputType) => {
-    return requestSignUp(UserInput);
+  signUp: (UserInput: Person)=>{
+    return requestSignUp(UserInput)
   },
   login: async function (email: string, password: string) {
     return requestUserLogin(email, password);
