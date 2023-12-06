@@ -51,7 +51,13 @@ const ProductRegist = () => {
     navigate("/home");
   };
 
-  return <ProductForm onSubmit={handleSubmit} product={initialProduct} />;
+  return (
+    <ProductForm
+      title="등록"
+      onSubmit={handleSubmit}
+      product={initialProduct}
+    />
+  );
 };
 
 export default ProductRegist;
