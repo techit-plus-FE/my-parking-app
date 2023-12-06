@@ -3,7 +3,7 @@ import classes from "./DetailComponent.module.css";
 
 const DetailComponent = ({ product }: { product: ProductItemType }) => {
   const { createdAt: productCreatedAt } = product;
-  console.log(product.replies);
+
   // 날짜 시간 제거 함수 -> 즉시 실행함수로 -> 함수로 만들어서 사용하기 실패. 나중에 다시시도
   // const removeLocalTime = (createdAt: string) => {
   //   if (createdAt === replyCreatedAt) {

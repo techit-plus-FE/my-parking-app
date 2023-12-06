@@ -7,3 +7,19 @@
   justify-content: flex-end;
   gap: 20px;
 }
+
+.util-action > button {
+  border: none;
+  background-color: transparent;
+  padding: 10px 5px;
+  color: var(--color-primary-400);
+  cursor: pointer;
+}
+
+.util-action > button:nth-child(1):hover {
+  color: var(--color-error-light);
+}
+
+.util-action > button:nth-child(2):hover {
+  color: var(--color-primary-800);
+}

@@ -14,16 +14,18 @@ import { HOST } from "../../../../services/BaseUrl";
 import { PORT } from "../../../../services/BaseUrl";
 
 type Props = {
+  title: string;
   onSubmit: (data: ProductItemType, images: string[] | undefined) => void;
   product: ProductItemType;
 };
 
+// 이미지 파일 응답 데이터 타입
 type FilesResType = {
   originalname: string;
   name: string;
   path: string;
 };
-const ProductForm = ({ onSubmit, product }: Props) => {
+const ProductForm = ({ title, onSubmit, product }: Props) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState<ProductItemType>({
     name: product.name,
@@ -144,6 +146,7 @@ const ProductForm = ({ onSubmit, product }: Props) => {
     }
   };
 
+  // 최종 서버로 상태 끌어올리기
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
     onSubmit(formData, mainImages);
@@ -155,7 +158,7 @@ const ProductForm = ({ onSubmit, product }: Props) => {
       className={classes["form-container"]}
       onSubmit={handleSubmit}
     >
-      <h2>내 주차장 등록하기</h2>
+      <h2>내 주차장 {title}하기</h2>
       <div className={classes["info-wrapper"]}>
         <label htmlFor="name">제목</label>
         <input
@@ -234,7 +237,11 @@ const ProductForm = ({ onSubmit, product }: Props) => {
 
       <div className={classes["location-wrapper"]}>
         <label>위치 선택하기</label>
-        <KakaoMap formData={formData} setFormData={setFormData} />
+        <KakaoMap
+          formData={formData}
+          setFormData={setFormData}
+          product={product}
+        />
       </div>
 
       <div className={classes.action}>

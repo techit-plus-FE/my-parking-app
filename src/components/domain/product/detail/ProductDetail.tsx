@@ -85,7 +85,7 @@ const ProductDetail = () => {
       <MainImagesComponent product={productData} />
       {/* 판매자 정보 컴포넌트 */}
       <SellerInfoComponent user={user} />
-
+      {/*추후 헤더에 들어갈 삭제 수정하는 엑션 버튼들 컴포넌트로 만들예정*/}
       <div className={classes["util-action"]}>
         <button type="button" onClick={() => handleRemoveProduct(productId)}>
           삭제하기
@@ -94,6 +94,7 @@ const ProductDetail = () => {
           수정하기
         </button>
       </div>
+
       {/* 상품 상세 정보 컴포넌트 */}
       <DetailComponent product={productData} />
       {/* 구매 및 가격 컴포넌트 */}
