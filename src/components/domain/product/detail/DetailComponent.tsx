@@ -4,7 +4,6 @@ import classes from "./DetailComponent.module.css";
 const DetailComponent = ({ product }: { product: ProductItemType }) => {
   const { createdAt: productCreatedAt } = product;
   console.log(product.replies);
-
   // 날짜 시간 제거 함수 -> 즉시 실행함수로 -> 함수로 만들어서 사용하기 실패. 나중에 다시시도
   // const removeLocalTime = (createdAt: string) => {
   //   if (createdAt === replyCreatedAt) {
@@ -39,7 +38,15 @@ const DetailComponent = ({ product }: { product: ProductItemType }) => {
       <div className={classes["replies-list"]}>
         <h3>리뷰</h3>
         {product.replies?.map((reply) => {
-          return <li key={reply._id}>{reply.content}</li>;
+          return (
+            <div key={reply._id} className={classes["reply-box"]}>
+              <div className={classes["reply-box-info"]}>
+                <small>{reply.userName}</small>
+                <small>{reply.createdAt.slice(0, 11)}</small>
+              </div>
+              <p>{reply.content}</p>
+            </div>
+          );
         })}
       </div>
     </div>
