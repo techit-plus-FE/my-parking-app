@@ -11,13 +11,15 @@ import { useNavigate } from "react-router-dom";
 
 const ProductList = () => {
   const navigage = useNavigate();
-  const [products, setProudcts] = useState<ProductResList>([]);
+  const [products, setProudcts] = useState<ProductListType>([]);
 
   useEffect(() => {
-    console.log("상품목록조회 컴포넌트가 렌더링 됩니다.");
+    // console.log("상품목록조회 컴포넌트가 렌더링 됩니다.");
 
     const getFetch = async () => {
-      const response = await axios.get<ProductRes>(`${BASE_URL}/products`);
+      const response = await axios.get<ProductListResType>(
+        `${BASE_URL}/products`
+      );
       const responseData = response.data.item;
 
       // console.log(responseData);

@@ -1,7 +1,7 @@
-import React from "react";
+import ProductEdit from "../../components/domain/product/edit/ProductEdit";
 
 const ProductEditPage = () => {
-  return <div>상품 수정 페이지 입니다.</div>;
+  return <ProductEdit />;
 };
 
 export default ProductEditPage;

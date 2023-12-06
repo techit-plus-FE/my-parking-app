@@ -17,28 +17,16 @@ type extraType = {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface AuthSlice {
-  userToken: string;
-  userDetailInfo: UserDetailDataType;
+  userToken : TokenType
+  userBasicInfo : UserBasicInfoType, 
+  isLoggedIn : boolean,
   signUp: (UserInput: UserInputType) => Promise<boolean>;
   verifyEmail: (email: string) => void;
-  handleLoginResponse: (email: string, password: string) => void; // 인증
+  login: (email: string, password: string) => Promise<UserBasicInfoType & {token : TokenType}>;
+  updateUserBasicInfo: (userToken: TokenType, userBasicInfo: UserBasicInfoType) => void;
+  logout: () => void;
 }
 
-interface PostLoginData {
-  address: string;
-  createdAt: string;
-  email: string;
-  extra: { X_position: string; Y_position: string };
-  name: string;
-  phone: string;
-  token: {
-    accessToken: string;
-    refreshToken: string;
-  };
-  type: string;
-  updatedAt: string;
-  _id: number;
-}
 
 interface AuthResponseType {
   config: object;
@@ -47,7 +35,7 @@ interface AuthResponseType {
     message?: string;
   };
 }
-interface UserDetailDataType {
+interface UserBasicInfoType {
   _id: number;
   email: string;
   name: string;
@@ -56,8 +44,17 @@ interface UserDetailDataType {
   address: string;
   createdAt: string;
   updatedAt: string;
-  token: {
+}
+
+interface TokenType {
     accessToken: string;
     refreshToken: string;
+  }
+
+interface LoginResponseType {
+  config: object;
+  data: {
+    ok: number;
+    item : UserBasicInfoType & {token : TokenType},
   };
-}
+} 
