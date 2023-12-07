@@ -44,6 +44,10 @@ const router = createBrowserRouter([
         path: "/signup",
         element: <SignUpPage />,
       },
+      {
+        path: "/error",
+        element: <ErrorPage />,
+      },
     ],
   },
   {
@@ -105,7 +109,7 @@ const router = createBrowserRouter([
                 element: <ProductDetailPage />,
               },
               {
-                path: ":productId/edit",
+                path: "edit",
                 element: <ProductEditPage />,
               },
             ],
