@@ -7,9 +7,9 @@ import DetailComponent from "./DetailComponent";
 import PriceAndBtnComponent from "./PriceAndBtnComponent";
 
 import classes from "./ProductDetail.module.css";
-import { upDateUserBasicDataStore } from "../../../../store/authSlice";
 import Loading from "../../../common/Loading";
 import useCustomAxios from "../../../../services/useCustomAxios";
+import { useBoundStore } from "../../../../store";
 
 const ProductDetail = () => {
   const { productId } = useParams();

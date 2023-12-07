@@ -10,8 +10,8 @@ const Landing = () => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      navigate("/home");
-    }, 5000);
+      navigate("/login");
+    }, 2000);
 
     return () => clearTimeout(timer);
   }, [navigate]);

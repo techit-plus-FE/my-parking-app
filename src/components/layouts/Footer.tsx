@@ -8,17 +8,12 @@ import PersonIcon from "@mui/icons-material/Person";
 import Box from "@mui/material/Box";
 import { useNavigate } from "react-router-dom";
 import classes from "./Footer.module.css";
-import {
-  updateTokenStore,
-  upDateUserBasicDataStore,
-} from "../../store/authSlice";
+import { useBoundStore } from "../../store";
+
 const Footer: React.FC = () => {
   //수정하기 변경하기
   // const iconActiveFill = "var(--color-gray-400)";
-  const deleteUserToken = updateTokenStore((state) => state.deleteUserToken);
-  const deleteUserBasicData = upDateUserBasicDataStore(
-    (state) => state.deleteUserBasicData
-  );
+  const logout = useBoundStore((state) => state.logout);
 
   const [value, setValue] = React.useState(0);
   const navigate = useNavigate();
@@ -27,10 +22,10 @@ const Footer: React.FC = () => {
     navigate(path);
   };
 
-  const logout = () => {
-    deleteUserToken();
-    deleteUserBasicData();
-  };
+  // const logout = () => {
+  //   deleteUserToken();
+  //   deleteUserBasicData();
+  // };
 
   return (
     <Box sx={{ width: "100%" }} className={classes.footerContainer}>
