@@ -1,14 +1,11 @@
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+
 import ProductForm from "./ProductForm";
-// import useCustomAxios from "../../../../services/useCustomAxios";
-import { BASE_URL } from "../../../../services/BaseUrl";
-import { useBoundStore } from "../../../../store";
+import useCustomAxios from "../../../../services/useCustomAxios";
 
 const ProductRegist = () => {
   const navigate = useNavigate();
-  const token = useBoundStore((s) => s.userToken.accessToken);
-  // const axiosInstance = useCustomAxios();
+  const axiosInstance = useCustomAxios();
 
   const initialProduct: ProductItemType = {
     name: "",
@@ -28,38 +25,36 @@ const ProductRegist = () => {
     data: ProductItemType,
     mainImages: string[] | undefined
   ) => {
-    // 2. 바이너리양식 이미지 추출해서 최종 Post 보내기
-    const sendAllData = {
-      name: data.name,
-      content: data.content,
-      shippingFees: 0,
-      price: Number(data.price),
-      mainImages: mainImages,
-      show: true, // 기본값
-      active: true, // 기본값
-      quantity: 1, // 기본값
-      buyQuantity: 0, // 기본값
-      extra: {
-        startDate: data.extra?.startDate,
-        endDate: data.extra?.endDate,
-        address: data.extra?.address,
-        lat: data.extra?.lat,
-        lng: data.extra?.lng,
-      },
-    };
-
-    const response = await axios.post(
-      `${BASE_URL}/seller/products`,
-      sendAllData,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
+    try {
+      const sendAllData = {
+        name: data.name,
+        content: data.content,
+        shippingFees: 0,
+        price: Number(data.price),
+        mainImages: mainImages,
+        show: true, // 기본값
+        active: true, // 기본값
+        quantity: 1, // 기본값
+        buyQuantity: 0, // 기본값
+        extra: {
+          startDate: data.extra?.startDate,
+          endDate: data.extra?.endDate,
+          address: data.extra?.address,
+          lat: data.extra?.lat,
+          lng: data.extra?.lng,
         },
-      }
-    );
+      };
 
-    console.log(response.data);
-    navigate("/home");
+      const response = await axiosInstance.post(
+        `/seller/products`,
+        sendAllData
+      );
+
+      console.log(response.data);
+      navigate("/home");
+    } catch (error) {
+      console.error("상품을 등록하는데 문제가 발생했습니다.", error);
+    }
   };
 
   return (
