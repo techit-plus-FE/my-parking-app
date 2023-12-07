@@ -87,7 +87,7 @@ const ProductForm = ({ title, onSubmit, product }: Props) => {
             "Content-Type": "multipart/form-data",
           },
         });
-        console.log(imagesRes.data);
+        // console.log(imagesRes.data);
         // 응답에서 'path' 값만 추출하여 배열로
         let imageUrlLists: string[] = [];
 
@@ -103,7 +103,7 @@ const ProductForm = ({ title, onSubmit, product }: Props) => {
 
         // 최대 10개까지만
         const slicedImageUrlLists = imageUrlLists.slice(0, 10);
-        console.log(slicedImageUrlLists);
+
         setMainImages(slicedImageUrlLists);
       } catch (err) {
         console.error("이미지를 업로드하는데 문제가 발생하였습니다.", err);
