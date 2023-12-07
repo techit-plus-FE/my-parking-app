@@ -1,9 +1,9 @@
 import React from "react";
-import classes from "./CommonOrderListUl.module.css";
+import classes from "./OrderCard.module.css";
 
 const CommonOrderListUI: React.FC = () => {
   return (
-    <div className={classes.CommonOrderListUI}>
+    <div className={classes.orderCardContainer}>
       <div className={classes.orderWrapper}>
         <div>
           <div className={classes.imgWrapper}>
