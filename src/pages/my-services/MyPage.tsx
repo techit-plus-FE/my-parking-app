@@ -6,7 +6,6 @@ import MyProfile from "../../components/domain/my-services/MyProfile";
 
 const MyPage = () => {  
   return (<>
-    마이 페이지 입니다.
     <div>
       <MyProfile/>
     </div>
