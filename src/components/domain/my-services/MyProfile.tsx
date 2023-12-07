@@ -1,6 +1,7 @@
 import React, {useEffect} from "react";
 import { useBoundStore } from "../../../store";
 import { useNavigate} from "react-router-dom";
+import { CommonButtonMiddle } from "../../UI/CommonButton";
 
 const MyProfile = () => {
   const Store = useBoundStore((state)=>state)
@@ -44,8 +45,8 @@ const MyProfile = () => {
       </div>
     </div>
     {/* 버튼들 */}
-    <button>주문 목록</button>
-    <button>리뷰 관리</button>
+    <CommonButtonMiddle text = "주문 목록"/>
+    <CommonButtonMiddle text = "리뷰 관리"/>
   </>)
 };
 
