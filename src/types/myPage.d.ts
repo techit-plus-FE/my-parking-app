@@ -1,6 +1,6 @@
 interface MyPageSlice {
   myInfo : UserDetailInfoType
-  getMyInfo: (id: number) => Promise<UserDetailInfoType>
+  getMyInfo: (id: number, accessToken: string) => Promise<UserDetailInfoType>
   setMyInfo: (myInfo: UserDetailInfoType) => void
 }
 

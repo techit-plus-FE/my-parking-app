@@ -1,4 +1,3 @@
-// import { create } from "zustand";
 import {StateCreator} from 'zustand'
 import { BASE_URL } from "../services/BaseUrl"
 import axios from 'axios'
@@ -6,11 +5,11 @@ import { UserDetailInfo } from '../types/classImplementations'
 
 //index.ts Store에서 AuthSlice를 참조하기 때문에 types 파일에 AuthSlice type을 넣었습니다. 
 
-const requestMyInfo: (id: number) => Promise<UserDetailInfoType> = async (id: number) => {
+const requestMyInfo: (id: number, accessToken: string) => Promise<UserDetailInfoType> = async (id: number, accessToken: string) => {
   // 서버로 회원가입 요청 보내기
   try {
         const response = await axios.get<number, MyPageResponseType>(`${BASE_URL}/users/${id}`,{
-            headers: {Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjQsInR5cGUiOiJ1c2VyIiwiaWF0IjoxNzAxNjc3ODY2LCJleHAiOjE3MDE2ODUwNjYsImlzcyI6IkZFU1AwMSJ9.TlknZZO8sr8w8D3yR9dm1Y0SR-b6qTx17dyaJGgJ2VQ`},
+            headers: {Authorization: `Bearer ${accessToken}`},
           })  
         if (response.data.ok === 1) {
           return response.data.item
@@ -40,10 +39,9 @@ export const createMyPageSlice: StateCreator<
 MyPageSlice, 
 []                                                                                                          
 > = (set) => ({
-
   myInfo: new UserDetailInfo(),
-  getMyInfo : async (id: number) => {
-    return await requestMyInfo(id)
+  getMyInfo : async (id: number, accessToken: string) => {
+    return await requestMyInfo(id, accessToken)
   },
   setMyInfo: async (myInfo: UserDetailInfoType) => {
     if (isMyInfo(myInfo)) 
