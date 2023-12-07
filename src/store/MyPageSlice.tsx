@@ -1,5 +1,4 @@
 // import { create } from "zustand";
-import axios from "axios"
 import {StateCreator} from 'zustand'
 import { BASE_URL } from "../services/BaseUrl"
 import { MyInfo, MyPageResponseType, MyPageSlice} from "../types/MyPage"

@@ -11,12 +11,12 @@ interface ProductItemType {
   content: string;
   createdAt?: string;
   updatedAt?: string;
-  extra?: extraDataType;
-  replies?: [];
+  extra?: ExtraDataType;
+  replies?: RepliesDataType[];
 }
 
 // extra 추가 상품 정보 타입
-interface extraDataType {
+interface ExtraDataType {
   isNew?: boolean;
   isBest?: boolean;
   category?: string[];
@@ -29,6 +29,16 @@ interface extraDataType {
   address?: string | undefined; // 상품등록주소
   lat?: string | undefined; // 상품 주소의 위도 좌표
   lng?: string | undefined; // 상품 주소의 경도 좌표
+}
+
+// 리뷰 데이터 타입
+interface RepliesDataType {
+  _id: number;
+  userName: number;
+  product_id?: number;
+  rating: number;
+  content: string;
+  createdAt: string;
 }
 
 // 상품 리스트 데이터 타입
