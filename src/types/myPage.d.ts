@@ -1,9 +1,15 @@
 interface MyPageSlice {
-  personalInfo: UserInfoType
+  myInfo : UserDetailInfoType
+  getMyInfo: (id: number) => Promise<UserDetailInfoType>
+  setMyInfo: (myInfo: UserDetailInfoType) => void
 }
 
-type UserInfoType = UserInputType & {
-  nickname?: string,
-  introduction?: string,
-  carNumber?: number,
+type UserDetailInfoType = UserBasicInfoType & {extra: ExtraType}
+
+type MyPageResponseType = {
+  config: object;
+  data: {
+    ok: number;
+    item: UserDetailInfoType;
+  };
 }
