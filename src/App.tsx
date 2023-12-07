@@ -28,7 +28,12 @@ const router = createBrowserRouter([
     path: "/",
     id: "NoLayout",
     element: (
-      <RootLayout hasHeader={false} hasFooter={false} hasSearchHeader={false} />
+      <RootLayout
+        isLoggedIn={false}
+        hasHeader={false}
+        hasFooter={false}
+        hasSearchHeader={false}
+      />
     ),
     errorElement: <ErrorPage />,
     children: [
@@ -54,7 +59,12 @@ const router = createBrowserRouter([
     path: "/",
     id: "withSearchHeaderAndFooterLayout",
     element: (
-      <RootLayout hasHeader={false} hasFooter={true} hasSearchHeader={true} />
+      <RootLayout
+        isLoggedIn={true}
+        hasHeader={false}
+        hasFooter={true}
+        hasSearchHeader={true}
+      />
     ),
     errorElement: <ErrorPage />,
     children: [
@@ -72,7 +82,12 @@ const router = createBrowserRouter([
     path: "/",
     id: "withHeaderAndFooterLayout",
     element: (
-      <RootLayout hasHeader={true} hasFooter={true} hasSearchHeader={false} />
+      <RootLayout
+        isLoggedIn={true}
+        hasHeader={true}
+        hasFooter={true}
+        hasSearchHeader={false}
+      />
     ),
     errorElement: <ErrorPage />,
     children: [
