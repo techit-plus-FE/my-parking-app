@@ -1,5 +1,7 @@
+import Error from "../components/common/Error";
+
 const ErrorPage = () => {
-  return <div>에러 페이지 입니다,</div>;
+  return <Error />;
 };
 
 export default ErrorPage;
