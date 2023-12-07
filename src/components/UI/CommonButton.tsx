@@ -46,16 +46,16 @@ export const CommonButton: React.FC<CommonButtonProps> = ({
 };
 
 // 버튼 크기에 따른 UI
-export const CommonButtonSmall = () => {
-  return <CommonButton width="30%" />;
+export const CommonButtonSmall = (props: CommonButtonProps) => {
+  return <CommonButton {...props} width="30%" />;
 };
 
-export const CommonButtonMiddle = () => {
-  return <CommonButton width="60%" />;
+export const CommonButtonMiddle = (props: CommonButtonProps) => {
+  return <CommonButton {...props} width="60%" />;
 };
 
-export const CommonButtonLarge = () => {
-  return <CommonButton width="90%" />;
+export const CommonButtonLarge = (props: CommonButtonProps) => {
+  return <CommonButton {...props} width="90%" />;
 };
 
 // 버튼 색깔에 따른 UI
