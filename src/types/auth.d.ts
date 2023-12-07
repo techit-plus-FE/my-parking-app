@@ -1,4 +1,4 @@
-interface UserInputType {
+interface Person {
   email: string;
   password: string;
   name: string;
@@ -17,25 +17,16 @@ type extraType = {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface AuthSlice {
-  signUp: (UserInput: UserInputType) => void;
+  userToken : TokenType
+  userBasicInfo : UserBasicInfoType, 
+  isLoggedIn : boolean,
+  signUp: (UserInput: UserInputType) => Promise<boolean>;
   verifyEmail: (email: string) => void;
+  login: (email: string, password: string) => Promise<UserBasicInfoType & {token : TokenType}>;
+  updateUserBasicInfo: (userToken: TokenType, userBasicInfo: UserBasicInfoType) => void;
+  logout: () => void;
 }
 
-interface PostLoginData {
-  address: string;
-  createdAt: string;
-  email: string;
-  extra: { X_position: string; Y_position: string };
-  name: string;
-  phone: string;
-  token: {
-    accessToken: string;
-    refreshToken: string;
-  };
-  type: string;
-  updatedAt: string;
-  _id: number;
-}
 
 interface AuthResponseType {
   config: object;
@@ -44,7 +35,7 @@ interface AuthResponseType {
     message?: string;
   };
 }
-interface UserBasicDataType {
+interface UserBasicInfoType {
   _id: number;
   email: string;
   name: string;
@@ -53,21 +44,17 @@ interface UserBasicDataType {
   address: string;
   createdAt: string;
   updatedAt: string;
-  token: {
+}
+
+interface TokenType {
     accessToken: string;
     refreshToken: string;
+  }
+
+interface LoginResponseType {
+  config: object;
+  data: {
+    ok: number;
+    item : UserBasicInfoType & {token : TokenType},
   };
-}
-
-interface updateTokenStoreType {
-  userToken: string;
-  isLoggedIn: boolean;
-  updateUserToken: (email: string, password: string) => Promise<void>;
-  deleteUserToken: () => void;
-}
-
-interface upDateUserBasicDataStoreType {
-  userBasicInfo: UserBasicDataType;
-  deleteUserBasicData: () => void;
-  updateUserBasicInfo: (email: string, password: string) => Promise<void>;
-}
+} 

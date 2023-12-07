@@ -6,7 +6,7 @@ import { useBoundStore } from "../store";
 // 리플래쉬 토큰 앤드포인트 경로
 const REFRESH_URL = "/users/refresh";
 const useCustomAxios = () => {
-  const user = useBoundStore((state) => state.userDetailInfo);
+  const user = useBoundStore((state) => state.userToken.accessToken);
 
   const instance = axios.create({
     baseURL: BASE_URL,

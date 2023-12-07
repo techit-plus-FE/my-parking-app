@@ -34,8 +34,8 @@ interface ExtraDataType {
 // 리뷰 데이터 타입
 interface RepliesDataType {
   _id: number;
-  user_id: number;
-  product_id: number;
+  userName: number;
+  product_id?: number;
   rating: number;
   content: string;
   createdAt: string;

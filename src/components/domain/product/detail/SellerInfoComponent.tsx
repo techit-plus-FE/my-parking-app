@@ -1,7 +1,7 @@
 import classes from "./SellerInfoComponent.module.css";
 import DEFAUlT_AVATAR from "../../../../assets/images/default-avatar.png";
 
-const SellerInfoComponent = ({ user }: { user: UserBasicDataType }) => {
+const SellerInfoComponent = ({ user }: { user: UserBasicInfoType }) => {
   return (
     <div className={classes.wrapper}>
       <div className={classes["seller-info"]}>
