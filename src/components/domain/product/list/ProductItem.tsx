@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 
 import classes from "./ProductItem.module.css";
 
+import NOIMAGES from "../../../../assets/images/no-images.png";
+
 type Props = {
   key: number | undefined;
   product: ProductItemType;
@@ -14,7 +16,14 @@ const ProductItem: React.FC<Props> = ({ product }) => {
     <Link to={`/products/${product._id}`} className={classes["link-to-detail"]}>
       <li className={classes.container}>
         <div className={classes["product-imgBox"]}>
-          <img src={product.mainImages[0]} alt="게시글 사진" />
+          {product.mainImages!.length > 0 ? (
+            <img
+              src={product.mainImages && product.mainImages[0]}
+              alt="게시글 사진"
+            />
+          ) : (
+            <img src={NOIMAGES} />
+          )}
         </div>
         <div className={classes["product-info"]}>
           <h4>{product.name}</h4>

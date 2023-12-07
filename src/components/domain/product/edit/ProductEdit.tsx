@@ -1,14 +1,19 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import ProductForm from "../regist/ProductForm";
+
+import { BASE_URL } from "../../../../services/BaseUrl";
 import useCustomAxios from "../../../../services/useCustomAxios";
+
+import ProductForm from "../regist/ProductForm";
+import Loading from "../../../common/Loading";
 
 const ProductEdit = () => {
   const navigate = useNavigate();
   const { productId } = useParams();
   const axiosInstance = useCustomAxios();
 
-  const initialProduct: ProductItemType = {
+  const [loading, setLoading] = useState(true);
+  const [initialProduct, setInitialProduct] = useState<ProductItemType>({
     name: "",
     content: "",
     price: 0,
@@ -20,31 +25,57 @@ const ProductEdit = () => {
       lat: "",
       lng: "",
     },
+  });
+
+  const handleGetProduct = async () => {
+    try {
+      const response = await axiosInstance<ProductItemResType>(
+        `${BASE_URL}/products/${productId}`
+      );
+      const resItem = response.data.item;
+      setInitialProduct({
+        name: resItem.name,
+        content: resItem.content,
+        price: Number(resItem.price),
+        mainImages: resItem.mainImages,
+        extra: {
+          startDate: resItem.extra?.startDate,
+          endDate: resItem.extra?.endDate,
+          address: resItem.extra?.address,
+          lat: resItem.extra?.lat,
+          lng: resItem.extra?.lng,
+        },
+      });
+      setLoading(false);
+    } catch (err) {
+      console.error("해당 게시글을 불러오는데 실패하였습니다", err);
+    }
   };
 
-  const handleSumbit = async (
-    formData: ProductItemType,
-    mainImages: string[]
+  const handleEditSumbit = async (
+    updatedData: ProductItemType,
+    updatedMainImages: string[] | undefined
   ) => {
-    // 1. 파일 업로드 http post
-    const imagesRes = await axiosInstance.post(`/files`, mainImages);
-    console.log(imagesRes.data.file.path);
-
-    // 2. 바이너리양식 이미지 추출해서 최종 Post 보내기
     const sendAllData = {
-      name: formData.name,
-      content: formData.content,
-      price: formData.price,
-      mainImages: imagesRes.data.file.path,
+      name: updatedData.name,
+      content: updatedData.content,
+      shippingFees: 0,
+      price: Number(updatedData.price),
+      mainImages: updatedMainImages,
+      show: true, // 기본값
+      active: true, // 기본값
+      quantity: 1, // 기본값
+      buyQuantity: 0, // 기본값
       extra: {
-        startDate: formData.extra?.startDate,
-        endDate: formData.extra?.endDate,
-        address: formData.extra?.address,
-        lat: formData.extra?.lat,
-        lng: formData.extra?.lng,
+        startDate: updatedData.extra?.startDate,
+        endDate: updatedData.extra?.endDate,
+        address: updatedData.extra?.address,
+        lat: updatedData.extra?.lat,
+        lng: updatedData.extra?.lng,
       },
     };
 
+    // 수정 요청
     const response = await axiosInstance.patch(
       `seller/products/${productId}`,
       sendAllData
@@ -55,10 +86,17 @@ const ProductEdit = () => {
   };
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+    handleGetProduct();
+  }, [productId]);
 
-  return <ProductForm onSubmit={handleSumbit} product={initialProduct} />;
+  if (loading) return <Loading />;
+  return (
+    <ProductForm
+      title="수정"
+      onSubmit={handleEditSumbit}
+      product={initialProduct}
+    />
+  );
 };
 
 export default ProductEdit;

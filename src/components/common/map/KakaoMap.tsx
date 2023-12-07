@@ -6,18 +6,17 @@ import { Map, MapMarker } from "react-kakao-maps-sdk";
 import classes from "./KakaoMap.module.css";
 
 type Props = {
-  formData: ProductItemType;
+  product: ProductItemType; // 이미 기존에 등록된 상품
+  formData: ProductItemType; // 부모에서 업데이트 하는 상품
   setFormData?: (d: ProductItemType) => void;
 };
 
-// lat: 위도(y좌표), lng: 경도(x좌표)
 // 위치 등록시 사용할 카카오 맵 컴포넌트
-// props로 받는 상태중에 location정보(adress,lat,lng)이 있으면 검색인풋창 안보이고 맵만 랜더링 되게해야함
-const KakaoMap = ({ formData, setFormData }: Props) => {
+const KakaoMap = ({ product, formData, setFormData }: Props) => {
   // 지도의 초기 중심좌표위치(카카오본사)
   const [mapLocation, setMapLocation] = useState({
-    lat: 33.450701,
-    lng: 126.570667,
+    lat: Number(product.extra?.lat) || 33.450701,
+    lng: Number(product.extra?.lng) || 126.570667,
   });
   // 검색한 텍스트
   const [searchAddress, setSearchAddress] = useState<string>("");
@@ -62,6 +61,9 @@ const KakaoMap = ({ formData, setFormData }: Props) => {
       ps.keywordSearch(`${searchAddress}`, callback);
     }
   };
+  // console.log(searchAddress); // 애플트리타워
+  // console.log(mapLocation.lat); // 37.5070100333146
+  // console.log(mapLocation.lng); // 127.055618149788
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchAddress(e.target.value);
@@ -88,7 +90,10 @@ const KakaoMap = ({ formData, setFormData }: Props) => {
       >
         {/* 추후 상품들 데이터리스트를 맵핑해서 해당 위치값을 마커로 보여주게 해야함 */}
         <MapMarker
-          position={{ lat: mapLocation.lat, lng: mapLocation.lng }}
+          position={{
+            lat: mapLocation.lat,
+            lng: mapLocation.lng,
+          }}
         ></MapMarker>
       </Map>
     </div>

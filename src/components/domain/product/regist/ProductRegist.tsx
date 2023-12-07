@@ -1,12 +1,14 @@
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
+import axios from "axios";
 import ProductForm from "./ProductForm";
-import useCustomAxios from "../../../../services/useCustomAxios";
+// import useCustomAxios from "../../../../services/useCustomAxios";
+import { BASE_URL } from "../../../../services/BaseUrl";
+import { useBoundStore } from "../../../../store";
 
 const ProductRegist = () => {
   const navigate = useNavigate();
-  const axiosInstance = useCustomAxios();
+  const token = useBoundStore((s) => s.userToken.accessToken);
+  // const axiosInstance = useCustomAxios();
 
   const initialProduct: ProductItemType = {
     name: "",
@@ -23,40 +25,50 @@ const ProductRegist = () => {
   };
 
   const handleSubmit = async (
-    formData: ProductItemType,
-    mainImages: string[]
+    data: ProductItemType,
+    mainImages: string[] | undefined
   ) => {
-    // 1. 파일 업로드 http post
-    const imagesRes = await axiosInstance.post(`/files`, mainImages);
-    console.log(imagesRes.data.file.path);
-
     // 2. 바이너리양식 이미지 추출해서 최종 Post 보내기
     const sendAllData = {
-      name: formData.name,
-      content: formData.content,
-      price: formData.price,
-      mainImages: imagesRes.data.file.path,
+      name: data.name,
+      content: data.content,
+      shippingFees: 0,
+      price: Number(data.price),
+      mainImages: mainImages,
+      show: true, // 기본값
+      active: true, // 기본값
+      quantity: 1, // 기본값
+      buyQuantity: 0, // 기본값
       extra: {
-        startDate: formData.extra?.startDate,
-        endDate: formData.extra?.endDate,
-        address: formData.extra?.address,
-        lat: formData.extra?.lat,
-        lng: formData.extra?.lng,
+        startDate: data.extra?.startDate,
+        endDate: data.extra?.endDate,
+        address: data.extra?.address,
+        lat: data.extra?.lat,
+        lng: data.extra?.lng,
       },
     };
 
-    // 2. 전체 양식 http post
-    const response = await axiosInstance.post(`/seller/products`, sendAllData);
+    const response = await axios.post(
+      `${BASE_URL}/seller/products`,
+      sendAllData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     console.log(response.data);
     navigate("/home");
   };
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
-  return <ProductForm onSubmit={handleSubmit} product={initialProduct} />;
+  return (
+    <ProductForm
+      title="등록"
+      onSubmit={handleSubmit}
+      product={initialProduct}
+    />
+  );
 };
 
 export default ProductRegist;
