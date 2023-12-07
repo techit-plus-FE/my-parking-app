@@ -7,6 +7,7 @@ import { UserBasicInfo } from "../types/classImplementations";
 
 //index.ts Store에서도 AuthSlice를 참조하기 때문에 types 파일에 AuthSlice type을 선언하였습니다.
 
+//회원가입 API 요청 -> 성공 시 true, 실패 시 false 반환
 const requestSignUp: (arg: Person) => Promise<boolean> = async (
   UserInput: Person
   ) => {
@@ -33,6 +34,7 @@ const requestSignUp: (arg: Person) => Promise<boolean> = async (
   return false
   }
 
+//이메일 중복확인 요청
 const requestEmailVerification: (arg: string) => void = async (
   email: string
 ) => {
@@ -81,10 +83,7 @@ const requestUserLogin = async (email: string, password: string) => {
   return {... new UserBasicInfo(), token : {accessToken : "" , refreshToken : "" }}
 };
 
-
-//stateKey는 로컬 스토리지에 저장된 state객체의 keyName 입니다.
-//localStorageKey 는 로컬 스토리지에 저장될 keyName 입니다.
-
+// store의 실제 구현 부분
 export const createAuthSlice: StateCreator<AuthSlice, []> = (set) => ({
   userToken : {
     accessToken : '',
@@ -92,15 +91,20 @@ export const createAuthSlice: StateCreator<AuthSlice, []> = (set) => ({
   },
   userBasicInfo : new UserBasicInfo(), 
   isLoggedIn : false,
+
+  //이메일 중복확인
   verifyEmail: (email: string) => {
     requestEmailVerification(email);
   },
+  //회원가입
   signUp: (UserInput: Person)=>{
     return requestSignUp(UserInput)
   },
+  //로그인
   login: async function (email: string, password: string) {
     return requestUserLogin(email, password);
   },
+  //사용자의 기본 정보(토큰값, 이름, 프로필사진 등등) 업데이트
   updateUserBasicInfo(userToken: TokenType, userBasicInfo: UserBasicInfoType){
     set(() => ({
       userToken : userToken,
@@ -108,6 +112,7 @@ export const createAuthSlice: StateCreator<AuthSlice, []> = (set) => ({
       isLoggedIn: true,
     }))
   },
+  //로그아웃하면 정보 초기화
   logout: () => {
     set(()=> ({
       userToken :{
