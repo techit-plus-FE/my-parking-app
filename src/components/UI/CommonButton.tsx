@@ -23,7 +23,7 @@ export const CommonButton: React.FC<CommonButtonProps> = ({
 }) => {
   return (
     <div>
-      <Stack spacing={2} direction="row">
+      <Stack spacing={2} direction="row" justifyContent="center">
         <Button
           className={className}
           disabled={disabled}
