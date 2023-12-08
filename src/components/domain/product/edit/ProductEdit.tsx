@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { BASE_URL } from "../../../../services/BaseUrl";
 import useCustomAxios from "../../../../services/useCustomAxios";
 
 import ProductForm from "../regist/ProductForm";
@@ -30,7 +29,7 @@ const ProductEdit = () => {
   const handleGetProduct = async () => {
     try {
       const response = await axiosInstance<ProductItemResType>(
-        `${BASE_URL}/products/${productId}`
+        `/products/${productId}`
       );
       const resItem = response.data.item;
       setInitialProduct({
@@ -56,33 +55,37 @@ const ProductEdit = () => {
     updatedData: ProductItemType,
     updatedMainImages: string[] | undefined
   ) => {
-    const sendAllData = {
-      name: updatedData.name,
-      content: updatedData.content,
-      shippingFees: 0,
-      price: Number(updatedData.price),
-      mainImages: updatedMainImages,
-      show: true, // 기본값
-      active: true, // 기본값
-      quantity: 1, // 기본값
-      buyQuantity: 0, // 기본값
-      extra: {
-        startDate: updatedData.extra?.startDate,
-        endDate: updatedData.extra?.endDate,
-        address: updatedData.extra?.address,
-        lat: updatedData.extra?.lat,
-        lng: updatedData.extra?.lng,
-      },
-    };
+    try {
+      const sendAllData = {
+        name: updatedData.name,
+        content: updatedData.content,
+        shippingFees: 0,
+        price: Number(updatedData.price),
+        mainImages: updatedMainImages,
+        show: true, // 기본값
+        active: true, // 기본값
+        quantity: 1, // 기본값
+        buyQuantity: 0, // 기본값
+        extra: {
+          startDate: updatedData.extra?.startDate,
+          endDate: updatedData.extra?.endDate,
+          address: updatedData.extra?.address,
+          lat: updatedData.extra?.lat,
+          lng: updatedData.extra?.lng,
+        },
+      };
 
-    // 수정 요청
-    const response = await axiosInstance.patch(
-      `seller/products/${productId}`,
-      sendAllData
-    );
-    console.log(response.data);
+      // 수정 요청
+      const response = await axiosInstance.patch(
+        `seller/products/${productId}`,
+        sendAllData
+      );
+      console.log(response.data);
 
-    navigate(`/products/${productId}`);
+      navigate(`/products/${productId}`);
+    } catch (error) {
+      console.error("상품 수정에 실패하였습니다", error);
+    }
   };
 
   useEffect(() => {
