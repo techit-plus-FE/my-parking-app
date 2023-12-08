@@ -29,6 +29,7 @@ export const CommonButton: React.FC<CommonButtonProps> = ({
           disabled={disabled}
           onClick={onClick}
           variant="contained"
+          type="submit"
           sx={{
             // 기본값 지정
             backgroundColor: bgColor || "var(--color-primary-600)",
