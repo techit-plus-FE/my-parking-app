@@ -1,5 +1,6 @@
 // 실제 사용자와 인터렉션
 import React, { ChangeEvent } from "react";
+import { CommonButtonSmall } from "../../UI/CommonButton";
 
 interface LoginFormProps {
   handleInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -25,8 +26,6 @@ const LoginForm: React.FC<LoginFormProps> = ({
           value={userInputId}
           onChange={handleInputChange}
         />
-      </form>
-      <form onSubmit={handleSubmit}>
         <label htmlFor="user-password">password</label>
         <input
           id="user-password"
@@ -35,7 +34,8 @@ const LoginForm: React.FC<LoginFormProps> = ({
           value={userInputPassword}
           onChange={handleInputChange}
         />
-        <button>로그인</button>
+        {/* <button>zmm</button> */}
+        <CommonButtonSmall text="로그인하기" />
       </form>
     </div>
   );

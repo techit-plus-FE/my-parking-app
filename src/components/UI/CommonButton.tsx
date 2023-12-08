@@ -6,7 +6,7 @@ interface CommonButtonProps {
   text?: string;
   bgColor?: string;
   textColor?: string;
-  width: string;
+  width?: string;
   disabled?: boolean;
   onClick?: () => void;
   className?: string;
@@ -29,6 +29,7 @@ export const CommonButton: React.FC<CommonButtonProps> = ({
           disabled={disabled}
           onClick={onClick}
           variant="contained"
+          type="submit"
           sx={{
             // 기본값 지정
             backgroundColor: bgColor || "var(--color-primary-600)",
