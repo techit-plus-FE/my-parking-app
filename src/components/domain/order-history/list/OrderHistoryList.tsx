@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from "react";
 import OrderHistoryItem from "./OrderHistoryItem";
-import axios from "axios";
-
+import useCustomAxios from "../../../../services/useCustomAxios";
 
 const OrderHistoryList: React.FC = () => {
-  const [getData, setGetData] = useState([]);
+  // const [getData, setGetData] = useState([]);
+  const axiosInstance = useCustomAxios();
 
   useEffect(() => {
     const getData = async () => {
-      const response = await axios.get("https://localhost/api//products");
-      console.log(response.data.item);
-      return setGetData(response.data.item);
+      const response = await axiosInstance.get("/orders");
+      return console.log(response);
     };
 
     getData();
@@ -18,7 +17,7 @@ const OrderHistoryList: React.FC = () => {
 
   return (
     <>
-      {getData?.map((data: OrderHistoryMapData) => {
+      {/* {getData?.map((data: OrderHistoryMapData) => {
         {
           console.log(data);
         }
@@ -32,7 +31,7 @@ const OrderHistoryList: React.FC = () => {
             />
           </div>
         );
-      })}
+      })} */}
     </>
   );
 };
