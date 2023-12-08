@@ -5,7 +5,7 @@ export class Person implements Person {
   phone: string;
   address: string;
   type: string;
-  extra: extraType;
+  extra: ExtraType;
 
   constructor(){
     this.email = ""
@@ -48,3 +48,17 @@ export class UserBasicInfo implements UserBasicInfoType {
     this.updatedAt = ""
   }
 }
+
+export class UserDetailInfo extends UserBasicInfo {
+  extra: ExtraType;
+  constructor(){
+    super(),
+    this.extra = {
+      x_position : "",
+      y_position : "",
+      carNumber : "",
+      profileImage: "",
+    }
+  }
+}
+
