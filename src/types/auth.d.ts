@@ -5,10 +5,10 @@ interface Person {
   phone: string;
   address: string;
   type: string;
-  extra: extraType;
+  extra: ExtraType;
 }
 
-type extraType = {
+type ExtraType = {
   x_position?: string;
   y_position?: string;
   carNumber?: string;
