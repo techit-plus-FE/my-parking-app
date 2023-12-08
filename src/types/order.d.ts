@@ -1,6 +1,4 @@
-// get orders
-// 주문목록  Response 타입
-interface OrderLisType {
+interface Product {
   _id: number;
   name: string;
   image: string;
@@ -9,15 +7,13 @@ interface OrderLisType {
   reply_id: number;
 }
 
-interface Discount {
-  products: number;
-  shippingFees: number;
-}
-
 interface Cost {
-  products: number;
+  products: string;
   shippingFees: number;
-  discount: Discount;
+  discount: {
+    products: number;
+    shippingFees: number;
+  };
   total: number;
 }
 
@@ -26,7 +22,7 @@ interface Address {
   value: string;
 }
 
-interface Order {
+interface OrderHistoryDataType {
   _id: number;
   user_id: number;
   state: string;
@@ -34,5 +30,5 @@ interface Order {
   cost: Cost;
   address: Address;
   createdAt: string;
-  updatedAt: string;
+  updatedAt: number;
 }

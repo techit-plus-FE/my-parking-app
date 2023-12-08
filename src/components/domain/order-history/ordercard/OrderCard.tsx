@@ -1,25 +1,40 @@
 import React from "react";
 import styles from "./OrderCard.module.css";
 
-const CommonOrderListUI: React.FC = () => {
-  console.log(styles);
+interface OrderCardProps {
+  title?: string;
+  image?: string;
+  createdAt: string;
+  total: string;
+  orderItems: number;
+}
+
+const OrderCard: React.FC<OrderCardProps> = ({
+  title,
+  image,
+  createdAt,
+  total,
+  orderItems,
+}) => {
   return (
     <div className={styles.orderCardContainer}>
       <div className={styles.orderWrapper}>
         <div className={styles.imgWrapper}>
-          <img src="https://picsum.photos/400/400" alt="" />
+          <img src={image} alt="" />
         </div>
         <div className={styles.itemWrapper}>
-          <h4>애플트리 건물주</h4>
-          <span>1201.54.4564</span>
+          <h4>
+            {title} 외 {orderItems} 건
+          </h4>
+          <div>주문날짜 :{createdAt}</div>
           <address>
             <p>강남구 어쩌고</p>
           </address>
-          <span className={styles.orderPrice}>1000원</span>
+          <span className={styles.orderPrice}>총합계 {total}</span>
         </div>
       </div>
     </div>
   );
 };
 
-export default CommonOrderListUI;
+export default OrderCard;
