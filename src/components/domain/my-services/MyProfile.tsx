@@ -30,25 +30,32 @@ const MyProfile = () => {
         <img src={`${myInfo.extra?.profileImage}`}/>
       </div>
       <div>
-        {/* 이름 표서 */}
-        {myInfo.name}
+        회원유형 : {myInfo.type === 'seller' ?'판매자' : '일반회원'}
       </div>
       <div>
-        {myInfo.email}
+        이름 : {myInfo.name}
       </div>
       <div>
-        {myInfo.phone}
+        이메일 : {myInfo.email}
       </div>
       <div>
-        {myInfo.extra?.carNumber}
+        전화번호 : {myInfo.phone}
       </div>
       <div>
-        {myInfo.address}
+        주소 : {myInfo.address}
+      </div>
+      <div>
+        차량번호 : {myInfo.extra?.carNumber}
       </div>
     </Box>
     {/* 버튼들 */}
-    <CommonButtonMiddle text = "주문 목록"/>
+    {myInfo.type === 'seller' ?
+      <CommonButtonMiddle text = "내상품 목록"/>
+    :
+      <CommonButtonMiddle text = "주문 목록"/>
+    }
     <CommonButtonMiddle text = "리뷰 관리"/>
+
   </>)
 };
 
