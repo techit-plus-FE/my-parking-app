@@ -58,7 +58,11 @@ const Footer: React.FC = () => {
         <BottomNavigationAction
           label="로그아웃"
           icon={<PersonIcon />}
-          onClick={() => logout()}
+          onClick={() => {
+            logout()
+            alert('로그아웃이 완료되었습니다')
+          }}
+          
         />
       </BottomNavigation>
     </Box>
