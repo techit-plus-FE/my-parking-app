@@ -6,7 +6,7 @@ interface CommonButtonProps {
   text?: string;
   bgColor?: string;
   textColor?: string;
-  width: string;
+  width?: string;
   disabled?: boolean;
   onClick?: () => void;
   className?: string;
