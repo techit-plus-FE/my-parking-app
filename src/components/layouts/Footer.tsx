@@ -14,6 +14,7 @@ const Footer: React.FC = () => {
   //수정하기 변경하기
   // const iconActiveFill = "var(--color-gray-400)";
   const logout = useBoundStore((state) => state.logout);
+  const user_id = useBoundStore((state)=>state.myInfo._id)
 
   const [value, setValue] = React.useState(0);
   const navigate = useNavigate();
@@ -53,7 +54,7 @@ const Footer: React.FC = () => {
         <BottomNavigationAction
           label="프로필"
           icon={<PersonIcon />}
-          onClick={() => handelNavigate("mypage")}
+          onClick={() => handelNavigate(`mypage/${user_id}`)}
         />
         <BottomNavigationAction
           label="로그아웃"
