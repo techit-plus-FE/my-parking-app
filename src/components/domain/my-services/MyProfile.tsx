@@ -45,17 +45,27 @@ const MyProfile = () => {
         주소 : {myInfo.address}
       </div>
       <div>
-        차량번호 : {myInfo.extra?.carNumber}
+        차량번호 : {myInfo.extra?.carNumber === ""||myInfo.extra?.carNumber==undefined ? "등록된 차량이 없습니다" :`${myInfo.extra?.carNumber}`}
       </div>
     </Box>
+    <Box>
+      <div>
+        내 정보
+        <CommonButtonMiddle text = "프로필 수정하기" onClick = {() => {navigate(`/mypage/${myInfo._id}/edit`)}}/>
+      </div>
+    </Box>
+    <Box>
     {/* 버튼들 */}
+    쇼핑
     {myInfo.type === 'seller' ?
       <CommonButtonMiddle text = "내상품 목록" />
     :
+    <>
       <CommonButtonMiddle text = "주문 목록" onClick = {() => {navigate(`/order-history`)}}/>
+      <CommonButtonMiddle text = "리뷰 관리"/>
+    </>
     }
-    <CommonButtonMiddle text = "리뷰 관리"/>
-
+  </Box>
   </>)
 };
 
