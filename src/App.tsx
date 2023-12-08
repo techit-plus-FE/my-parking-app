@@ -29,7 +29,7 @@ const router = createBrowserRouter([
     id: "NoLayout",
     element: (
       <RootLayout
-        isLoggedIn={false}
+        isNeedLoggedIn={false}
         hasHeader={false}
         hasFooter={false}
         hasSearchHeader={false}
@@ -60,7 +60,7 @@ const router = createBrowserRouter([
     id: "withSearchHeaderAndFooterLayout",
     element: (
       <RootLayout
-        isLoggedIn={true}
+        isNeedLoggedIn={true}
         hasHeader={false}
         hasFooter={true}
         hasSearchHeader={true}
@@ -83,7 +83,7 @@ const router = createBrowserRouter([
     id: "withHeaderAndFooterLayout",
     element: (
       <RootLayout
-        isLoggedIn={true}
+        isNeedLoggedIn={true}
         hasHeader={true}
         hasFooter={true}
         hasSearchHeader={false}
