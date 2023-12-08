@@ -5,10 +5,10 @@ interface Person {
   phone: string;
   address: string;
   type: string;
-  extra: extraType;
+  extra: ExtraType;
 }
 
-type extraType = {
+type ExtraType = {
   x_position?: string;
   y_position?: string;
   carNumber?: string;
@@ -17,16 +17,21 @@ type extraType = {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface AuthSlice {
-  userToken : TokenType
-  userBasicInfo : UserBasicInfoType, 
-  isLoggedIn : boolean,
+  userToken: TokenType;
+  userBasicInfo: UserBasicInfoType;
+  isLoggedIn: boolean;
   signUp: (UserInput: UserInputType) => Promise<boolean>;
   verifyEmail: (email: string) => void;
-  login: (email: string, password: string) => Promise<UserBasicInfoType & {token : TokenType}>;
-  updateUserBasicInfo: (userToken: TokenType, userBasicInfo: UserBasicInfoType) => void;
+  login: (
+    email: string,
+    password: string
+  ) => Promise<UserBasicInfoType & { token: TokenType }>;
+  updateUserBasicInfo: (
+    userToken: TokenType,
+    userBasicInfo: UserBasicInfoType
+  ) => void;
   logout: () => void;
 }
-
 
 interface AuthResponseType {
   config: object;
@@ -47,14 +52,14 @@ interface UserBasicInfoType {
 }
 
 interface TokenType {
-    accessToken: string;
-    refreshToken: string;
-  }
+  accessToken: string;
+  refreshToken: string;
+}
 
 interface LoginResponseType {
   config: object;
   data: {
     ok: number;
-    item : UserBasicInfoType & {token : TokenType},
+    item: UserBasicInfoType & { token: TokenType };
   };
-} 
+}

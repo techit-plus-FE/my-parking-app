@@ -1,29 +1,24 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-import { BASE_URL } from "../../../../services/BaseUrl";
-
 import MainImagesComponent from "./MainImagesComponent";
 import SellerInfoComponent from "./SellerInfoComponent";
 import DetailComponent from "./DetailComponent";
 import PriceAndBtnComponent from "./PriceAndBtnComponent";
 
 import classes from "./ProductDetail.module.css";
-import { useBoundStore } from "../../../../store";
 import Loading from "../../../common/Loading";
 import useCustomAxios from "../../../../services/useCustomAxios";
+import { useBoundStore } from "../../../../store";
 
 const ProductDetail = () => {
   const { productId } = useParams();
-
   const navigate = useNavigate();
-
   const axiosInstance = useCustomAxios();
-
-  const user = useBoundStore((state) => state.userBasicInfo);
 
   const [loading, setLoading] = useState(true);
   const [productData, setProductData] = useState<ProductItemType>({
+    seller_id: 0,
     name: "",
     content: "",
     price: 0,
@@ -39,13 +34,20 @@ const ProductDetail = () => {
     replies: [],
   });
 
+  const user = useBoundStore((state) => state.userBasicInfo);
+
+  // 로그인한 유저가 판매자이면서, 본인이 작성한 글일때만 수정,삭제 버튼 나오는 상태변수 선언
+  const isRightUser =
+    user.type === "seller" && user._id === productData.seller_id;
+
   const handleGetProduct = async () => {
     try {
       const response = await axiosInstance<ProductItemResType>(
-        `${BASE_URL}/products/${productId}`
+        `/products/${productId}`
       );
       const resItem = response.data.item;
       setProductData({
+        seller_id: resItem.seller_id,
         name: resItem.name,
         content: resItem.content,
         createdAt: resItem.createdAt,
@@ -63,13 +65,10 @@ const ProductDetail = () => {
 
   const handleRemoveProduct = async (id: string | undefined) => {
     try {
-      const response = await axiosInstance.delete(
-        `${BASE_URL}/seller/products/${id}`
-      );
-      if (response.status === 1) {
-        alert("해당 상품이 정상적으로 삭제되었습니다.");
-        navigate(-1);
-      }
+      await axiosInstance.delete(`/seller/products/${id}`);
+
+      alert("해당 상품이 정상적으로 삭제되었습니다.");
+      navigate(-1);
     } catch (err) {
       console.error("해당 상품글 삭제중 문제가 발생하였습니다.", err);
     }
@@ -85,16 +84,18 @@ const ProductDetail = () => {
       {/* 상품 이미지 컴포넌트 */}
       <MainImagesComponent product={productData} />
       {/* 판매자 정보 컴포넌트 */}
-      <SellerInfoComponent user={user} />
+      <SellerInfoComponent product={productData} />
       {/*추후 헤더에 들어갈 삭제 수정하는 엑션 버튼들 컴포넌트로 만들예정*/}
-      <div className={classes["util-action"]}>
-        <button type="button" onClick={() => handleRemoveProduct(productId)}>
-          삭제하기
-        </button>
-        <button type="button" onClick={() => navigate(`edit`)}>
-          수정하기
-        </button>
-      </div>
+      {isRightUser && (
+        <div className={classes["util-action"]}>
+          <button type="button" onClick={() => handleRemoveProduct(productId)}>
+            삭제하기
+          </button>
+          <button type="button" onClick={() => navigate(`edit`)}>
+            수정하기
+          </button>
+        </div>
+      )}
 
       {/* 상품 상세 정보 컴포넌트 */}
       <DetailComponent product={productData} />
