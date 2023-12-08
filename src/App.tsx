@@ -21,6 +21,8 @@ import OrderHistoryDetailPage from "./pages/order-hisotry/OrderHistoryDetailPage
 import PurchasePage from "./pages/purchase/PurchaseFormPage";
 import PurchaseResultPage from "./pages/purchase/PurchaseResultPage";
 import SearchPage from "./pages/SearchPage";
+import MyProductPage from "./pages/my-services/MyProductPage";
+import ReplyPage from "./pages/reply/ReplyPage";
 
 // 라우터 설정
 const router = createBrowserRouter([
@@ -129,6 +131,10 @@ const router = createBrowserRouter([
               },
             ],
           },
+          {
+            path: "my-product",
+            element: <MyProductPage />,
+          },
         ],
       },
 
@@ -142,7 +148,7 @@ const router = createBrowserRouter([
             element: <OrderHistoryPage />,
           },
           {
-            path: "/order-history/:orderId",
+            path: ":orderId",
             element: <OrderHistoryDetailPage />,
           },
         ],
@@ -150,17 +156,23 @@ const router = createBrowserRouter([
       // 구매
       {
         id: "purchase",
-        path: "/purchase",
+        path: "purchase",
         children: [
           {
-            path: "/purchase",
+            index: true,
             element: <PurchasePage />,
           },
           {
-            path: "/purchase/result",
+            path: "result",
             element: <PurchaseResultPage />,
           },
         ],
+      },
+      // 후기
+      {
+        id: "reply",
+        path: "reply/:userId",
+        element: <ReplyPage />,
       },
     ],
   },
