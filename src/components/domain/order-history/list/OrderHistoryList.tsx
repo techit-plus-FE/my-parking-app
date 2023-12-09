@@ -24,17 +24,14 @@ const OrderHistoryList: React.FC = () => {
   return (
     <>
       {getOrderHistoryData?.map((item: OrderHistoryDataType) => {
-        console.log(item.products);
+        console.log(item);
         console.log(item.cost.products);
 
         return (
           <OrderCard
             orderItems={item.products.length}
-            // title엔 뭐가 들어가야할까여
-            // title={item.name}
-
-            // 3건 주문 했을 때는 대표 이미지를 뭘 띄워야할까여?
-            // image={item.image}
+            title={item.products[0].name}
+            image={item.products[0].image}
             createdAt={item.createdAt}
             total={item.cost.products}
           />
