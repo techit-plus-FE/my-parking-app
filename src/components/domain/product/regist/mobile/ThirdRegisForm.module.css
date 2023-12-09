@@ -1,37 +1,50 @@
 .container {
-  height: 100vh;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
 }
-
 .container h2 {
-  font-size: 40px;
+  font-size: 35px;
   color: var(--color-primary-600);
 }
 
-.date-box {
+.form {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 20px;
   padding: 10px;
 }
 
-.date-box label {
+.form label {
   align-self: flex-start;
   font-size: 20px;
   font-weight: 700;
   color: var(--color-primary-800);
 }
 
-.date-box input {
+.form input,
+.form textarea {
   padding: 10px;
   border-color: var(--color-primary-500);
   border-radius: 20px;
 }
-.date-box input:focus {
-  outline: none;
+
+.form textarea {
+  height: 100px;
+}
+
+.img-box {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  overflow-y: scroll;
+}
+
+.img-pre-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.img-pre-item {
+  width: 30%;
 }
 
 .active {

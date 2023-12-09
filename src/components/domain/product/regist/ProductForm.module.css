@@ -1,0 +1,102 @@
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  padding: 20px;
+}
+.form-container h2 {
+  font-size: 35px;
+  font-weight: 800;
+  text-align: center;
+  color: var(--color-primary-600);
+}
+.form-container label {
+  font-family: inherit;
+  font-size: 23px;
+  font-weight: 800;
+  color: var(--color-primary-700);
+}
+.form-container input {
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  font-size: 18px;
+  box-shadow: 1px 2px 3px rgba(67, 135, 244, 0.2);
+}
+.form-container textarea {
+  resize: none;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  font-size: 18px;
+  font-family: inherit;
+  box-shadow: 0 2px 5px rgba(67, 135, 244, 0.2);
+}
+
+/*기타 정보*/
+.info-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+/*이미지*/
+.images-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+input[type="file"]::file-selector-button {
+  width: 100px;
+  height: 30px;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-primary-800);
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.img-pre-list {
+  padding: 10px;
+  display: flex;
+  gap: 10px;
+}
+.img-pre-item {
+  width: 30%;
+}
+.img-pre-item button {
+  cursor: pointer;
+  width: 100%;
+  padding: 5px;
+  border: none;
+  color: var(--color-white);
+  background-color: var(--color-primary-600);
+}
+
+/*위치*/
+.location-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/*버튼 액션*/
+.action {
+  display: flex;
+  justify-content: flex-end;
+  gap: 40px;
+}
+
+.action button {
+  padding: 10px 20px;
+  background-color: var(--color-primary-600);
+  color: var(--color-white);
+  border: none;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.action button:hover {
+  background-color: var(--color-primary-800);
+}

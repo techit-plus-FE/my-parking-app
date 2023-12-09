@@ -30,15 +30,18 @@
   line-height: 1.5;
 }
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 :root {
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
-
-  --color-white: #fff;
-  --color-dark: #000;
 
   --color-error-light: #ce0000;
   --color-error-dark: #c11c0a;
@@ -71,18 +74,42 @@
   --color-sub-600: #9fa22c;
   --color-sub-700: #767725;
   --color-sub-800: #2a2913;
+
+  /*기본 모드일때 컬러*/
+  --color-black: #000;
+  --color-white: #fff;
+
+  --color-accent: #161a28;
+  --color-bg: #e6e9fe;
+  --color-bg-darker: #b0c0fb;
+  --color-bg-footer: #fff;
+  --color-bg-footer-hover: #e8f8fb;
+  --color-bg-actived: #023e8a;
+  --color-border: #161a28;
+  --color-text: #4285f4;
+  --color-text-actived: #fff;
+  --color-text-hover: #34579c;
+  --color-badge: #fff;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+/*다크모드일때 컬러*/
+html.dark {
+  --color-accent: #495057;
+  --color-bg: #212529;
+  --color-bg-darker: #495057;
+  --color-bg-footer: #343a40;
+  --color-bg-footer-hover: #222;
+  --color-bg-actived: #495057;
+  --color-border: #f8f9fa;
+  --color-text: #dee2e6;
+  --color-text-actived: #fff;
+  --color-text-hover: #adb5bd;
+  --color-badge: #495057;
 }
 
 body {
   width: 100vw;
   height: 100vh;
-  overflow-y: hidden;
 }
 
 ul {

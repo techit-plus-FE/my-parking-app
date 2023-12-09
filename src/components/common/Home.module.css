@@ -1,0 +1,5 @@
+.container {
+  /*홈 컨테이너 높이 세팅*/
+  height: 932px;
+  overflow-y: scroll;
+}
