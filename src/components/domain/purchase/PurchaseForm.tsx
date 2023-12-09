@@ -1,43 +1,55 @@
-import React, { ReactNode } from "react";
-import classes from "./purchase.module.css";
-import axios from "axios";
-import { BASE_URL } from "../../../services/BaseUrl";
+import React from "react";
+import { Box } from "@mui/system";
+import {
+  FormControl,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+  Typography,
+} from "@mui/material";
+import { CommonButton } from "../../UI/CommonButton";
 
-interface Props {
-  children?: ReactNode;
+interface PurchaseFormProps {
+  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const PurchaseForm: React.FC<Props> = ({ children }) => {
-  const handlePayment = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-
-  };
-
+const PurchaseForm: React.FC<PurchaseFormProps> = ({ onSubmit, onChange }) => {
   return (
-    <div>
-      <form onSubmit={handlePayment}>
-        <div>
-          <h1>예약할 주차장</h1>
-          {children}
-        </div>
-        <h2>결제 방법</h2>
-        <div>
-          <div className={classes.payMentWrapper}>
-            <button>신용카드</button>
-            <button>무통장</button>
-            <button>신용카드</button>
-            <button>무통장</button>
-            <button>신용카드</button>
-            <button>무통장</button>
-          </div>
-        </div>
-        <div>
-          <span>총 : 1000,000원</span>
-          <button>결제</button>
-        </div>
-      </form>
-    </div>
+    <>
+      <Box>
+        <form onSubmit={onSubmit}>
+          <FormControl component="fieldset">
+            <RadioGroup
+              aria-label="options"
+              name="options"
+              //라디오 버튼이 눌릴 때 발생하는 이벤트
+            >
+              <FormControlLabel
+                value="card"
+                control={<Radio />}
+                label="신용/체크카드"
+                onChange={onChange}
+              />
+              <FormControlLabel
+                value="noPassBook"
+                control={<Radio />}
+                label="무통장입금"
+                onChange={onChange}
+              />
+              <FormControlLabel
+                value="phone"
+                control={<Radio />}
+                label="휴대폰"
+                onChange={onChange}
+              />
+            </RadioGroup>
+            <Typography>총</Typography>
+            <CommonButton text="결제" />
+          </FormControl>
+        </form>
+      </Box>
+    </>
   );
 };
 
