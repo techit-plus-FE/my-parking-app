@@ -1,7 +1,7 @@
 // import { create } from "zustand";
 
 import axios from "axios";
-import { StateCreator, create } from "zustand";
+import { StateCreator } from "zustand";
 import { BASE_URL } from "../services/BaseUrl";
 import { UserBasicInfo } from "../types/classImplementations";
 

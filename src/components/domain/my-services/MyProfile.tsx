@@ -2,6 +2,7 @@ import React, {useEffect} from "react";
 import { useBoundStore } from "../../../store";
 import { useNavigate} from "react-router-dom";
 import { CommonButtonMiddle } from "../../UI/CommonButton";
+import Box from "@mui/material/Box";
 
 const MyProfile = () => {
   const Store = useBoundStore((state)=>state)
@@ -22,31 +23,49 @@ const MyProfile = () => {
   return !Store.isLoggedIn ? (<>로그인을 해주세요</>) : 
   (<>
     {/* 프로필 카드 */}
-    <div> 
+
+    <Box>
       <div>
         {/*프로필 이미지 표시*/}
         <img src={`${myInfo.extra?.profileImage}`}/>
       </div>
       <div>
-        {/* 이름 표서 */}
-        {myInfo.name}
+        회원유형 : {myInfo.type === 'seller' ?'판매자' : '일반회원'}
       </div>
       <div>
-        {myInfo.email}
+        이름 : {myInfo.name}
       </div>
       <div>
-        {myInfo.phone}
+        이메일 : {myInfo.email}
       </div>
       <div>
-        {myInfo.extra?.carNumber}
+        전화번호 : {myInfo.phone}
       </div>
       <div>
-        {myInfo.address}
+        주소 : {myInfo.address}
       </div>
-    </div>
+      <div>
+        차량번호 : {myInfo.extra?.carNumber === ""||myInfo.extra?.carNumber==undefined ? "등록된 차량이 없습니다" :`${myInfo.extra?.carNumber}`}
+      </div>
+    </Box>
+    <Box>
+      <div>
+        내 정보
+        <CommonButtonMiddle text = "프로필 수정하기" onClick = {() => {navigate(`/mypage/${myInfo._id}/edit`)}}/>
+      </div>
+    </Box>
+    <Box>
     {/* 버튼들 */}
-    <CommonButtonMiddle text = "주문 목록"/>
-    <CommonButtonMiddle text = "리뷰 관리"/>
+    쇼핑
+    {myInfo.type === 'seller' ?
+      <CommonButtonMiddle text = "내상품 목록" />
+    :
+    <>
+      <CommonButtonMiddle text = "주문 목록" onClick = {() => {navigate(`/order-history`)}}/>
+      <CommonButtonMiddle text = "리뷰 관리"/>
+    </>
+    }
+  </Box>
   </>)
 };
 
