@@ -7,17 +7,25 @@ import {
   RadioGroup,
   Typography,
 } from "@mui/material";
-import { CommonButton } from "../../UI/CommonButton";
+import { CommonButtonMiddle } from "../../UI/CommonButton";
 
 interface PurchaseFormProps {
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  total: number;
 }
 
-const PurchaseForm: React.FC<PurchaseFormProps> = ({ onSubmit, onChange }) => {
+const PurchaseForm: React.FC<PurchaseFormProps> = ({
+  onSubmit,
+  onChange,
+  total,
+}) => {
   return (
-    <>
-      <Box>
+    <Box mt="50px">
+      <Typography fontWeight="bold" marginBottom="20px">
+        결제 방법
+      </Typography>
+      <Box border="1px solid red" borderRadius="10px">
         <form onSubmit={onSubmit}>
           <FormControl component="fieldset">
             <RadioGroup
@@ -44,12 +52,29 @@ const PurchaseForm: React.FC<PurchaseFormProps> = ({ onSubmit, onChange }) => {
                 onChange={onChange}
               />
             </RadioGroup>
-            <Typography>총</Typography>
-            <CommonButton text="결제" />
           </FormControl>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Typography
+              sx={{
+                display: "flex",
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              총 {total} 원
+            </Typography>
+            <CommonButtonMiddle text="결제" />
+          </Box>
         </form>
       </Box>
-    </>
+    </Box>
   );
 };
 

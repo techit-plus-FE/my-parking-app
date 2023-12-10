@@ -13,7 +13,6 @@ const Purchase = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // postData();
-    console.log(checked);
     if (!checked.value) {
       alert("결제수단을 선택해주세요");
     }
@@ -39,7 +38,7 @@ const Purchase = () => {
       ],
       address: {
         name: userBasicInfo.address,
-        value: userBasicInfo.address, //상품 주소
+        value: userBasicInfo.address,
       },
     };
 
@@ -47,20 +46,24 @@ const Purchase = () => {
       await axiosInstance.post("/orders", body);
       alert("결제가 완료 되었습니다");
     } catch (error) {
-      console.error("paymentMethod 에러");
+      console.error("결제 에러");
     }
   };
 
   return (
     <>
-      {console.log(checked)}
       <OrderCard
         title={productDetailData.name}
         image={productDetailData.mainImages[0]}
-        createdAt={productDetailData.createdAt}
+        startDate={productDetailData.extra.startDate}
+        endDate={productDetailData.extra.endDate}
         total={productDetailData.price}
       />
-      <PurchaseForm onSubmit={handleSubmit} onChange={handleOnChange} />
+      <PurchaseForm
+        onSubmit={handleSubmit}
+        onChange={handleOnChange}
+        total={productDetailData.price}
+      />
     </>
   );
 };
