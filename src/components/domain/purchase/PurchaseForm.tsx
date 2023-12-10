@@ -8,6 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import { CommonButtonMiddle } from "../../UI/CommonButton";
+import PurchaseInformation from "./PurchaseInformation";
 
 interface PurchaseFormProps {
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
@@ -22,10 +23,15 @@ const PurchaseForm: React.FC<PurchaseFormProps> = ({
 }) => {
   return (
     <Box mt="50px">
+      <PurchaseInformation />
       <Typography fontWeight="bold" marginBottom="20px">
-        결제 방법
+        결제 수단
       </Typography>
-      <Box border="1px solid red" borderRadius="10px">
+      <Box
+        sx={{
+          borderTop: "1px solid var(--color-gray-300)",
+        }}
+      >
         <form onSubmit={onSubmit}>
           <FormControl component="fieldset">
             <RadioGroup
