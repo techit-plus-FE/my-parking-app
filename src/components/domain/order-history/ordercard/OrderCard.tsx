@@ -16,6 +16,7 @@ interface OrderCardProps {
   priceProduct?: number; // 각각의 상품 가격
   totalPrice?: number;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  isVisible: boolean;
 }
 
 const OrderCard: React.FC<OrderCardProps> = ({
@@ -28,6 +29,7 @@ const OrderCard: React.FC<OrderCardProps> = ({
   onClick,
   priceProduct,
   totalPrice,
+  isVisible,
 }) => {
   const isMobile = MediaQuery();
   console.log(isMobile);
@@ -51,10 +53,14 @@ const OrderCard: React.FC<OrderCardProps> = ({
             flex: isMobile ? 2 : undefined,
           }}
         >
-          <Typography color="var(--color-gray-700)">
-            주문날짜
-            <Box>{buyDate}</Box>
-          </Typography>
+          {isMobile ? (
+            <Box color="var(--color-gray-700)">
+              주문날짜
+              <Box>{buyDate}</Box>
+            </Box>
+          ) : (
+            <Box color="var(--color-gray-700)">주문날짜: {buyDate}</Box>
+          )}
           <CardMedia
             component="img"
             height="100"
@@ -99,7 +105,11 @@ const OrderCard: React.FC<OrderCardProps> = ({
               {priceProduct} 원
             </Typography>
           )}
-          <CommonButton text="상세보기" onClick={onClick} />
+          <CommonButton
+            text="상세보기"
+            onClick={onClick}
+            isVisible={isVisible}
+          />
         </Box>
       </Box>
     </>

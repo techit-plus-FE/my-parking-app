@@ -12,6 +12,7 @@ const OrderHistoryDetailList = () => {
         option1="상품정보"
         option2="대여기간"
         option3="상품 금액"
+        flex={1}
       />
       {productItems.products.map((item: OrderHistoryProduct) => {
         return (
@@ -21,6 +22,7 @@ const OrderHistoryDetailList = () => {
               title={item.name}
               priceProduct={item.price}
               buyDate={productItems.updatedAt}
+              isVisible={false}
             />
           </div>
         );
