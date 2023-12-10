@@ -1,4 +1,4 @@
-import { Box } from "@mui/system";
+import { Typography } from "@mui/material";
 import React from "react";
 
 interface OrderTotalPriceProps {
@@ -8,7 +8,9 @@ interface OrderTotalPriceProps {
 const OrderTotalPrice: React.FC<OrderTotalPriceProps> = ({ totalPrice }) => {
   return (
     <>
-      <Box>{totalPrice} 원</Box>
+      <Typography sx={{ color: "var(--color-primary-600)" }}>
+        {totalPrice} 원
+      </Typography>
     </>
   );
 };

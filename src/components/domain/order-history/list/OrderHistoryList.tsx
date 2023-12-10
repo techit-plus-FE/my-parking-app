@@ -2,16 +2,21 @@ import React, { useEffect, useState } from "react";
 import useCustomAxios from "../../../../services/useCustomAxios";
 import OrderCard from "../ordercard/OrderCard";
 import { useNavigate } from "react-router-dom";
+import OrderTitleBox from "../ordercard/OrderTitleBox";
+import MediaQuery from "../../../../hooks/MediaQuery";
 
 const OrderHistoryList: React.FC = () => {
   const navigate = useNavigate();
+  const mediaQuery = MediaQuery();
+
+  //주문 목록 조회 데이터
   const [getOrderHistoryData, setGetOrderHistoryData] =
     useState<OrderHistoryItem[]>();
   const axiosInstance = useCustomAxios();
 
   useEffect(() => {
     const getOrdersData = async () => {
-      //주문 목록 조회
+      //orders 로 주문 목록 조회 데이터
       const response = await axiosInstance<OrderHistoryData>("/orders");
       return setGetOrderHistoryData(response.data.item);
     };
@@ -30,14 +35,21 @@ const OrderHistoryList: React.FC = () => {
     // 상품 디테일 페이지로 이동하기
     // 이동할 페이지 path: "/order-history/:orderId"
     navigate(`/order-history/${_id}`, {
-      //   주문목록 조회시 얻은 Item 배열의 값
-      // OrderHistoryDetailList로 가져감
+      //   주문목록 조회시 렌더링 된 Item 배열의 값
+      // OrderHistoryDetailList 컴포넌트로 가져감
       state: { orderHistoryData: productItemsData },
     });
   };
 
   return (
     <>
+      {mediaQuery || (
+        <OrderTitleBox
+          option1="상품정보"
+          option2="대여기간"
+          option3="총 결제금액"
+        />
+      )}
       {getOrderHistoryData?.map((item) => {
         return (
           <div key={item._id}>

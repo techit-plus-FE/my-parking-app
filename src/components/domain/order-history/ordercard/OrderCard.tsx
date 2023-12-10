@@ -4,6 +4,7 @@ import { CardMedia, Typography } from "@mui/material";
 import MediaQuery from "../../../../hooks/MediaQuery";
 import { CommonButton } from "../../../UI/CommonButton";
 import OrderTotalPrice from "./OrderTotalPrice";
+import OrderTitleBox from "./OrderTitleBox";
 
 interface OrderCardProps {
   title: string;
@@ -46,12 +47,13 @@ const OrderCard: React.FC<OrderCardProps> = ({
         <Box
           sx={{
             flexBasis: "200px",
-            margin: "20px",
-            flex: 1,
+            margin: "10px",
+            flex: isMobile ? 2 : undefined,
           }}
         >
-          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-            구매 날짜: {buyDate}
+          <Typography color="var(--color-gray-700)">
+            주문날짜
+            <Box>{buyDate}</Box>
           </Typography>
           <CardMedia
             component="img"
@@ -64,26 +66,39 @@ const OrderCard: React.FC<OrderCardProps> = ({
               marginBottom: "20px",
             }}
           />
-          {orderItems ? (
-            <Typography variant="body1">
-              {title} 외 {orderItems}
-            </Typography>
-          ) : (
-            <Typography variant="body1">{title}</Typography>
-          )}
         </Box>
         <Box
           sx={{
             textAlign: "center",
             display: isMobile ? undefined : "flex",
+            fontSize: isMobile ? "0.7rem" : undefined,
             width: "100%",
             justifyContent: "space-around",
-            flex: 2,
+            flex: 3,
           }}
         >
-          {startDate} ~대여기간~!!!어디!!!!!!있을까! {endDate}
+          {orderItems ? (
+            <Typography
+              variant={isMobile ? "body2" : "body1"}
+              sx={{ fontWeight: "bold" }}
+            >
+              {title} 외 {orderItems}
+            </Typography>
+          ) : (
+            <Typography
+              variant={isMobile ? "body2" : "body1"}
+              sx={{ fontWeight: "bold" }}
+            >
+              {title}
+            </Typography>
+          )}
+          {startDate} 대여기간!! 어디있을까! {endDate}
           {totalPrice && <OrderTotalPrice totalPrice={totalPrice} />}
-          {priceProduct && <Typography>{priceProduct} 원</Typography>}
+          {priceProduct && (
+            <Typography sx={{ color: "var(--color-primary-600)" }}>
+              {priceProduct} 원
+            </Typography>
+          )}
           <CommonButton text="상세보기" onClick={onClick} />
         </Box>
       </Box>
