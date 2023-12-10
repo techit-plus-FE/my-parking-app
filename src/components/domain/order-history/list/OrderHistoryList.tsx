@@ -11,7 +11,7 @@ const OrderHistoryList: React.FC = () => {
 
   //주문 목록 조회 데이터
   const [getOrderHistoryData, setGetOrderHistoryData] =
-    useState<OrderHistoryItem[]>();
+    useState<OrderHistoryProduct[]>();
   const axiosInstance = useCustomAxios();
 
   useEffect(() => {
@@ -24,7 +24,7 @@ const OrderHistoryList: React.FC = () => {
     getOrdersData();
   }, []);
 
-  const handleNavigate = (_id: number, productItems: OrderHistoryItem) => {
+  const handleNavigate = (_id: number, productItems: OrderHistoryProduct) => {
     const productItemsData = {
       updatedAt: productItems.updatedAt,
       _id: productItems._id,

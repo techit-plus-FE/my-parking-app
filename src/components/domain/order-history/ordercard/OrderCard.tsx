@@ -16,7 +16,7 @@ interface OrderCardProps {
   priceProduct?: number; // 각각의 상품 가격
   totalPrice?: number;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  isVisible: boolean;
+  isVisible?: boolean;
 }
 
 const OrderCard: React.FC<OrderCardProps> = ({
