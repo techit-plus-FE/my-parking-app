@@ -2,19 +2,31 @@ import React from "react";
 import Box from "@mui/material/Box";
 import { CardMedia, Typography } from "@mui/material";
 import MediaQuery from "../../../../hooks/MediaQuery";
+import { CommonButton } from "../../../UI/CommonButton";
+import OrderTotalPrice from "./OrderTotalPrice";
 
 interface OrderCardProps {
   title: string;
   image: string;
-  total: string;
-  orderItems: number;
+  orderItems?: number; // 주문건 외 몇건
+  startDate?: string; // 대여 시작 날짜
+  endDate?: string; // 대여 종료 날짜
+  buyDate?: string; // 구매날짜
+  priceProduct?: number; // 각각의 상품 가격
+  totalPrice?: number;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 const OrderCard: React.FC<OrderCardProps> = ({
   title,
   image,
-  total,
   orderItems,
+  endDate,
+  startDate,
+  buyDate,
+  onClick,
+  priceProduct,
+  totalPrice,
 }) => {
   const isMobile = MediaQuery();
   console.log(isMobile);
@@ -38,11 +50,9 @@ const OrderCard: React.FC<OrderCardProps> = ({
             flex: 1,
           }}
         >
-          <Typography
-            sx={{ fontSize: 14 }}
-            color="text.secondary"
-            gutterBottom
-          ></Typography>
+          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+            구매 날짜: {buyDate}
+          </Typography>
           <CardMedia
             component="img"
             height="100"
@@ -54,9 +64,13 @@ const OrderCard: React.FC<OrderCardProps> = ({
               marginBottom: "20px",
             }}
           />
-          <Typography variant="body1">
-            {title} 외 {orderItems}
-          </Typography>
+          {orderItems ? (
+            <Typography variant="body1">
+              {title} 외 {orderItems}
+            </Typography>
+          ) : (
+            <Typography variant="body1">{title}</Typography>
+          )}
         </Box>
         <Box
           sx={{
@@ -67,7 +81,10 @@ const OrderCard: React.FC<OrderCardProps> = ({
             flex: 2,
           }}
         >
-          <Typography variant="body1">{total}</Typography>
+          {startDate} ~대여기간~!!!어디!!!!!!있을까! {endDate}
+          {totalPrice && <OrderTotalPrice totalPrice={totalPrice} />}
+          {priceProduct && <Typography>{priceProduct} 원</Typography>}
+          <CommonButton text="상세보기" onClick={onClick} />
         </Box>
       </Box>
     </>

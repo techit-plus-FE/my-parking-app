@@ -1,34 +1,32 @@
-interface Product {
-  _id: number;
-  name: string;
+// 주문한 상품의 정보
+
+interface OrderHistoryData {
+  item: OrderHistoryItem[];
+}
+
+//주문한 상품의 디테일 정보
+interface OrderHistoryProduct {
   image: string;
-  quantity: number;
-  price: number;
-  reply_id: number;
-}
-
-interface Cost {
-  products: string;
-  shippingFees: number;
-  discount: {
-    products: number;
-    shippingFees: number;
-  };
-  total: number;
-}
-
-interface Address {
   name: string;
-  value: string;
+  price: number;
+  _id: number;
+  updatedAt: string;
+  address: {
+    name: string;
+    value: string;
+  };
+  products: OrderHistoryProduct[];
 }
 
-interface OrderHistoryDataType {
+interface OrderHistoryItem {
+  address: {
+    name: string;
+    value: string;
+  };
+  updatedAt: string;
   _id: number;
-  user_id: number;
-  state: string;
-  products: Product[];
-  cost: Cost;
-  address: Address;
-  createdAt: string;
-  updatedAt: number;
+  products: OrderHistoryProduct[];
+  cost: {
+    total: number;
+  };
 }
