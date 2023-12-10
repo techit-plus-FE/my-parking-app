@@ -1,16 +1,21 @@
 import React, { useEffect, useState } from "react";
-import OrderHistoryItem from "./OrderHistoryItem";
-import axios from "axios";
-
+import useCustomAxios from "../../../../services/useCustomAxios";
+import OrderCard from "../ordercard/OrderCard";
 
 const OrderHistoryList: React.FC = () => {
-  const [getData, setGetData] = useState([]);
+  const [getOrderHistoryData, setGetOrderHistoryData] = useState([]);
+  const [totalOrders, setTotalOrders] = useState([]);
+
+  const axiosInstance = useCustomAxios();
 
   useEffect(() => {
     const getData = async () => {
-      const response = await axios.get("https://localhost/api//products");
-      console.log(response.data.item);
-      return setGetData(response.data.item);
+      const response = await axiosInstance.get("/orders");
+      // console.log(response.data.item);
+      return (
+        setTotalOrders(response.data.item.length),
+        setGetOrderHistoryData(response.data.item)
+      );
     };
 
     getData();
@@ -18,19 +23,18 @@ const OrderHistoryList: React.FC = () => {
 
   return (
     <>
-      {getData?.map((data: OrderHistoryMapData) => {
-        {
-          console.log(data);
-        }
+      {getOrderHistoryData?.map((item: OrderHistoryDataType) => {
+        console.log(item);
+        console.log(item.cost.products);
+
         return (
-          <div key={data._id}>
-            <OrderHistoryItem
-              orderId={data._id}
-              orderTitle={"이거 샀어요!!"}
-              orderDate={"2032년50월1일"}
-              orderPrice={"10000원"}
-            />
-          </div>
+          <OrderCard
+            orderItems={item.products.length}
+            title={item.products[0].name}
+            image={item.products[0].image}
+            createdAt={item.createdAt}
+            total={item.cost.products}
+          />
         );
       })}
     </>
