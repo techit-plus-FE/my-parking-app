@@ -10,39 +10,45 @@ interface CommonButtonProps {
   disabled?: boolean;
   onClick?: () => void;
   className?: string;
+  isVisible?: boolean;
+  btnType?: boolean;
 }
 
 export const CommonButton: React.FC<CommonButtonProps> = ({
-  text,
-  bgColor,
+  text, // 버튼내용
+  bgColor, // 버튼색상
   textColor,
   disabled,
   onClick,
   width,
   className,
+  isVisible = true, // btn이 안보여야할 페이지 에서는 false 설정,
+  btnType = true, // btn 기본 타입은 submit이며 false 시 button 타입이 적용됩니다.
 }) => {
   return (
-    <div>
-      <Stack spacing={2} direction="row" justifyContent="center">
-        <Button
-          className={className}
-          disabled={disabled}
-          onClick={onClick}
-          variant="contained"
-          type="submit"
-          sx={{
-            // 기본값 지정
-            backgroundColor: bgColor || "var(--color-primary-600)",
-            // 기본값 지정
-            color: textColor || "var(--color-white)",
-            width: width,
-            borderRadius: "44px",
-          }}
-        >
-          {text}
-        </Button>
-      </Stack>
-    </div>
+    isVisible && (
+      <div>
+        <Stack spacing={2} direction="row" justifyContent="center">
+          <Button
+            className={className}
+            disabled={disabled}
+            onClick={onClick}
+            variant="contained"
+            type={btnType ? "submit" : "button"}
+            sx={{
+              // 기본값 지정
+              backgroundColor: bgColor || "var(--color-primary-600)",
+              // 기본값 지정
+              color: textColor || "var(--color-white)",
+              width: width,
+              borderRadius: "44px",
+            }}
+          >
+            {text}
+          </Button>
+        </Stack>
+      </div>
+    )
   );
 };
 
