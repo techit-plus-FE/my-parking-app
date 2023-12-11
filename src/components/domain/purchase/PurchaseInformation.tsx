@@ -5,7 +5,6 @@ import { useBoundStore } from "../../../store";
 
 const PurchaseInformation: React.FC = () => {
   const userBasicInfo = useBoundStore((state) => state.userBasicInfo);
-  console.log(userBasicInfo);
 
   function maskSensitiveInfo(userInfo: {
     name: string;

@@ -17,6 +17,7 @@ interface OrderCardProps {
   totalPrice?: number;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   isVisible?: boolean; // 버튼보임 설정
+  sellerId?: string;
 }
 
 const OrderCard: React.FC<OrderCardProps> = ({
@@ -30,6 +31,7 @@ const OrderCard: React.FC<OrderCardProps> = ({
   priceProduct,
   totalPrice,
   isVisible = true,
+  sellerId,
 }) => {
   const isMobile = MediaQuery();
   console.log(isMobile);
@@ -98,7 +100,8 @@ const OrderCard: React.FC<OrderCardProps> = ({
               {title}
             </Typography>
           )}
-          {startDate} 대여기간!! 어디있을까! {endDate}
+          {startDate} ~ {endDate}
+          <Box>{sellerId}</Box>
           {totalPrice && <OrderTotalPrice totalPrice={totalPrice} />}
           {priceProduct && (
             <Typography sx={{ color: "var(--color-primary-600)" }}>
