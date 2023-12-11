@@ -18,6 +18,7 @@ interface OrderCardProps {
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   isVisible?: boolean; // 버튼보임 설정
   sellerId?: string;
+  productPrice: number;
 }
 
 const OrderCard: React.FC<OrderCardProps> = ({
@@ -28,12 +29,16 @@ const OrderCard: React.FC<OrderCardProps> = ({
   startDate,
   buyDate,
   onClick,
-  priceProduct,
+  productPrice,
   totalPrice,
   isVisible = true,
   sellerId,
 }) => {
   const isMobile = MediaQuery();
+  {
+    orderItems;
+  }
+
   console.log(isMobile);
   return (
     <>
@@ -90,7 +95,8 @@ const OrderCard: React.FC<OrderCardProps> = ({
               variant={isMobile ? "body2" : "body1"}
               sx={{ fontWeight: "bold" }}
             >
-              {title} 외 {orderItems}
+              {/* 배열의 length가 1 이상일 때만 랜더링 */}
+              {title} {orderItems >= 2 && `외 ${orderItems}`}
             </Typography>
           ) : (
             <Typography
@@ -102,11 +108,10 @@ const OrderCard: React.FC<OrderCardProps> = ({
           )}
           {startDate} ~ {endDate}
           <Box>{sellerId}</Box>
-          {totalPrice && <OrderTotalPrice totalPrice={totalPrice} />}
-          {priceProduct && (
-            <Typography sx={{ color: "var(--color-primary-600)" }}>
-              {priceProduct} 원
-            </Typography>
+          {totalPrice ? (
+            <OrderTotalPrice totalPrice={totalPrice} />
+          ) : (
+            <OrderTotalPrice productPrice={productPrice} />
           )}
           {isVisible && (
             <CommonButton
