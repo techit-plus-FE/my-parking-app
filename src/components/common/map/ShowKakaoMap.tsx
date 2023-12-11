@@ -1,6 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
-import { Map, MapMarker, ZoomControl } from "react-kakao-maps-sdk";
+import {
+  CustomOverlayMap,
+  Map,
+  MapMarker,
+  ZoomControl,
+} from "react-kakao-maps-sdk";
 
 import classes from "./ShowKakaoMap.module.css";
 
@@ -12,12 +17,11 @@ type Props = {
 const ShowKakaoMap = ({ product }: Props) => {
   const [map, setMap] = useState<kakao.maps.Map | undefined>();
   const [level, setLevel] = useState<number | undefined>();
-  const [isOpen, setIsOpen] = useState<boolean | undefined>(false); // 오버레이
 
   const productLocation = {
     address: product?.extra?.address,
-    lat: product?.extra?.lat,
-    lng: product?.extra?.lng,
+    lat: Number(product?.extra?.lat),
+    lng: Number(product?.extra?.lng),
   };
 
   return (
@@ -37,7 +41,7 @@ const ShowKakaoMap = ({ product }: Props) => {
             lat: Number(productLocation.lat),
             lng: Number(productLocation.lng),
           }}
-        ></MapMarker>
+        />
         <ZoomControl />
       </Map>
     </div>
