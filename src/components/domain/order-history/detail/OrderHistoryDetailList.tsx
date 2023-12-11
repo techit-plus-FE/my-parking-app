@@ -15,12 +15,13 @@ const OrderHistoryDetailList = () => {
         flex={1}
       />
       {productItems.products.map((item: OrderHistoryProduct) => {
+        console.log(item);
         return (
           <div key={item._id}>
             <OrderCard
               image={item.image}
               title={item.name}
-              priceProduct={item.price}
+              productPrice={item.price}
               buyDate={productItems.updatedAt}
               isVisible={false}
             />

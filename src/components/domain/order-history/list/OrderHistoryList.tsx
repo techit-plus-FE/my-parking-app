@@ -10,15 +10,16 @@ const OrderHistoryList: React.FC = () => {
   const mediaQuery = MediaQuery();
 
   //주문 목록 조회 데이터
-  const [getOrderHistoryData, setGetOrderHistoryData] =
-    useState<OrderHistoryProduct[]>();
+  const [getOrderHistoryData, setGetOrderHistoryData] = useState<
+    OrderHistoryProduct[]
+  >([]);
   const axiosInstance = useCustomAxios();
 
   useEffect(() => {
     const getOrdersData = async () => {
       //orders 로 주문 목록 조회 데이터
-      const response = await axiosInstance<OrderHistoryData>("/orders");
-      return setGetOrderHistoryData(response.data.item);
+      const getOrdersData = await axiosInstance<OrderHistoryData>("/orders");
+      return setGetOrderHistoryData(getOrdersData.data.item);
     };
 
     getOrdersData();
@@ -28,7 +29,6 @@ const OrderHistoryList: React.FC = () => {
     const productItemsData = {
       updatedAt: productItems.updatedAt,
       _id: productItems._id,
-      address: productItems.address,
       products: productItems.products,
     };
 
@@ -60,6 +60,7 @@ const OrderHistoryList: React.FC = () => {
               buyDate={item.updatedAt}
               onClick={() => handleNavigate(item._id, item)}
               totalPrice={item.cost.total}
+              productPrice={item.products[0].price}
             />
           </div>
         );

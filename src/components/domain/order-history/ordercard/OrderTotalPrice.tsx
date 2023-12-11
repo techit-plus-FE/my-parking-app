@@ -2,14 +2,18 @@ import { Typography } from "@mui/material";
 import React from "react";
 
 interface OrderTotalPriceProps {
-  totalPrice: number;
+  totalPrice?: number;
+  productPrice?: number;
 }
 
-const OrderTotalPrice: React.FC<OrderTotalPriceProps> = ({ totalPrice }) => {
+const OrderTotalPrice: React.FC<OrderTotalPriceProps> = ({
+  totalPrice,
+  productPrice,
+}) => {
   return (
     <>
       <Typography sx={{ color: "var(--color-primary-600)" }}>
-        {totalPrice} 원
+        {totalPrice ? totalPrice : productPrice} 원
       </Typography>
     </>
   );
