@@ -34,6 +34,10 @@ const ProductDetail = () => {
     replies: [],
   });
 
+  const setProductDetailData = useBoundStore(
+    (state) => state.setProductDetailData
+  );
+
   const user = useBoundStore((state) => state.userBasicInfo);
 
   // 로그인한 유저가 판매자이면서, 본인이 작성한 글일때만 수정,삭제 버튼 나오는 상태변수 선언
@@ -45,6 +49,7 @@ const ProductDetail = () => {
       const response = await axiosInstance<ProductItemResType>(
         `/products/${productId}`
       );
+      console.log(response);
       const resItem = response.data.item;
       setProductData({
         seller_id: resItem.seller_id,
@@ -56,8 +61,20 @@ const ProductDetail = () => {
         extra: resItem.extra,
         replies: resItem.replies,
       });
-
       setLoading(false);
+      console.log(response.data.item);
+
+      //상품정보 전역에 저장₩
+      setProductDetailData({
+        _id: resItem._id,
+        name: resItem.name,
+        createdAt: resItem.createdAt,
+        mainImages: resItem.mainImages,
+        price: resItem.price,
+        extra: resItem.extra,
+        replies: resItem.replies,
+        quantity: resItem.quantity,
+      });
     } catch (err) {
       console.error("해당 게시글을 불러오는데 실패하였습니다", err);
     }

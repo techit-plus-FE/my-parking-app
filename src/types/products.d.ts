@@ -13,6 +13,8 @@ interface ProductItemType {
   updatedAt?: string;
   extra?: ExtraDataType;
   replies?: RepliesDataType[];
+  quantity?: number;
+  _id?: number;
 }
 
 // extra 추가 상품 정보 타입
@@ -48,6 +50,7 @@ type ProductListType = ProductItemType[];
 interface ProductItemResType {
   ok: 0 | 1;
   item: ProductItemType;
+  _id: number;
 }
 
 interface ProductListResType {
