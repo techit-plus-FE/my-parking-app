@@ -1,7 +1,9 @@
 // 결제결과 페이지
 
+import PurchaseResult from "../../components/domain/purchase/PurchaseResult";
+
 const PurchaseResultPage = () => {
-  return <div>결제 결과 페이지 입니다.</div>;
+  return <PurchaseResult />;
 };
 
 export default PurchaseResultPage;

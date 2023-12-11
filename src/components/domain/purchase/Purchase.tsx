@@ -4,8 +4,10 @@ import OrderCard from "../order-history/ordercard/OrderCard";
 import { useBoundStore } from "../../../store";
 import useCustomAxios from "../../../services/useCustomAxios";
 import OrderTitleBox from "../order-history/ordercard/OrderTitleBox";
+import { useNavigate } from "react-router-dom";
 
 const Purchase = () => {
+  const navigate = useNavigate();
   const productDetailData = useBoundStore((state) => state.productDetailData);
   const axiosInstance = useCustomAxios();
   const userBasicInfo = useBoundStore((state) => state.userBasicInfo);
@@ -19,7 +21,7 @@ const Purchase = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // postData();
+    postData();
     // 결제수단을 입력하지 않을 시 경고 창
     if (!checked.value) {
       alert("결제수단을 선택해주세요");
@@ -51,6 +53,7 @@ const Purchase = () => {
   };
 
   const postData = async () => {
+    console.log(productDetailData);
     const body = {
       products: [
         {
@@ -60,13 +63,16 @@ const Purchase = () => {
       ],
       address: {
         name: userBasicInfo.address,
-        value: userBasicInfo.address,
+        value: productDetailData.name,
       },
     };
+
+    console.log(body);
 
     try {
       await axiosInstance.post("/orders", body);
       alert("결제가 완료 되었습니다");
+      navigate("/purchase/result");
     } catch (error) {
       console.error("결제 에러");
     }
