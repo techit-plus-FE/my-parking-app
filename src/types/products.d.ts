@@ -56,28 +56,35 @@ interface ProductListResType {
   item: ProductListType;
 }
 
-// 상품 등록양식 전체 데이터 타입(모바일)
-interface ProductAllFormDataType {
-  location: ProductLocationType; // x,y좌표(카카오 지도로부터 받은 위치)
-  startDate: string;
-  endDate: string;
-  othersInfo: ProductOthersInfoType;
-  mainImages: string[];
-  shippingFees: number;
-  show: boolean;
-  active: boolean;
+/////////////////////////////////////////////////////
+
+interface ProductSlice {
+  productItem: ProductItemType;
+  productList: ProductListType;
 }
 
-// 위치 좌표 타입
-interface ProductLocationType {
-  address: string;
-  lat: string;
-  lng: string;
-}
+// // 상품 등록양식 전체 데이터 타입(모바일)
+// interface ProductAllFormDataType {
+//   location: ProductLocationType; // x,y좌표(카카오 지도로부터 받은 위치)
+//   startDate: string;
+//   endDate: string;
+//   othersInfo: ProductOthersInfoType;
+//   mainImages: string[];
+//   shippingFees: number;
+//   show: boolean;
+//   active: boolean;
+// }
 
-// 상품등록 마지막에 받을 양식 타입
-interface ProductOthersInfoType {
-  name: string;
-  price: string;
-  content: string;
-}
+// // 위치 좌표 타입
+// interface ProductLocationType {
+//   address: string;
+//   lat: string;
+//   lng: string;
+// }
+
+// // 상품등록 마지막에 받을 양식 타입
+// interface ProductOthersInfoType {
+//   name: string;
+//   price: string;
+//   content: string;
+// }

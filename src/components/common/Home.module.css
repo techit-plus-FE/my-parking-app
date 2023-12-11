@@ -1,5 +1,42 @@
 .container {
   /*홈 컨테이너 높이 세팅*/
-  height: 932px;
+  display: flex;
   overflow-y: scroll;
+}
+
+.leftSideBar {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  /* gap: 30px; */
+}
+.logo {
+  display: flex;
+  gap: 10px;
+  margin-top: 150px;
+}
+.logo p {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--color-primary-600);
+  vertical-align: baseline;
+}
+.logo img {
+  width: 30px;
+  height: 30px;
+}
+.searchBar {
+  width: 100%;
+  text-align: center;
+}
+
+.main {
+  flex: 3;
+}
+
+.rigthSideBar {
+  flex: 1;
 }

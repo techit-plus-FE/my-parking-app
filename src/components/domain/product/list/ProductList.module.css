@@ -1,7 +1,8 @@
 .container {
-  padding: 10px;
+  padding: 15px;
   display: flex;
   flex-direction: column;
+  width: 350px;
 }
 
 .container button {

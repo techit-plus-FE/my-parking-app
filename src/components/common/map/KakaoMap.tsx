@@ -21,9 +21,6 @@ const KakaoMap = ({ product, formData, setFormData }: Props) => {
   // 검색한 텍스트
   const [searchAddress, setSearchAddress] = useState<string>("");
 
-  // 1. 주소 검색시 위치 이동 렌더링
-  useEffect(() => {}, []);
-
   // 입력된 주소로 지도 업데이팅 함수
   const handleSearchMapUpdate = () => {
     //주소-좌표간 변환 서비스 객체를 생성

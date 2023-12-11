@@ -4,14 +4,16 @@ import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 import { createAuthSlice } from "./authSlice";
 import { createMyPageSlice } from "./MyPageSlice";
+import { createProductSlice } from "./ProductSlice";
 import { createPurchaseSlice } from "./PurchaseSlice";
 
-export const useBoundStore = create<AuthSlice & MyPageSlice & PurchaseSlice>()(
+export const useBoundStore = create<AuthSlice & MyPageSlice & PurchaseSlice & ProductSlice>()(
   devtools(
     persist(
       (...a) => ({
         ...createAuthSlice(...a),
         ...createMyPageSlice(...a),
+        ...createProductSlice(...a),
         ...createPurchaseSlice(...a),
       }),
       {

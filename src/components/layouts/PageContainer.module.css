@@ -1,7 +1,6 @@
 .container {
   /* 기본 모바일 뷰 사이즈로 설정 */
-  max-width: 1024px;
+  /* max-width: 1024px; */
   height: 100vh;
   margin: 0 auto;
-  padding: 0 50px;
 }
