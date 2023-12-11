@@ -1,94 +1,117 @@
-// import React from "react";
-// import styles from "./OrderCard.module.css";
-// import Box from "@mui/material/Box";
-
-// interface OrderCardProps {
-//   title?: string;
-//   image?: string;
-//   createdAt: string;
-//   total: string;
-//   orderItems: number;
-// }
-
-// const OrderCard: React.FC<OrderCardProps> = ({
-//   title,
-//   image,
-//   createdAt,
-//   total,
-//   orderItems,
-// }) => {
-//   return (
-//     <div className={styles.orderCardContainer}>
-//       <div className={styles.orderWrapper}>
-//         <div className={styles.imgWrapper}>
-//           <img src={image} alt="" />
-//         </div>
-//         <div className={styles.itemWrapper}>
-//           <h4>
-//             {title} 외 {orderItems} 건
-//           </h4>
-//           <div>주문날짜 :{createdAt}</div>
-//           <address>
-//             <p>강남구 어쩌고</p>
-//           </address>
-//           <span className={styles.orderPrice}>총합계 {total}</span>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default OrderCard;
-
 import React from "react";
-import styles from "./OrderCard.module.css";
 import Box from "@mui/material/Box";
-import CardContent from "@mui/material/CardContent";
 import { CardMedia, Typography } from "@mui/material";
+import MediaQuery from "../../../../hooks/MediaQuery";
+import { CommonButton } from "../../../UI/CommonButton";
+import OrderTotalPrice from "./OrderTotalPrice";
+import OrderTitleBox from "./OrderTitleBox";
 
 interface OrderCardProps {
   title: string;
   image: string;
-  createdAt: string;
-  total: string;
-  orderItems: number;
+  orderItems?: number; // 주문건 외 몇건
+  startDate?: string; // 대여 시작 날짜
+  endDate?: string; // 대여 종료 날짜
+  buyDate?: string; // 구매날짜
+  priceProduct?: number; // 각각의 상품 가격
+  totalPrice?: number;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  isVisible?: boolean; // 버튼보임 설정
 }
 
 const OrderCard: React.FC<OrderCardProps> = ({
   title,
   image,
-  createdAt,
-  total,
   orderItems,
+  endDate,
+  startDate,
+  buyDate,
+  onClick,
+  priceProduct,
+  totalPrice,
+  isVisible = true,
 }) => {
+  const isMobile = MediaQuery();
+  console.log(isMobile);
   return (
     <>
       <Box
         sx={{
-          border: "1px solid red",
           display: "flex",
           justifyContent: " space-evenly",
+          mt: "25px",
+          mb: "25px",
           alignItems: "center",
+          backgroundColor: "#e6e6e6",
+          borderRadius: "10px",
         }}
       >
-        <Box sx={{ flexBasis: "200px", margin: "20px" }}>
-          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-            {createdAt}
-          </Typography>
+        <Box
+          sx={{
+            flexBasis: "200px",
+            margin: "10px",
+            flex: isMobile ? 2 : undefined,
+          }}
+        >
+          {isMobile ? (
+            <Box color="var(--color-gray-700)">
+              주문날짜
+              <Box>{buyDate}</Box>
+            </Box>
+          ) : (
+            <Box color="var(--color-gray-700)">주문날짜: {buyDate}</Box>
+          )}
           <CardMedia
             component="img"
             height="100"
             image={image}
             alt=""
-            style={{ borderRadius: "10px" }}
+            style={{
+              borderRadius: "10px",
+              marginTop: "20px",
+              marginBottom: "20px",
+            }}
           />
         </Box>
-        <Box sx={{ textAlign: "center" }}>
-          <Typography variant="body1">
-            {title} 외 {orderItems}
-          </Typography>
-          <Typography variant="body1">{createdAt}</Typography>
-          <Typography variant="body1">{total}</Typography>
+        <Box
+          sx={{
+            textAlign: "center",
+            display: isMobile ? undefined : "flex",
+            fontSize: isMobile ? "0.7rem" : undefined,
+            width: "100%",
+            justifyContent: "space-around",
+            flex: 3,
+          }}
+        >
+          {orderItems ? (
+            <Typography
+              variant={isMobile ? "body2" : "body1"}
+              sx={{ fontWeight: "bold" }}
+            >
+              {title} 외 {orderItems}
+            </Typography>
+          ) : (
+            <Typography
+              variant={isMobile ? "body2" : "body1"}
+              sx={{ fontWeight: "bold" }}
+            >
+              {title}
+            </Typography>
+          )}
+          {startDate} 대여기간!! 어디있을까! {endDate}
+          {totalPrice && <OrderTotalPrice totalPrice={totalPrice} />}
+          {priceProduct && (
+            <Typography sx={{ color: "var(--color-primary-600)" }}>
+              {priceProduct} 원
+            </Typography>
+          )}
+          {isVisible && (
+            <CommonButton
+              text="상세보기"
+              onClick={onClick}
+              isVisible={isVisible}
+            />
+          )}
         </Box>
       </Box>
     </>
