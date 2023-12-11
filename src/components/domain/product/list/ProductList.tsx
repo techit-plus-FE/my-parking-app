@@ -30,7 +30,7 @@ const ProductList = () => {
     handleGetProducts();
   }, []);
 
-  const handlCheckUser = () => {
+  const handleCheckUser = () => {
     if (user.type === "seller") {
       navigate("/products/regist");
     } else {
@@ -44,7 +44,7 @@ const ProductList = () => {
   return (
     <div className={classes.container}>
       <h2>주차장 리스트</h2>
-      <button type="button" onClick={handlCheckUser}>
+      <button type="button" onClick={handleCheckUser}>
         내 주차장 등록하기
       </button>
       <ul className={classes["product-list"]}>
