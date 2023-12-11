@@ -98,7 +98,7 @@ const OrderCard: React.FC<OrderCardProps> = ({
               {title}
             </Typography>
           )}
-          {startDate} 대여기간!! 어디있을까! {endDate}
+          {startDate} ~ {endDate}
           {totalPrice && <OrderTotalPrice totalPrice={totalPrice} />}
           {priceProduct && (
             <Typography sx={{ color: "var(--color-primary-600)" }}>
