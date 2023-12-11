@@ -57,13 +57,13 @@ const router = createBrowserRouter([
   },
   {
     path: "/",
-    id: "withSearchHeaderAndFooterLayout",
+    id: "noLayoutAndNeedLoggedIn",
     element: (
       <RootLayout
         isNeedLoggedIn={true}
         hasHeader={false}
-        hasFooter={true}
-        hasSearchHeader={true}
+        hasFooter={false}
+        hasSearchHeader={false}
       />
     ),
     errorElement: <ErrorPage />,
