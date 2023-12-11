@@ -1,7 +1,7 @@
 .container {
   /*홈 컨테이너 높이 세팅*/
   display: flex;
-  overflow-y: scroll;
+  overflow: hidden;
 }
 
 .leftSideBar {
@@ -37,6 +37,6 @@
   flex: 3;
 }
 
-.rigthSideBar {
+.rightSideBar {
   flex: 1;
 }

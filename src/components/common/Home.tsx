@@ -23,7 +23,7 @@ const Home = () => {
     lng: "",
   });
   // 검색어 입력 여부 ->
-  // const [isClicked, setIsClicked] = useState()
+  const [isClicked, setIsClicked] = useState();
 
   // 위치검색을 통한 지도 생성함수
   const handleSearchMap = () => {
@@ -61,8 +61,6 @@ const Home = () => {
           <p>마이파킹</p>
           <img src={LOGOBLUE} alt="logo-img" />
         </div>
-
-        {/* 검색창 */}
         <div className={classes.searchBar}>
           <input
             type="text"
@@ -72,7 +70,6 @@ const Home = () => {
           />
           <button onClick={handleSearchMap}>검색하기</button>
         </div>
-        {/* 날짜 검색창 */}
         <div>
           <input type="date" />
         </div>
@@ -85,8 +82,9 @@ const Home = () => {
         <MainKakaoMap mainSearchLocation={mainSearchLocation} />
       </div>
 
-      <div className={classes.rightSideBar}></div>
-      <ProductList />
+      <div className={classes.rightSideBar}>
+        <ProductList />
+      </div>
     </div>
   );
 };

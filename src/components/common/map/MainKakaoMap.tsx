@@ -80,7 +80,7 @@ const MainKakaoMap = ({ mainSearchLocation }: Props) => {
       const response = await axiosInstance.get<ProductListResType>(`/products`);
       const responseData = response.data.item;
 
-      console.log(responseData);
+      // console.log(responseData);
       const listData = responseData;
       setProducts(listData);
     } catch (err) {
