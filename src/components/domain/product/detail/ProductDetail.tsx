@@ -49,8 +49,9 @@ const ProductDetail = () => {
       const response = await axiosInstance<ProductItemResType>(
         `/products/${productId}`
       );
-      console.log(response);
       const resItem = response.data.item;
+      console.log(resItem);
+
       setProductData({
         seller_id: resItem.seller_id,
         name: resItem.name,
@@ -73,6 +74,8 @@ const ProductDetail = () => {
         price: resItem.price,
         extra: resItem.extra,
         replies: resItem.replies,
+        _id: resItem._id,
+        quantity: resItem.quantity,
       });
     } catch (err) {
       console.error("해당 게시글을 불러오는데 실패하였습니다", err);
