@@ -21,10 +21,11 @@ const Purchase = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    postData();
     // 결제수단을 입력하지 않을 시 경고 창
     if (!checked.value) {
       alert("결제수단을 선택해주세요");
+    } else if (checked.value) {
+      postData();
     }
   };
 
