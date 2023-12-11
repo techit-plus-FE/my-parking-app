@@ -62,18 +62,17 @@ const ProductDetail = () => {
         replies: resItem.replies,
       });
       setLoading(false);
-      console.log(response.data.item);
 
-      //상품정보 전역에 저장₩
+      //PurchaseSlice에 저장 및 업데이트
       setProductDetailData({
-        _id: resItem._id,
+        seller_id: resItem.seller_id,
         name: resItem.name,
+        content: resItem.content,
         createdAt: resItem.createdAt,
         mainImages: resItem.mainImages,
         price: resItem.price,
         extra: resItem.extra,
         replies: resItem.replies,
-        quantity: resItem.quantity,
       });
     } catch (err) {
       console.error("해당 게시글을 불러오는데 실패하였습니다", err);
