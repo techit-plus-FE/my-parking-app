@@ -6,11 +6,16 @@ import { createAuthSlice } from "./authSlice";
 import { createMyPageSlice } from "./MyPageSlice";
 import { createProductSlice } from "./ProductSlice";
 import { createPurchaseSlice } from "./PurchaseSlice";
+import { createSearchSlice } from "./searchSlice";
 import { themeSlice } from "./themeSlice";
-import { useState } from "react";
 
 export const useBoundStore = create<
-  AuthSlice & MyPageSlice & PurchaseSlice & ProductSlice & ThemeSlice
+  AuthSlice &
+    MyPageSlice &
+    PurchaseSlice &
+    ProductSlice &
+    SearchSlice &
+    ThemeSlice
 >()(
   devtools(
     persist(
@@ -20,6 +25,7 @@ export const useBoundStore = create<
         ...createProductSlice(...a),
         ...createPurchaseSlice(...a),
         ...themeSlice(...a),
+        ...createSearchSlice(...a),
       }),
       {
         name: "boundStore",
