@@ -9,13 +9,14 @@ import Box from "@mui/material/Box";
 import { useNavigate } from "react-router-dom";
 import classes from "./Footer.module.css";
 import { useBoundStore } from "../../store";
+import MediaQuery from "../../hooks/MediaQuery";
 
 const Footer: React.FC = () => {
   //수정하기 변경하기
   // const iconActiveFill = "var(--color-gray-400)";
   const logout = useBoundStore((state) => state.logout);
   const user_id = useBoundStore((state) => state.myInfo._id);
-  const isDark = useBoundStore((state) => state.isDark);
+  const isMobile = MediaQuery();
 
   const [value, setValue] = React.useState(0);
   const navigate = useNavigate();
@@ -27,7 +28,8 @@ const Footer: React.FC = () => {
   return (
     <Box
       sx={{
-        position: "fixed",
+        // Pc일 땐
+        position: isMobile ? "fixed" : "absolute",
         bottom: 0,
         zIndex: 1000,
         width: "100%",
@@ -41,7 +43,10 @@ const Footer: React.FC = () => {
           setValue(newValue);
           // navigate(event.target.);
         }}
-        sx={{ maxWidth: "var(--main-max-width)" }}
+        sx={{
+          maxWidth: "var(--main-max-width)",
+          bgcolor: "#F2F2F2",
+        }}
       >
         <BottomNavigationAction
           label="홈"

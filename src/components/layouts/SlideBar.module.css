@@ -1,0 +1,19 @@
+.logoWrapper {
+  display: flex;
+  width: 300px;
+  justify-content: center;
+  align-items: center;
+  /* box-shadow: inset 0px 0px 3px 1px rgb(0, 38, 255); */
+  margin-top: 150px;
+}
+
+.logoWrapper p {
+  color: #4285f4;
+  font-weight: bold;
+  font-size: 1.5rem;
+  margin: 0 20px;
+}
+
+.imgWrapper {
+  width: 100px;
+}

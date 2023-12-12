@@ -2,6 +2,7 @@
   /*홈 컨테이너 높이 세팅*/
   display: flex;
   overflow-y: scroll;
+  background-color: rgb(124, 19, 19);
 }
 
 .leftSideBar {

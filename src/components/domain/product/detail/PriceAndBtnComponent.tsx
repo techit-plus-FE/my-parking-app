@@ -13,28 +13,30 @@ const PriceAndBtnComponent = ({ product }: { product: ProductItemType }) => {
   const theme = useTheme();
 
   return (
-    <Box
-      className={classes.wrapper}
-      sx={{
-        backgroundColor: theme.palette.background.default,
-        display: "flex",
-        alignItems: "center",
-        position: "fixed",
-        bottom: "10px",
-        zIndex: 1002,
-        width: "var(--main-max-width)",
-        justifyContent: "space-around",
-        padding: "10px",
-      }}
-    >
-      <div className={classes["util-box"]}>
-        <img src={HEARTICON} />
-        <p>{product.price}원</p>
-      </div>
-      <button type="button" onClick={() => navigate("/purchase")}>
-        결제하기
-      </button>
-    </Box>
+    <div className={classes.wrapper}>
+      <Box
+        sx={{
+          backgroundColor: theme.palette.background.default,
+          display: "flex",
+          alignItems: "center",
+          position: "fixed",
+          bottom: "0",
+          zIndex: 1002,
+          maxWidth: "var(--main-max-width)",
+          justifyContent: "space-around",
+          padding: "10px",
+          width: "100%",
+        }}
+      >
+        <div className={classes["util-box"]}>
+          <img src={HEARTICON} />
+          <p>{product.price}원</p>
+        </div>
+        <button type="button" onClick={() => navigate("/purchase")}>
+          결제하기
+        </button>
+      </Box>
+    </div>
   );
 };
 
