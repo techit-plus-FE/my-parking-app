@@ -6,8 +6,9 @@ import { createAuthSlice } from "./authSlice";
 import { createMyPageSlice } from "./MyPageSlice";
 import { createProductSlice } from "./ProductSlice";
 import { createPurchaseSlice } from "./PurchaseSlice";
+import {createSearchSlice} from "./searchSlice";
 
-export const useBoundStore = create<AuthSlice & MyPageSlice & PurchaseSlice & ProductSlice>()(
+export const useBoundStore = create<AuthSlice & MyPageSlice & PurchaseSlice & ProductSlice & SearchSlice>()(
   devtools(
     persist(
       (...a) => ({
@@ -15,6 +16,7 @@ export const useBoundStore = create<AuthSlice & MyPageSlice & PurchaseSlice & Pr
         ...createMyPageSlice(...a),
         ...createProductSlice(...a),
         ...createPurchaseSlice(...a),
+        ...createSearchSlice(...a),
       }),
       {
         name: "boundStore",
