@@ -91,6 +91,8 @@
   --color-text-actived: #fff;
   --color-text-hover: #34579c;
   --color-badge: #fff;
+
+  --slide-width: 350px;
 }
 
 /*다크모드일때 컬러*/

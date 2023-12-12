@@ -1,6 +1,6 @@
 import React from "react";
 import Box from "@mui/material/Box";
-import { CardMedia, Typography, makeStyles } from "@mui/material";
+import { CardMedia, Typography } from "@mui/material";
 import MediaQuery from "../../../../hooks/MediaQuery";
 import { CommonButton } from "../../../UI/CommonButton";
 import OrderTotalPrice from "./OrderTotalPrice";
@@ -32,7 +32,7 @@ const OrderCard: React.FC<OrderCardProps> = ({
   productPrice,
   totalPrice,
   isVisible = true,
-  sellerId,
+  // sellerId,
 }) => {
   const isDark = useBoundStore((state) => state.isDark);
   const isMobile = MediaQuery();
@@ -49,7 +49,9 @@ const OrderCard: React.FC<OrderCardProps> = ({
           mt: "25px",
           mb: "25px",
           alignItems: "center",
-          borderBottom: isDark || "1px solid var(--color-gray-300)",
+          borderBottom: isDark
+            ? "1px solid var(--color-gray-300)"
+            : "1px solid var(--color-gray-300)",
         }}
       >
         <Box

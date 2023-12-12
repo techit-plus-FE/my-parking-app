@@ -1,36 +1,29 @@
 import { Box } from "@mui/system";
-import React from "react";
+import React, { ReactNode } from "react";
 import LOGOBLUE from "../../assets/images/logo-blue.png";
 import classes from "./SlideBar.module.css";
 import { ChangeEvent } from "react";
 import Footer from "./Footer";
+import { useTheme } from "@emotion/react";
 
 interface SlideBarProps {
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
-  value: string;
-  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  children?: ReactNode;
 }
 
-const SlideBar: React.FC<SlideBarProps> = ({
-  onChange,
-  onKeyDown,
-  value,
-  onClick,
-}) => {
+const SlideBar: React.FC<SlideBarProps> = ({ children }) => {
+  const theme = useTheme();
   return (
     <>
       <Box
         sx={{
-          border: "1px solid red",
-          position: "fixed",
-          top: 0,
-          left: 0,
+          boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
           height: "100vh",
-          width: "400px",
+          width: "var(--slide-width)",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          backgroundColor: theme.palette.background.default,
+          position: "relative",
         }}
       >
         <Box
@@ -45,18 +38,9 @@ const SlideBar: React.FC<SlideBarProps> = ({
             </div>
           </div>
         </Box>
-        <div>
-          <input
-            type="text"
-            onChange={onChange}
-            onKeyDown={onKeyDown}
-            value={value || ""}
-          />
-          <input type="date" />
-        </div>
-        <button onClick={onClick}>검색하기</button>
-        <Footer />
+        <div>{children}</div>
       </Box>
+      <Footer />
     </>
   );
 };

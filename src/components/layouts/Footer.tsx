@@ -28,11 +28,11 @@ const Footer: React.FC = () => {
   return (
     <Box
       sx={{
-        // Pc일 땐
+        // 모바일 일 땐
         position: isMobile ? "fixed" : "absolute",
         bottom: 0,
-        zIndex: 1000,
-        width: "100%",
+        // zIndex: 1000,
+        width: isMobile ? "100%" : "var(--slide-width)",
       }}
       className={classes.footerContainer}
     >
