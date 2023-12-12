@@ -6,53 +6,46 @@ import {
   CustomOverlayMap,
 } from "react-kakao-maps-sdk";
 
-import useCustomAxios from "../../../services/useCustomAxios";
-
 import CustomOverlayBox from "./CustomOverlayBox";
 
 // 홈페이지 메인 지도 서비스
 type Props = {
-  mainSearchLocation: {
-    lat: string;
-    lng: string;
-  };
+  map: kakao.maps.Map | undefined;
+  setMap: (m: kakao.maps.Map | undefined) => void;
+  products: ProductListType | undefined;
+  handleSearchMap: () => void;
 };
 
 // Home에서 내려준 props검색시 사용된 주소 받기
-const MainKakaoMap = ({ mainSearchLocation }: Props) => {
-  const axiosInstance = useCustomAxios();
 
-  const [products, setProducts] = useState<ProductListType | undefined>(); // 서버 요청 받는 상품들 데이터
-
-  const [map, setMap] = useState<kakao.maps.Map | undefined>();
-  // 보여줄 위치상태
+const MainKakaoMap = ({ map, setMap, products, handleSearchMap }: Props) => {
   const [location, setLocation] = useState({
     center: {
-      lat: 37.49676871972202,
-      lng: 127.02474726969814,
+      lat: 37.5069632,
+      lng: 127.0556291,
     },
     error: null,
     isLoading: true,
-  });
-  // 지도 정보
-  const [info, setInfo] = useState<InfoType | undefined>();
-  // 지도 레벨
-  const [level, setLevel] = useState<number | undefined>();
-  // 오버레이
+  }); // 보여줄 위치상태
+  const [markers, setMarkers] = useState<ProductListType | []>();
+  const [info, setInfo] = useState<InfoType | undefined>(); // 지도 정보
+  const [level, setLevel] = useState<number | undefined>(); // 지도 레벨
   const [isOverlayOpen, setIsOverlayOpen] = useState<boolean | undefined>(
     false
-  );
-  const [selectedMarker, setSelectedMarker] = useState<number | null>(null);
+  ); // 오버레이
+  const [selectedMarker, setSelectedMarker] = useState<number | null>(null); // 개별마커상태
 
-  // 1. 해당하는 범위내 주차장데이터 불러오기
+  // 해당하는 bounds영역에 맞는 범위의 상품리스트 요청
   useEffect(() => {
-    getProducts();
-  }, []);
+    const requsetSearchProduct = async () => {
+      const bounds = handleSearchMap();
+      // searchState 하기
+      const res = await searchItemsInThisBound(bounds);
+      setMarkers(res);
+    };
 
-  // 2. 주소검색시 위치로 이동
-  useEffect(() => {
-    moveMainSearch();
-  }, [mainSearchLocation]);
+    requsetSearchProduct();
+  }, [map]);
 
   // 3. 실시간 현재위치에따른 지도 이동
   useEffect(() => {
@@ -63,30 +56,6 @@ const MainKakaoMap = ({ mainSearchLocation }: Props) => {
   useEffect(() => {
     handleMapInfo();
   }, [map, location]);
-
-  // 지도의 레벨에 맞춰 목록 출력
-  useEffect(() => {
-    // 5. 지도의 레벨에 맞춰서 글의 목록을 보여주는 요청
-    if (info && info.level <= 5) {
-      getProducts();
-    } else if (info && info.level >= 6) {
-      getProducts();
-    }
-  }, [info]);
-
-  // 모든 상품 데이터를 불러와야합니다.
-  const getProducts = async () => {
-    try {
-      const response = await axiosInstance.get<ProductListResType>(`/products`);
-      const responseData = response.data.item;
-
-      // console.log(responseData);
-      const listData = responseData;
-      setProducts(listData);
-    } catch (err) {
-      console.error("데이터를 불러오는데 문제가 생겼습니다.", err);
-    }
-  };
 
   // 첫 랜더링시 현재 접속 위치로 이동
   const moveFirstLocation = () => {
@@ -118,20 +87,6 @@ const MainKakaoMap = ({ mainSearchLocation }: Props) => {
         errMsg: "실시간 위치정보를 불러오는데 문제가 생겼습니다.",
         isLoading: false,
       }));
-    }
-  };
-
-  // 주소 검색시 위치로 이동
-  const moveMainSearch = () => {
-    {
-      mainSearchLocation &&
-        setLocation((prev) => ({
-          ...prev,
-          center: {
-            lat: Number(mainSearchLocation.lat),
-            lng: Number(mainSearchLocation.lng),
-          },
-        }));
     }
   };
 
@@ -172,8 +127,8 @@ const MainKakaoMap = ({ mainSearchLocation }: Props) => {
         onIdle={handleMapInfo}
       >
         {/* 1. 상품들 데이터리스트를 맵핑해서 해당 위치값을 마커로 보여주기 */}
-        {products &&
-          products?.map((el, idx) => (
+        {markers &&
+          markers?.map((el, idx) => (
             <>
               <MapMarker
                 key={idx}

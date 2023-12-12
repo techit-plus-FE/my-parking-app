@@ -7,6 +7,17 @@ interface LocationType {
   isLoading: boolean | undefined;
 }
 
+interface MarkerType {
+  position: {
+    lat: string;
+    lng: string;
+  };
+  marker: string;
+  content: string;
+}
+
+type MarkerListType = MarkerType[];
+
 interface InfoType {
   center: {
     lat: number;
