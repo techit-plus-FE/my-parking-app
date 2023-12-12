@@ -105,8 +105,13 @@ const OrderCard: React.FC<OrderCardProps> = ({
               {title}
             </Typography>
           )}
-          {startDate} ~ {endDate}
-          <Box>{sellerId}</Box>
+
+          <Box>
+            <Box>{startDate} ~</Box>
+            {endDate}
+          </Box>
+
+          {/* <Box>{sellerId}</Box> */}
           {totalPrice ? (
             <OrderTotalPrice totalPrice={totalPrice} />
           ) : (

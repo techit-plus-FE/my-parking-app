@@ -83,11 +83,11 @@ const Purchase = () => {
 
   return (
     <>
-      <OrderTitleBox option1="상품정보" option2="대여기간" option3="판매자" />
+      <OrderTitleBox option1="상품정보" option2="대여기간" option4="총 금액" />
       <OrderCard
         title={productDetailData.name}
         image={productDetailData.mainImages[0]}
-        buyDate={(todayDate.dateString, todayDate.timeString)}
+        buyDate={todayDate.dateString}
         totalPrice={productDetailData.price}
         isVisible={false}
         startDate={productDetailData.extra.startDate}

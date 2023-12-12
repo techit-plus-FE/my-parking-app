@@ -26,16 +26,20 @@ const OrderTitleBox: React.FC<OrderTitleBoxProps> = ({
   console.log(isDark);
   return (
     <>
-      <Typography
-        variant="h2"
-        sx={{
-          fontSize: "2rem",
-          fontWeight: "bold",
-          textAlign: "center",
-        }}
-      >
-        주문/결제하기
-      </Typography>
+      {isMobile || (
+        <Typography
+          variant="h2"
+          sx={{
+            fontSize: "2rem",
+            fontWeight: "bold",
+            textAlign: "center",
+            padding: "30px",
+          }}
+        >
+          주문/결제하기
+        </Typography>
+      )}
+
       {isMobile || (
         <Box sx={{}}>
           <List
@@ -49,7 +53,6 @@ const OrderTitleBox: React.FC<OrderTitleBoxProps> = ({
               <ListItem
                 sx={{
                   justifyContent: "center",
-
                   flex: option4 ? 5 : 2,
                 }}
               >
@@ -64,14 +67,16 @@ const OrderTitleBox: React.FC<OrderTitleBoxProps> = ({
             >
               {option2}
             </ListItem>
-            <ListItem
-              sx={{
-                justifyContent: option4 ? "end" : "start",
-                flex: flex ? flex : 2,
-              }}
-            >
-              {option3}
-            </ListItem>
+            {option3 && (
+              <ListItem
+                sx={{
+                  justifyContent: option4 ? "end" : "start",
+                  flex: flex ? flex : 2,
+                }}
+              >
+                {option3}
+              </ListItem>
+            )}
 
             {option4 && (
               <ListItem
