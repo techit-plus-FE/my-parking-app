@@ -1,10 +1,10 @@
 import React from "react";
 import Box from "@mui/material/Box";
 import { CardMedia, Typography } from "@mui/material";
-import MediaQuery from "../../../../hooks/MediaQuery";
 import { CommonButton } from "../../../UI/CommonButton";
 import OrderTotalPrice from "./OrderTotalPrice";
 import { useBoundStore } from "../../../../store";
+import MediaQuery from "../../../UI/MediaQuery";
 
 interface OrderCardProps {
   title: string;

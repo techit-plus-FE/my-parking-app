@@ -7,13 +7,12 @@ import classes from "./Home.module.css";
 import ProductList from "../domain/product/list/ProductList";
 import MainKakaoMap from "./map/MainKakaoMap";
 
-import LOGOBLUE from "../../assets/images/logo-blue.png";
 import Footer from "../layouts/Footer";
 import SearchHeader from "../layouts/SearchHeader";
 import SlideBar from "../layouts/SlideBar";
 import { Box } from "@mui/system";
 import SearchInput from "../layouts/SearchInput";
-import MediaQuery from "../../hooks/MediaQuery";
+import MediaQuery from "../UI/MediaQuery";
 
 // 1. 왼쪽 사이드바에서 검색어를 입력하면 지도에 표시되게 하려면 사이드바 컴포넌트에 props로 검색어 상태변경함수를 내려주어야함
 // 2. 검색된 위치에 해당하는 상품 데이터를 MainKakaoMap에 보여줘야하고, 해당하는 리스트를 불러오는건 오른족 사이드바 컴포넌트에서 진행해야함
@@ -77,10 +76,10 @@ const Home = () => {
       <div className={classes.mapWrapper}>
         <MainKakaoMap mainSearchLocation={mainSearchLocation} />
       </div>
-      {/* <Box>
-          <ProductList />
-        </Box> */}
-      <Footer />
+      <Box>
+        <ProductList />
+      </Box>
+      <Footer position="absolute" width="var(--slide-width)" />
     </Box>
   );
 };

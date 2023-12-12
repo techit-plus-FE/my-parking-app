@@ -2,8 +2,6 @@ import { Box } from "@mui/system";
 import React, { ReactNode } from "react";
 import LOGOBLUE from "../../assets/images/logo-blue.png";
 import classes from "./SlideBar.module.css";
-import { ChangeEvent } from "react";
-import Footer from "./Footer";
 import { useTheme } from "@emotion/react";
 
 interface SlideBarProps {
@@ -40,7 +38,6 @@ const SlideBar: React.FC<SlideBarProps> = ({ children }) => {
         </Box>
         <div>{children}</div>
       </Box>
-      <Footer />
     </>
   );
 };

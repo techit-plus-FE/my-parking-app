@@ -9,14 +9,18 @@ import Box from "@mui/material/Box";
 import { useNavigate } from "react-router-dom";
 import classes from "./Footer.module.css";
 import { useBoundStore } from "../../store";
-import MediaQuery from "../../hooks/MediaQuery";
+import { useTheme } from "@emotion/react";
 
-const Footer: React.FC = () => {
+interface FooterProps {
+  position: string;
+  width: string;
+}
+
+const Footer: React.FC<FooterProps> = ({ position, width }) => {
   //수정하기 변경하기
   // const iconActiveFill = "var(--color-gray-400)";
   const logout = useBoundStore((state) => state.logout);
   const user_id = useBoundStore((state) => state.myInfo._id);
-  const isMobile = MediaQuery();
 
   const [value, setValue] = React.useState(0);
   const navigate = useNavigate();
@@ -24,15 +28,16 @@ const Footer: React.FC = () => {
   const handelNavigate = (path: string) => {
     navigate(path);
   };
+  const theme = useTheme();
 
   return (
     <Box
       sx={{
         // 모바일 일 땐
-        position: isMobile ? "fixed" : "absolute",
+        position: position ? position : "fixed",
         bottom: 0,
         // zIndex: 1000,
-        width: isMobile ? "100%" : "var(--slide-width)",
+        width: width ? width : "100%",
       }}
       className={classes.footerContainer}
     >
@@ -45,7 +50,7 @@ const Footer: React.FC = () => {
         }}
         sx={{
           maxWidth: "var(--main-max-width)",
-          bgcolor: "#F2F2F2",
+          bgcolor: theme.palette.background.default,
         }}
       >
         <BottomNavigationAction

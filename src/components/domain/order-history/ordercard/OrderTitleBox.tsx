@@ -1,9 +1,8 @@
 import { List, ListItem, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import React from "react";
-import MediaQuery from "../../../../hooks/MediaQuery";
-import { useTheme } from "@emotion/react";
 import { useBoundStore } from "../../../../store";
+import MediaQuery from "../../../UI/MediaQuery";
 
 interface OrderTitleBoxProps {
   option1: string;

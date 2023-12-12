@@ -3,7 +3,7 @@ import useCustomAxios from "../../../../services/useCustomAxios";
 import OrderCard from "../ordercard/OrderCard";
 import { useNavigate } from "react-router-dom";
 import OrderTitleBox from "../ordercard/OrderTitleBox";
-import MediaQuery from "../../../../hooks/MediaQuery";
+import MediaQuery from "../../../UI/MediaQuery";
 
 const OrderHistoryList: React.FC = () => {
   const navigate = useNavigate();

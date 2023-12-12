@@ -11,6 +11,13 @@ const MediaQuery = () => {
     })
   );
 
+  const mediumScreen = useMediaQuery(
+    json2mq({
+      minWidth: theme.breakpoints.values.sm + 1,
+      maxWidth: theme.breakpoints.values.md - 1,
+    })
+  );
+
   return matches;
 };
 

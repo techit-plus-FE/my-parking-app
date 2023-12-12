@@ -7,6 +7,7 @@ import classes from "./ProductList.module.css";
 import { useNavigate } from "react-router-dom";
 import useCustomAxios from "../../../../services/useCustomAxios";
 import { useBoundStore } from "../../../../store";
+import { Box } from "@mui/system";
 
 const ProductList = () => {
   const navigate = useNavigate();
@@ -43,7 +44,7 @@ const ProductList = () => {
 
   return (
     <div className={classes.container}>
-      <h2>주차장 리스트</h2>
+      <Box sx={{ fontSize: "2rem" }}>주차장 리스트</Box>
       <button type="button" onClick={handleCheckUser}>
         내 주차장 등록하기
       </button>
