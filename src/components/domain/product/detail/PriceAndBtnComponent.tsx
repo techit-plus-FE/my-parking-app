@@ -4,16 +4,19 @@ import classes from "./PriceAndBtnComponent.module.css";
 import HEARTICON from "../../../../assets/images/heart-icon.png";
 import { Box } from "@mui/system";
 import { useBoundStore } from "../../../../store";
+import { useTheme } from "@emotion/react";
+import { Theme } from "@mui/material/styles";
 
 const PriceAndBtnComponent = ({ product }: { product: ProductItemType }) => {
   const navigate = useNavigate();
   const isDark = useBoundStore((state) => state.isDark);
+  const theme = useTheme();
 
   return (
     <Box
       className={classes.wrapper}
       sx={{
-        backgroundColor: isDark ? "" : "var(--color-white)",
+        backgroundColor: theme.palette.background.default,
         display: "flex",
         alignItems: "center",
         position: "fixed",

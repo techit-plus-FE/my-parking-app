@@ -7,6 +7,7 @@ import { createMyPageSlice } from "./MyPageSlice";
 import { createProductSlice } from "./ProductSlice";
 import { createPurchaseSlice } from "./PurchaseSlice";
 import { themeSlice } from "./themeSlice";
+import { useState } from "react";
 
 export const useBoundStore = create<
   AuthSlice & MyPageSlice & PurchaseSlice & ProductSlice & ThemeSlice
