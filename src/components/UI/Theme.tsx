@@ -8,7 +8,7 @@ interface ThemeProps {
 }
 
 const Theme: React.FC<ThemeProps> = ({ children }) => {
-  const setIsDark = useBoundStore((state) => state.setIsDark);
+
   const isDark = useBoundStore((state) => state.isDark);
 
   const darkTheme = createTheme({

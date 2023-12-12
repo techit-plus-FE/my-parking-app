@@ -223,7 +223,7 @@ function App() {
         <RouterProvider router={router} />
       </Theme>
     </main>
-  );
+  )
 }
 
 export default App;
