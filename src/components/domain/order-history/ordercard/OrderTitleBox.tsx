@@ -1,7 +1,9 @@
-import { List, ListItem } from "@mui/material";
+import { List, ListItem, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import React from "react";
 import MediaQuery from "../../../../hooks/MediaQuery";
+import { useTheme } from "@emotion/react";
+import { useBoundStore } from "../../../../store";
 
 interface OrderTitleBoxProps {
   option1: string;
@@ -20,11 +22,29 @@ const OrderTitleBox: React.FC<OrderTitleBoxProps> = ({
 }) => {
   const isMobile = MediaQuery();
 
+  const isDark = useBoundStore((state) => state.isDark);
+  console.log(isDark);
   return (
     <>
+      <Typography
+        variant="h2"
+        sx={{
+          fontSize: "2rem",
+          fontWeight: "bold",
+          textAlign: "center",
+        }}
+      >
+        주문/결제하기
+      </Typography>
       {isMobile || (
-        <Box>
-          <List sx={{ display: "flex", flexDirection: "row" }}>
+        <Box sx={{}}>
+          <List
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              backgroundColor: isDark ? "#2c2c2c" : "#F2F2F2",
+            }}
+          >
             {
               <ListItem
                 sx={{

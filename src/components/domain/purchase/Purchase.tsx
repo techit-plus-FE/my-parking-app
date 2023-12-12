@@ -17,8 +17,6 @@ const Purchase = () => {
     timeString: "",
   });
 
-  console.log(productDetailData);
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // 결제수단을 입력하지 않을 시 경고 창
@@ -85,12 +83,7 @@ const Purchase = () => {
 
   return (
     <>
-      <OrderTitleBox
-        option1="상품정보"
-        option2="대여기간"
-        option3="판매자"
-        option4="총 금액 "
-      />
+      <OrderTitleBox option1="상품정보" option2="대여기간" option3="판매자" />
       <OrderCard
         title={productDetailData.name}
         image={productDetailData.mainImages[0]}

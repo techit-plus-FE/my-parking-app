@@ -27,10 +27,10 @@ const Footer: React.FC = () => {
   return (
     <Box
       sx={{
-        width: "var(--main-max-width)",
         position: "fixed",
         bottom: 0,
         zIndex: 1000,
+        width: "100%",
       }}
       className={classes.footerContainer}
     >
@@ -41,11 +41,13 @@ const Footer: React.FC = () => {
           setValue(newValue);
           // navigate(event.target.);
         }}
+        sx={{ maxWidth: "var(--main-max-width)" }}
       >
         <BottomNavigationAction
           label="홈"
           icon={<HomeIcon />}
           onClick={() => handelNavigate("home")}
+          sx={{ flex: 1 }}
         />
         <BottomNavigationAction
           label="검색"
@@ -59,6 +61,7 @@ const Footer: React.FC = () => {
           label="프로필"
           icon={<PersonIcon />}
           onClick={() => handelNavigate(`mypage/${user_id}`)}
+          sx={{ flex: 1 }}
         />
         <BottomNavigationAction
           label="로그아웃"
@@ -67,6 +70,7 @@ const Footer: React.FC = () => {
             logout();
             alert("로그아웃이 완료되었습니다");
           }}
+          sx={{ flex: 1 }}
         />
       </BottomNavigation>
     </Box>
