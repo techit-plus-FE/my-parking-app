@@ -4,8 +4,10 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Box from "@mui/material/Box";
 import { useBoundStore } from "../../store";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
+  const navigate = useNavigate();
   const isDark = useBoundStore((state) => state.isDark);
   return (
     <Box
@@ -23,6 +25,7 @@ const Header = () => {
         }}
       >
         <BottomNavigationAction
+          onClick={() => navigate(-1)}
           icon={<ArrowBackIcon />}
           sx={{
             alignItems: "flex-start",
