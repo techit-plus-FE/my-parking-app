@@ -23,7 +23,7 @@ const OrderTitleBox: React.FC<OrderTitleBoxProps> = ({
   return (
     <>
       {isMobile || (
-        <Box sx={{ backgroundColor: "#e1e1e1" }}>
+        <Box>
           <List sx={{ display: "flex", flexDirection: "row" }}>
             {
               <ListItem

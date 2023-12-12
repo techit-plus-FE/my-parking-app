@@ -37,15 +37,16 @@
 }
 
 :root {
+  margin: 0 auto;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
-
+  --color-error-light: 600px;
   --color-error-light: #ce0000;
   --color-error-dark: #c11c0a;
-
+  --main-max-width: 390px;
   --color-gray-100: #f4f3f1;
   --color-gray-200: #dddbd8;
   --color-gray-300: #ccc9c6;
@@ -105,11 +106,6 @@ html.dark {
   --color-text-actived: #fff;
   --color-text-hover: #adb5bd;
   --color-badge: #495057;
-}
-
-body {
-  width: 100vw;
-  height: 100vh;
 }
 
 ul {

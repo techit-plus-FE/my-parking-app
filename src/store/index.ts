@@ -6,8 +6,11 @@ import { createAuthSlice } from "./authSlice";
 import { createMyPageSlice } from "./MyPageSlice";
 import { createProductSlice } from "./ProductSlice";
 import { createPurchaseSlice } from "./PurchaseSlice";
+import { themeSlice } from "./themeSlice";
 
-export const useBoundStore = create<AuthSlice & MyPageSlice & PurchaseSlice & ProductSlice>()(
+export const useBoundStore = create<
+  AuthSlice & MyPageSlice & PurchaseSlice & ProductSlice & ThemeSlice
+>()(
   devtools(
     persist(
       (...a) => ({
@@ -15,6 +18,7 @@ export const useBoundStore = create<AuthSlice & MyPageSlice & PurchaseSlice & Pr
         ...createMyPageSlice(...a),
         ...createProductSlice(...a),
         ...createPurchaseSlice(...a),
+        ...themeSlice(...a),
       }),
       {
         name: "boundStore",
@@ -23,6 +27,7 @@ export const useBoundStore = create<AuthSlice & MyPageSlice & PurchaseSlice & Pr
           userBasicInfo: state.userBasicInfo,
           isLoggedIn: state.isLoggedIn,
           productDetailData: state.productDetailData,
+          isDark: state.isDark,
         }),
       }
     )

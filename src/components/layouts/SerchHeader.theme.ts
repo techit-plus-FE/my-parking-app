@@ -45,7 +45,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#fff",
+      main: "#1a237e",
     },
   },
 });

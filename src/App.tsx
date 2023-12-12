@@ -21,8 +21,14 @@ import OrderHistoryDetailPage from "./pages/order-hisotry/OrderHistoryDetailPage
 import PurchasePage from "./pages/purchase/PurchaseFormPage";
 import PurchaseResultPage from "./pages/purchase/PurchaseResultPage";
 import SearchPage from "./pages/SearchPage";
+import { ThemeProvider, useTheme } from "@emotion/react";
+import { CssBaseline, createTheme } from "@mui/material";
+import { useState } from "react";
+import { useBoundStore } from "./store/index";
+import classes from "./App.module.css";
 
 // 라우터 설정
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -167,7 +173,42 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  // 다크 모드 테마 생성
+  const setIsDark = useBoundStore((state) => state.setIsDark);
+  const isDark = useBoundStore((state) => state.isDark);
+
+  const darkTheme = createTheme({
+    palette: {
+      mode: isDark ? "dark" : "light",
+      primary: {
+        main: "#90caf9", // 다크 모드에서의 primary 색상
+      },
+      secondary: {
+        main: "#ffcc80", // 다크 모드에서의 secondary 색상
+      },
+      background: {
+        default: isDark ? "#212121" : "#fff", // 기본 배경색
+        paper: isDark ? "#2c2c2c" : "#fff", // 다크 모드에서의 페이퍼 배경색
+      },
+      text: {
+        primary: isDark ? "#fff" : "#000", // 다크 모드에서의 텍스트 색상
+        secondary: "#989898", // 다크 모드에서의 보조 텍스트 색상
+      },
+
+      // 기타 색상들을 필요에 따라 추가할 수 있습니다.
+    },
+  });
+
+  return (
+    <main className={classes.mainContainer}>
+      <button onClick={() => setIsDark(isDark)}>다크모드</button>
+      <ThemeProvider theme={darkTheme}>
+        <CssBaseline>
+          <RouterProvider router={router} />
+        </CssBaseline>
+      </ThemeProvider>
+    </main>
+  );
 }
 
 export default App;

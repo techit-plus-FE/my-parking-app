@@ -1,10 +1,10 @@
 import React from "react";
 import Box from "@mui/material/Box";
-import { CardMedia, Typography } from "@mui/material";
+import { CardMedia, Typography, makeStyles } from "@mui/material";
 import MediaQuery from "../../../../hooks/MediaQuery";
 import { CommonButton } from "../../../UI/CommonButton";
 import OrderTotalPrice from "./OrderTotalPrice";
-import OrderTitleBox from "./OrderTitleBox";
+import { useBoundStore } from "../../../../store";
 
 interface OrderCardProps {
   title: string;
@@ -18,7 +18,7 @@ interface OrderCardProps {
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   isVisible?: boolean; // 버튼보임 설정
   sellerId?: string;
-  productPrice: number;
+  productPrice?: number;
 }
 
 const OrderCard: React.FC<OrderCardProps> = ({
@@ -34,12 +34,12 @@ const OrderCard: React.FC<OrderCardProps> = ({
   isVisible = true,
   sellerId,
 }) => {
+  const isDark = useBoundStore((state) => state.isDark);
   const isMobile = MediaQuery();
   {
     orderItems;
   }
 
-  console.log(isMobile);
   return (
     <>
       <Box
@@ -49,14 +49,14 @@ const OrderCard: React.FC<OrderCardProps> = ({
           mt: "25px",
           mb: "25px",
           alignItems: "center",
-          backgroundColor: "#e6e6e6",
-          borderRadius: "10px",
+          borderBottom: isDark || "1px solid var(--color-gray-300)",
         }}
       >
         <Box
           sx={{
             flexBasis: "200px",
             margin: "10px",
+            //모바일 일때 크기
             flex: isMobile ? 2 : undefined,
           }}
         >
@@ -70,7 +70,6 @@ const OrderCard: React.FC<OrderCardProps> = ({
           )}
           <CardMedia
             component="img"
-            height="100"
             image={image}
             alt=""
             style={{

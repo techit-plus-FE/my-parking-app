@@ -14,7 +14,8 @@ const Footer: React.FC = () => {
   //수정하기 변경하기
   // const iconActiveFill = "var(--color-gray-400)";
   const logout = useBoundStore((state) => state.logout);
-  const user_id = useBoundStore((state)=>state.myInfo._id)
+  const user_id = useBoundStore((state) => state.myInfo._id);
+  const isDark = useBoundStore((state) => state.isDark);
 
   const [value, setValue] = React.useState(0);
   const navigate = useNavigate();
@@ -23,13 +24,16 @@ const Footer: React.FC = () => {
     navigate(path);
   };
 
-  // const logout = () => {
-  //   deleteUserToken();
-  //   deleteUserBasicData();
-  // };
-
   return (
-    <Box sx={{ width: "100%" }} className={classes.footerContainer}>
+    <Box
+      sx={{
+        width: "var(--main-max-width)",
+        position: "fixed",
+        bottom: 0,
+        zIndex: 1000,
+      }}
+      className={classes.footerContainer}
+    >
       <BottomNavigation
         showLabels
         value={value}
@@ -60,10 +64,9 @@ const Footer: React.FC = () => {
           label="로그아웃"
           icon={<PersonIcon />}
           onClick={() => {
-            logout()
-            alert('로그아웃이 완료되었습니다')
+            logout();
+            alert("로그아웃이 완료되었습니다");
           }}
-          
         />
       </BottomNavigation>
     </Box>
