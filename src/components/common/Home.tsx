@@ -12,33 +12,20 @@ import { Box } from "@mui/system";
 import SlideBar from "../layouts/SlideBar";
 import SearchInput from "../layouts/SearchInput";
 import SearchHeader from "../layouts/SearchHeader";
-import MediaQuery from "../UI/MediaQuery";
 import MediaQueryMain from "../UI/MediaQueryMain";
+
 
 const Home = () => {
   const [map, setMap] = useState<kakao.maps.Map>();
-  const [products, setProducts] = useState<ProductListType | undefined>(); // 서버 요청 받는 상품들 데이터(초기, 검색후)
-  const [searchValue, setSearchValue] = useState("");
-
-  // 위치검색을 통한 지도 영역생성 함수
-  const handleSearchMakeMap = () => {
-    if (!map) return;
-
-    const ps = new kakao.maps.services.Places(map);
-    const bounds = new kakao.maps.LatLngBounds(); // 지도 영역생성
-
-    ps.keywordSearch(`${searchValue}`, function (result: any, status: any) {
-      if (status === kakao.maps.services.Status.OK) {
-        const data = result; // 가장 유사한 상위검색객체 저장
-        for (let i = 0; i < 3; i++) {
-          bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x)); // 받아온 검색한 결과값의 x,y좌표로 영역 재설정
-        }
-        map.setBounds(bounds);
-      }
-    });
-
-    return map.getBounds();
-  };
+  const [products, setProducts] = useState<ProductListType | []>([]); // 서버 요청 받는 상품들 데이터(초기, 검색후)
+  const [searchValue, setSearchValue] = useState<string>(""); // 초기 검색어 상태
+  const [searchInfo, setSearchInfo] = useState<InfoType>({
+    keyword: "",
+    centerLatLng: { // 애플트리타워로 초기 좌표설정
+      lat: 37.5070100333146,
+      lng: 127.055618149788,
+    }
+  });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
@@ -47,6 +34,35 @@ const Home = () => {
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       handleSearchMakeMap();
+    }
+  };
+  // 위치검색을 통한 지도 영역생성 함수
+  const handleSearchMakeMap = () => {
+    if (!map || !searchValue) return;
+
+    const ps = new kakao.maps.services.Places(map);
+    ps.keywordSearch(`${searchValue}`, placeSearchCB);
+    
+    function placeSearchCB (result: any, status: any) {
+      if(!map) return;
+      if (status === kakao.maps.services.Status.OK) {
+        // 남서,북동 기본값(애플트리타워)
+        const bound = new kakao.maps.LatLngBounds(); // 지도 영역생성 -> 사각형
+        
+        const data = result[0]; // 가장 유사한 상위검색객체 저장
+
+        bound.extend(new kakao.maps.LatLng(data.y, data.x));
+        map.setBounds(bound);
+
+        // (추가)검색한 키워드, 중심좌표, 영역을 담은 객체 상태를 변경해줍니다.
+        setSearchInfo({
+          keyword: searchValue,
+          centerLatLng: {
+            lat: data.y,
+            lng: data.x,
+          },
+        });
+      }
     }
   };
 
@@ -60,6 +76,7 @@ const Home = () => {
         flexDirection: isMobile ? "column" : "row",
       }}
     >
+      {/* 왼쪽 사이드바 */}
       {isMobile ? (
         <SearchHeader />
       ) : (
@@ -71,19 +88,23 @@ const Home = () => {
           />
         </SlideBar>
       )}
+      {/* 가운데 지도  */}
       <div className={classes.mapWrapper}>
         <Box>
           <MainKakaoMap
             map={map}
             setMap={setMap}
             setProducts={setProducts}
-            handleSearchMakeMap={handleSearchMakeMap}
+            searchInfo={searchInfo}
           />
         </Box>
       </div>
+
+      {/* 오른쪽사이드바 */}
       <Box>
         <ProductList products={products} isMobile={isMobile} />
       </Box>
+
       {isMobile ? (
         <Footer />
       ) : (

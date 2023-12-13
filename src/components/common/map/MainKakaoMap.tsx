@@ -13,60 +13,55 @@ import { useBoundStore } from "../../../store";
 type Props = {
   map: kakao.maps.Map | undefined;
   setMap: (m: kakao.maps.Map | undefined) => void;
-  setProducts: (l: ProductListType) => void;
-  handleSearchMakeMap: () => kakao.maps.LatLngBounds | undefined;
-  // searchValue: string;
+  searchInfo: InfoType;
+  setProducts: (list: ProductListType) => void;
 };
 
 // Home에서 내려준 props검색시 사용된 주소 받기
 
-const MainKakaoMap = ({
-  map,
-  setMap,
-  setProducts,
-  handleSearchMakeMap,
-}: Props) => {
+const MainKakaoMap = ({ map, setMap, searchInfo, setProducts }: Props) => {
   const searchItemsInThisBound = useBoundStore(
     (state) => state.searchItemsInThisBound
   );
   const [mapExist, setMapExist] = useState<boolean>(false);
-  const [location, setLocation] = useState({
-    center: {
-      lat: 37.5069632,
-      lng: 127.0556291,
-    },
-    error: null,
-    isLoading: true,
-  }); // 보여줄 위치상태
+  // const [location, setLocation] = useState({
+  //   center: {
+  //     lat: 37.5069632,
+  //     lng: 127.0556291,
+  //   },
+  //   error: null,
+  //   isLoading: true,
+  // }); // 보여줄 위치상태
   const [markers, setMarkers] = useState<ProductListType | []>();
-  // const [info, setInfo] = useState<InfoType | undefined>(); // 지도 정보
-  const [level, setLevel] = useState<number | undefined>();
+  const [level, setLevel] = useState<number | undefined>(4);
   const [isOverlayOpen, setIsOverlayOpen] = useState<boolean | undefined>(
     false
   );
   const [selectedMarker, setSelectedMarker] = useState<number | null>(null);
 
-  // 해당하는 bounds영역에 맞는 범위의 상품리스트 요청
-  useEffect(() => {
+  const requsetSearchProduct = async () => {
     if (map && mapExist) {
-      const requsetSearchProduct = async () => {
-        const bound = handleSearchMakeMap();
-        const res = await searchItemsInThisBound(bound);
+      const bound = map.getBounds()      
+      const res = await searchItemsInThisBound(bound);
 
-        setMarkers(res); // 마커변경출력
-        setProducts(res); // 리스트변경출력
-      };
-
-      requsetSearchProduct();
+      setMarkers(res); // 마커변경출력
+      setProducts(res); // 리스트변경출력
     }
-  }, [map, mapExist]);
+  };
+
+  useEffect(() => {
+      // 해당하는 bounds영역에 맞는 범위의 상품리스트 요청
+      requsetSearchProduct();
+  }, [map, mapExist, searchInfo]);
+
+  
 
   return (
     <>
       <Map
         center={{
-          lat: Number(location?.center.lat),
-          lng: Number(location?.center.lng),
+          lat: searchInfo.centerLatLng.lat,
+          lng: searchInfo.centerLatLng.lng,
         }}
         style={{ height: "100vh" }}
         level={level}
@@ -75,7 +70,7 @@ const MainKakaoMap = ({
           setMapExist(true);
         }}
         onZoomChanged={(map) => setLevel(map.getLevel())}
-        // onIdle={handleMapInfo}
+        onDragEnd={() => requsetSearchProduct()}
       >
         {/* 1. 상품들 데이터리스트를 맵핑해서 해당 위치값을 마커로 보여주기 */}
         {markers &&
@@ -113,8 +108,8 @@ const MainKakaoMap = ({
             </>
           ))}
 
-        {/* 2. 현재 접속한 위치의 마커 표시 */}
-        {!location.isLoading && (
+
+        {/* {!location.isLoading && (
           <MapMarker
             position={location.center}
             image={{
@@ -123,7 +118,7 @@ const MainKakaoMap = ({
             }}
             title="내 위치"
           ></MapMarker>
-        )}
+        )} */}
 
         <ZoomControl />
       </Map>

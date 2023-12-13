@@ -19,17 +19,8 @@ interface MarkerType {
 type MarkerListType = MarkerType[];
 
 interface InfoType {
-  center: {
-    lat: number;
-    lng: number;
-  };
-  level: number;
-  typeId: number;
-  swLatLng: {
-    lat: number;
-    lng: number;
-  };
-  neLatLng: {
+  keyword: string;
+  centerLatLng: {
     lat: number;
     lng: number;
   };

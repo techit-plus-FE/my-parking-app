@@ -9,18 +9,15 @@ const requestItemsInThisBound: (
   const ne: kakao.maps.LatLng = bound.getNorthEast();
 
   const [min_lat, min_lng]: number[] = [sw.getLat(), sw.getLng()];
-  const [max_lat, max_lng]: number[] = [ne.getLat(), sw.getLng()];
+  const [max_lat, max_lng]: number[] = [ne.getLat(), ne.getLng()];
   //Lat의 범위 : sw[0] <= lat <= ne[0]
   //lng의 범위 : sw[1] <= lng <= ne[1]
-  console.log(min_lat, min_lng);
-  console.log(max_lat, max_lng);
 
   try {
     const response = await axios.get<string, { data: ProductListResType }>(
-      `${BASE_URL}/products?/custom={"lat" : {"$gte": ${min_lat}, "$lte": ${max_lat}}& {"lng": {"$gte": ${min_lng}, "$lte": ${max_lng}}}}`
+      `${BASE_URL}/products?custom={"extra.lat" : {"$gte": ${min_lat}, "$lte": ${max_lat}}, "extra.lng" : {"$gte": ${min_lng}, "$lte": ${max_lng}}}`
     );
     if (response.data.ok === 1) {
-      console.log(response.data.item);
       return response.data.item;
     }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
