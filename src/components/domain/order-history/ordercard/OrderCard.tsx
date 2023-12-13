@@ -17,8 +17,9 @@ interface OrderCardProps {
   totalPrice?: number;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   isVisible?: boolean; // 버튼보임 설정
-  sellerId?: string;
-  productPrice?: number;
+  sellerId?: string; //구매자 아이디
+  productPrice?: number; // 상품 개당가격
+  flexDirection?: string;
 }
 
 const OrderCard: React.FC<OrderCardProps> = ({
@@ -32,6 +33,7 @@ const OrderCard: React.FC<OrderCardProps> = ({
   productPrice,
   totalPrice,
   isVisible = true,
+  flexDirection,
   // sellerId,
 }) => {
   const isDark = useBoundStore((state) => state.isDark);
@@ -52,6 +54,7 @@ const OrderCard: React.FC<OrderCardProps> = ({
           borderBottom: isDark
             ? "1px solid var(--color-gray-300)"
             : "1px solid var(--color-gray-300)",
+          flexDirection: flexDirection ? flexDirection : null,
         }}
       >
         <Box

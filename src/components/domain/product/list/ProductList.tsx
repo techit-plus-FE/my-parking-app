@@ -79,7 +79,13 @@ const ProductList = ({ products, isMobile }: Props) => {
             <ul className={classes["product-list"]}>
               {products && products.length > 0 ? (
                 products.map((product) => {
-                  return <ProductItem key={product._id} product={product} />;
+                  return (
+                    <ProductItem
+                      key={product._id}
+                      product={product}
+                      flexDirection="column"
+                    />
+                  );
                 })
               ) : (
                 <p>등록된 상품이 암것도 없어요ㅠㅠ</p>
