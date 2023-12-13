@@ -7,8 +7,13 @@ import classes from "./Home.module.css";
 import ProductList from "../domain/product/list/ProductList";
 import MainKakaoMap from "./map/MainKakaoMap";
 
-import LOGOBLUE from "../../assets/images/logo-blue.png";
 import Footer from "../layouts/Footer";
+import { Box } from "@mui/system";
+import SlideBar from "../layouts/SlideBar";
+import SearchInput from "../layouts/SearchInput";
+import SearchHeader from "../layouts/SearchHeader";
+import MediaQuery from "../UI/MediaQuery";
+import MediaQueryMain from "../UI/MediaQueryMain";
 
 const Home = () => {
   const [map, setMap] = useState<kakao.maps.Map>();
@@ -62,43 +67,50 @@ const Home = () => {
     }
   };
 
+  const isMobile = MediaQueryMain();
+
   return (
-    <div className={classes.container}>
-      <div className={classes.leftSideBar}>
-        <div className={classes.logo}>
-          <p>마이파킹</p>
-          <img src={LOGOBLUE} alt="logo-img" />
-        </div>
-        <div className={classes.searchBar}>
-          <input
-            type="text"
+    <Box
+      className={classes.mapContainer}
+      sx={{
+        flexDirection: isMobile ? "column" : "row",
+      }}
+    >
+      {/* 왼쪽 사이드바 */}
+      {isMobile ? (
+        <SearchHeader />
+      ) : (
+        <SlideBar>
+          <SearchInput
             onChange={handleChange}
             onKeyDown={onKeyDown}
             value={searchValue || ""}
           />
-          <button onClick={handleSearchMakeMap}>검색하기</button>
-        </div>
-        <div>
-          <input type="date" />
-        </div>
+        </SlideBar>
+      )}
+      {/* 가운데 지도  */}
+      <div className={classes.mapWrapper}>
+        <Box>
+          <MainKakaoMap
+            map={map}
+            setMap={setMap}
+            setProducts={setProducts}
+            searchInfo={searchInfo}
+          />
+        </Box>
+      </div>
 
-        {/* 푸터 */}
+      {/* 오른쪽사이드바 */}
+      <Box>
+        <ProductList products={products} isMobile={isMobile} />
+      </Box>
+
+      {isMobile ? (
         <Footer />
-      </div>
-
-      <div className={classes.main}>
-        <MainKakaoMap
-          map={map}
-          setMap={setMap}
-          searchInfo={searchInfo}
-          setProducts={setProducts}
-        />
-      </div>
-
-      <div className={classes.rightSideBar}>
-        <ProductList products={products} />
-      </div>
-    </div>
+      ) : (
+        <Footer position="absolute" width="var(--slide-width)" />
+      )}
+    </Box>
   );
 };
 
