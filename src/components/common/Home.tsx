@@ -17,8 +17,8 @@ const Home = () => {
   const [searchInfo, setSearchInfo] = useState<InfoType>({
     keyword: "",
     centerLatLng: {
-      lat: 0,
-      lng: 0,
+      lat: 37.5070100333146,
+      lng: 127.055618149788,
     }
   });
 
@@ -43,15 +43,8 @@ const Home = () => {
       if(!map) return;
       if (status === kakao.maps.services.Status.OK) {
         // 남서,북동 기본값(애플트리타워)
-        const sw = new kakao.maps.LatLng(
-          37.505193962565194,
-          127.05485791866717
-        );
-        const ne = new kakao.maps.LatLng(
-          37.508702686345686,
-          127.05632516669007
-        );
-        const bound = new kakao.maps.LatLngBounds(sw, ne); // 지도 영역생성 -> 사각형
+        const bound = new kakao.maps.LatLngBounds(); // 지도 영역생성 -> 사각형
+        
         const data = result[0]; // 가장 유사한 상위검색객체 저장
 
         bound.extend(new kakao.maps.LatLng(data.y, data.x));
