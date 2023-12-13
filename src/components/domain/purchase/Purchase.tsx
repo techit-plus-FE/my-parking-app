@@ -83,7 +83,12 @@ const Purchase = () => {
 
   return (
     <>
-      <OrderTitleBox option1="상품정보" option2="대여기간" option4="총 금액" />
+      <OrderTitleBox
+        pageTitle="결제하기"
+        option1="상품정보"
+        option2="대여기간"
+        option4="총 금액"
+      />
       <OrderCard
         title={productDetailData.name}
         image={productDetailData.mainImages[0]}

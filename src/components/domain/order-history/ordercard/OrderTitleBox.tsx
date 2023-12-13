@@ -5,14 +5,16 @@ import { useBoundStore } from "../../../../store";
 import MediaQuery from "../../../UI/MediaQuery";
 
 interface OrderTitleBoxProps {
+  pageTitle?: string;
   option1: string;
-  option2: string;
-  option3: string;
+  option2?: string;
+  option3?: string;
   option4?: string;
   flex?: number;
 }
 
 const OrderTitleBox: React.FC<OrderTitleBoxProps> = ({
+  pageTitle,
   option1,
   option2,
   option3,
@@ -35,7 +37,7 @@ const OrderTitleBox: React.FC<OrderTitleBoxProps> = ({
             padding: "30px",
           }}
         >
-          주문/결제하기
+          {pageTitle}
         </Typography>
       )}
 

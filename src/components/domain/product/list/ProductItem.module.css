@@ -1,5 +1,4 @@
 .link-to-detail:hover > .container {
-  background-color: var(--color-primary-200);
   transform: scale(1.02);
   cursor: pointer;
 }
@@ -9,14 +8,17 @@
   gap: 10px;
   margin: 20px auto;
   padding: 20px;
-  border: 1px solid var(--color-primary-600);
   border-radius: 10px;
+}
+
+.product-period {
+  display: flex;
+  flex-direction: column;
 }
 
 .product-imgBox {
   flex: 0.5;
   border-radius: 20px;
-  border: 2px solid var(--color-primary-600);
 
   height: 100px;
   overflow: hidden;

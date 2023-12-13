@@ -45,8 +45,8 @@ const OrderHistoryList: React.FC = () => {
     <>
       {mediaQuery || (
         <OrderTitleBox
+          pageTitle="주문목록"
           option1="상품정보"
-          option2="대여기간"
           option3="총 결제금액"
         />
       )}

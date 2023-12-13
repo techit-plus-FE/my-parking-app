@@ -66,12 +66,12 @@ const OrderCard: React.FC<OrderCardProps> = ({
           }}
         >
           {isMobile ? (
-            <Box color="var(--color-gray-700)">
+            <Box>
               주문날짜
               <Box>{buyDate}</Box>
             </Box>
           ) : (
-            <Box color="var(--color-gray-700)">주문날짜: {buyDate}</Box>
+            <Box>주문날짜: {buyDate}</Box>
           )}
           <CardMedia
             component="img"
@@ -111,10 +111,12 @@ const OrderCard: React.FC<OrderCardProps> = ({
             </Typography>
           )}
 
-          <Box>
-            <Box>{startDate} ~</Box>
-            {endDate}
-          </Box>
+          {startDate && (
+            <Box>
+              <Box>{startDate} ~</Box>
+              {endDate}
+            </Box>
+          )}
 
           {/* <Box>{sellerId}</Box> */}
           {totalPrice ? (
