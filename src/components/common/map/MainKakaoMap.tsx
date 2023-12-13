@@ -70,7 +70,7 @@ const MainKakaoMap = ({ map, setMap, searchInfo, setProducts }: Props) => {
           setMapExist(true);
         }}
         onZoomChanged={(map) => setLevel(map.getLevel())}
-        // onIdle={handleMapInfo}
+        onDragEnd={() => requsetSearchProduct()}
       >
         {/* 1. 상품들 데이터리스트를 맵핑해서 해당 위치값을 마커로 보여주기 */}
         {markers &&
