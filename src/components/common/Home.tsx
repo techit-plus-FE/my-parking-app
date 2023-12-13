@@ -13,6 +13,7 @@ import SlideBar from "../layouts/SlideBar";
 import SearchInput from "../layouts/SearchInput";
 import SearchHeader from "../layouts/SearchHeader";
 import MediaQuery from "../UI/MediaQuery";
+import MediaQueryMain from "../UI/MediaQueryMain";
 
 const Home = () => {
   const [map, setMap] = useState<kakao.maps.Map>();
@@ -49,10 +50,16 @@ const Home = () => {
     }
   };
 
-  const isMobile = MediaQuery();
+  const isMobile = MediaQueryMain();
 
+  console.log(isMobile);
   return (
-    <Box className={classes.mapContainer} sx={{}}>
+    <Box
+      className={classes.mapContainer}
+      sx={{
+        flexDirection: isMobile ? "column" : "row",
+      }}
+    >
       {isMobile ? (
         <SearchHeader />
       ) : (
@@ -65,17 +72,23 @@ const Home = () => {
         </SlideBar>
       )}
       <div className={classes.mapWrapper}>
-        <MainKakaoMap
-          map={map}
-          setMap={setMap}
-          setProducts={setProducts}
-          handleSearchMakeMap={handleSearchMakeMap}
-        />
+        <Box>
+          <MainKakaoMap
+            map={map}
+            setMap={setMap}
+            setProducts={setProducts}
+            handleSearchMakeMap={handleSearchMakeMap}
+          />
+        </Box>
       </div>
       <Box>
-        <ProductList products={products} />
+        <ProductList products={products} isMobile={isMobile} />
       </Box>
-      <Footer position="absolute" width="var(--slide-width)" />
+      {isMobile ? (
+        <Footer />
+      ) : (
+        <Footer position="absolute" width="var(--slide-width)" />
+      )}
     </Box>
   );
 };

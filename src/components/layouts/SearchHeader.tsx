@@ -16,6 +16,7 @@ const SearchHeader = () => {
         width: "100%",
         position: "fixed",
         top: 0,
+        zIndex: 1300,
       }}
     >
       <BottomNavigation

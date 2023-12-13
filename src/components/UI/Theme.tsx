@@ -11,6 +11,15 @@ const Theme: React.FC<ThemeProps> = ({ children }) => {
   const isDark = useBoundStore((state) => state.isDark);
 
   const darkTheme = createTheme({
+    breakpoints: {
+      values: {
+        xs: 0,
+        sm: 600, // 예시로 600으로 설정되어 있습니다. 실제로 사용하는 값으로 변경해야 합니다.
+        md: 960,
+        lg: 900,
+        xl: 1920,
+      },
+    },
     palette: {
       mode: isDark ? "dark" : "light",
       primary: {

@@ -12,8 +12,8 @@ import { useBoundStore } from "../../store";
 import { useTheme } from "@emotion/react";
 
 interface FooterProps {
-  position: string;
-  width: string;
+  position?: string;
+  width?: string;
 }
 
 const Footer: React.FC<FooterProps> = ({ position, width }) => {
@@ -36,7 +36,7 @@ const Footer: React.FC<FooterProps> = ({ position, width }) => {
         // 모바일 일 땐
         position: position ? position : "fixed",
         bottom: 0,
-        // zIndex: 1000,
+        zIndex: 1000,
         width: width ? width : "100%",
       }}
       className={classes.footerContainer}
