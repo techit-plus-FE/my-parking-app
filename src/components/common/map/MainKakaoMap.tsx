@@ -33,26 +33,25 @@ const MainKakaoMap = ({ map, setMap, searchInfo, setProducts }: Props) => {
   //   isLoading: true,
   // }); // 보여줄 위치상태
   const [markers, setMarkers] = useState<ProductListType | []>();
-  const [level, setLevel] = useState<number | undefined>();
+  const [level, setLevel] = useState<number | undefined>(4);
   const [isOverlayOpen, setIsOverlayOpen] = useState<boolean | undefined>(
     false
   );
   const [selectedMarker, setSelectedMarker] = useState<number | null>(null);
 
-  useEffect(() => {
+  const requsetSearchProduct = async () => {
     if (map && mapExist) {
-      // 해당하는 bounds영역에 맞는 범위의 상품리스트 요청
-      const requsetSearchProduct = async () => {
-        const bound = map.getBounds()
-        console.log(bound); // 검색후 재설정된 범위입니다. 콘솔확인완료
-        const res = await searchItemsInThisBound(bound);
+      const bound = map.getBounds()      
+      const res = await searchItemsInThisBound(bound);
 
-        setMarkers(res); // 마커변경출력
-        setProducts(res); // 리스트변경출력
-      };
-
-      requsetSearchProduct();
+      setMarkers(res); // 마커변경출력
+      setProducts(res); // 리스트변경출력
     }
+  };
+
+  useEffect(() => {
+      // 해당하는 bounds영역에 맞는 범위의 상품리스트 요청
+      requsetSearchProduct();
   }, [map, mapExist, searchInfo]);
 
   

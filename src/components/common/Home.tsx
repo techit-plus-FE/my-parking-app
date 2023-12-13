@@ -16,7 +16,7 @@ const Home = () => {
   const [searchValue, setSearchValue] = useState<string>(""); // 초기 검색어 상태
   const [searchInfo, setSearchInfo] = useState<InfoType>({
     keyword: "",
-    centerLatLng: {
+    centerLatLng: { // 애플트리타워로 초기 좌표설정
       lat: 37.5070100333146,
       lng: 127.055618149788,
     }
