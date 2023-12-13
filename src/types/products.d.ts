@@ -25,11 +25,11 @@ interface ExtraDataType {
   buyQuantity?: number;
   sort?: number;
   // 밑에는 우리가 넣은 타입
-  startDate?: string | undefined; // 대여시작일
-  endDate?: string | undefined; // 대여 종료일
-  address?: string | undefined; // 상품등록주소
-  lat?: string | undefined; // 상품 주소의 위도 좌표
-  lng?: string | undefined; // 상품 주소의 경도 좌표
+  startDate?: string; // 대여시작일
+  endDate?: string; // 대여 종료일
+  address?: string; // 상품등록주소
+  lat?: number; // 상품 주소의 위도 좌표
+  lng?: number; // 상품 주소의 경도 좌표
 }
 
 // 리뷰 데이터 타입

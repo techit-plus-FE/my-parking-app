@@ -1,0 +1,4 @@
+.mainContainer {
+  max-width: var(--main-max-width);
+  margin: 60px auto;
+}

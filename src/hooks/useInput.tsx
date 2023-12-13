@@ -1,7 +1,11 @@
-import React from "react";
+import React  from 'react'
 
-const useInput = () => {
-  return <div></div>;
-};
+const useInput: React.FC= () => {
+  return (
+    <>
+      <div>useInput</div>
+    </>
+  );
+}
 
 export default useInput;

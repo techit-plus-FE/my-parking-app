@@ -16,8 +16,8 @@ const ProductRegist = () => {
       startDate: "",
       endDate: "",
       address: "",
-      lat: "",
-      lng: "",
+      lat: undefined,
+      lng: undefined,
     },
   };
 
@@ -40,8 +40,8 @@ const ProductRegist = () => {
           startDate: data.extra?.startDate,
           endDate: data.extra?.endDate,
           address: data.extra?.address,
-          lat: data.extra?.lat,
-          lng: data.extra?.lng,
+          lat: Number(data.extra?.lat),
+          lng: Number(data.extra?.lng),
         },
       };
 

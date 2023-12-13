@@ -26,6 +26,7 @@ const PurchaseResult = () => {
         <CheckIcon
           sx={{
             fontSize: "200px",
+            color: "#54BE0C",
           }}
         />
         <Box>결제가 완료되었습니다.</Box>
