@@ -68,7 +68,7 @@ const MainKakaoMap = ({
           lat: Number(location?.center.lat),
           lng: Number(location?.center.lng),
         }}
-        style={{ width: "100vw", height: "100vh" }}
+        style={{ height: "100vh" }}
         level={level}
         onCreate={(map) => {
           setMap(map); // 생성

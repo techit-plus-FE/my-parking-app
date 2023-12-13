@@ -8,7 +8,7 @@ import MediaQuery from "../../../UI/MediaQuery";
 
 interface OrderCardProps {
   title: string;
-  image: string;
+  image: string | undefined;
   orderItems?: number; // 주문건 외 몇건
   startDate?: string; // 대여 시작 날짜
   endDate?: string; // 대여 종료 날짜

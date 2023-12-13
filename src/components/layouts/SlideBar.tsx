@@ -21,7 +21,10 @@ const SlideBar: React.FC<SlideBarProps> = ({ children }) => {
           flexDirection: "column",
           alignItems: "center",
           backgroundColor: theme.palette.background.default,
-          position: "relative",
+          position: "fixed",
+          top: 0,
+          left: 0,
+          zIndex: 990,
         }}
       >
         <Box
