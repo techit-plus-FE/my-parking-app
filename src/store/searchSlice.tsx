@@ -9,7 +9,7 @@ const requestItemsInThisBound: (
   const ne: kakao.maps.LatLng = bound.getNorthEast();
 
   const [min_lat, min_lng]: number[] = [sw.getLat(), sw.getLng()];
-  const [max_lat, max_lng]: number[] = [ne.getLat(), sw.getLng()];
+  const [max_lat, max_lng]: number[] = [ne.getLat(), ne.getLng()];
   //Lat의 범위 : sw[0] <= lat <= ne[0]
   //lng의 범위 : sw[1] <= lng <= ne[1]
   console.log(min_lat, min_lng);

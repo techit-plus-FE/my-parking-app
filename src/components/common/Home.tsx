@@ -12,28 +12,16 @@ import Footer from "../layouts/Footer";
 
 const Home = () => {
   const [map, setMap] = useState<kakao.maps.Map>();
-  const [products, setProducts] = useState<ProductListType | undefined>(); // 서버 요청 받는 상품들 데이터(초기, 검색후)
-  const [searchValue, setSearchValue] = useState("");
-
-  // 위치검색을 통한 지도 영역생성 함수
-  const handleSearchMakeMap = () => {
-    if (!map) return;
-
-    const ps = new kakao.maps.services.Places(map);
-    const bounds = new kakao.maps.LatLngBounds(); // 지도 영역생성
-
-    ps.keywordSearch(`${searchValue}`, function (result: any, status: any) {
-      if (status === kakao.maps.services.Status.OK) {
-        const data = result; // 가장 유사한 상위검색객체 저장
-        for (let i = 0; i < 3; i++) {
-          bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x)); // 받아온 검색한 결과값의 x,y좌표로 영역 재설정
-        }
-        map.setBounds(bounds);
-      }
-    });
-
-    return map.getBounds();
-  };
+  const [products, setProducts] = useState<ProductListType | []>([]); // 서버 요청 받는 상품들 데이터(초기, 검색후)
+  const [searchValue, setSearchValue] = useState<string>(""); // 초기 검색어 상태
+  const [searchInfo, setSearchInfo] = useState<InfoType | undefined>({
+    keyword: "",
+    centerLatLng: {
+      lat: 0,
+      lng: 0,
+    },
+    newBound: new kakao.maps.LatLngBounds(),
+  });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
@@ -43,6 +31,44 @@ const Home = () => {
     if (e.key === "Enter") {
       handleSearchMakeMap();
     }
+  };
+
+  // 위치검색을 통한 지도 영역생성 함수
+  const handleSearchMakeMap = () => {
+    if (!map || !searchValue) return;
+
+    const ps = new kakao.maps.services.Places(map);
+    // 남서,북동 기본값(애플트리타워)
+
+    ps.keywordSearch(`${searchValue}`, function (result: any, status: any) {
+      if (status === kakao.maps.services.Status.OK) {
+        const sw = new kakao.maps.LatLng(
+          37.505193962565194,
+          127.05485791866717
+        );
+        const ne = new kakao.maps.LatLng(
+          37.508702686345686,
+          127.05632516669007
+        );
+
+        const bound = new kakao.maps.LatLngBounds(sw, ne); // 지도 영역생성 -> 사각형
+        console.log(bound);
+        const data = result[0]; // 가장 유사한 상위검색객체 저장
+
+        bound.extend(new kakao.maps.LatLng(data.y, data.x));
+        map.setBounds(bound);
+
+        // (추가)검색한 키워드, 중심좌표, 영역을 담은 객체 상태를 변경해줍니다.
+        setSearchInfo({
+          keyword: searchValue,
+          centerLatLng: {
+            lat: data.y,
+            lng: data.x,
+          },
+          newBound: map.getBounds(),
+        });
+      }
+    });
   };
 
   return (
@@ -73,8 +99,8 @@ const Home = () => {
         <MainKakaoMap
           map={map}
           setMap={setMap}
+          searchInfo={searchInfo}
           setProducts={setProducts}
-          handleSearchMakeMap={handleSearchMakeMap}
         />
       </div>
 

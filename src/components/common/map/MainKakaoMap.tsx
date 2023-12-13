@@ -13,19 +13,13 @@ import { useBoundStore } from "../../../store";
 type Props = {
   map: kakao.maps.Map | undefined;
   setMap: (m: kakao.maps.Map | undefined) => void;
-  setProducts: (l: ProductListType) => void;
-  handleSearchMakeMap: () => kakao.maps.LatLngBounds | undefined;
-  // searchValue: string;
+  searchInfo: InfoType | undefined;
+  setProducts: (list: ProductListType) => void;
 };
 
 // Home에서 내려준 props검색시 사용된 주소 받기
 
-const MainKakaoMap = ({
-  map,
-  setMap,
-  setProducts,
-  handleSearchMakeMap,
-}: Props) => {
+const MainKakaoMap = ({ map, setMap, searchInfo, setProducts }: Props) => {
   const searchItemsInThisBound = useBoundStore(
     (state) => state.searchItemsInThisBound
   );
@@ -39,18 +33,18 @@ const MainKakaoMap = ({
     isLoading: true,
   }); // 보여줄 위치상태
   const [markers, setMarkers] = useState<ProductListType | []>();
-  // const [info, setInfo] = useState<InfoType | undefined>(); // 지도 정보
   const [level, setLevel] = useState<number | undefined>();
   const [isOverlayOpen, setIsOverlayOpen] = useState<boolean | undefined>(
     false
   );
   const [selectedMarker, setSelectedMarker] = useState<number | null>(null);
 
-  // 해당하는 bounds영역에 맞는 범위의 상품리스트 요청
   useEffect(() => {
     if (map && mapExist) {
+      // 해당하는 bounds영역에 맞는 범위의 상품리스트 요청
       const requsetSearchProduct = async () => {
-        const bound = handleSearchMakeMap();
+        const bound = searchInfo && searchInfo.newBound;
+        console.log(bound); // 검색후 재설정된 범위입니다. 콘솔확인완료
         const res = await searchItemsInThisBound(bound);
 
         setMarkers(res); // 마커변경출력
@@ -59,7 +53,9 @@ const MainKakaoMap = ({
 
       requsetSearchProduct();
     }
-  }, [map, mapExist]);
+  }, [map, mapExist, searchInfo]);
+
+  useEffect(() => {}, []);
 
   return (
     <>
