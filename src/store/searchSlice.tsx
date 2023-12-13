@@ -17,7 +17,7 @@ const requestItemsInThisBound: (
 
   try {
     const response = await axios.get<string, { data: ProductListResType }>(
-      `${BASE_URL}/products?/custom={"lat" : {"$gte": ${min_lat}, "$lte": ${max_lat}}& {"lng": {"$gte": ${min_lng}, "$lte": ${max_lng}}}}`
+      `${BASE_URL}/products?/custom={"lat" : {"$gte": "${min_lat}", "$lte": "${max_lat}"}}&custom={"lng" : {"$gte": "${min_lng}", "$lte": "${max_lng}"}}`
     );
     if (response.data.ok === 1) {
       console.log(response.data.item);
