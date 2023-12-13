@@ -72,6 +72,9 @@ const PurchaseForm: React.FC<PurchaseFormProps> = ({
                 flex: 1,
                 justifyContent: "center",
                 alignItems: "center",
+                color: "#EB5757",
+                fontSize: "1.2rem",
+                fontweight: "bold",
               }}
             >
               총 {total} 원

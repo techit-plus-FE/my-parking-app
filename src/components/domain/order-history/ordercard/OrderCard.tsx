@@ -1,14 +1,14 @@
 import React from "react";
 import Box from "@mui/material/Box";
 import { CardMedia, Typography } from "@mui/material";
-import MediaQuery from "../../../../hooks/MediaQuery";
 import { CommonButton } from "../../../UI/CommonButton";
 import OrderTotalPrice from "./OrderTotalPrice";
-import OrderTitleBox from "./OrderTitleBox";
+import { useBoundStore } from "../../../../store";
+import MediaQuery from "../../../UI/MediaQuery";
 
 interface OrderCardProps {
   title: string;
-  image: string;
+  image: string | undefined;
   orderItems?: number; // 주문건 외 몇건
   startDate?: string; // 대여 시작 날짜
   endDate?: string; // 대여 종료 날짜
@@ -17,8 +17,9 @@ interface OrderCardProps {
   totalPrice?: number;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   isVisible?: boolean; // 버튼보임 설정
-  sellerId?: string;
-  productPrice: number;
+  sellerId?: string; //구매자 아이디
+  productPrice?: number; // 상품 개당가격
+  flexDirection?: string;
 }
 
 const OrderCard: React.FC<OrderCardProps> = ({
@@ -32,14 +33,15 @@ const OrderCard: React.FC<OrderCardProps> = ({
   productPrice,
   totalPrice,
   isVisible = true,
-  sellerId,
+  flexDirection,
+  // sellerId,
 }) => {
+  const isDark = useBoundStore((state) => state.isDark);
   const isMobile = MediaQuery();
   {
     orderItems;
   }
 
-  console.log(isMobile);
   return (
     <>
       <Box
@@ -49,28 +51,30 @@ const OrderCard: React.FC<OrderCardProps> = ({
           mt: "25px",
           mb: "25px",
           alignItems: "center",
-          backgroundColor: "#e6e6e6",
-          borderRadius: "10px",
+          borderBottom: isDark
+            ? "1px solid var(--color-gray-300)"
+            : "1px solid var(--color-gray-300)",
+          flexDirection: flexDirection ? flexDirection : null,
         }}
       >
         <Box
           sx={{
             flexBasis: "200px",
             margin: "10px",
+            //모바일 일때 크기
             flex: isMobile ? 2 : undefined,
           }}
         >
           {isMobile ? (
-            <Box color="var(--color-gray-700)">
+            <Box>
               주문날짜
               <Box>{buyDate}</Box>
             </Box>
           ) : (
-            <Box color="var(--color-gray-700)">주문날짜: {buyDate}</Box>
+            <Box>주문날짜: {buyDate}</Box>
           )}
           <CardMedia
             component="img"
-            height="100"
             image={image}
             alt=""
             style={{
@@ -106,8 +110,15 @@ const OrderCard: React.FC<OrderCardProps> = ({
               {title}
             </Typography>
           )}
-          {startDate} ~ {endDate}
-          <Box>{sellerId}</Box>
+
+          {startDate && (
+            <Box>
+              <Box>{startDate} ~</Box>
+              {endDate}
+            </Box>
+          )}
+
+          {/* <Box>{sellerId}</Box> */}
           {totalPrice ? (
             <OrderTotalPrice totalPrice={totalPrice} />
           ) : (

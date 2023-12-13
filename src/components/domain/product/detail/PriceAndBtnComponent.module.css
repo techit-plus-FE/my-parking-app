@@ -1,9 +1,5 @@
 .wrapper {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border: 1px solid var(--color-gray-300);
-  padding: 2cqh;
+  width: 100%;
 }
 
 .util-box {

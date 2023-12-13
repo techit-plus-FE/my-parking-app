@@ -1,0 +1,42 @@
+.myProfile h1 {
+  font-size: 2rem;
+  font-weight: 400;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+}
+
+.imgWrapper {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+}
+
+.user {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.user h2 {
+  font-size: 1.2rem;
+}
+
+.myProfile h3 {
+  font-size: 1rem;
+  font-weight: 400;
+  text-align: center;
+  color: #8a8a8a;
+}
+
+.user * {
+  margin: 5px;
+}
+.btnWrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 100px;
+}

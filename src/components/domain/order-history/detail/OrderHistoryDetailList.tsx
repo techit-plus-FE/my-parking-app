@@ -9,8 +9,8 @@ const OrderHistoryDetailList = () => {
   return (
     <>
       <OrderTitleBox
+        pageTitle="주문상세"
         option1="상품정보"
-        option2="대여기간"
         option3="상품 금액"
         flex={1}
       />

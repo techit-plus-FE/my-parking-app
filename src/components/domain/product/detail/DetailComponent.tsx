@@ -1,5 +1,7 @@
+import { Box } from "@mui/system";
 import ShowKakaoMap from "../../../common/map/ShowKakaoMap";
 import classes from "./DetailComponent.module.css";
+import { Typography } from "@mui/material";
 
 const DetailComponent = ({ product }: { product: ProductItemType }) => {
   const { createdAt: productCreatedAt } = product;
@@ -17,7 +19,10 @@ const DetailComponent = ({ product }: { product: ProductItemType }) => {
 
   return (
     <div className={classes.wrapper}>
-      <h3 className={classes.title}>{product.name}</h3>
+      <Typography variant="h3" fontSize="1.5rem">
+        {product.name}
+      </Typography>
+      {/* <h3 className={classes.title}>{product.name}</h3> */}
 
       <p className={classes.createdAt}>{removeProductCreatedAt}</p>
 

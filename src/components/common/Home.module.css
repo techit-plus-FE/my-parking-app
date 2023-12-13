@@ -1,42 +1,12 @@
-.container {
-  /*홈 컨테이너 높이 세팅*/
+.mapContainer {
   display: flex;
-  overflow: hidden;
-}
-
-.leftSideBar {
-  flex: 1;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  /* gap: 30px; */
-}
-.logo {
-  display: flex;
-  gap: 10px;
-  margin-top: 150px;
-}
-.logo p {
-  font-size: 22px;
-  font-weight: 700;
-  color: var(--color-primary-600);
-  vertical-align: baseline;
-}
-.logo img {
-  width: 30px;
-  height: 30px;
-}
-.searchBar {
+  position: absolute;
+  top: 0;
   width: 100%;
-  text-align: center;
+  left: 0;
 }
 
-.main {
-  flex: 3;
-}
-
-.rightSideBar {
-  flex: 1;
+.mapWrapper {
+  margin: 0 auto;
+  width: 100%;
 }
