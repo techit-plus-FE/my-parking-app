@@ -24,5 +24,4 @@ interface InfoType {
     lat: number;
     lng: number;
   };
-  newBound: kakao.maps.LatLngBounds;
 }

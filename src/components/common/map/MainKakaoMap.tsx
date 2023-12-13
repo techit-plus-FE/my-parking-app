@@ -13,7 +13,7 @@ import { useBoundStore } from "../../../store";
 type Props = {
   map: kakao.maps.Map | undefined;
   setMap: (m: kakao.maps.Map | undefined) => void;
-  searchInfo: InfoType | undefined;
+  searchInfo: InfoType;
   setProducts: (list: ProductListType) => void;
 };
 
@@ -24,14 +24,14 @@ const MainKakaoMap = ({ map, setMap, searchInfo, setProducts }: Props) => {
     (state) => state.searchItemsInThisBound
   );
   const [mapExist, setMapExist] = useState<boolean>(false);
-  const [location, setLocation] = useState({
-    center: {
-      lat: 37.5069632,
-      lng: 127.0556291,
-    },
-    error: null,
-    isLoading: true,
-  }); // 보여줄 위치상태
+  // const [location, setLocation] = useState({
+  //   center: {
+  //     lat: 37.5069632,
+  //     lng: 127.0556291,
+  //   },
+  //   error: null,
+  //   isLoading: true,
+  // }); // 보여줄 위치상태
   const [markers, setMarkers] = useState<ProductListType | []>();
   const [level, setLevel] = useState<number | undefined>();
   const [isOverlayOpen, setIsOverlayOpen] = useState<boolean | undefined>(
@@ -43,7 +43,7 @@ const MainKakaoMap = ({ map, setMap, searchInfo, setProducts }: Props) => {
     if (map && mapExist) {
       // 해당하는 bounds영역에 맞는 범위의 상품리스트 요청
       const requsetSearchProduct = async () => {
-        const bound = searchInfo && searchInfo.newBound;
+        const bound = map.getBounds()
         console.log(bound); // 검색후 재설정된 범위입니다. 콘솔확인완료
         const res = await searchItemsInThisBound(bound);
 
@@ -55,14 +55,14 @@ const MainKakaoMap = ({ map, setMap, searchInfo, setProducts }: Props) => {
     }
   }, [map, mapExist, searchInfo]);
 
-  useEffect(() => {}, []);
+  
 
   return (
     <>
       <Map
         center={{
-          lat: Number(location?.center.lat),
-          lng: Number(location?.center.lng),
+          lat: searchInfo.centerLatLng.lat,
+          lng: searchInfo.centerLatLng.lng,
         }}
         style={{ width: "100%", height: "100vh" }}
         level={level}
@@ -109,8 +109,8 @@ const MainKakaoMap = ({ map, setMap, searchInfo, setProducts }: Props) => {
             </>
           ))}
 
-        {/* 2. 현재 접속한 위치의 마커 표시 */}
-        {!location.isLoading && (
+
+        {/* {!location.isLoading && (
           <MapMarker
             position={location.center}
             image={{
@@ -119,7 +119,7 @@ const MainKakaoMap = ({ map, setMap, searchInfo, setProducts }: Props) => {
             }}
             title="내 위치"
           ></MapMarker>
-        )}
+        )} */}
 
         <ZoomControl />
       </Map>

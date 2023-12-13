@@ -14,13 +14,12 @@ const Home = () => {
   const [map, setMap] = useState<kakao.maps.Map>();
   const [products, setProducts] = useState<ProductListType | []>([]); // 서버 요청 받는 상품들 데이터(초기, 검색후)
   const [searchValue, setSearchValue] = useState<string>(""); // 초기 검색어 상태
-  const [searchInfo, setSearchInfo] = useState<InfoType | undefined>({
+  const [searchInfo, setSearchInfo] = useState<InfoType>({
     keyword: "",
     centerLatLng: {
       lat: 0,
       lng: 0,
-    },
-    newBound: new kakao.maps.LatLngBounds(),
+    }
   });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -38,10 +37,12 @@ const Home = () => {
     if (!map || !searchValue) return;
 
     const ps = new kakao.maps.services.Places(map);
-    // 남서,북동 기본값(애플트리타워)
-
-    ps.keywordSearch(`${searchValue}`, function (result: any, status: any) {
+    ps.keywordSearch(`${searchValue}`, placeSearchCB);
+    
+    function placeSearchCB (result: any, status: any) {
+      if(!map) return;
       if (status === kakao.maps.services.Status.OK) {
+        // 남서,북동 기본값(애플트리타워)
         const sw = new kakao.maps.LatLng(
           37.505193962565194,
           127.05485791866717
@@ -50,9 +51,7 @@ const Home = () => {
           37.508702686345686,
           127.05632516669007
         );
-
         const bound = new kakao.maps.LatLngBounds(sw, ne); // 지도 영역생성 -> 사각형
-        console.log(bound);
         const data = result[0]; // 가장 유사한 상위검색객체 저장
 
         bound.extend(new kakao.maps.LatLng(data.y, data.x));
@@ -65,10 +64,9 @@ const Home = () => {
             lat: data.y,
             lng: data.x,
           },
-          newBound: map.getBounds(),
         });
       }
-    });
+    }
   };
 
   return (
