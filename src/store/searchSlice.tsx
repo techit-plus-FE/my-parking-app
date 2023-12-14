@@ -14,11 +14,13 @@ const requestItemsInThisBoundAndPeriod: (
   const [max_lat, max_lng]: number[] = [ne.getLat(), ne.getLng()];
   //Lat의 범위 : sw[0] <= lat <= ne[0]
   //lng의 범위 : sw[1] <= lng <= ne[1]
-
+  // `{"extra.startDate": {"$gte": ${period[0]}}, "extra.endDate": {"$lte": ${period[1]}}}`
   const query = (period!==undefined ? 
-  `${BASE_URL}/products?custom={"extra.lat" : {"$gte": ${min_lat}, "$lte": ${max_lat}}, "extra.lng" : {"$gte": ${min_lng}, "$lte": ${max_lng}}}, "extra.startDate": {"$gte": ${period[0]}}, "extra.endDate": {"$lte": ${period[1]}}}` : 
+  `${BASE_URL}/products?custom={"extra.lat" : {"$gte": ${min_lat}, "$lte": ${max_lat}}, "extra.lng" : {"$gte": ${min_lng}, "$lte": ${max_lng}}, "extra.startDate" : {"$gte": "${period[0]}"}, "extra.endDate" : {"$lte": "${period[1]}"}}` : 
   `${BASE_URL}/products?custom={"extra.lat" : {"$gte": ${min_lat}, "$lte": ${max_lat}}, "extra.lng" : {"$gte": ${min_lng}, "$lte": ${max_lng}}}`)
   
+  console.log(period)
+
   try {
     const response = await axios.get<string, { data: ProductListResType }>(
       query

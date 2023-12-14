@@ -18,10 +18,11 @@ interface MarkerType {
 
 type MarkerListType = MarkerType[];
 
-interface InfoType {
+interface MapInfoType {
   keyword: string;
   centerLatLng: {
     lat: number;
     lng: number;
   };
+  period: string[]|undefined
 }

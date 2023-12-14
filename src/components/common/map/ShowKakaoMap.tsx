@@ -1,11 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
-import {
-  CustomOverlayMap,
-  Map,
-  MapMarker,
-  ZoomControl,
-} from "react-kakao-maps-sdk";
+import { Map, MapMarker, ZoomControl } from "react-kakao-maps-sdk";
 
 import classes from "./ShowKakaoMap.module.css";
 
