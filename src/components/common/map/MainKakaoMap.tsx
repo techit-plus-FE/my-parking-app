@@ -13,7 +13,7 @@ import { useBoundStore } from "../../../store";
 type Props = {
   map: kakao.maps.Map | undefined;
   setMap: (m: kakao.maps.Map | undefined) => void;
-  searchInfo: InfoType;
+  searchInfo: MapInfoType;
   setProducts: (list: ProductListType) => void;
 };
 
@@ -21,7 +21,7 @@ type Props = {
 
 const MainKakaoMap = ({ map, setMap, searchInfo, setProducts }: Props) => {
   const searchItemsInThisBound = useBoundStore(
-    (state) => state.searchItemsInThisBound
+    (state) => state.searchItemsInThisBoundAndPeriod
   );
   const [mapExist, setMapExist] = useState<boolean>(false);
   
@@ -44,7 +44,7 @@ const MainKakaoMap = ({ map, setMap, searchInfo, setProducts }: Props) => {
     if (!map) return
     
     const bound = map.getBounds()      
-    const res = await searchItemsInThisBound(bound);
+    const res = await searchItemsInThisBound(bound, searchInfo.period);
 
     setMarkers(res); // 마커변경출력
     setProducts(res); // 리스트변경출력
@@ -54,7 +54,7 @@ const MainKakaoMap = ({ map, setMap, searchInfo, setProducts }: Props) => {
   useEffect(() => {
       // 해당하는 bounds영역에 맞는 범위의 상품리스트 요청
       searchProducts();
-  }, [mapExist, searchInfo, map?.getBounds()]);
+  }, [mapExist, searchInfo]);
 
 
 

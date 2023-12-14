@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState, useRef } from "react";
 
 import classes from "./Home.module.css";
 
@@ -17,29 +17,33 @@ import MediaQueryMain from "../UI/MediaQueryMain";
 const Home = () => {
   const [map, setMap] = useState<kakao.maps.Map>();
   const [products, setProducts] = useState<ProductListType | []>([]); // 서버 요청 받는 상품들 데이터(초기, 검색후)
-  const [searchValue, setSearchValue] = useState<string>(""); // 초기 검색어 상태
-  const [searchInfo, setSearchInfo] = useState<InfoType>({
+  // const searchValue = useRef(null) // 초기 검색어 상태
+  const [searchValue, setSearchValue] = useState<string>("");
+  const [searchInfo, setSearchInfo] = useState<MapInfoType>({
     keyword: "",
     centerLatLng: {
       // 애플트리타워로 초기 좌표설정
       lat: 37.5070100333146,
       lng: 127.055618149788,
     },
+    period: undefined,
   });
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(e.target.value);
+  const handleKeywordChange = (e: ChangeEvent<HTMLInputElement>) => {
+    // searchValue.current = e.target.value
+    setSearchValue(e.target.value)
   };
 
-  const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       handleSearch();
     }
   };
 
-  const onClick = (e: React.MouseEvent) => {
+  const handleClick = (e: React.MouseEvent) => {
       handleSearch();
   }
+
 
   // 위치검색을 통한 지도 영역생성 함수
   const handleSearch = () => {
@@ -47,7 +51,9 @@ const Home = () => {
 
     const ps = new kakao.maps.services.Places(map);
     ps.keywordSearch(`${searchValue}`, placeSearchCB);
-
+    //searchValue를 기준으로 검색된 곳으로 맵을 이동시킴.
+    //productList와 관련된 로직은 MainKakaoMap에 있음
+      
     function placeSearchCB(result: any, status: any) {
       if (!map) return;
       if (status === kakao.maps.services.Status.OK) {
@@ -60,13 +66,14 @@ const Home = () => {
         map.setBounds(bound);
 
         // (추가)검색한 키워드, 중심좌표, 영역을 담은 객체 상태를 변경해줍니다.
-        // setSearchInfo({
-        //   keyword: searchValue,
-        //   centerLatLng: {
-        //     lat: data.y,
-        //     lng: data.x,
-        //   },
-        // });
+        setSearchInfo({
+          ...searchInfo,
+          keyword: searchValue,
+          centerLatLng: {
+            lat: data.y,
+            lng: data.x,
+          },
+        });
       }
     }
   };
@@ -74,9 +81,12 @@ const Home = () => {
   //searchInput이 받는 props 를 여기에 정의해주세요
   const searchInputElement = (
     <SearchInput
-      onChange={handleChange}
-      onKeyDown={onKeyDown}
+      onKeywordChange={handleKeywordChange}
+      onKeyDown={handleKeyDown}
       value={searchValue || ""}
+      onClick={handleClick}
+      searchInfo = {searchInfo}
+      setSearchInfo = {setSearchInfo}
     />
   );
 
