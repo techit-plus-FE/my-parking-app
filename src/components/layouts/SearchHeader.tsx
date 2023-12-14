@@ -4,9 +4,12 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Box from "@mui/material/Box";
 import { useBoundStore } from "../../store";
 import { useNavigate } from "react-router-dom";
-import SearchInput from "./SearchInput";
+import { ReactNode } from "react";
 
-const SearchHeader = () => {
+interface SearchHeaderProps {
+  children?: ReactNode;
+}
+const SearchHeader: React.FC<SearchHeaderProps> = ({ children }) => {
   const isDark = useBoundStore((state) => state.isDark);
   const navigate = useNavigate();
 
@@ -34,8 +37,8 @@ const SearchHeader = () => {
             alignItems: "flex-start",
           }}
         />
-        <SearchInput />
       </BottomNavigation>
+      {children}
     </Box>
   );
 };
