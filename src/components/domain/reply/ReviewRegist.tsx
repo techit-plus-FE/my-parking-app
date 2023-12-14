@@ -1,9 +1,9 @@
 import React, { FormEvent, SyntheticEvent, useEffect, useState } from "react";
 import useCustomAxios from "../../../services/useCustomAxios";
-import RepliesRegistForm from "./RepliesRegistForm";
+import ReviewRegistForm from "./ReviewRegistForm";
 import { useParams } from "react-router-dom";
 
-const RepliesRegist: React.FC = () => {
+const ReviewRegist: React.FC = () => {
   //orderHistoryDetailList에서 받아온 ID
   const { productId, orderId } = useParams();
   const axiosInstance = useCustomAxios();
@@ -44,7 +44,7 @@ const RepliesRegist: React.FC = () => {
 
   return (
     <>
-      <RepliesRegistForm
+      <ReviewRegistForm
         value={repliesInput}
         onChange={(e) => setRepliesInput(e.target.value)}
         onSubmit={handleSubmit}
@@ -54,4 +54,4 @@ const RepliesRegist: React.FC = () => {
     </>
   );
 };
-export default RepliesRegist;
+export default ReviewRegist;
