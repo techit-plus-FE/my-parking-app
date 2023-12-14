@@ -31,7 +31,7 @@ const Home = () => {
 
   const handleKeywordChange = (e: ChangeEvent<HTMLInputElement>) => {
     // searchValue.current = e.target.value
-    setSearchValue(e.target.value)
+    setSearchValue(e.target.value);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -41,9 +41,8 @@ const Home = () => {
   };
 
   const handleClick = (e: React.MouseEvent) => {
-      handleSearch();
-  }
-
+    handleSearch();
+  };
 
   // 위치검색을 통한 지도 영역생성 함수
   const handleSearch = () => {
@@ -53,7 +52,7 @@ const Home = () => {
     ps.keywordSearch(`${searchValue}`, placeSearchCB);
     //searchValue를 기준으로 검색된 곳으로 맵을 이동시킴.
     //productList와 관련된 로직은 MainKakaoMap에 있음
-      
+
     function placeSearchCB(result: any, status: any) {
       if (!map) return;
       if (status === kakao.maps.services.Status.OK) {
@@ -85,8 +84,8 @@ const Home = () => {
       onKeyDown={handleKeyDown}
       value={searchValue || ""}
       onClick={handleClick}
-      searchInfo = {searchInfo}
-      setSearchInfo = {setSearchInfo}
+      searchInfo={searchInfo}
+      setSearchInfo={setSearchInfo}
     />
   );
 

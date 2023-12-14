@@ -23,7 +23,7 @@ import PurchaseResultPage from "./pages/purchase/PurchaseResultPage";
 import SearchPage from "./pages/SearchPage";
 import classes from "./App.module.css";
 import Theme from "./components/UI/Theme";
-import RepliesPage from "./pages/replies/RepliesRegistPage";
+import ReplyPage from "./pages/reply/ReplyPage";
 
 // 라우터 설정
 
@@ -167,12 +167,12 @@ const router = createBrowserRouter([
         ],
       },
       {
-        id: "replies",
-        path: "/replies",
+        id: "reply",
+        path: "/reply",
         children: [
           {
             path: ":productId/:orderId",
-            element: <RepliesPage />,
+            element: <ReplyPage />,
           },
         ],
       },

@@ -23,7 +23,7 @@ const OrderHistoryDetailList = () => {
             <button
               onClick={() =>
                 // productId  /   orderId 순서 입니다.
-                navigate(`/replies/${item._id}/${productItems._id}`)
+                navigate(`/reply/${item._id}/${productItems._id}`)
               }
             >
               후기등록하기
