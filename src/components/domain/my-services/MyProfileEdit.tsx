@@ -4,7 +4,13 @@ import { useNavigate} from "react-router-dom";
 import {UserInputClass, Person, UserDetailInfo, UserExtraInfo} from "../../../types/classImplementations"
 import { CommonButtonMiddle } from "../../UI/CommonButton";
 import Box from "@mui/material/Box";
-import { TextField } from "@mui/material";
+import Modal from '@mui/material/Modal';
+import { Button, TextField } from "@mui/material";
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 import React from "react";
 
 
@@ -13,6 +19,7 @@ const MyProfileEdit = () => {
   const myInfo: UserDetailInfoType = Store.userBasicInfo
   const id: number = Store.userBasicInfo._id
   const navigate = useNavigate()
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const currentInfo: Partial<UserDetailInfo> = {...myInfo}
   const userExtraInfo: ExtraType = {...new UserExtraInfo(), ...myInfo.extra}
@@ -34,6 +41,15 @@ const MyProfileEdit = () => {
       acc[key as keyof ExtraType] = myInputRef;
       return acc;
     }, {} as { [key in keyof ExtraType]: React.MutableRefObject<HTMLInputElement|null> })
+
+
+    const openModal = () => {
+      setModalIsOpen(true);
+    };
+  
+    const closeModal = () => {
+      setModalIsOpen(false);
+    };
 
 
   useEffect(()=>{
@@ -62,6 +78,21 @@ const MyProfileEdit = () => {
       <div>
         {/*프로필 이미지 표시*/}
         <img src={`${myInfo.extra?.profileImage}`}/>
+        <button onClick ={()=>setModalIsOpen(!modalIsOpen)}>프로필사진 변경</button>
+        <Dialog
+        open={modalIsOpen}
+        onClose={closeModal}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+         <Box>
+          <h2 id="child-modal-title">Text in a child modal</h2>
+          <p id="child-modal-description">
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+          </p>
+          <Button onClick={closeModal}>Close Child Modal</Button>
+        </Box>
+      </Dialog>
       </div>
       {Object.keys(userInputRef) 
         .filter((v) => v!=='token' && v!=='createdAt' && v!=='updatedAt' && v!== '_id' && v !== "type" && v!=='extra')
