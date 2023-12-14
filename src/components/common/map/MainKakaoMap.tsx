@@ -24,6 +24,11 @@ const MainKakaoMap = ({ map, setMap, searchInfo, setProducts }: Props) => {
     (state) => state.searchItemsInThisBound
   );
   const [mapExist, setMapExist] = useState<boolean>(false);
+
+  useEffect(()=>{
+    setMapExist(!mapExist)
+  }, [map])
+  
   // const [location, setLocation] = useState({
   //   center: {
   //     lat: 37.5069632,
@@ -40,19 +45,22 @@ const MainKakaoMap = ({ map, setMap, searchInfo, setProducts }: Props) => {
   const [selectedMarker, setSelectedMarker] = useState<number | null>(null);
 
   const searchProducts = async () => {
-    if (map && mapExist) {
-      const bound = map.getBounds()      
-      const res = await searchItemsInThisBound(bound);
+    if (!map) return
+    
+    const bound = map.getBounds()      
+    const res = await searchItemsInThisBound(bound);
 
-      setMarkers(res); // 마커변경출력
-      setProducts(res); // 리스트변경출력
-    }
+    setMarkers(res); // 마커변경출력
+    setProducts(res); // 리스트변경출력
+    
   };
 
   useEffect(() => {
       // 해당하는 bounds영역에 맞는 범위의 상품리스트 요청
       searchProducts();
-  }, [map, mapExist, searchInfo]);
+  }, [mapExist, searchInfo, map?.getBounds()]);
+
+
 
   
 
