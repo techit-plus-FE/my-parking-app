@@ -1,7 +1,7 @@
 import React from "react";
 import RepliesRegist from "../../components/domain/replies/RepliesRegist";
 
-const Replies: React.FC = () => {
+const RepliesPage: React.FC = () => {
   return (
     <>
       <RepliesRegist />
@@ -9,4 +9,4 @@ const Replies: React.FC = () => {
   );
 };
 
-export default Replies;
+export default RepliesPage;
