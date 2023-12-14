@@ -1,32 +1,46 @@
 import {ChangeEvent, ChangeEventHandler, useRef, useEffect, useState, Ref, createRef, RefObject} from "react";
 import { useBoundStore } from "../../../store";
 import { useNavigate} from "react-router-dom";
-import {UserInputClass, Person, UserDetailInfo} from "../../../types/classImplementations"
+import {UserInputClass, Person, UserDetailInfo, UserExtraInfo} from "../../../types/classImplementations"
 import { CommonButtonMiddle } from "../../UI/CommonButton";
 import Box from "@mui/material/Box";
 import { TextField } from "@mui/material";
 import React from "react";
+
 
 const MyProfileEdit = () => {
   const Store = useBoundStore((state) => state)
   const myInfo: UserDetailInfoType = Store.userBasicInfo
   const id: number = Store.userBasicInfo._id
   const navigate = useNavigate()
- 
 
-  const userInputRef :{[key in keyof UserDetailInfo]: React.MutableRefObject<HTMLInputElement|null>} = 
-    Object.keys(myInfo).reduce((acc, key) => {
+  const currentInfo: Partial<UserDetailInfo> = {...myInfo}
+  const userExtraInfo: ExtraType = {...new UserExtraInfo(), ...myInfo.extra}
+  delete currentInfo['extra']
+  const userBasicInfo: UserBasicInfoType = {...currentInfo} as UserBasicInfoType
+
+
+  const userInputRef :{[key in keyof UserBasicInfoType]: React.MutableRefObject<HTMLInputElement|null>} = 
+    Object.keys(userBasicInfo).reduce((acc, key) => {
     const myInputRef: React.MutableRefObject<HTMLInputElement|null> = React.createRef();
-    acc[key as keyof UserDetailInfo] = myInputRef;
+    acc[key as keyof UserBasicInfoType] = myInputRef;
     return acc;
-  }, {} as { [key in keyof UserDetailInfo]: React.MutableRefObject<HTMLInputElement|null> })
+  }, {} as { [key in keyof UserBasicInfoType]: React.MutableRefObject<HTMLInputElement|null> })
+
+
+  const userExtraInputRef : {[key in keyof ExtraType] : React.MutableRefObject<HTMLInputElement|null>} = 
+    Object.keys(userExtraInfo).reduce((acc, key) => {
+      const myInputRef: React.MutableRefObject<HTMLInputElement|null> = React.createRef();
+      acc[key as keyof ExtraType] = myInputRef;
+      return acc;
+    }, {} as { [key in keyof ExtraType]: React.MutableRefObject<HTMLInputElement|null> })
 
 
   useEffect(()=>{
     // console.log(myInfo)
      Object.keys(myInfo).forEach((key) => {
     
-      const newInputElement = myInfo[key as keyof UserDetailInfo]
+      const newInputElement = myInfo[key as keyof UserBasicInfoType ]
       console.log(newInputElement)
     
   })
@@ -58,8 +72,8 @@ const MyProfileEdit = () => {
               <TextField
               fullWidth
               required
-              inputRef = {userInputRef[item as keyof UserDetailInfo]}
-              defaultValue = {myInfo[item as keyof UserDetailInfo]}
+              inputRef = {userInputRef[item as keyof UserBasicInfoType]}
+              defaultValue = {myInfo[item as keyof UserBasicInfoType]}
               name = {item}          
               variant="standard"
               // onChange = {saveUserInputs}
@@ -67,8 +81,8 @@ const MyProfileEdit = () => {
             </div>
           );
         })}
-        {Object.keys(userInputRef.extra) 
-        .filter((v) => v!=='createdAt' && v!=='updatedAt' && v!== '_id' && v !== "type" && v!=="passwordCheck" && v!=='extra')
+        {Object.keys(userExtraInputRef) 
+        .filter((v) => v!=='lat' && v!=='lng' && v!=='profileImage')
         .map((item) => {
           return (
             <div key = {item}>
