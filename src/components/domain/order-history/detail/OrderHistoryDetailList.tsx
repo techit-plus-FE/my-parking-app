@@ -1,11 +1,12 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import OrderCard from "../ordercard/OrderCard";
 import OrderTitleBox from "../ordercard/OrderTitleBox";
 
 const OrderHistoryDetailList = () => {
-  //orderHistoryList에 data
+  //orderHistoryList에서 넘겨준 data
+  // 주문건에 대한 item 이 productItems에 arr 형식으로 저장되어있습니다.
   const productItems = useLocation().state.orderHistoryData;
-
+  const navigate = useNavigate();
   return (
     <>
       <OrderTitleBox
@@ -15,9 +16,19 @@ const OrderHistoryDetailList = () => {
         flex={1}
       />
       {productItems.products.map((item: OrderHistoryProduct) => {
-        console.log(item);
+        console.log(productItems);
+
         return (
           <div key={item._id}>
+            <button
+              onClick={() =>
+                // productId  /   orderId 순서 입니다.
+                navigate(`/reply/${item._id}/${productItems._id}`)
+              }
+            >
+              후기등록하기
+            </button>
+
             <OrderCard
               image={item.image}
               title={item.name}

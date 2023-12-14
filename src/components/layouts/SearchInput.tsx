@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect } from "react";
+import React, { ChangeEvent, useEffect, forwardRef, MutableRefObject } from "react";
 
 interface SearchInputProps {
   onKeywordChange?: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -9,15 +9,14 @@ interface SearchInputProps {
   setSearchInfo: (searchInfo: MapInfoType) => void;
 }
 
-const SearchInput: React.FC<SearchInputProps> = ({
-  onKeywordChange,
-  onKeyDown,
-  value,
-  onClick,
-  searchInfo,
-  setSearchInfo
-}) => {
-
+const SearchInput = 
+forwardRef(function SearchInput(props: SearchInputProps, ref: React.ForwardedRef<HTMLInputElement>) {
+  const { onKeywordChange,
+    onKeyDown,
+    value,
+    onClick,
+    searchInfo,
+    setSearchInfo} = props;
 
   return (
     <div>
@@ -25,7 +24,8 @@ const SearchInput: React.FC<SearchInputProps> = ({
         type="text"
         onChange={onKeywordChange}
         onKeyDown={onKeyDown}
-        value={value || ""}
+        // value={value || ""}
+        ref = {ref}
       />
       <input type="date"
       onChange = {(e)=> {
@@ -38,6 +38,6 @@ const SearchInput: React.FC<SearchInputProps> = ({
       <button onClick={onClick}>검색하기</button>
     </div>
   );
-};
+});
 
 export default SearchInput;

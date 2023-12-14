@@ -19,6 +19,7 @@ const Home = () => {
   const [products, setProducts] = useState<ProductListType | []>([]); // 서버 요청 받는 상품들 데이터(초기, 검색후)
   // const searchValue = useRef(null) // 초기 검색어 상태
   const [searchValue, setSearchValue] = useState<string>("");
+  const searchRef = useRef<HTMLInputElement>(null);
   const [searchInfo, setSearchInfo] = useState<MapInfoType>({
     keyword: "",
     centerLatLng: {
@@ -31,7 +32,7 @@ const Home = () => {
 
   const handleKeywordChange = (e: ChangeEvent<HTMLInputElement>) => {
     // searchValue.current = e.target.value
-    setSearchValue(e.target.value);
+    // setSearchValue(e.target.value)
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -40,16 +41,16 @@ const Home = () => {
     }
   };
 
-  const handleClick = () => {
+  const handleClick = (e: React.MouseEvent) => {
     handleSearch();
   };
 
   // 위치검색을 통한 지도 영역생성 함수
   const handleSearch = () => {
-    if (!map || !searchValue) return;
+    if (!map || !searchRef.current) return;
 
     const ps = new kakao.maps.services.Places(map);
-    ps.keywordSearch(`${searchValue}`, placeSearchCB);
+    ps.keywordSearch(`${searchRef.current.value}`, placeSearchCB);
     //searchValue를 기준으로 검색된 곳으로 맵을 이동시킴.
     //productList와 관련된 로직은 MainKakaoMap에 있음
 
@@ -84,6 +85,7 @@ const Home = () => {
       onKeyDown={handleKeyDown}
       value={searchValue || ""}
       onClick={handleClick}
+      ref={searchRef}
       searchInfo={searchInfo}
       setSearchInfo={setSearchInfo}
     />

@@ -7,7 +7,6 @@ import SearchIcon from "@mui/icons-material/Search";
 import PersonIcon from "@mui/icons-material/Person";
 import Box from "@mui/material/Box";
 import { useNavigate } from "react-router-dom";
-import classes from "./Footer.module.css";
 import { useBoundStore } from "../../store";
 import { useTheme } from "@emotion/react";
 
@@ -39,7 +38,6 @@ const Footer: React.FC<FooterProps> = ({ position, width }) => {
         zIndex: 1000,
         width: width ? width : "100%",
       }}
-      className={classes.footerContainer}
     >
       <BottomNavigation
         showLabels
@@ -56,7 +54,7 @@ const Footer: React.FC<FooterProps> = ({ position, width }) => {
         <BottomNavigationAction
           label="홈"
           icon={<HomeIcon />}
-          onClick={() => handelNavigate("home")}
+          onClick={() => handelNavigate("/home")}
           sx={{ flex: 1 }}
         />
         <BottomNavigationAction
@@ -64,13 +62,13 @@ const Footer: React.FC<FooterProps> = ({ position, width }) => {
           icon={<SearchIcon />}
           onClick={() =>
             //검색페이지 없음
-            handelNavigate("home")
+            handelNavigate("/home")
           }
         />
         <BottomNavigationAction
           label="프로필"
           icon={<PersonIcon />}
-          onClick={() => handelNavigate(`mypage/${user_id}`)}
+          onClick={() => handelNavigate(`/mypage/${user_id}`)}
           sx={{ flex: 1 }}
         />
         <BottomNavigationAction
