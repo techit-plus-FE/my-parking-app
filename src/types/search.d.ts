@@ -1,4 +1,5 @@
 interface SearchSlice {
-  searchItemsInThisBound : (bound) => Promise<ProductListType>
+  searchItemsInThisBound : (bound: kakao.maps.LatLngBounds) => Promise<ProductListType>
+  searchItemsInThisBoundAndPeriod : (bound:kakao.maps.LatLngBounds, period: string[]|undefined) => Promise<ProductListType>
 }
 
