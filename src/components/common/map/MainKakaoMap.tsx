@@ -24,32 +24,64 @@ const MainKakaoMap = ({ map, setMap, searchInfo, setProducts }: Props) => {
   const searchItemsInThisBound = useBoundStore(
     (state) => state.searchItemsInThisBoundAndPeriod
   );
+
   const [mapExist, setMapExist] = useState<boolean>(false);
-  
-  // const [location, setLocation] = useState({
-  //   center: {
-  //     lat: 37.5069632,
-  //     lng: 127.0556291,
-  //   },
-  //   error: null,
-  //   isLoading: true,
-  // }); // 보여줄 위치상태
   const [markers, setMarkers] = useState<ProductListType | []>();
   const [level, setLevel] = useState<number | undefined>(4);
   const [isOverlayOpen, setIsOverlayOpen] = useState<boolean | undefined>(
     false
   );
   const [selectedMarker, setSelectedMarker] = useState<number | null>(null);
+  const [nowLocation, setNowLocation] = useState({
+    center: {
+      lat: 37.5069632,
+      lng: 127.0556291,
+    },
+    error: null,
+    isLoading: true,
+  });
 
   const searchProducts = async () => {
-    if (!map) return
-    
-    const bound = map.getBounds()      
+    if (!map) return;
+
+    const bound = map.getBounds();
     const res = await searchItemsInThisBound(bound, searchInfo.period);
 
     setMarkers(res); // 마커변경출력
     setProducts(res); // 리스트변경출력
-    
+  };
+
+  // 첫 랜더링시 현재 접속 위치로 이동
+  const moveFirstLocation = () => {
+    if (navigator.geolocation) {
+      // geo서비스를 사용해서 접속 위치 추출
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setNowLocation((prev) => ({
+            ...prev,
+            center: {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+            },
+            isLoading: false,
+          }));
+        },
+        (err) => {
+          setNowLocation((prev) => ({
+            ...prev,
+            errMsg: err.message,
+            isLoading: false,
+          }));
+        }
+      );
+    } else {
+      // geo서비스를 사용못할때 마커표시와 인포윈도우 내용 설정
+      setNowLocation((prev) => ({
+        ...prev,
+        errMsg: "실시간 위치정보를 불러오는데 문제가 생겼습니다.",
+        isLoading: false,
+      }));
+    }
   };
 
   useEffect(() => {
@@ -57,6 +89,10 @@ const MainKakaoMap = ({ map, setMap, searchInfo, setProducts }: Props) => {
     searchProducts();
   }, [mapExist, searchInfo]);
 
+  useEffect(() => {
+    // 실시간 현재위치에따른 지도 이동
+    moveFirstLocation();
+  }, []);
 
   return (
     <>
@@ -110,16 +146,16 @@ const MainKakaoMap = ({ map, setMap, searchInfo, setProducts }: Props) => {
             </>
           ))}
 
-        {/* {!location.isLoading && (
+        {!nowLocation.isLoading && (
           <MapMarker
-            position={location.center}
+            position={nowLocation.center}
             image={{
               src: "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png",
               size: { width: 38, height: 55 },
             }}
             title="내 위치"
           ></MapMarker>
-        )} */}
+        )}
 
         <ZoomControl />
         <MapTypeId type={"TRAFFIC"} />
@@ -130,48 +166,10 @@ const MainKakaoMap = ({ map, setMap, searchInfo, setProducts }: Props) => {
 
 export default MainKakaoMap;
 
-// 3. 실시간 현재위치에따른 지도 이동
-// useEffect(() => {
-//   moveFirstLocation();
-// }, []);
-
 // 4. 지도의 정보를 다시 받아오기
 // useEffect(() => {
 //   handleMapInfo();
 // }, [map, location]);
-
-// 첫 랜더링시 현재 접속 위치로 이동
-// const moveFirstLocation = () => {
-//   if (navigator.geolocation) {
-//     // geo서비스를 사용해서 접속 위치 추출
-//     navigator.geolocation.getCurrentPosition(
-//       (position) => {
-//         setLocation((prev) => ({
-//           ...prev,
-//           center: {
-//             lat: position.coords.latitude,
-//             lng: position.coords.longitude,
-//           },
-//           isLoading: false,
-//         }));
-//       },
-//       (err) => {
-//         setLocation((prev) => ({
-//           ...prev,
-//           errMsg: err.message,
-//           isLoading: false,
-//         }));
-//       }
-//     );
-//   } else {
-//     // geo서비스를 사용못할때 마커표시와 인포윈도우 내용 설정
-//     setLocation((prev) => ({
-//       ...prev,
-//       errMsg: "실시간 위치정보를 불러오는데 문제가 생겼습니다.",
-//       isLoading: false,
-//     }));
-//   }
-// };
 
 // // 주소 반경 정보 받아오기
 // const handleMapInfo = () => {
