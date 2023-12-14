@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import Rating from "@mui/material/Rating";
 import Typography from "@mui/material/Typography";
 
-interface RepliesProps {
+interface ReviewRegistForm {
   value: string;
   // 리뷰입력창
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -15,7 +15,7 @@ interface RepliesProps {
   ratingValue: number;
 }
 
-const RepliesRegistForm: React.FC<RepliesProps> = ({
+const ReviewRegistForm: React.FC<ReviewRegistForm> = ({
   value,
   onChange,
   onSubmit,
@@ -41,4 +41,4 @@ const RepliesRegistForm: React.FC<RepliesProps> = ({
   );
 };
 
-export default RepliesRegistForm;
+export default ReviewRegistForm;
