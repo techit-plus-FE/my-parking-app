@@ -25,6 +25,8 @@ const ProductRegist = () => {
     data: ProductItemType,
     mainImages: string[] | undefined
   ) => {
+    if (!data.extra) return alert("모든 양식을 채워 주어야 합니다.");
+
     try {
       const sendAllData = {
         name: data.name,
