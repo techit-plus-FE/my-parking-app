@@ -4,6 +4,7 @@ import {
   MapMarker,
   ZoomControl,
   CustomOverlayMap,
+  MapTypeId,
 } from "react-kakao-maps-sdk";
 
 import CustomOverlayBox from "./CustomOverlayBox";
@@ -41,7 +42,7 @@ const MainKakaoMap = ({ map, setMap, searchInfo, setProducts }: Props) => {
 
   const requsetSearchProduct = async () => {
     if (map && mapExist) {
-      const bound = map.getBounds()      
+      const bound = map.getBounds();
       const res = await searchItemsInThisBound(bound);
 
       setMarkers(res); // 마커변경출력
@@ -50,11 +51,9 @@ const MainKakaoMap = ({ map, setMap, searchInfo, setProducts }: Props) => {
   };
 
   useEffect(() => {
-      // 해당하는 bounds영역에 맞는 범위의 상품리스트 요청
-      requsetSearchProduct();
+    // 해당하는 bounds영역에 맞는 범위의 상품리스트 요청
+    requsetSearchProduct();
   }, [map, mapExist, searchInfo]);
-
-  
 
   return (
     <>
@@ -108,7 +107,6 @@ const MainKakaoMap = ({ map, setMap, searchInfo, setProducts }: Props) => {
             </>
           ))}
 
-
         {/* {!location.isLoading && (
           <MapMarker
             position={location.center}
@@ -121,6 +119,7 @@ const MainKakaoMap = ({ map, setMap, searchInfo, setProducts }: Props) => {
         )} */}
 
         <ZoomControl />
+        <MapTypeId type={"TRAFFIC"} />
       </Map>
     </>
   );
