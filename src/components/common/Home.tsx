@@ -14,17 +14,17 @@ import SearchInput from "../layouts/SearchInput";
 import SearchHeader from "../layouts/SearchHeader";
 import MediaQueryMain from "../UI/MediaQueryMain";
 
-
 const Home = () => {
   const [map, setMap] = useState<kakao.maps.Map>();
   const [products, setProducts] = useState<ProductListType | []>([]); // 서버 요청 받는 상품들 데이터(초기, 검색후)
   const [searchValue, setSearchValue] = useState<string>(""); // 초기 검색어 상태
   const [searchInfo, setSearchInfo] = useState<InfoType>({
     keyword: "",
-    centerLatLng: { // 애플트리타워로 초기 좌표설정
+    centerLatLng: {
+      // 애플트리타워로 초기 좌표설정
       lat: 37.5070100333146,
       lng: 127.055618149788,
-    }
+    },
   });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -42,13 +42,13 @@ const Home = () => {
 
     const ps = new kakao.maps.services.Places(map);
     ps.keywordSearch(`${searchValue}`, placeSearchCB);
-    
-    function placeSearchCB (result: any, status: any) {
-      if(!map) return;
+
+    function placeSearchCB(result: any, status: any) {
+      if (!map) return;
       if (status === kakao.maps.services.Status.OK) {
         // 남서,북동 기본값(애플트리타워)
         const bound = new kakao.maps.LatLngBounds(); // 지도 영역생성 -> 사각형
-        
+
         const data = result[0]; // 가장 유사한 상위검색객체 저장
 
         bound.extend(new kakao.maps.LatLng(data.y, data.x));
@@ -66,9 +66,17 @@ const Home = () => {
     }
   };
 
+  //searchInput이 받는 props 를 여기에 정의해주세요
+  const searchInputElement = (
+    <SearchInput
+      onChange={handleChange}
+      onKeyDown={onKeyDown}
+      value={searchValue || ""}
+    />
+  );
+
   const isMobile = MediaQueryMain();
 
-  console.log(isMobile);
   return (
     <Box
       className={classes.mapContainer}
@@ -78,15 +86,9 @@ const Home = () => {
     >
       {/* 왼쪽 사이드바 */}
       {isMobile ? (
-        <SearchHeader />
+        <SearchHeader children={searchInputElement} />
       ) : (
-        <SlideBar>
-          <SearchInput
-            onChange={handleChange}
-            onKeyDown={onKeyDown}
-            value={searchValue || ""}
-          />
-        </SlideBar>
+        <SlideBar children={searchInputElement} />
       )}
       {/* 가운데 지도  */}
       <div className={classes.mapWrapper}>
