@@ -21,12 +21,9 @@ import OrderHistoryDetailPage from "./pages/order-hisotry/OrderHistoryDetailPage
 import PurchasePage from "./pages/purchase/PurchaseFormPage";
 import PurchaseResultPage from "./pages/purchase/PurchaseResultPage";
 import SearchPage from "./pages/SearchPage";
-import { ThemeProvider, useTheme } from "@emotion/react";
-import { Button, CssBaseline, createTheme } from "@mui/material";
-import { useState } from "react";
-import { useBoundStore } from "./store/index";
 import classes from "./App.module.css";
 import Theme from "./components/UI/Theme";
+import RepliesPage from "./pages/replies/RepliesRegistPage";
 
 // 라우터 설정
 
@@ -169,6 +166,16 @@ const router = createBrowserRouter([
           },
         ],
       },
+      {
+        id: "replies",
+        path: "/replies",
+        children: [
+          {
+            path: ":productId/:orderId",
+            element: <RepliesPage />,
+          },
+        ],
+      },
     ],
   },
 ]);
@@ -223,7 +230,7 @@ function App() {
         <RouterProvider router={router} />
       </Theme>
     </main>
-  )
+  );
 }
 
 export default App;
