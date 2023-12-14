@@ -24,10 +24,6 @@ const MainKakaoMap = ({ map, setMap, searchInfo, setProducts }: Props) => {
     (state) => state.searchItemsInThisBound
   );
   const [mapExist, setMapExist] = useState<boolean>(false);
-
-  useEffect(()=>{
-    setMapExist(!mapExist)
-  }, [map])
   
   // const [location, setLocation] = useState({
   //   center: {
