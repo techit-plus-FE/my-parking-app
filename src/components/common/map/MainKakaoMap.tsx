@@ -39,7 +39,7 @@ const MainKakaoMap = ({ map, setMap, searchInfo, setProducts }: Props) => {
   );
   const [selectedMarker, setSelectedMarker] = useState<number | null>(null);
 
-  const requsetSearchProduct = async () => {
+  const searchProducts = async () => {
     if (map && mapExist) {
       const bound = map.getBounds()      
       const res = await searchItemsInThisBound(bound);
@@ -51,7 +51,7 @@ const MainKakaoMap = ({ map, setMap, searchInfo, setProducts }: Props) => {
 
   useEffect(() => {
       // 해당하는 bounds영역에 맞는 범위의 상품리스트 요청
-      requsetSearchProduct();
+      searchProducts();
   }, [map, mapExist, searchInfo]);
 
   
@@ -70,7 +70,7 @@ const MainKakaoMap = ({ map, setMap, searchInfo, setProducts }: Props) => {
           setMapExist(true);
         }}
         onZoomChanged={(map) => setLevel(map.getLevel())}
-        onDragEnd={() => requsetSearchProduct()}
+        onDragEnd={() => searchProducts()}
       >
         {/* 1. 상품들 데이터리스트를 맵핑해서 해당 위치값을 마커로 보여주기 */}
         {markers &&

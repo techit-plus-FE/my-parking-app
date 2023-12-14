@@ -33,11 +33,16 @@ const Home = () => {
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      handleSearchMakeMap();
+      handleSearch();
     }
   };
+
+  const onClick = (e: React.MouseEvent) => {
+      handleSearch();
+  }
+
   // 위치검색을 통한 지도 영역생성 함수
-  const handleSearchMakeMap = () => {
+  const handleSearch = () => {
     if (!map || !searchValue) return;
 
     const ps = new kakao.maps.services.Places(map);
@@ -55,13 +60,13 @@ const Home = () => {
         map.setBounds(bound);
 
         // (추가)검색한 키워드, 중심좌표, 영역을 담은 객체 상태를 변경해줍니다.
-        setSearchInfo({
-          keyword: searchValue,
-          centerLatLng: {
-            lat: data.y,
-            lng: data.x,
-          },
-        });
+        // setSearchInfo({
+        //   keyword: searchValue,
+        //   centerLatLng: {
+        //     lat: data.y,
+        //     lng: data.x,
+        //   },
+        // });
       }
     }
   };
