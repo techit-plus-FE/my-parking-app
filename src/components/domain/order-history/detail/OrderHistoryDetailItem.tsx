@@ -1,9 +1,13 @@
 import React from "react";
-import classes from "./OrderHistoryDetail.module.css";
-import OrderCard from "../ordercard/OrderCard";
 
-const OrderHistoryDetailItem = () => {
-  return <OrderCard />;
+//OrderHistoryDetailList 에서 랜더링
+const OrderHistoryDetailItem: React.FC = () => {
+  return (
+    <>
+  
+      <div>OrderHistoryDetailItem</div>
+    </>
+  );
 };
 
 export default OrderHistoryDetailItem;
