@@ -19,6 +19,7 @@ const Home = () => {
   const [products, setProducts] = useState<ProductListType | []>([]); // 서버 요청 받는 상품들 데이터(초기, 검색후)
   // const searchValue = useRef(null) // 초기 검색어 상태
   const [searchValue, setSearchValue] = useState<string>("");
+  const searchRef = useRef<HTMLInputElement>(null);
   const [searchInfo, setSearchInfo] = useState<MapInfoType>({
     keyword: "",
     centerLatLng: {
@@ -31,7 +32,7 @@ const Home = () => {
 
   const handleKeywordChange = (e: ChangeEvent<HTMLInputElement>) => {
     // searchValue.current = e.target.value
-    setSearchValue(e.target.value)
+    // setSearchValue(e.target.value)
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -47,10 +48,10 @@ const Home = () => {
 
   // 위치검색을 통한 지도 영역생성 함수
   const handleSearch = () => {
-    if (!map || !searchValue) return;
+    if (!map || !searchRef.current) return;
 
     const ps = new kakao.maps.services.Places(map);
-    ps.keywordSearch(`${searchValue}`, placeSearchCB);
+    ps.keywordSearch(`${searchRef.current.value }`, placeSearchCB);
     //searchValue를 기준으로 검색된 곳으로 맵을 이동시킴.
     //productList와 관련된 로직은 MainKakaoMap에 있음
       
@@ -83,7 +84,8 @@ const Home = () => {
     <SearchInput
       onKeywordChange={handleKeywordChange}
       onKeyDown={handleKeyDown}
-      value={searchValue || ""}
+      // value={searchValue || ""}
+      ref = {searchRef}
       onClick={handleClick}
       searchInfo = {searchInfo}
       setSearchInfo = {setSearchInfo}
@@ -138,3 +140,4 @@ export default Home;
 // 1. 왼쪽 사이드바에서 검색어를 입력하면 지도에 표시되게 하려면 사이드바 컴포넌트에 props로 검색어 상태변경함수를 내려주어야함
 // 2. 검색된 위치에 해당하는 상품 데이터를 MainKakaoMap에 보여줘야하고, 해당하는 리스트를 불러오는건 오른족 사이드바 컴포넌트에서 진행해야함
 // 3. 지도 레벨에따라 해당하는 범위의 게시글을 랜더링해주기(정보업데이트)
+ 
