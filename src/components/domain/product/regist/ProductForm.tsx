@@ -6,12 +6,11 @@ import axios from "axios";
 
 import classes from "./ProductForm.module.css";
 
-import KakaoMap from "../../../common/map/KakaoMap";
-
 import { BASE_URL } from "../../../../services/BaseUrl";
 import { PROTOCAL } from "../../../../services/BaseUrl";
 import { HOST } from "../../../../services/BaseUrl";
 import { PORT } from "../../../../services/BaseUrl";
+import RegistKakaoMap from "../../../common/map/RegistKakaoMap";
 
 type Props = {
   title: string;
@@ -234,10 +233,9 @@ const ProductForm = ({ title, onSubmit, product }: Props) => {
           ))}
         </div>
       </div>
-
       <div className={classes["location-wrapper"]}>
         <label>위치 선택하기</label>
-        <KakaoMap
+        <RegistKakaoMap
           formData={formData}
           setFormData={setFormData}
           product={product}

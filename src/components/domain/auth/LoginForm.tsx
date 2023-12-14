@@ -1,6 +1,12 @@
 // 실제 사용자와 인터렉션
 import React, { ChangeEvent } from "react";
-import { CommonButtonSmall } from "../../UI/CommonButton";
+import { CommonButtonLarge, CommonButtonSmall } from "../../UI/CommonButton";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import { useNavigate } from "react-router-dom";
+import classes from "./LoginForm.module.css";
+import { Button } from "@mui/material";
+import { useTheme } from "@emotion/react";
 
 interface LoginFormProps {
   handleInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -12,32 +18,61 @@ interface LoginFormProps {
 const LoginForm: React.FC<LoginFormProps> = ({
   handleInputChange,
   handleSubmit,
-  userInputId,
   userInputPassword,
+  userInputId,
 }) => {
+  const navigate = useNavigate();
+  const theme = useTheme();
   return (
-    <div>
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        "& > :not(style)": { m: 1 },
+      }}
+    >
       <form onSubmit={handleSubmit}>
-        <label htmlFor="user-email">로그인</label>
-        <input
-          id="user-email"
-          type="email"
-          placeholder="아이디를 입력해주세요"
-          value={userInputId}
-          onChange={handleInputChange}
-        />
-        <label htmlFor="user-password">password</label>
-        <input
-          id="user-password"
-          type="password"
-          placeholder="패스워드를 입력해주세요"
-          value={userInputPassword}
-          onChange={handleInputChange}
-        />
-        {/* <button>zmm</button> */}
-        <CommonButtonSmall text="로그인하기" />
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+          }}
+        >
+          <TextField
+            // helperText="Please enter your name"
+            id="user-email"
+            label="아이디"
+            value={userInputId}
+            onChange={handleInputChange}
+            type="email"
+            required
+            error={!userInputId}
+            helperText={!userInputId && "아이디를 입력해주세요."}
+            sx={{ padding: "10px", width: "300px" }}
+          />
+          <TextField
+            // helperText="Please enter your name"
+            id="user-password"
+            label="비밀번호"
+            value={userInputPassword}
+            onChange={handleInputChange}
+            type="password"
+            required
+            error={!userInputPassword}
+            helperText={!userInputPassword && "비밀번호를 입력해주세요."}
+            sx={{ padding: "10px" }}
+          />
+        </Box>
+        <CommonButtonLarge text="로그인하기" />
+        <Button
+          onClick={() => navigate("/signup")}
+          sx={{ color: theme.palette.text.primary, width: "100%" }}
+        >
+          <p>이메일로 회원가입</p>
+        </Button>
       </form>
-    </div>
+    </Box>
   );
 };
 

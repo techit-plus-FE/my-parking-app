@@ -6,6 +6,10 @@
   height: 100%;
   text-align: center;
   background-color: var(--color-primary-600);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
 }
 
 .title {

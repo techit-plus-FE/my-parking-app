@@ -1,0 +1,7 @@
+.payMentWrapper {
+  display: flex;
+}
+
+.payMentWrapper div {
+  border: 1px solid black;
+}

@@ -13,6 +13,7 @@ interface ProductItemType {
   updatedAt?: string;
   extra?: ExtraDataType;
   replies?: RepliesDataType[];
+  quantity?: number;
 }
 
 // extra 추가 상품 정보 타입
@@ -24,11 +25,11 @@ interface ExtraDataType {
   buyQuantity?: number;
   sort?: number;
   // 밑에는 우리가 넣은 타입
-  startDate?: string | undefined; // 대여시작일
-  endDate?: string | undefined; // 대여 종료일
-  address?: string | undefined; // 상품등록주소
-  lat?: string | undefined; // 상품 주소의 위도 좌표
-  lng?: string | undefined; // 상품 주소의 경도 좌표
+  startDate?: string; // 대여시작일
+  endDate?: string; // 대여 종료일
+  address?: string; // 상품등록주소
+  lat?: number; // 상품 주소의 위도 좌표
+  lng?: number; // 상품 주소의 경도 좌표
 }
 
 // 리뷰 데이터 타입
@@ -48,35 +49,42 @@ type ProductListType = ProductItemType[];
 interface ProductItemResType {
   ok: 0 | 1;
   item: ProductItemType;
+  _id: number;
 }
-
 interface ProductListResType {
   ok: 0 | 1;
   item: ProductListType;
 }
 
-// 상품 등록양식 전체 데이터 타입(모바일)
-interface ProductAllFormDataType {
-  location: ProductLocationType; // x,y좌표(카카오 지도로부터 받은 위치)
-  startDate: string;
-  endDate: string;
-  othersInfo: ProductOthersInfoType;
-  mainImages: string[];
-  shippingFees: number;
-  show: boolean;
-  active: boolean;
+/////////////////////////////////////////////////////
+
+interface ProductSlice {
+  productItem: ProductItemType;
+  productList: ProductListType;
 }
 
-// 위치 좌표 타입
-interface ProductLocationType {
-  address: string;
-  lat: string;
-  lng: string;
-}
+// // 상품 등록양식 전체 데이터 타입(모바일)
+// interface ProductAllFormDataType {
+//   location: ProductLocationType; // x,y좌표(카카오 지도로부터 받은 위치)
+//   startDate: string;
+//   endDate: string;
+//   othersInfo: ProductOthersInfoType;
+//   mainImages: string[];
+//   shippingFees: number;
+//   show: boolean;
+//   active: boolean;
+// }
 
-// 상품등록 마지막에 받을 양식 타입
-interface ProductOthersInfoType {
-  name: string;
-  price: string;
-  content: string;
-}
+// // 위치 좌표 타입
+// interface ProductLocationType {
+//   address: string;
+//   lat: string;
+//   lng: string;
+// }
+
+// // 상품등록 마지막에 받을 양식 타입
+// interface ProductOthersInfoType {
+//   name: string;
+//   price: string;
+//   content: string;
+// }

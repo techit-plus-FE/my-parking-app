@@ -16,8 +16,8 @@ const ProductRegist = () => {
       startDate: "",
       endDate: "",
       address: "",
-      lat: "",
-      lng: "",
+      lat: undefined,
+      lng: undefined,
     },
   };
 
@@ -25,6 +25,8 @@ const ProductRegist = () => {
     data: ProductItemType,
     mainImages: string[] | undefined
   ) => {
+    if (!data.extra) return alert("모든 양식을 채워 주어야 합니다.");
+
     try {
       const sendAllData = {
         name: data.name,
@@ -40,8 +42,8 @@ const ProductRegist = () => {
           startDate: data.extra?.startDate,
           endDate: data.extra?.endDate,
           address: data.extra?.address,
-          lat: data.extra?.lat,
-          lng: data.extra?.lng,
+          lat: Number(data.extra?.lat),
+          lng: Number(data.extra?.lng),
         },
       };
 

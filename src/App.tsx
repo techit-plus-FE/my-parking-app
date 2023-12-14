@@ -21,10 +21,11 @@ import OrderHistoryDetailPage from "./pages/order-hisotry/OrderHistoryDetailPage
 import PurchasePage from "./pages/purchase/PurchaseFormPage";
 import PurchaseResultPage from "./pages/purchase/PurchaseResultPage";
 import SearchPage from "./pages/SearchPage";
-import MyProductPage from "./pages/my-services/MyProductPage";
-import ReplyPage from "./pages/reply/ReplyPage";
+import classes from "./App.module.css";
+import Theme from "./components/UI/Theme";
 
 // 라우터 설정
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -59,13 +60,13 @@ const router = createBrowserRouter([
   },
   {
     path: "/",
-    id: "withSearchHeaderAndFooterLayout",
+    id: "noLayoutAndNeedLoggedIn",
     element: (
       <RootLayout
         isNeedLoggedIn={true}
         hasHeader={false}
-        hasFooter={true}
-        hasSearchHeader={true}
+        hasFooter={false}
+        hasSearchHeader={false}
       />
     ),
     errorElement: <ErrorPage />,
@@ -131,10 +132,6 @@ const router = createBrowserRouter([
               },
             ],
           },
-          {
-            path: "my-product",
-            element: <MyProductPage />,
-          },
         ],
       },
 
@@ -148,7 +145,7 @@ const router = createBrowserRouter([
             element: <OrderHistoryPage />,
           },
           {
-            path: ":orderId",
+            path: "/order-history/:orderId",
             element: <OrderHistoryDetailPage />,
           },
         ],
@@ -156,30 +153,73 @@ const router = createBrowserRouter([
       // 구매
       {
         id: "purchase",
-        path: "purchase",
+        path: "/purchase",
         children: [
           {
-            index: true,
+            path: "/purchase",
             element: <PurchasePage />,
           },
           {
-            path: "result",
+            path: "/purchase/result",
             element: <PurchaseResultPage />,
           },
         ],
-      },
-      // 후기
-      {
-        id: "reply",
-        path: "reply/:userId",
-        element: <ReplyPage />,
       },
     ],
   },
 ]);
 
+// function App() {
+//   // 다크 모드 테마 생성
+//   const setIsDark = useBoundStore((state) => state.setIsDark);
+//   const isDark = useBoundStore((state) => state.isDark);
+
+//   const darkTheme = createTheme({
+//     palette: {
+//       mode: isDark ? "dark" : "light",
+//       primary: {
+//         main: "#90caf9", // 다크 모드에서의 primary 색상
+//       },
+//       secondary: {
+//         main: "#ffcc80", // 다크 모드에서의 secondary 색상
+//       },
+//       background: {
+//         default: isDark ? "#212121" : "#fff", // 기본 배경색
+//         paper: isDark ? "#2c2c2c" : "#fff", // 다크 모드에서의 페이퍼 배경색
+//       },
+//       text: {
+//         primary: isDark ? "#fff" : "#000", // 다크 모드에서의 텍스트 색상
+//         secondary: "#989898", // 다크 모드에서의 보조 텍스트 색상
+//       },
+
+//       // 기타 색상들을 필요에 따라 추가할 수 있습니다.
+//     },
+//   });
+
+//   return (
+//     <main className={classes.mainContainer}>
+//       <button onClick={() => setIsDark(isDark)}>다크모드</button>
+//       <ThemeProvider theme={darkTheme}>
+//         <CssBaseline>
+//           <RouterProvider router={router} />
+//         </CssBaseline>
+//       </ThemeProvider>
+//     </main>
+//   );
+// }
+
+// export default App;
+
 function App() {
-  return <RouterProvider router={router} />;
+  // 다크 모드 테마 생성
+
+  return (
+    <main className={classes.mainContainer}>
+      <Theme>
+        <RouterProvider router={router} />
+      </Theme>
+    </main>
+  );
 }
 
 export default App;

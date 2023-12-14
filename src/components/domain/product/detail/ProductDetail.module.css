@@ -1,7 +1,3 @@
-.container {
-  overflow-y: scroll;
-}
-
 .util-action {
   display: flex;
   justify-content: flex-end;

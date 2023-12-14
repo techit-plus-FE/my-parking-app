@@ -21,8 +21,8 @@ const ProductEdit = () => {
       startDate: "",
       endDate: "",
       address: "",
-      lat: "",
-      lng: "",
+      lat: undefined,
+      lng: undefined,
     },
   });
 
@@ -70,8 +70,8 @@ const ProductEdit = () => {
           startDate: updatedData.extra?.startDate,
           endDate: updatedData.extra?.endDate,
           address: updatedData.extra?.address,
-          lat: updatedData.extra?.lat,
-          lng: updatedData.extra?.lng,
+          lat: Number(updatedData.extra?.lat),
+          lng: Number(updatedData.extra?.lng),
         },
       };
 
