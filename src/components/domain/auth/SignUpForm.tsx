@@ -36,10 +36,9 @@ const SignUpForm = () => {
     userInputs: UserInputClass
   ) => {
     //userInputs에서 passwordCheck를 삭제한 객체 newPerson을 만들어 줍니다.
-    const newPerson: {
-      [key in keyof Person]: Person[key];
-    } = { ...userInputs } satisfies Person;
-
+    const newPerson: Partial<UserInputClass> = {...userInputs}
+    delete newPerson['passwordCheck']
+    
     //newPerson을 넣어 회원가입을 진행합니다. 잘 완료되었다면 login 페이지로 이동합니다.
     if ((await AuthSlice.signUp(newPerson)) == true) {
       navigate("/login");
