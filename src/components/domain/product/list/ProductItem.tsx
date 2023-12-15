@@ -11,8 +11,7 @@ type Props = {
 };
 
 const ProductItem: React.FC<Props> = ({ product }) => {
-  // const { productId } = useParams<{ productId: string }>();
-  console.log(product);
+
   return (
     <Link to={`/products/${product._id}`} className={classes["link-to-detail"]}>
       <Box
