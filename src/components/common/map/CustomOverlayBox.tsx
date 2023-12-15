@@ -35,12 +35,7 @@ const CustomOverlayBox = ({
         </div>
         <div className={classes.body}>
           <div className={classes.img}>
-            <img
-              src={mainImage || NOIMAGE}
-              alt="등록된 이미지"
-              width={45}
-              height={115}
-            />
+            <img src={mainImage || NOIMAGE} alt="등록된 이미지" />
           </div>
           <div className={classes.desc}>
             <div className={classes.period}>
