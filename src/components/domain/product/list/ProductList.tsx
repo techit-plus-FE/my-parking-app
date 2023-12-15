@@ -36,40 +36,29 @@ const ProductList = ({ products, isMobile }: Props) => {
   };
 
   return (
-    <div>
+    <>
       {isMobile ? (
-        <div>
-          <Box
-            className={classes.container}
-            sx={{
-              width: "100%",
-            }}
-          >
-            <Box sx={{ fontSize: "2rem" }}>주차장 리스트</Box>
-            <button type="button" onClick={handleCheckUser}>
-              내 주차장 등록하기
-            </button>
-            <ul className={classes["product-list"]}>
-              {products && products.length > 0 ? (
-                products.map((product) => {
-                  return <ProductItem key={product._id} product={product} />;
-                })
-              ) : (
-                <p>등록된 상품이 암것도 없어요ㅠㅠ</p>
-              )}
-            </ul>
-          </Box>
+        <div className={classes.container}>
+          <Box sx={{ fontSize: "2rem" }}>주차장 리스트</Box>
+          <button type="button" onClick={handleCheckUser}>
+            내 주차장 등록하기
+          </button>
+          <ul className={classes["product-list"]}>
+            {products && products.length > 0 ? (
+              products.map((product) => {
+                return <ProductItem key={product._id} product={product} />;
+              })
+            ) : (
+              <p>등록된 상품이 암것도 없어요ㅠㅠ</p>
+            )}
+          </ul>
         </div>
       ) : (
         <Box
-          className={classes.container}
           sx={{
-            width: "300px",
-            zIndex: 1200,
-            position: "fixed",
-            top: 0,
-            right: 0,
             backgroundColor: theme.palette.background.default,
+            //pc 버전일 때 list 너비
+            width: "300px",
           }}
         >
           <div className={classes.container}>
@@ -89,7 +78,7 @@ const ProductList = ({ products, isMobile }: Props) => {
           </div>
         </Box>
       )}
-    </div>
+    </>
   );
 };
 

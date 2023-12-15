@@ -36,7 +36,7 @@ const ProductItem: React.FC<Props> = ({ product }) => {
             <div className={classes["product-period"]}>
               <small>
                 {product.extra?.startDate
-                  ? product.extra?.endDate
+                  ? product.extra?.startDate
                   : "2023.10.31"}
                 ~
               </small>
