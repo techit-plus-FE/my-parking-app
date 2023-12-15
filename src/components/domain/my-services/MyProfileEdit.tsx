@@ -5,13 +5,10 @@ import {UserInputClass, Person, UserDetailInfo, UserExtraInfo} from "../../../ty
 import { CommonButtonMiddle } from "../../UI/CommonButton";
 import Box from "@mui/material/Box";
 import Modal from '@mui/material/Modal';
-import { Button, TextField } from "@mui/material";
+import { Button, Card, TextField } from "@mui/material";
 import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
 import React from "react";
+import DEFAULTIMAGE from '../../../assets/images/default-avatar.png'
 
 
 const MyProfileEdit = () => {
@@ -20,6 +17,8 @@ const MyProfileEdit = () => {
   const id: number = Store.userBasicInfo._id
   const navigate = useNavigate()
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const upload = useRef<HTMLInputElement>(null);
+  const [imgFileView, setImgFileView]= useState('')
 
   const currentInfo: Partial<UserDetailInfo> = {...myInfo}
   const userExtraInfo: ExtraType = {...new UserExtraInfo(), ...myInfo.extra}
@@ -45,10 +44,17 @@ const MyProfileEdit = () => {
 
     const openModal = () => {
       setModalIsOpen(true);
+      setImgFileView('');
     };
   
     const closeModal = () => {
       setModalIsOpen(false);
+    };
+
+    const boximgUpload = () => {
+      if (upload.current === null) return
+      if (upload.current.files === null) return
+      setImgFileView(URL.createObjectURL(upload.current.files[0]));
     };
 
 
@@ -78,19 +84,34 @@ const MyProfileEdit = () => {
       <div>
         {/*프로필 이미지 표시*/}
         <img src={`${myInfo.extra?.profileImage}`}/>
-        <button onClick ={()=>setModalIsOpen(!modalIsOpen)}>프로필사진 변경</button>
+        <Button onClick ={()=>setModalIsOpen(!modalIsOpen)}>프로필사진 변경</Button>
         <Dialog
         open={modalIsOpen}
         onClose={closeModal}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
-      >
+        >
          <Box>
-          <h2 id="child-modal-title">Text in a child modal</h2>
-          <p id="child-modal-description">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-          </p>
-          <Button onClick={closeModal}>Close Child Modal</Button>
+          <h2 id="child-modal-title">프로필 사진 업로드</h2>
+          <Card>
+            {upload.current === null ? 
+                (
+                <img src = {DEFAULTIMAGE} alt = "img"></img>
+                  )
+                  : (
+                    <img src = {imgFileView} alt = "img"></img>
+                )}    
+                <input
+                  type="file"
+                  ref={upload}
+                  // multiple
+                  onChange={boximgUpload}
+                  accept="image/*"
+                  className="upload-btn-inside"
+                />
+          </Card>
+          <Button onClick={closeModal}>업로드하기</Button>
+          <Button onClick={closeModal}>닫기</Button>
         </Box>
       </Dialog>
       </div>
