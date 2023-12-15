@@ -8,7 +8,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import Box from "@mui/material/Box";
 import { useNavigate } from "react-router-dom";
 import { useBoundStore } from "../../store";
-import { useTheme } from "@emotion/react";
+import { useTheme } from "@mui/material/styles";
 
 interface FooterProps {
   position?: string;
