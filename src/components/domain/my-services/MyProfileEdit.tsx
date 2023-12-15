@@ -17,8 +17,9 @@ const MyProfileEdit = () => {
   const id: number = Store.userBasicInfo._id
   const navigate = useNavigate()
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const upload = useRef<HTMLInputElement>(null);
+  const imageUploadRef = useRef<HTMLInputElement>(null);
   const [imgFileView, setImgFileView]= useState('')
+   
 
   const currentInfo: Partial<UserDetailInfo> = {...myInfo}
   const userExtraInfo: ExtraType = {...new UserExtraInfo(), ...myInfo.extra}
@@ -52,9 +53,9 @@ const MyProfileEdit = () => {
     };
 
     const boximgUpload = () => {
-      if (upload.current === null) return
-      if (upload.current.files === null) return
-      setImgFileView(URL.createObjectURL(upload.current.files[0]));
+      if (imageUploadRef.current === null) return
+      if (imageUploadRef.current.files === null) return
+      setImgFileView(URL.createObjectURL(imageUploadRef.current.files[0]));
     };
 
 
@@ -94,7 +95,7 @@ const MyProfileEdit = () => {
          <Box>
           <h2 id="child-modal-title">프로필 사진 업로드</h2>
           <Card>
-            {upload.current === null ? 
+            {imageUploadRef.current === null ? 
                 (
                 <img src = {DEFAULTIMAGE} alt = "img"></img>
                   )
@@ -103,7 +104,7 @@ const MyProfileEdit = () => {
                 )}    
                 <input
                   type="file"
-                  ref={upload}
+                  ref={imageUploadRef}
                   // multiple
                   onChange={boximgUpload}
                   accept="image/*"
