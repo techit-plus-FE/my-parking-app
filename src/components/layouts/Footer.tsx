@@ -75,6 +75,7 @@ const Footer: React.FC<FooterProps> = ({ position, width }) => {
           icon={<PersonIcon />}
           onClick={() => {
             logout();
+            setNavSelected(0);
             alert("로그아웃이 완료되었습니다");
           }}
           sx={{ flex: 1 }}
