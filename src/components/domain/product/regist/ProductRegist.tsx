@@ -2,10 +2,13 @@ import { useNavigate } from "react-router-dom";
 
 import ProductForm from "./ProductForm";
 import useCustomAxios from "../../../../services/useCustomAxios";
+import { useBoundStore } from "../../../../store/index";
 
 const ProductRegist = () => {
   const navigate = useNavigate();
   const axiosInstance = useCustomAxios();
+  const userBasicInfo = useBoundStore((state) => state.userBasicInfo);
+  console.log(userBasicInfo.name);
 
   const initialProduct: ProductItemType = {
     name: "",
@@ -44,6 +47,7 @@ const ProductRegist = () => {
           address: data.extra?.address,
           lat: Number(data.extra?.lat),
           lng: Number(data.extra?.lng),
+          sellerNickname: userBasicInfo.name,
         },
       };
 

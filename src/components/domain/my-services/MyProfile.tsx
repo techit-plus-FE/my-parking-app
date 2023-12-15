@@ -1,16 +1,13 @@
 import React, { useEffect } from "react";
 import { useBoundStore } from "../../../store";
 import { useNavigate } from "react-router-dom";
-import { CommonButtonMiddle } from "../../UI/CommonButton";
 import Box from "@mui/material/Box";
 import classes from "./Mypage.module.css";
-import { useTheme } from "@emotion/react";
 import { Button } from "@mui/material";
-
 import usericon from "../../../assets/images/user-default-profile.png";
+import { useTheme } from "@mui/material/styles";
 
 const MyProfile = () => {
-  const isDark = useBoundStore((state) => state.isDark);
   const theme = useTheme();
   const Store = useBoundStore((state) => state);
   const myInfo: UserDetailInfoType = useBoundStore((state) => state.myInfo);

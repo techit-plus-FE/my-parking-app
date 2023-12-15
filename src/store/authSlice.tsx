@@ -106,7 +106,7 @@ export const createAuthSlice: StateCreator<AuthSlice, []> = (set) => ({
     return requestUserLogin(email, password);
   },
   //사용자의 기본 정보(토큰값, 이름, 프로필사진 등등) 업데이트
-  updateUserBasicInfo(userToken: TokenType, userBasicInfo: UserBasicInfoType) {
+  updateUserBasicInfo(userToken: TokenInfoType['token'], userBasicInfo: UserBasicInfoType) {
     set(() => ({
       userToken: userToken,
       userBasicInfo: userBasicInfo,

@@ -59,8 +59,6 @@ const Home = () => {
 
     const ps = new kakao.maps.services.Places(map);
     ps.keywordSearch(`${searchRef.current.value}`, placeSearchCB);
-    //searchRef.current.value를 기준으로 검색된 곳으로 맵을 이동시킴.
-    //productList와 관련된 로직은 MainKakaoMap에 있음
 
     function placeSearchCB(result: any, status: any) {
       if (!map) return;
@@ -130,11 +128,12 @@ const Home = () => {
   //searchInput이 받는 props 를 여기에 정의해주세요
   const searchInputElement = (
     <SearchInput
+      onKeywordChange={handleKeywordChange}
+      onKeyDown={handleKeyDown}
       ref={searchRef}
+      onClick={handleClick}
       searchInfo={searchInfo}
       setSearchInfo={setSearchInfo}
-      onClick={handleClick}
-      onKeyDown={handleKeyDown}
     />
   );
 
@@ -171,12 +170,8 @@ const Home = () => {
         <ProductList products={products} isMobile={isMobile} />
       </Box>
 
-      {/* 푸터 */}
-      {isMobile ? (
-        <Footer />
-      ) : (
-        <Footer position="absolute" width="var(--slide-width)" />
-      )}
+
+      {isMobile && <Footer />}
     </Box>
   );
 };
@@ -188,5 +183,4 @@ export default Home;
 // 1. 왼쪽 사이드바에서 검색어를 입력하면 지도에 표시되게 하려면 사이드바 컴포넌트에 props로 검색어 상태변경함수를 내려주어야함
 // 2. 검색된 위치에 해당하는 상품 데이터를 MainKakaoMap에 보여줘야하고, 해당하는 리스트를 불러오는건 오른족 사이드바 컴포넌트에서 진행해야함
 // 3. 지도 레벨에따라 해당하는 범위의 게시글을 랜더링해주기(정보업데이트)
-
 // 우선 기본 좌표는 고정값 그대로 해두고(searchInfo의 중심좌표) 현위치 버튼을 눌렀을 시에만 지도 이동을 시키게만 하는편잉 좋을거같아요
