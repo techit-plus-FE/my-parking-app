@@ -24,6 +24,7 @@ import SearchPage from "./pages/SearchPage";
 import classes from "./App.module.css";
 import Theme from "./components/UI/Theme";
 import ReplyPage from "./pages/reply/ReplyPage";
+import RepliesPage from "./pages/reply/RepliesPage";
 
 // 라우터 설정
 
@@ -166,13 +167,20 @@ const router = createBrowserRouter([
           },
         ],
       },
+      // 리뷰
       {
         id: "reply",
         path: "/reply",
         children: [
           {
+            // 리뷰 쓰는 page
             path: ":productId/:orderId",
             element: <ReplyPage />,
+          },
+          // 판매자의 리뷰를 볼 수 있는 page
+          {
+            path: "seller-replies/:sellerId",
+            element: <RepliesPage />,
           },
         ],
       },
