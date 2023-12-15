@@ -1,5 +1,6 @@
 // import { useEffect } from "react";
 // import axios from "axios";
+
 import ProductItem from "./ProductItem";
 
 import classes from "./ProductList.module.css";
@@ -7,7 +8,7 @@ import classes from "./ProductList.module.css";
 import { useNavigate } from "react-router-dom";
 import { useBoundStore } from "../../../../store";
 import { Box } from "@mui/system";
-import { useTheme } from "@emotion/react";
+import { useTheme } from "@mui/material/styles";
 
 type Props = {
   products: ProductListType | undefined;
@@ -15,8 +16,8 @@ type Props = {
 };
 const ProductList = ({ products, isMobile }: Props) => {
   const navigate = useNavigate();
-
   const theme = useTheme();
+
   const user = useBoundStore((state) => state.userBasicInfo);
 
   // useEffect(() => {
@@ -79,13 +80,7 @@ const ProductList = ({ products, isMobile }: Props) => {
             <ul className={classes["product-list"]}>
               {products && products.length > 0 ? (
                 products.map((product) => {
-                  return (
-                    <ProductItem
-                      key={product._id}
-                      product={product}
-                      flexDirection="column"
-                    />
-                  );
+                  return <ProductItem key={product._id} product={product} />;
                 })
               ) : (
                 <p>등록된 상품이 암것도 없어요ㅠㅠ</p>

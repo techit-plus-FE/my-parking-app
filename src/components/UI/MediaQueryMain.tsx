@@ -1,6 +1,6 @@
 import useMediaQuery from "@mui/material/useMediaQuery";
 import json2mq from "json2mq";
-import { useTheme } from "@emotion/react";
+import { useTheme } from "@mui/material/styles";
 
 const MediaQueryMain = () => {
   const theme = useTheme();
