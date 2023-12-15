@@ -16,12 +16,11 @@ interface FooterProps {
 }
 
 const Footer: React.FC<FooterProps> = ({ position, width }) => {
-  //수정하기 변경하기
-  // const iconActiveFill = "var(--color-gray-400)";
   const logout = useBoundStore((state) => state.logout);
   const user_id = useBoundStore((state) => state.myInfo._id);
+  const setNavSelected = useBoundStore((state) => state.setNavSelected);
+  const navSelectedValue = useBoundStore((state) => state.navSelectedValue);
 
-  const [value, setValue] = React.useState(0);
   const navigate = useNavigate();
 
   const handelNavigate = (path: string) => {
@@ -41,9 +40,9 @@ const Footer: React.FC<FooterProps> = ({ position, width }) => {
     >
       <BottomNavigation
         showLabels
-        value={value}
+        value={navSelectedValue}
         onChange={(e, newValue) => {
-          setValue(newValue);
+          setNavSelected(newValue);
           // navigate(event.target.);
         }}
         sx={{
