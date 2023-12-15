@@ -9,6 +9,7 @@ import { Button, Card, TextField } from "@mui/material";
 import Dialog from '@mui/material/Dialog';
 import React from "react";
 import DEFAULTIMAGE from '../../../assets/images/default-avatar.png'
+import { UseBoundStore } from "zustand";
 
 
 const MyProfileEdit = () => {
@@ -19,8 +20,8 @@ const MyProfileEdit = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const imageUploadRef = useRef<HTMLInputElement>(null);
   const [imgFileView, setImgFileView]= useState('')
-   
 
+  
   const currentInfo: Partial<UserDetailInfo> = {...myInfo}
   const userExtraInfo: ExtraType = {...new UserExtraInfo(), ...myInfo.extra}
   delete currentInfo['extra']
@@ -58,6 +59,13 @@ const MyProfileEdit = () => {
       setImgFileView(URL.createObjectURL(imageUploadRef.current.files[0]));
     };
 
+    const uploadImage = useBoundStore((state)=> state.uploadImage)
+
+    const handleUpload = (e: React.MouseEvent) => {
+      console.log('upload!')
+      // console.log(e.target)
+      uploadImage(imageUploadRef)
+    }
 
   useEffect(()=>{
     // console.log(myInfo)
@@ -111,7 +119,7 @@ const MyProfileEdit = () => {
                   className="upload-btn-inside"
                 />
           </Card>
-          <Button onClick={closeModal}>업로드하기</Button>
+          <Button onClick={handleUpload}>업로드하기</Button>
           <Button onClick={closeModal}>닫기</Button>
         </Box>
       </Dialog>
