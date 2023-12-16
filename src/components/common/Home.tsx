@@ -128,7 +128,6 @@ const Home = () => {
   //searchInput이 받는 props 를 여기에 정의해주세요
   const searchInputElement = (
     <SearchInput
-      onKeywordChange={handleKeywordChange}
       onKeyDown={handleKeyDown}
       ref={searchRef}
       onClick={handleClick}
