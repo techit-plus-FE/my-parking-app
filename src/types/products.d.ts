@@ -63,3 +63,8 @@ interface ProductSlice {
   productList: ProductListType;
 }
 
+type FilesResType = {
+  originalname: string;
+  name: string;
+  path: string;
+};
