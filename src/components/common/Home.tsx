@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { ChangeEvent, useState, useRef } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 
 import classes from "./Home.module.css";
 
@@ -15,25 +15,33 @@ import SearchHeader from "../layouts/SearchHeader";
 import MediaQueryMain from "../UI/MediaQueryMain";
 
 const Home = () => {
+  const isMobile = MediaQueryMain();
+
+  const searchRef = useRef<HTMLInputElement>(null); // 검색 인풋
+
   const [map, setMap] = useState<kakao.maps.Map>();
-  const [products, setProducts] = useState<ProductListType | []>([]); // 서버 요청 받는 상품들 데이터(초기, 검색후)
-  // const searchValue = useRef(null) // 초기 검색어 상태
-  const [searchValue, setSearchValue] = useState<string>("");
-  const searchRef = useRef<HTMLInputElement>(null);
-  const [searchInfo, setSearchInfo] = useState<MapInfoType>({
-    keyword: "",
+  // 서버 요청 받는 상품들 데이터(초기, 검색후)
+  const [products, setProducts] = useState<ProductListType | []>([]);
+  // 현재위치 상태
+  const [nowLocation, setNowLocation] = useState<LocationType>({
     centerLatLng: {
-      // 애플트리타워로 초기 좌표설정
+      lat: undefined,
+      lng: undefined,
+    },
+    error: null,
+    isLoading: true,
+  });
+  // 지도 정보 상태
+  const [searchInfo, setSearchInfo] = useState<MapInfoType>({
+    keyword: null,
+    centerLatLng: {
+      // 현재 위치로 초기 좌표 설정 현재 좌표 못불러오면 애플트리타워로 초기 좌표설정
       lat: 37.5070100333146,
       lng: 127.055618149788,
     },
     period: undefined,
+    isPanTo: false,
   });
-
-  const handleKeywordChange = (e: ChangeEvent<HTMLInputElement>) => {
-    // searchValue.current = e.target.value
-    // setSearchValue(e.target.value)
-  };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
@@ -41,7 +49,7 @@ const Home = () => {
     }
   };
 
-  const handleClick = (e: React.MouseEvent) => {
+  const handleClick = () => {
     handleSearch();
   };
 
@@ -50,9 +58,7 @@ const Home = () => {
     if (!map || !searchRef.current) return;
 
     const ps = new kakao.maps.services.Places(map);
-    ps.keywordSearch(`${searchRef.current.value }`, placeSearchCB);
-    //searchValue를 기준으로 검색된 곳으로 맵을 이동시킴.
-    //productList와 관련된 로직은 MainKakaoMap에 있음
+    ps.keywordSearch(`${searchRef.current.value}`, placeSearchCB);
 
     function placeSearchCB(result: any, status: any) {
       if (!map) return;
@@ -68,7 +74,7 @@ const Home = () => {
         // (추가)검색한 키워드, 중심좌표, 영역을 담은 객체 상태를 변경해줍니다.
         setSearchInfo({
           ...searchInfo,
-          keyword: searchValue,
+          keyword: searchRef.current && searchRef.current.value,
           centerLatLng: {
             lat: data.y,
             lng: data.x,
@@ -78,20 +84,57 @@ const Home = () => {
     }
   };
 
+  // 현재 위치 불러오는 함수
+  const handleFetchNowLocation = useCallback(() => {
+    if (navigator.geolocation) {
+      // geo서비스를 사용해서 접속 위치 추출
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setNowLocation((prev) => ({
+            ...prev,
+            centerLatLng: {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+            },
+            isLoading: false,
+          }));
+          setSearchInfo((prev) => ({
+            ...prev,
+            centerLatLng: {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+            },
+            isPanTo: true,
+          }));
+        },
+        (err) => {
+          setNowLocation((prev) => ({
+            ...prev,
+            errror: err.message,
+            isLoading: false,
+          }));
+        }
+      );
+    } else {
+      // geo서비스를 사용못할때 마커표시와 인포윈도우 내용 설정
+      setNowLocation((prev) => ({
+        ...prev,
+        error: "실시간 위치정보를 불러오는데 문제가 생겼습니다.",
+        isLoading: false,
+      }));
+    }
+  }, []);
+
   //searchInput이 받는 props 를 여기에 정의해주세요
   const searchInputElement = (
     <SearchInput
-      onKeywordChange={handleKeywordChange}
       onKeyDown={handleKeyDown}
-      // value={searchValue || ""}
-      ref = {searchRef}
+      ref={searchRef}
       onClick={handleClick}
       searchInfo={searchInfo}
       setSearchInfo={setSearchInfo}
     />
   );
-
-  const isMobile = MediaQueryMain();
 
   return (
     <Box
@@ -106,6 +149,7 @@ const Home = () => {
       ) : (
         <SlideBar children={searchInputElement} />
       )}
+
       {/* 가운데 지도  */}
       <div className={classes.mapWrapper}>
         <Box>
@@ -114,6 +158,8 @@ const Home = () => {
             setMap={setMap}
             setProducts={setProducts}
             searchInfo={searchInfo}
+            nowLocation={nowLocation}
+            handleFetchNowLocation={handleFetchNowLocation}
           />
         </Box>
       </div>
@@ -123,11 +169,8 @@ const Home = () => {
         <ProductList products={products} isMobile={isMobile} />
       </Box>
 
-      {isMobile ? (
-        <Footer />
-      ) : (
-        <Footer position="absolute" width="var(--slide-width)" />
-      )}
+
+      {isMobile && <Footer />}
     </Box>
   );
 };
@@ -139,4 +182,4 @@ export default Home;
 // 1. 왼쪽 사이드바에서 검색어를 입력하면 지도에 표시되게 하려면 사이드바 컴포넌트에 props로 검색어 상태변경함수를 내려주어야함
 // 2. 검색된 위치에 해당하는 상품 데이터를 MainKakaoMap에 보여줘야하고, 해당하는 리스트를 불러오는건 오른족 사이드바 컴포넌트에서 진행해야함
 // 3. 지도 레벨에따라 해당하는 범위의 게시글을 랜더링해주기(정보업데이트)
- 
+// 우선 기본 좌표는 고정값 그대로 해두고(searchInfo의 중심좌표) 현위치 버튼을 눌렀을 시에만 지도 이동을 시키게만 하는편잉 좋을거같아요

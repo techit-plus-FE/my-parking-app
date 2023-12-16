@@ -2,11 +2,11 @@
   display: flex;
   position: absolute;
   top: 0;
-  width: 100%;
   left: 0;
+  width: 100%;
 }
 
 .mapWrapper {
   margin: 0 auto;
-  width: 100%;
+  width: 80%;
 }

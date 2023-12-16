@@ -4,7 +4,6 @@ import classes from "./ProductItem.module.css";
 
 import NOIMAGES from "../../../../assets/images/no-images.png";
 import { Box } from "@mui/system";
-import { useTheme } from "@emotion/react";
 
 type Props = {
   key: number | undefined;
@@ -13,8 +12,7 @@ type Props = {
 
 const ProductItem: React.FC<Props> = ({ product }) => {
   // const { productId } = useParams<{ productId: string }>();
-  const isDark = useTheme();
-
+  console.log(product);
   return (
     <Link to={`/products/${product._id}`} className={classes["link-to-detail"]}>
       <Box
@@ -38,7 +36,7 @@ const ProductItem: React.FC<Props> = ({ product }) => {
             <div className={classes["product-period"]}>
               <small>
                 {product.extra?.startDate
-                  ? product.extra?.endDate
+                  ? product.extra?.startDate
                   : "2023.10.31"}
                 ~
               </small>
