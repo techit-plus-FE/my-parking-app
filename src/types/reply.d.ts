@@ -1,0 +1,23 @@
+// 리뷰 입력시 body에 입력되어야 할 필수 값
+interface RepliesPostType {
+  order_id: number | undefined;
+  product_id: number | undefined;
+  rating: number;
+  content: staring;
+}
+
+// 리뷰 list 가져올 때 받을 데이터 타입
+interface RepliesGetType {
+  item: RepliesGetItemType[];
+}
+
+interface RepliesGetItemType {
+  image: string;
+  name: string;
+  price: number;
+  replies: RepliesItem[];
+}
+
+interface RepliesItem {
+  content: string;
+}
