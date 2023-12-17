@@ -39,6 +39,7 @@ const SellerInfoComponent = ({ product }: { product: ProductItemType }) => {
             onClick={() => {
               navgate(`/reply/seller-replies/${product.seller_id}`);
             }}
+            className={classes.btn}
           >
             <div className={classes["avatar-box"]}>
               <img src={DEFAUlT_AVATAR} alt="" />
@@ -46,7 +47,7 @@ const SellerInfoComponent = ({ product }: { product: ProductItemType }) => {
             <h4>{product.extra?.sellerNickname}</h4>
           </button>
         </div>
-        <button>스트랩버튼</button>
+        <button className={classes.scrapBtn}>스트랩버튼</button>
       </div>
     </Box>
   );
