@@ -1,4 +1,4 @@
-import { InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
+import { InputLabel } from "@mui/material";
 import React, { SyntheticEvent } from "react";
 import Box from "@mui/material/Box";
 import Rating from "@mui/material/Rating";

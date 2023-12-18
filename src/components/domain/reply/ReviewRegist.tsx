@@ -16,8 +16,7 @@ const ReviewRegist: React.FC = () => {
   useEffect(() => {
     //product id를 받아 상품 상세 조회 data 가져오기
     const getProductDetailData = async () => {
-      const getOrderId = await axiosInstance.get(`/products/${productId}`);
-      return console.log(getOrderId);
+      await axiosInstance.get(`/products/${productId}`);
     };
     getProductDetailData();
   }, []);
@@ -37,7 +36,7 @@ const ReviewRegist: React.FC = () => {
 
       const response = await axiosInstance.post("/replies", body);
       if (response.data.ok === 1) {
-        navigate("/order-history");
+        navigate(-1);
       }
     }
   };
