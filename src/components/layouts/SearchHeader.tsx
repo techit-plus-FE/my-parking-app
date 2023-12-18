@@ -20,6 +20,7 @@ const SearchHeader: React.FC<SearchHeaderProps> = ({ children }) => {
         width: "100vw",
         borderBottom: isDark ? null : "1px solid var(--color-gray-300)",
         bgcolor: theme.palette.background.default,
+        padding: "10px",
       }}
     >
       {children}

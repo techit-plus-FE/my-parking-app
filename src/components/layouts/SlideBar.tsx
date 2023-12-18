@@ -2,7 +2,6 @@ import { Box } from "@mui/system";
 import React, { ReactNode } from "react";
 import LOGOBLUE from "../../assets/images/logo-blue.png";
 import classes from "./SlideBar.module.css";
-import { useTheme } from "@mui/material/styles";
 import Footer from "./Footer";
 
 interface SlideBarProps {
@@ -10,14 +9,12 @@ interface SlideBarProps {
 }
 
 const SlideBar: React.FC<SlideBarProps> = ({ children }) => {
-  const theme = useTheme();
   return (
-    <>
+    <div className={classes.slideBarContainer}>
       <Box
         sx={{
           display: "flex",
           flexDirection: "column",
-          padding: "20px",
         }}
       >
         <div className={classes.logoWrapper}>
@@ -32,9 +29,8 @@ const SlideBar: React.FC<SlideBarProps> = ({ children }) => {
 
         <p className={classes.etc}>Made By @MYPARKING</p>
       </Box>
-
       <Footer position="absolute" />
-    </>
+    </div>
   );
 };
 

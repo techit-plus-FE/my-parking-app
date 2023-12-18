@@ -31,7 +31,6 @@ const ProductList = ({ products, isMobile }: Props) => {
     <>
       {isMobile ? (
         <div className={classes.container}>
-          <h2>주차장 리스트</h2>
           <button type="button" onClick={handleCheckUser}>
             내 주차장 등록하기
           </button>
@@ -47,7 +46,6 @@ const ProductList = ({ products, isMobile }: Props) => {
         </div>
       ) : (
         <div className={classes.container}>
-          <h2>주차장 리스트</h2>
           <button type="button" onClick={handleCheckUser}>
             내 주차장 등록하기
           </button>

@@ -1,3 +1,9 @@
+.slideBarContainer {
+  display: flex;
+  flex-direction: column;
+  
+}
+
 .logoWrapper {
   display: flex;
   justify-content: center;
@@ -21,7 +27,6 @@
 }
 
 .etc {
-  margin-top: 200px;
   color: var(--color-primary-500);
   text-align: center;
   font-size: 12px;

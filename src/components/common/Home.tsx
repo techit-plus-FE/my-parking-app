@@ -152,6 +152,7 @@ const Home = () => {
             flex: "0.5",
             backgroundColor: theme.palette.background.default,
             position: "relative",
+            flexBasis: "120px",
           }}
         >
           <SlideBar children={searchInputElement} />

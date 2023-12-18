@@ -3,6 +3,7 @@ import React, { ChangeEvent, useState } from "react";
 import LoginForm from "./LoginForm";
 import { useNavigate } from "react-router-dom";
 import { useBoundStore } from "../../../store/index";
+import classes from "./Login.module.css";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -31,7 +32,7 @@ const Login = () => {
   };
 
   return (
-    <div>
+    <div className={classes.loginContainer}>
       <LoginForm
         handleInputChange={handleInputChange}
         handleSubmit={handleSubmit}
