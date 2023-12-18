@@ -10,6 +10,7 @@ import CustomOverlayBox from "./CustomOverlayBox";
 import { useBoundStore } from "../../../store";
 
 import classes from "./MainKakaoMap.module.css";
+import { BASE_URL } from "../../../services/BaseUrl";
 
 // 홈페이지 메인 지도 서비스
 type Props = {
@@ -42,6 +43,7 @@ const MainKakaoMap = ({
     false
   );
   const [selectedMarker, setSelectedMarker] = useState<number | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isBtnClick, setIsBtnClick] = useState<boolean>(false);
 
   // 검색어에 해당하는 주차장 쿼리 요청 함수
@@ -112,7 +114,7 @@ const MainKakaoMap = ({
                     startDate={el.extra?.startDate}
                     endDate={el.extra?.endDate}
                     linkId={el?._id}
-                    mainImage={el.mainImages && el.mainImages[0]}
+                    mainImage={el.mainImages && BASE_URL + el.mainImages[0].url}
                   />
                 </CustomOverlayMap>
               )}

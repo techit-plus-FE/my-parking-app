@@ -4,6 +4,7 @@ import { Box } from "@mui/system";
 import classes from "./ProductItem.module.css";
 
 import CARIMAGE from "../../../../assets/images/car-image.png";
+import { BASE_URL } from "../../../../services/BaseUrl";
 
 type Props = {
   key: number | undefined;
@@ -25,7 +26,7 @@ const ProductItem: React.FC<Props> = ({ product }) => {
           <div className={classes["product-imgBox"]}>
             {product.mainImages!.length > 0 ? (
               <img
-                src={product.mainImages && product.mainImages[0]}
+                src={product.mainImages && BASE_URL + product.mainImages[0].url}
                 alt="게시글 사진"
               />
             ) : (

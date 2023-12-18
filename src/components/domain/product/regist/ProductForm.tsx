@@ -7,9 +7,7 @@ import axios from "axios";
 import classes from "./ProductForm.module.css";
 
 import { BASE_URL } from "../../../../services/BaseUrl";
-import { PROTOCAL } from "../../../../services/BaseUrl";
-import { HOST } from "../../../../services/BaseUrl";
-import { PORT } from "../../../../services/BaseUrl";
+
 import RegistKakaoMap from "../../../common/map/RegistKakaoMap";
 
 type Props = {
@@ -41,9 +39,9 @@ const ProductForm = ({ title, onSubmit, product }: Props) => {
   // 이미지서버응답값중 path값만 추출해서 담은 배열 -> 추후 상품등록하기때 첨부할 이미지 파일배열 상태
   const [mainImages, setMainImages] = useState<string[] | undefined>([]);
   // 미리보기 이미지 배열 상태
-  const [images, setImages] = useState<string[] | undefined>(
-    product.mainImages
-  );
+  // const [images, setImages] = useState<string | undefined>(
+  //   product.mainImages && product.mainImages[0].url
+  // );
 
   const handleChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -92,12 +90,11 @@ const ProductForm = ({ title, onSubmit, product }: Props) => {
 
         if (imagesRes.data.files) {
           imageUrlLists = imagesRes.data.files.map(
-            (file: FilesResType) =>
-              `${PROTOCAL}://${HOST}:${PORT}/api${file.path}`
+            (file: FilesResType) => `${BASE_URL}/${file.path}`
           );
         }
         if (imagesRes.data.file) {
-          const imagePath = `${PROTOCAL}://${HOST}:${PORT}/api${imagesRes.data.file.path}`;
+          const imagePath = `${BASE_URL}/${imagesRes.data.file.path}`;
           imageUrlLists.push(imagePath);
         }
 
@@ -109,42 +106,25 @@ const ProductForm = ({ title, onSubmit, product }: Props) => {
         console.error("이미지를 업로드하는데 문제가 발생하였습니다.", err);
       }
     }
-
-    // 기존 미리보기 이미지 출력 로직
-    if (imageLists) {
-      let imageUrlLists: string[] = [...images!];
-      for (let i = 0; i < imageLists!.length; i++) {
-        // 해당 filelist 객체를 url로 반환시켜주는 메소드 적용
-        const currentImageUrl = URL.createObjectURL(imageLists![i]);
-        imageUrlLists.push(currentImageUrl);
-      }
-
-      // 최대 10장까지만 받기
-      if (imageUrlLists.length > 10) {
-        imageUrlLists = imageUrlLists.slice(0, 10);
-      }
-
-      setImages(imageUrlLists);
-    }
   };
 
-  // 클릭 시 이미지 삭제 -> issues: 서버에 이미 보낸 이미지파일이라 삭제가 안됨.. 미리보기 사진만 없어지는 문제있음
-  const handleDeleteImage = (id: number) => {
-    // 클릭한 이미지의 path 값을 가져오기
-    const deletedImagePath = mainImages?.[id];
+  // // 클릭 시 이미지 삭제 -> issues: 서버에 이미 보낸 이미지파일이라 삭제가 안됨.. 미리보기 사진만 없어지는 문제있음
+  // const handleDeleteImage = (id: number) => {
+  //   // 클릭한 이미지의 path 값을 가져오기
+  //   const deletedImagePath = mainImages?.[id];
 
-    // images 상태에서 클릭한 이미지를 제거
-    const updatedImages = images?.filter((_, index: number) => index !== id);
-    setImages(updatedImages);
+  //   // images 상태에서 클릭한 이미지를 제거
+  //   const updatedImages = images?.filter((_, index: number) => index !== id);
+  //   setImages(updatedImages);
 
-    // mainImages 상태에서도 클릭한 이미지의 path를 제거
-    if (deletedImagePath) {
-      const updatedMainImages = mainImages?.filter(
-        (imagePath) => imagePath !== deletedImagePath
-      );
-      setMainImages(updatedMainImages);
-    }
-  };
+  //   // mainImages 상태에서도 클릭한 이미지의 path를 제거
+  //   if (deletedImagePath) {
+  //     const updatedMainImages = mainImages?.filter(
+  //       (imagePath) => imagePath !== deletedImagePath
+  //     );
+  //     setMainImages(updatedMainImages);
+  //   }
+  // };
 
   // 최종 서버로 상태 끌어올리기
   const handleSubmit = (event: FormEvent) => {
@@ -221,18 +201,6 @@ const ProductForm = ({ title, onSubmit, product }: Props) => {
           multiple
           onChange={handleAddImagesChange}
         />
-
-        {/* 이미지 미리보기 */}
-        <div className={classes["img-pre-list"]}>
-          {images?.map((image, id) => (
-            <div key={id} className={classes["img-pre-item"]}>
-              <img src={image} alt={`${image}-${id}`} />
-              <button type="button" onClick={() => handleDeleteImage(id)}>
-                삭제
-              </button>
-            </div>
-          ))}
-        </div>
       </div>
       <div className={classes["location-wrapper"]}>
         <label>위치 선택하기</label>
