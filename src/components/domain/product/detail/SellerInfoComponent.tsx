@@ -25,7 +25,6 @@ const SellerInfoComponent = ({ product }: { product: ProductItemType }) => {
   //   handleRightUserName();
   // }, [user, product]);
   const isDark = useBoundStore((state) => state.isDark);
-  console.log(product);
   return (
     <Box
       sx={{
