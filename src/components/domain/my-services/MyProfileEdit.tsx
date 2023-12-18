@@ -2,11 +2,8 @@ import {useRef, useEffect, useState, createRef} from "react";
 import { useBoundStore } from "../../../store";
 import { useNavigate} from "react-router-dom";
 import {UserDetailInfo, UserExtraInfo} from "../../../types/classImplementations"
-import Box from "@mui/material/Box";
-import { Button, Card, TextField } from "@mui/material";
-import Dialog from '@mui/material/Dialog';
 import React from "react";
-import DEFAULTIMAGE from '../../../assets/images/default-avatar.png'
+import MyProfileEditForm from "./MyProfileEditForm";
 
 
 const MyProfileEdit = () => {
@@ -17,8 +14,8 @@ const MyProfileEdit = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const imageUploadRef = useRef<HTMLInputElement>(null);
   const [imgFileView, setImgFileView]= useState('')
-  const [userInputRef, setUserInputRef] = useState<{ [key in keyof UserBasicInfoType]: React.RefObject<HTMLInputElement|null> }>({})
-  const [userExtraInputRef, setUserExtraInputRef] = useState<{ [key in keyof ExtraType]: React.MutableRefObject<HTMLInputElement|null> }>({})
+  const [userInputRef, setUserInputRef] = useState<{ [key in keyof UserBasicInfoType]: React.RefObject<HTMLInputElement|null> }>({} as { [key in keyof UserBasicInfoType]: React.RefObject<HTMLInputElement|null> })
+  const [userExtraInputRef, setUserExtraInputRef] = useState<{ [key in keyof ExtraType]: React.MutableRefObject<HTMLInputElement|null> }>({} as { [key in keyof ExtraType]: React.MutableRefObject<HTMLInputElement|null> })
 
   const fetchAndSetMyInfo = async () => {
     const myInfo = await Store.getMyInfo(id, Store.userToken.accessToken);
@@ -105,77 +102,22 @@ const MyProfileEdit = () => {
 
   
   return (
-     <Box>
-      <div>
-        {/*프로필 이미지 표시*/}
-        <img src={`${myInfo.extra?.profileImage}`}/>
-        <Button onClick ={()=>setModalIsOpen(!modalIsOpen)}>프로필사진 변경</Button>
-        <Dialog
-        open={modalIsOpen}
-        onClose={closeModal}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-        >
-         <Box>
-          <h2 id="child-modal-title">프로필 사진 업로드</h2>
-          <Card>
-            {imageUploadRef.current === null ? 
-                (
-                <img src = {DEFAULTIMAGE} alt = "img"></img>
-                  )
-                  : (
-                    <img src = {imgFileView} alt = "img"></img>
-                )}    
-                <input
-                  type="file"
-                  ref={imageUploadRef}
-                  // multiple
-                  onChange={boximgUpload}
-                  accept="image/*"
-                  className="upload-btn-inside"
-                />
-          </Card>
-          <Button onClick={handleImageUpload}>업로드하기</Button>
-          <Button onClick={closeModal}>닫기</Button>
-        </Box>
-      </Dialog>
-      </div>
-      {Object.keys(userInputRef) 
-        .filter((v) => v!=='token' && v!=='createdAt' && v!=='updatedAt' && v!== '_id' && v !== "type" && v!=='extra')
-        .map((item) => {
-          return (
-            <div key = {item}>
-              <div>{item}</div>
-              <TextField
-              fullWidth
-              required
-              inputRef = {userInputRef[item as keyof UserBasicInfoType]}
-              defaultValue = {myInfo[item as keyof UserBasicInfoType]}
-              name = {item}          
-              variant="standard"
-              />
-            </div>
-          );
-        })}
-        <Button onClick={handleSubmit}>수정 완료</Button>
-        {Object.keys(userExtraInputRef) 
-        .filter((v) => v!=='lat' && v!=='lng' && v!=='profileImage')
-        .map((item) => {
-          return (
-            <div key = {item}>
-              <div>{item}</div>
-              <TextField
-              fullWidth 
-              required
-              name = {item}           
-              variant="standard"
-              />
-            </div>
-          );
-        })}
-
-    </Box>);
-         
+     <>
+     <MyProfileEditForm
+      myInfo = {myInfo}
+      userInputRef = {userInputRef}
+      userExtraInputRef = {userExtraInputRef}
+      imageUploadRef = {imageUploadRef}
+      handleImageUpload = {handleImageUpload}
+      imgFileView = {imgFileView}
+      boxImgUpload = {boximgUpload}
+      modalIsOpen = {modalIsOpen}
+      setModalIsOpen ={setModalIsOpen}
+      closeModal ={closeModal}
+      handleSubmit = {handleSubmit}
+     />
+     </>
+  )
   }
 
 export default MyProfileEdit;
