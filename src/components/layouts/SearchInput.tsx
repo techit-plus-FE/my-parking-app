@@ -6,6 +6,7 @@ import { DemoItem } from "@mui/x-date-pickers/internals/demo";
 import { DateRangePicker } from "@mui/x-date-pickers-pro/DateRangePicker";
 import { DateRange } from "@mui/x-date-pickers-pro";
 import dayjs, { Dayjs } from "dayjs";
+import SearchIcon from "@mui/icons-material/Search";
 
 import MediaQueryMain from "../UI/MediaQueryMain";
 import { CommonButton } from "../UI/CommonButton";
@@ -90,7 +91,13 @@ const SearchInput = forwardRef(function SearchInput(
           required
         /> */}
       </Box>
-      <CommonButton text="검색하기" btnType={true} onClick={handleClick} />
+      {isMobile ? (
+        <button onClick={handleClick} className={classes.searchBtn}>
+          <SearchIcon />
+        </button>
+      ) : (
+        <CommonButton text="검색하기" btnType={true} onClick={handleClick} />
+      )}
     </Box>
   );
 });
