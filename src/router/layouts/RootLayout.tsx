@@ -32,13 +32,13 @@ const RootLayout = (props: LayoutProps) => {
       <ScrollTop />
       {shouldShowLoginConfirmation ? (
         // 로그인이 되지 않은 상태이면서 로그인이 필요한 페이지일 때
-        <>
+        <PageContainer>
           {confirm("로그인이 필요합니다. 로그인을 진행하시겠습니까?") ? (
             <LoginPage />
           ) : (
             <ErrorPage />
           )}
-        </>
+        </PageContainer>
       ) : (
         // 로그인이 되어 있거나 로그인이 필요하지 않은 페이지일 때
         <PageContainer>

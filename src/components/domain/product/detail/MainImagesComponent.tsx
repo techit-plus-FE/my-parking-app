@@ -5,7 +5,7 @@ import NOIMAGES from "../../../../assets/images/no-images.png";
 const MainImagesComponent = ({ product }: { product: ProductItemType }) => {
   return (
     <div className={classes.wrapper}>
-      {product.mainImages!.length > 0 ? (
+      {product.mainImages && product.mainImages!.length > 0 ? (
         <img
           src={product.mainImages && product.mainImages[0]}
           alt="이미지 미리보기"

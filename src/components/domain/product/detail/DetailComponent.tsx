@@ -1,4 +1,3 @@
-import { Box } from "@mui/system";
 import ShowKakaoMap from "../../../common/map/ShowKakaoMap";
 import classes from "./DetailComponent.module.css";
 import { Typography } from "@mui/material";
