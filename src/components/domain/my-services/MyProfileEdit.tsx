@@ -17,43 +17,38 @@ const MyProfileEdit = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const imageUploadRef = useRef<HTMLInputElement>(null);
   const [imgFileView, setImgFileView]= useState('')
+  const [userInputRef, setUserInputRef] = useState<{ [key in keyof UserBasicInfoType]: React.RefObject<HTMLInputElement|null> }>({})
+  const [userExtraInputRef, setUserExtraInputRef] = useState<{ [key in keyof ExtraType]: React.MutableRefObject<HTMLInputElement|null> }>({})
+
   const fetchAndSetMyInfo = async () => {
     const myInfo = await Store.getMyInfo(id, Store.userToken.accessToken);
     Store.setMyInfo(myInfo)
+
+    const userExtraInfo: ExtraType = {...new UserExtraInfo(), ...myInfo.extra}
+    const currentInfo: Partial<UserDetailInfo> = {...myInfo}
+    delete currentInfo['extra']
+    const userBasicInfo: UserBasicInfoType = {...currentInfo} as UserBasicInfoType
+    //userInputRef object 생성
+    setUserInputRef(Object.keys(userBasicInfo).reduce((acc, key) => {
+      const myInputRef: React.RefObject<HTMLInputElement|null> = React.createRef();
+      acc[key as keyof UserBasicInfoType] = myInputRef;
+      return acc;
+    }, {} as { [key in keyof UserBasicInfoType]: React.RefObject<HTMLInputElement|null> }))
+
+    //userExtraInputRef object 생성
+    setUserExtraInputRef(
+      Object.keys(userExtraInfo).reduce((acc, key) => {
+        const myInputRef: React.MutableRefObject<HTMLInputElement|null> = createRef();
+        acc[key as keyof ExtraType] = myInputRef;
+        return acc;
+      }, {} as { [key in keyof ExtraType]: React.MutableRefObject<HTMLInputElement|null> }))
   };
 
   useEffect(()=>{
     fetchAndSetMyInfo()
   },[])
 
-  // const [userInputRefObjectState, setUserInputRefObjectState] = useState<{ [key in keyof UserBasicInfoType]: React.RefObject<HTMLInputElement|null> }>({})
-
-  const userExtraInfo: ExtraType = {...new UserExtraInfo(), ...myInfo.extra}
-  const currentInfo: Partial<UserDetailInfo> = {...myInfo}
-  delete currentInfo['extra']
-  const userBasicInfo: UserBasicInfoType = {...currentInfo} as UserBasicInfoType
   
-  //userInputRef object 생성
-  const userInputRef :{[key in keyof UserBasicInfoType]: React.RefObject<HTMLInputElement|null>} = 
-    Object.keys(userBasicInfo).reduce((acc, key) => {
-    const myInputRef: React.RefObject<HTMLInputElement|null> = React.createRef();
-    acc[key as keyof UserBasicInfoType] = myInputRef;
-    return acc;
-  }, {} as { [key in keyof UserBasicInfoType]: React.RefObject<HTMLInputElement|null> })
-
-  //userExtraInputRef object 생성
-  const userExtraInputRef : {[key in keyof ExtraType] : React.MutableRefObject<HTMLInputElement|null>} = 
-    Object.keys(userExtraInfo).reduce((acc, key) => {
-      const myInputRef: React.MutableRefObject<HTMLInputElement|null> = createRef();
-      acc[key as keyof ExtraType] = myInputRef;
-      return acc;
-    }, {} as { [key in keyof ExtraType]: React.MutableRefObject<HTMLInputElement|null> })
-
-
-    const openModal = () => {
-      setModalIsOpen(true);
-      setImgFileView('');
-    };
   
     const closeModal = () => {
       setModalIsOpen(false);
