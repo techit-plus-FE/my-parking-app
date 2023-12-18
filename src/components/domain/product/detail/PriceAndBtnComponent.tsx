@@ -4,8 +4,7 @@ import classes from "./PriceAndBtnComponent.module.css";
 import HEARTICON from "../../../../assets/images/heart-icon.png";
 import { Box } from "@mui/system";
 import { useBoundStore } from "../../../../store";
-import { useTheme } from "@emotion/react";
-import { Theme } from "@mui/material/styles";
+import { useTheme } from "@mui/material";
 
 const PriceAndBtnComponent = ({ product }: { product: ProductItemType }) => {
   const navigate = useNavigate();

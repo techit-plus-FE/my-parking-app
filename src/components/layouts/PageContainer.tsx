@@ -6,7 +6,7 @@ interface ChildrenProps {
 }
 
 const PageContainer: React.FC<ChildrenProps> = ({ children }) => {
-  return <div className={classes.container}>{children}</div>;
+  return <div className={classes.pageContainer}>{children}</div>;
 };
 
 export default PageContainer;

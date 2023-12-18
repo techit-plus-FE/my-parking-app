@@ -192,11 +192,9 @@ function App() {
   // 다크 모드 테마 생성
 
   return (
-    <main className={classes.mainContainer}>
-      <Theme>
-        <RouterProvider router={router} />
-      </Theme>
-    </main>
+    <Theme>
+      <RouterProvider router={router} />
+    </Theme>
   );
 }
 
