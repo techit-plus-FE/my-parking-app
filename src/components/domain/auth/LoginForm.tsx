@@ -29,8 +29,11 @@ const LoginForm: React.FC<LoginFormProps> = ({
         display: "flex",
         justifyContent: "center",
         "& > :not(style)": { m: 1 },
+        flexDirection: "column",
+        alignItems: "center",
       }}
     >
+      <h2>로그인</h2>
       <form onSubmit={handleSubmit}>
         <Box
           sx={{
