@@ -1,9 +1,10 @@
 import React, { FormEvent, SyntheticEvent, useEffect, useState } from "react";
 import useCustomAxios from "../../../services/useCustomAxios";
 import ReviewRegistForm from "./ReviewRegistForm";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const ReviewRegist: React.FC = () => {
+  const navigate = useNavigate();
   //orderHistoryDetailList에서 받아온 ID
   const { productId, orderId } = useParams();
   const axiosInstance = useCustomAxios();
@@ -15,25 +16,29 @@ const ReviewRegist: React.FC = () => {
   useEffect(() => {
     //product id를 받아 상품 상세 조회 data 가져오기
     const getProductDetailData = async () => {
-      const getOrderId = await axiosInstance.get(`/products/${productId}`);
-      return console.log(getOrderId);
+      await axiosInstance.get(`/products/${productId}`);
     };
     getProductDetailData();
   }, []);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (rating === 0) {
+      alert("별점을 입력해주세요");
+    } else {
+      //Post 할 때 필수 값지정
+      const body: RepliesPostType = {
+        order_id: Number(orderId),
+        product_id: Number(productId),
+        rating: rating,
+        content: repliesInput,
+      };
 
-    //Post 할 때 필수 값지정
-    const body: RepliesPostType = {
-      order_id: Number(orderId),
-      product_id: Number(productId),
-      rating: rating,
-      content: repliesInput,
-    };
-
-    const response = await axiosInstance.post("/replies", body);
-    console.log(response);
+      const response = await axiosInstance.post("/replies", body);
+      if (response.data.ok === 1) {
+        navigate(-1);
+      }
+    }
   };
 
   const handleDrag = (e: SyntheticEvent) => {

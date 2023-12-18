@@ -4,10 +4,12 @@ import classes from "./SellerInfoComponent.module.css";
 import DEFAUlT_AVATAR from "../../../../assets/images/default-avatar.png";
 import { Box } from "@mui/system";
 import { useBoundStore } from "../../../../store";
+import { useNavigate } from "react-router-dom";
 // import { useBoundStore } from "../../../../store";
 // import useCustomAxios from "../../../../services/useCustomAxios";
 
 const SellerInfoComponent = ({ product }: { product: ProductItemType }) => {
+  const navgate = useNavigate();
   // const [userName, setUserName] = useState("");
   // const user = useBoundStore((state) => state.userBasicInfo);
 
@@ -23,21 +25,29 @@ const SellerInfoComponent = ({ product }: { product: ProductItemType }) => {
   //   handleRightUserName();
   // }, [user, product]);
   const isDark = useBoundStore((state) => state.isDark);
-  console.log(isDark);
+  console.log(product);
   return (
     <Box
       sx={{
         borderBottom: isDark ? null : "1px solid var(--color-gray-300)",
       }}
+      //해당 판매자가 올린 상품에 대한 리뷰
     >
       <div className={classes.wrapper}>
         <div className={classes["seller-info"]}>
-          <div className={classes["avatar-box"]}>
-            <img src={DEFAUlT_AVATAR} alt="" />
-          </div>
-          <h4>{product.seller_id}</h4>
+          <button
+            onClick={() => {
+              navgate(`/reply/seller-replies/${product.seller_id}`);
+            }}
+            className={classes.btn}
+          >
+            <div className={classes["avatar-box"]}>
+              <img src={DEFAUlT_AVATAR} alt="" />
+            </div>
+            <h4>{product.extra?.sellerNickname}</h4>
+          </button>
         </div>
-        <button>스트랩버튼</button>
+        <button className={classes.scrapBtn}>스트랩버튼</button>
       </div>
     </Box>
   );

@@ -7,8 +7,9 @@ import { useBoundStore } from "../../../../store/index";
 const ProductRegist = () => {
   const navigate = useNavigate();
   const axiosInstance = useCustomAxios();
+
+  //로그인 한 user의 name
   const userBasicInfo = useBoundStore((state) => state.userBasicInfo);
-  console.log(userBasicInfo.name);
 
   const initialProduct: ProductItemType = {
     name: "",
@@ -47,6 +48,7 @@ const ProductRegist = () => {
           address: data.extra?.address,
           lat: Number(data.extra?.lat),
           lng: Number(data.extra?.lng),
+          //판매자의 namer값
           sellerNickname: userBasicInfo.name,
         },
       };
