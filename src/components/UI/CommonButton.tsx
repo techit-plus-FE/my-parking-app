@@ -8,7 +8,7 @@ interface CommonButtonProps {
   textColor?: string;
   width?: string;
   disabled?: boolean;
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   className?: string;
   isVisible?: boolean;
   btnType?: boolean;
