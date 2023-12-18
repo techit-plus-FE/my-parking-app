@@ -1,3 +1,9 @@
+.slideBarContainer {
+  display: flex;
+  flex-direction: column;
+  
+}
+
 .logoWrapper {
   display: flex;
   justify-content: center;
