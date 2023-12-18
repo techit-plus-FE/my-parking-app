@@ -34,6 +34,29 @@ function isMyInfo(obj: UserDetailInfoType|undefined): obj is UserDetailInfoType 
   return true
 }
 
+const requestUpdateMyInfo = async (editedInfo: Partial<UserDetailInfoType>, id: number, accessToken: string ) => {
+  try {
+    const response = await axios.patch<number, MyPageEditResponseType>(
+    `${BASE_URL}/users/${id}`,
+    editedInfo,
+      {
+        headers: {Authorization: `Bearer ${accessToken}`},
+      })  
+    if (response.data.ok === 1) {
+      return response.data.updated
+    } 
+   }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  catch(Error: any) {
+  if (Error.response){
+    alert(Error.response.data.message)
+    console.log('error')
+    }
+  console.error("Error:", Error);
+  }
+  return new UserDetailInfo()
+}
+
 
 export const createMyPageSlice: StateCreator<
 MyPageSlice, 
@@ -43,8 +66,10 @@ MyPageSlice,
   getMyInfo : async (id: number, accessToken: string) => {
     return await requestMyInfo(id, accessToken)
   },
-  setMyInfo: async (myInfo: UserDetailInfoType) => {
-    if (isMyInfo(myInfo)) 
-      set(() => ({myInfo: myInfo}))
+  setMyInfo: async (newInfo: Partial<UserDetailInfoType>) => {
+    set((state) => ({myInfo: {...state.myInfo, ...newInfo}}))
+  },
+  updateMyInfo: async (id: number, accessToken: string, editedInfo: Partial<UserDetailInfoType>) => {
+    return await requestUpdateMyInfo(editedInfo, id, accessToken)
   }
 })

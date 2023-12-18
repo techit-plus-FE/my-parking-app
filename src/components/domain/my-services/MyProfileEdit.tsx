@@ -1,44 +1,50 @@
-import {ChangeEvent, ChangeEventHandler, useRef, useEffect, useState, Ref, createRef, RefObject} from "react";
+import {useRef, useEffect, useState, createRef} from "react";
 import { useBoundStore } from "../../../store";
 import { useNavigate} from "react-router-dom";
-import {UserInputClass, Person, UserDetailInfo, UserExtraInfo} from "../../../types/classImplementations"
-import { CommonButtonMiddle } from "../../UI/CommonButton";
+import {UserDetailInfo, UserExtraInfo} from "../../../types/classImplementations"
 import Box from "@mui/material/Box";
-import Modal from '@mui/material/Modal';
 import { Button, Card, TextField } from "@mui/material";
 import Dialog from '@mui/material/Dialog';
 import React from "react";
 import DEFAULTIMAGE from '../../../assets/images/default-avatar.png'
-import { UseBoundStore } from "zustand";
 
 
 const MyProfileEdit = () => {
   const Store = useBoundStore((state) => state)
-  const myInfo: UserDetailInfoType = Store.userBasicInfo
+  const myInfo: UserDetailInfoType = Store.myInfo
   const id: number = Store.userBasicInfo._id
   const navigate = useNavigate()
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const imageUploadRef = useRef<HTMLInputElement>(null);
   const [imgFileView, setImgFileView]= useState('')
+  const fetchAndSetMyInfo = async () => {
+    const myInfo = await Store.getMyInfo(id, Store.userToken.accessToken);
+    Store.setMyInfo(myInfo)
+  };
 
-  
-  const currentInfo: Partial<UserDetailInfo> = {...myInfo}
+  useEffect(()=>{
+    fetchAndSetMyInfo()
+  },[])
+
+  // const [userInputRefObjectState, setUserInputRefObjectState] = useState<{ [key in keyof UserBasicInfoType]: React.RefObject<HTMLInputElement|null> }>({})
+
   const userExtraInfo: ExtraType = {...new UserExtraInfo(), ...myInfo.extra}
+  const currentInfo: Partial<UserDetailInfo> = {...myInfo}
   delete currentInfo['extra']
   const userBasicInfo: UserBasicInfoType = {...currentInfo} as UserBasicInfoType
-
-
-  const userInputRef :{[key in keyof UserBasicInfoType]: React.MutableRefObject<HTMLInputElement|null>} = 
+  
+  //userInputRef object 생성
+  const userInputRef :{[key in keyof UserBasicInfoType]: React.RefObject<HTMLInputElement|null>} = 
     Object.keys(userBasicInfo).reduce((acc, key) => {
-    const myInputRef: React.MutableRefObject<HTMLInputElement|null> = React.createRef();
+    const myInputRef: React.RefObject<HTMLInputElement|null> = React.createRef();
     acc[key as keyof UserBasicInfoType] = myInputRef;
     return acc;
-  }, {} as { [key in keyof UserBasicInfoType]: React.MutableRefObject<HTMLInputElement|null> })
+  }, {} as { [key in keyof UserBasicInfoType]: React.RefObject<HTMLInputElement|null> })
 
-
+  //userExtraInputRef object 생성
   const userExtraInputRef : {[key in keyof ExtraType] : React.MutableRefObject<HTMLInputElement|null>} = 
     Object.keys(userExtraInfo).reduce((acc, key) => {
-      const myInputRef: React.MutableRefObject<HTMLInputElement|null> = React.createRef();
+      const myInputRef: React.MutableRefObject<HTMLInputElement|null> = createRef();
       acc[key as keyof ExtraType] = myInputRef;
       return acc;
     }, {} as { [key in keyof ExtraType]: React.MutableRefObject<HTMLInputElement|null> })
@@ -59,32 +65,47 @@ const MyProfileEdit = () => {
       setImgFileView(URL.createObjectURL(imageUploadRef.current.files[0]));
     };
 
-    const uploadImage = useBoundStore((state)=> state.uploadImage)
-
-    const handleUpload = (e: React.MouseEvent) => {
-      console.log('upload!')
-      // console.log(e.target)
-      uploadImage(imageUploadRef)
+    
+    const handleImageUpload = async () => {
+      const uploadImage = Store.uploadImage
+      const profileImageURL = await uploadImage(imageUploadRef)
+      const updatedInfo = await Store.updateMyInfo(id, Store.userToken.accessToken, {extra: {profileImage: profileImageURL[0]}})
+      Store.setMyInfo({...updatedInfo})
     }
 
-  useEffect(()=>{
-    // console.log(myInfo)
-     Object.keys(myInfo).forEach((key) => {
-    
-      const newInputElement = myInfo[key as keyof UserBasicInfoType ]
-      console.log(newInputElement)
-    
-  })
-  console.log('after', userInputRef)
-  })
 
-
-  const isUserDetailInfo = (obj: UserDetailInfoType|null): obj is UserDetailInfoType => {
-    // Iplement your type checing logic here
-    if (obj === null){
-      return false
-    }
+  const isString = (obj: string|undefined): obj is string => {
+    if (obj === undefined)return false
     return true
+  }
+
+  const handleSubmit = async() => {
+    //userInputRef object에 있는 데이터를 myBasicInfo에 모으기
+    const myBasicInfo = {} as Omit<Partial<{[key in keyof UserBasicInfoType]: string}>, '_id'>
+     Object.keys(userInputRef).forEach((key) => {
+      if (key === '_id') return;
+      const userInputValue = userInputRef[key as keyof UserBasicInfoType].current?.value;
+      if (isString(userInputValue)) {
+        myBasicInfo[key as keyof Omit<Partial<UserBasicInfoType>, '_id'>] = userInputValue;
+      }})
+
+    //userExtraInputRef object에 있는 데이터를 myExtraInfo에 모으기  
+    const myExtraInfo = {} as Partial<{[key in keyof UserExtraInfo]: string}>
+    Object.keys(userExtraInputRef).forEach((key) => {
+      if (key === 'profileImage') return;
+      const userInputValue = userExtraInputRef[key as keyof UserExtraInfo]?.current?.value;
+      if (isString(userInputValue)) {
+        myExtraInfo[key as keyof Omit<Partial<UserExtraInfo>, 'profileImage'>] = userInputValue;
+      }
+    });
+    myExtraInfo['profileImage'] = myInfo.extra.profileImage
+
+    //editedInfo에 담아서 patch하기
+    const editedInfo = {...myBasicInfo, extra: {...myExtraInfo}}
+    if (await Store.updateMyInfo(id, Store.userToken.accessToken, editedInfo)){
+      alert('수정이 완료되었습니다')
+      navigate(`/mypage/${myInfo._id}`)
+    }
   }
 
   
@@ -119,7 +140,7 @@ const MyProfileEdit = () => {
                   className="upload-btn-inside"
                 />
           </Card>
-          <Button onClick={handleUpload}>업로드하기</Button>
+          <Button onClick={handleImageUpload}>업로드하기</Button>
           <Button onClick={closeModal}>닫기</Button>
         </Box>
       </Dialog>
@@ -137,11 +158,11 @@ const MyProfileEdit = () => {
               defaultValue = {myInfo[item as keyof UserBasicInfoType]}
               name = {item}          
               variant="standard"
-              // onChange = {saveUserInputs}
               />
             </div>
           );
         })}
+        <Button onClick={handleSubmit}>수정 완료</Button>
         {Object.keys(userExtraInputRef) 
         .filter((v) => v!=='lat' && v!=='lng' && v!=='profileImage')
         .map((item) => {
@@ -149,17 +170,17 @@ const MyProfileEdit = () => {
             <div key = {item}>
               <div>{item}</div>
               <TextField
-              fullWidth
+              fullWidth 
               required
               name = {item}           
               variant="standard"
-              // onChange = {saveUserInputs}
               />
             </div>
           );
         })}
 
     </Box>);
+         
   }
 
 export default MyProfileEdit;
