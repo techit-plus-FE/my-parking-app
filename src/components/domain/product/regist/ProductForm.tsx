@@ -92,11 +92,12 @@ const ProductForm = ({ title, onSubmit, product }: Props) => {
 
         if (imagesRes.data.files) {
           imageUrlLists = imagesRes.data.files.map(
-            (file: FilesResType) => `${PROTOCAL}://${HOST}:${PORT}${file.path}`
+            (file: FilesResType) =>
+              `${PROTOCAL}://${HOST}:${PORT}/api${file.path}`
           );
         }
         if (imagesRes.data.file) {
-          const imagePath = `${PROTOCAL}://${HOST}:${PORT}${imagesRes.data.file.path}`;
+          const imagePath = `${PROTOCAL}://${HOST}:${PORT}/api${imagesRes.data.file.path}`;
           imageUrlLists.push(imagePath);
         }
 
