@@ -7,7 +7,7 @@ interface ProductItemType {
   show?: boolean;
   active?: boolean;
   name: string;
-  mainImages?: string[];
+  mainImages?: mainImageType[];
   content: string;
   createdAt?: string;
   updatedAt?: string;
@@ -31,6 +31,12 @@ interface ExtraDataType {
   lat?: number; // 상품 주소의 위도 좌표
   lng?: number; // 상품 주소의 경도 좌표
   sellerNickname?: string; // 게시글을 올린 판매자의 이름
+}
+
+interface mainImageType {
+  url: string;
+  fileName: string;
+  orgName: string;
 }
 
 // 리뷰 데이터 타입
