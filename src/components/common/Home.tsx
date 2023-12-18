@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { useState, useRef, useEffect, useCallback } from "react";
-
-import classes from "./Home.module.css";
+import { useState, useRef, useCallback } from "react";
 
 import ProductList from "../domain/product/list/ProductList";
 import MainKakaoMap from "./map/MainKakaoMap";
@@ -13,9 +11,11 @@ import SlideBar from "../layouts/SlideBar";
 import SearchInput from "../layouts/SearchInput";
 import SearchHeader from "../layouts/SearchHeader";
 import MediaQueryMain from "../UI/MediaQueryMain";
+import { useTheme } from "@mui/material";
 
 const Home = () => {
   const isMobile = MediaQueryMain();
+  const theme = useTheme();
 
   const searchRef = useRef<HTMLInputElement>(null); // 검색 인풋
 
@@ -49,10 +49,6 @@ const Home = () => {
     }
   };
 
-  const handleClick = () => {
-    handleSearch();
-  };
-
   // 위치검색을 통한 지도 영역생성 함수
   const handleSearch = () => {
     if (!map || !searchRef.current) return;
@@ -84,7 +80,7 @@ const Home = () => {
     }
   };
 
-  // 현재 위치 불러오는 함수
+  // 현재 위치 불러오는 함수 -> 한번 불러온 위치 캐시메모리에 저장(useCallback)
   const handleFetchNowLocation = useCallback(() => {
     if (navigator.geolocation) {
       // geo서비스를 사용해서 접속 위치 추출
@@ -130,7 +126,7 @@ const Home = () => {
     <SearchInput
       onKeyDown={handleKeyDown}
       ref={searchRef}
-      onClick={handleClick}
+      handleSearch={handleSearch}
       searchInfo={searchInfo}
       setSearchInfo={setSearchInfo}
     />
@@ -138,37 +134,59 @@ const Home = () => {
 
   return (
     <Box
-      className={classes.mapContainer}
       sx={{
+        display: "flex",
         flexDirection: isMobile ? "column" : "row",
+        width: "100%",
+        position: "absolute",
+        top: "0",
+        left: "0",
       }}
     >
       {/* 왼쪽 사이드바 */}
       {isMobile ? (
         <SearchHeader children={searchInputElement} />
       ) : (
-        <SlideBar children={searchInputElement} />
+        <Box
+          sx={{
+            flex: "0.5",
+            backgroundColor: theme.palette.background.default,
+            position: "relative",
+          }}
+        >
+          <SlideBar children={searchInputElement} />
+        </Box>
       )}
 
       {/* 가운데 지도  */}
-      <div className={classes.mapWrapper}>
-        <Box>
-          <MainKakaoMap
-            map={map}
-            setMap={setMap}
-            setProducts={setProducts}
-            searchInfo={searchInfo}
-            nowLocation={nowLocation}
-            handleFetchNowLocation={handleFetchNowLocation}
-          />
-        </Box>
-      </div>
 
-      {/* 오른쪽사이드바 */}
-      <Box>
-        <ProductList products={products} isMobile={isMobile} />
+      <Box
+        sx={{
+          flex: "1",
+          width: isMobile ? "80%" : "auto",
+          height: isMobile ? "300px" : "auto",
+          margin: isMobile ? "0 auto" : "0",
+        }}
+      >
+        <MainKakaoMap
+          map={map}
+          setMap={setMap}
+          setProducts={setProducts}
+          searchInfo={searchInfo}
+          nowLocation={nowLocation}
+          handleFetchNowLocation={handleFetchNowLocation}
+        />
       </Box>
 
+      {/* 오른쪽사이드바 */}
+      <Box
+        sx={{
+          flex: "0.5",
+          backgroundColor: theme.palette.background.default,
+        }}
+      >
+        <ProductList products={products} isMobile={isMobile} />
+      </Box>
 
       {isMobile && <Footer />}
     </Box>
