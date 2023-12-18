@@ -30,6 +30,7 @@ const ProductDetail = () => {
       address: "",
       lat: 0,
       lng: 0,
+      sellerNickname: "",
     },
     replies: [],
   });

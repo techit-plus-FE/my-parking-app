@@ -30,7 +30,7 @@ interface ExtraDataType {
   address?: string; // 상품등록주소
   lat?: number; // 상품 주소의 위도 좌표
   lng?: number; // 상품 주소의 경도 좌표
-  sellerNickname: string; // 게시글을 올린 판매자의 이름
+  sellerNickname?: string; // 게시글을 올린 판매자의 이름
 }
 
 // 리뷰 데이터 타입
