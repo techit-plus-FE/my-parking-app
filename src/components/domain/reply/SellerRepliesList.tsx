@@ -23,6 +23,7 @@ const SellerRepliesList: React.FC = () => {
   return (
     <>
       {RepliesListData.map((item: RepliesGetItemType) => {
+        console.log(item);
         return (
           <div key={item._id}>
             <ReviewCard
@@ -31,6 +32,7 @@ const SellerRepliesList: React.FC = () => {
               price={item.price}
               // 하나의 상품에 여러 리뷰가 올 수 없기 때문에 첫번쨰 리뷰만 보여집니다
               content={item.replies[0].content}
+              ratingValue={item.replies[0].rating}
             />
           </div>
         );

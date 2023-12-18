@@ -2,6 +2,7 @@ import React, { FormEvent, SyntheticEvent, useEffect, useState } from "react";
 import useCustomAxios from "../../../services/useCustomAxios";
 import ReviewRegistForm from "./ReviewRegistForm";
 import { useNavigate, useParams } from "react-router-dom";
+import ProductItem from "../product/list/ProductItem";
 
 const ReviewRegist: React.FC = () => {
   const navigate = useNavigate();

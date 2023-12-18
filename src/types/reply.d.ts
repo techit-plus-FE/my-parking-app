@@ -21,4 +21,5 @@ interface RepliesGetItemType {
 
 interface RepliesItem {
   content: string;
+  rating: number;
 }

@@ -1,0 +1,13 @@
+.reviewRegistFormContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.reviewRegistFormContainer form {
+  text-align: center;
+}
+
+.reviewRegistFormContainer input {
+  padding: 10px;
+}

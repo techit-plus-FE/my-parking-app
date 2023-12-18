@@ -3,6 +3,8 @@ import React, { SyntheticEvent } from "react";
 import Box from "@mui/material/Box";
 import Rating from "@mui/material/Rating";
 import Typography from "@mui/material/Typography";
+import classes from "./ReviewRegistForm.module.css";
+import { CommonButtonLarge } from "../../UI/CommonButton";
 
 interface ReviewRegistForm {
   value: string;
@@ -23,10 +25,10 @@ const ReviewRegistForm: React.FC<ReviewRegistForm> = ({
   ratingValue,
 }) => {
   return (
-    <>
+    <div className={classes.reviewRegistFormContainer}>
+      <h2>리뷰작성</h2>
       <form onSubmit={onSubmit}>
         <input type="text" value={value} onChange={onChange} required />
-        <button>후기 등록하기 </button>
         <InputLabel id="demo-simple-select-label"></InputLabel>
         <Box
           sx={{
@@ -36,8 +38,9 @@ const ReviewRegistForm: React.FC<ReviewRegistForm> = ({
           <Typography component="legend">별점을 선택해주세요</Typography>
           <Rating name="basic" value={ratingValue} onChange={handleDrag} />
         </Box>
+        <CommonButtonLarge text="후기 등록하기" />
       </form>
-    </>
+    </div>
   );
 };
 
