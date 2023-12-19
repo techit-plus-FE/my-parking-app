@@ -53,7 +53,7 @@ const ProductEdit = () => {
 
   const handleEditSumbit = async (
     updatedData: ProductItemType,
-    updatedMainImages: string[] | undefined
+    updatedMainImages: mainImageType[] | undefined
   ) => {
     try {
       const sendAllData = {
