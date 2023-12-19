@@ -47,6 +47,15 @@ const SignUpForm = () => {
 
   const theme = useTheme();
 
+  const checkPassword = () => {
+    const pw = userInputs.password
+    const regexPw = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[^\w\d\s]).{8,}$/;
+    if(!regexPw.test(pw)) {
+      return false;
+    }
+    return true;
+  }
+
   return (
     <div className={classes.signUpContainer}>
       <h2>회원가입</h2>
@@ -100,6 +109,20 @@ const SignUpForm = () => {
               type="password"
               variant="standard"
               onChange={saveUserInputs}
+              error={
+                userInputs.password.length === 0
+                  ? false
+                  : checkPassword()
+                  ? false
+                  : true
+              }
+              helperText = {
+                userInputs.password.length === 0
+                ? "비밀번호를 설정해 주세요"
+                : checkPassword()
+                ? true 
+                : "8~20자 영문 대소문자, 숫자, 특수문자를 사용하세요."
+              }
             />
           </div>
           <div>
@@ -121,11 +144,14 @@ const SignUpForm = () => {
                   ? userInputs.passwordCheck.length !== 0
                     ? "비밀번호를 설정해 주세요"
                     : true
-                  : userInputs.passwordCheck.length === 0
+                  : 
+                  checkPassword()
+                  ? userInputs.passwordCheck.length === 0
                   ? "비밀번호를 다시 입력해 주세요"
                   : isMatching()
                   ? "비밀번호가 일치합니다"
                   : "비밀번호가 일치하지 않습니다"
+                  : "비밀번호는 양식에 맞아야 합니다"
               }
               value={userInputs.passwordCheck as string}
               name="passwordCheck"
