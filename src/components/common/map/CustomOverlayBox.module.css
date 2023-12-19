@@ -1,0 +1,71 @@
+.wrapper {
+  background-color: var(--color-primary-800);
+  border-radius: 30px;
+  padding: 20px;
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.wrapper .info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.wrapper .info .head {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+  color: var(--color-white);
+  font-weight: 700;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.wrapper .info .head button {
+  background-color: transparent;
+  border: none;
+  color: var(--color-white);
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.wrapper .info .head button:hover {
+  color: var(--color-sub-400);
+  transform: scale(1.09);
+}
+
+.wrapper .info .body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+.wrapper .info .body .img {
+  width: 200px;
+}
+
+.wrapper .info .body .img > img {
+  object-fit: contain;
+}
+
+.wrapper .info .body .desc {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.wrapper .info .body .desc .period {
+  color: var(--color-white);
+  font-weight: 600;
+}
+
+.wrapper .info .body .desc small {
+  color: var(--color-sub-400);
+  font-weight: 600;
+  cursor: pointer;
+}
+.wrapper .info .body .desc small:hover {
+  transform: scale(1.09);
+}

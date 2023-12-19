@@ -22,13 +22,23 @@ import PurchasePage from "./pages/purchase/PurchaseFormPage";
 import PurchaseResultPage from "./pages/purchase/PurchaseResultPage";
 import SearchPage from "./pages/SearchPage";
 
+import Theme from "./components/UI/Theme";
+import ReplyPage from "./pages/reply/ReplyPage";
+import SellerRepliesPage from "./pages/reply/SellerRepliesPage";
+
 // 라우터 설정
+
 const router = createBrowserRouter([
   {
     path: "/",
     id: "NoLayout",
     element: (
-      <RootLayout hasHeader={false} hasFooter={false} hasSearchHeader={false} />
+      <RootLayout
+        isNeedLoggedIn={false}
+        hasHeader={false}
+        hasFooter={false}
+        hasSearchHeader={false}
+      />
     ),
     errorElement: <ErrorPage />,
     children: [
@@ -44,13 +54,22 @@ const router = createBrowserRouter([
         path: "/signup",
         element: <SignUpPage />,
       },
+      {
+        path: "/error",
+        element: <ErrorPage />,
+      },
     ],
   },
   {
     path: "/",
-    id: "withSearchHeaderAndFooterLayout",
+    id: "noLayoutAndNeedLoggedIn",
     element: (
-      <RootLayout hasHeader={false} hasFooter={true} hasSearchHeader={true} />
+      <RootLayout
+        isNeedLoggedIn={true}
+        hasHeader={false}
+        hasFooter={false}
+        hasSearchHeader={false}
+      />
     ),
     errorElement: <ErrorPage />,
     children: [
@@ -68,7 +87,12 @@ const router = createBrowserRouter([
     path: "/",
     id: "withHeaderAndFooterLayout",
     element: (
-      <RootLayout hasHeader={true} hasFooter={true} hasSearchHeader={false} />
+      <RootLayout
+        isNeedLoggedIn={true}
+        hasHeader={true}
+        hasFooter={true}
+        hasSearchHeader={false}
+      />
     ),
     errorElement: <ErrorPage />,
     children: [
@@ -105,7 +129,7 @@ const router = createBrowserRouter([
                 element: <ProductDetailPage />,
               },
               {
-                path: ":productId/edit",
+                path: "edit",
                 element: <ProductEditPage />,
               },
             ],
@@ -143,12 +167,35 @@ const router = createBrowserRouter([
           },
         ],
       },
+      // 리뷰
+      {
+        id: "reply",
+        path: "/reply",
+        children: [
+          {
+            // 리뷰 쓰는 page
+            path: ":productId/:orderId",
+            element: <ReplyPage />,
+          },
+          // 판매자의 리뷰를 볼 수 있는 page
+          {
+            path: "seller-replies/:sellerId",
+            element: <SellerRepliesPage />,
+          },
+        ],
+      },
     ],
   },
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  // 다크 모드 테마 생성
+
+  return (
+    <Theme>
+      <RouterProvider router={router} />
+    </Theme>
+  );
 }
 
 export default App;

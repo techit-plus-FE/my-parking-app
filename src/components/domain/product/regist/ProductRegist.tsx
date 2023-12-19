@@ -1,138 +1,77 @@
-import { useState } from "react";
-import FirstRegistForm from "./FirstRegistForm";
-import SecondRegistForm from "./SecondRegistForm";
-import ThirdRegistForm from "./ThirdRegistForm";
-import axios from "axios";
-import { BASE_URL } from "../../../../services/BaseUrl";
+import { useNavigate } from "react-router-dom";
 
-import classes from "./ProductRegist.module.css";
-import { useBoundStore } from "../../../../store";
+import ProductForm from "./ProductForm";
+import useCustomAxios from "../../../../services/useCustomAxios";
+import { useBoundStore } from "../../../../store/index";
 
 const ProductRegist = () => {
-  const token = useBoundStore((state) => state.userToken);
-  // console.log(token);
-  // 현재 단계를 나타내는 상태 변수
-  const [step, setStep] = useState(1);
-  // 각 컴포넌트에서 받은 데이터를 저장할 상태 변수
-  const [formData, setFormData] = useState<ProductAllFormDataType>({
-    location: {
-      address: "",
-      lat: "",
-      lng: "",
-    },
-    startDate: "",
-    endDate: "",
-    othersInfo: {
-      name: "",
-      price: "",
-      content: "",
-    },
+  const navigate = useNavigate();
+  const axiosInstance = useCustomAxios();
+
+  //로그인 한 user의 name
+  const userBasicInfo = useBoundStore((state) => state.userBasicInfo);
+
+  const initialProduct: ProductItemType = {
+    name: "",
+    content: "",
+    price: 0,
     mainImages: [],
-    shippingFees: 0,
-    show: true,
-    active: true,
-  });
-
-  // 최종 Submit
-  const handleFormSubmit = async (formData: ProductAllFormDataType) => {
-    // const token = localStorage.getItem('token', token)
-    console.log(formData);
-    // 서버 데이터필드에 맞게 데이터들 정제해서 세팅하기
-    const sendFormData = {
-      name: formData.othersInfo.name,
-      content: formData.othersInfo.content,
-      price: Number(formData.othersInfo.price),
-      mainImages: formData.mainImages,
-      extra: {
-        periodForm: formData.startDate,
-        periodTo: formData.endDate,
-        location_lat: formData.location.lat,
-        location_lng: formData.location.lng,
-        address: formData.location.address,
-      },
-      shippingFees: 0,
-      show: true,
-      active: true,
-    };
-
-    console.log(sendFormData);
-
-    const response = await axios.post(
-      `${BASE_URL}/seller/products`,
-      sendFormData,
-      {
-        headers: {
-          "Content-Type": "application/json;charset=UTF-8",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    const data = response.data;
-    console.log(data);
+    extra: {
+      startDate: "",
+      endDate: "",
+      address: "",
+      lat: undefined,
+      lng: undefined,
+    },
   };
 
-  // 첫번째 양식 받기
-  const handleFirstFormSubmit = (location: ProductLocationType) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      location: location,
-    }));
-  };
-
-  // 두번째 양식 받기
-  const handleSecondFormSubmit = (startDate: string, endDate: string) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      startDate: startDate,
-      endDate: endDate,
-    }));
-  };
-
-  // 세번째 양식 받기
-  const handleThirdFormSubmit = (
-    mainImages: string[],
-    othersInfo: ProductOthersInfoType
+  const handleSubmit = async (
+    data: ProductItemType,
+    mainImages: mainImageType[] | undefined
   ) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      othersInfo: othersInfo,
-      mainImages: mainImages,
-    }));
-    // 모든 양식이 작성되었을 때 서버에 폼 데이터 전송
-    handleFormSubmit(formData);
-  };
+    if (!data.extra) return alert("모든 양식을 채워 주어야 합니다.");
 
-  // 다음 단계로 이동
-  const handleNext = () => {
-    setStep((prevStep) => prevStep + 1);
-  };
-  // 이전 단계로 이동
-  const handlePrev = () => {
-    setStep((prevStep) => prevStep - 1);
+    try {
+      const sendAllData = {
+        name: data.name,
+        content: data.content,
+        shippingFees: 0,
+        price: Number(data.price),
+        mainImages: mainImages,
+        show: true, // 기본값
+        active: true, // 기본값
+        quantity: 1, // 기본값
+        buyQuantity: 0, // 기본값
+        extra: {
+          startDate: data.extra?.startDate,
+          endDate: data.extra?.endDate,
+          address: data.extra?.address,
+          lat: Number(data.extra?.lat),
+          lng: Number(data.extra?.lng),
+          //판매자의 namer값
+          sellerNickname: userBasicInfo.name,
+        },
+      };
+
+      const response = await axiosInstance.post(
+        `/seller/products`,
+        sendAllData
+      );
+
+      console.log(response.data);
+      navigate("/home");
+    } catch (error) {
+      console.error("상품을 등록하는데 문제가 발생했습니다.", error);
+    }
   };
 
   return (
-    <div className={classes.container}>
-      {step === 1 && (
-        <FirstRegistForm onSubmit={handleFirstFormSubmit} onNext={handleNext} />
-      )}
-      {step === 2 && (
-        <SecondRegistForm
-          onSubmit={handleSecondFormSubmit}
-          onNext={handleNext}
-          onPrev={handlePrev}
-        />
-      )}
-      {step === 3 && (
-        <ThirdRegistForm onSubmit={handleThirdFormSubmit} onPrev={handlePrev} />
-      )}
-    </div>
+    <ProductForm
+      title="등록"
+      onSubmit={handleSubmit}
+      product={initialProduct}
+    />
   );
 };
 
 export default ProductRegist;
-
-// flow
-// 1. 첫번째 컴포넌트에서 onSubmit함수로부터 location을 받아 formData의 location 필드를 업데이트 해준다
-// 2. 두번째 컴포넌트에서 onSubmit함수로부터 startDate,endDate를 받아 formData의 startDate,endDate필드를 업데이트 해준다.
-// 3. 마지막 컴포넌트에서 나머지 additionalInfo객체값을 받아주고 최종 서버로 post요청을 보내준다.(handleFormSubmit)

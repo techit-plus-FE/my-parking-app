@@ -1,28 +1,55 @@
+// import { useEffect, useState } from "react";
+
 import classes from "./SellerInfoComponent.module.css";
 import DEFAUlT_AVATAR from "../../../../assets/images/default-avatar.png";
+import { Box } from "@mui/system";
+import { useBoundStore } from "../../../../store";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@mui/material";
+// import { useBoundStore } from "../../../../store";
+// import useCustomAxios from "../../../../services/useCustomAxios";
 
-const DUMMY_USER = {
-  _id: 6,
-  email: "swagger@market.com",
-  name: "스웨거",
-  type: "user",
-  phone: "01011112222",
-  address: "서울시 강남구 역삼동 123",
-  createdAt: "2023.11.22 10:20:03",
-  updatedAt: "2023.11.22 10:20:03",
-};
+const SellerInfoComponent = ({ product }: { product: ProductItemType }) => {
+  const navigate = useNavigate();
+  // const [userName, setUserName] = useState("");
+  // const user = useBoundStore((state) => state.userBasicInfo);
 
-const SellerInfoComponent = () => {
+  // const axiosInstance = useCustomAxios();
+
+  // const handleRightUserName = async () => {
+  //   if (user._id === product.seller_id) {
+  //     await axiosInstance(`/users/5/name`);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   handleRightUserName();
+  // }, [user, product]);
+  const isDark = useBoundStore((state) => state.isDark);
   return (
-    <div className={classes.wrapper}>
-      <div className={classes["seller-info"]}>
-        <div className={classes["avatar-box"]}>
-          <img src={DEFAUlT_AVATAR} alt="" />
+    <Box
+      sx={{
+        borderBottom: isDark ? null : "1px solid var(--color-gray-300)",
+      }}
+      //해당 판매자가 올린 상품에 대한 리뷰
+    >
+      <div className={classes.wrapper}>
+        <div className={classes["seller-info"]}>
+          <Button
+            onClick={() => {
+              navigate(`/reply/seller-replies/${product.seller_id}`);
+            }}
+            className={classes.btn}
+          >
+            <div className={classes["avatar-box"]}>
+              <img src={DEFAUlT_AVATAR} alt="" />
+            </div>
+            <h4>{product.extra?.sellerNickname}</h4>
+          </Button>
         </div>
-        <h4>{DUMMY_USER.name}</h4>
+        <button className={classes.scrapBtn}>스트랩버튼</button>
       </div>
-      <button>스트랩버튼</button>
-    </div>
+    </Box>
   );
 };
 

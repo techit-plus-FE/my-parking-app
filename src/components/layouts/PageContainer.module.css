@@ -1,7 +1,4 @@
-.container {
-  /* 기본 모바일 뷰 사이즈로 설정 */
-  width: 430px;
-  height: 100vh;
-  margin: 0 auto;
-  /* overflow-y: hidden; */
+.pageContainer {
+  max-width: var(--main-max-width);
+  margin: 60px auto;
 }

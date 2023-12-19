@@ -1,8 +1,13 @@
 // 유저 프로필 수정 페이지 입니다.
-import React from "react";
+
+import MyProfileEdit from "../../components/domain/my-services/MyProfileEdit";
 
 const MyPageEditPage = () => {
-  return <div>마이페이지 수정 페이지 입니다.</div>;
+  return (
+    <>
+      <MyProfileEdit />
+    </>
+  );
 };
 
 export default MyPageEditPage;

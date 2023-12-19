@@ -1,29 +1,12 @@
 /* 폰트 셋팅 - Google fonts */
-@font-face {
-  /* 사용할 폰트의 이름 */
-  font-family: "NotoSansKR";
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Nanum Gothic", sans-serif;
   font-display: fallback;
-
-  /* 
-  src: 사용할 폰트의 위치 및 형식 
-     Safari, Android, iOS => ttf
-     Modern Browsers => woff
-     IE6-IE8 => eot => eot부분에 #iefix을 입력해주는 이유는 IE6~8의 경우 format()구문을 인식하지 못하기 때문에 삽입
-  */
-  src: url("./assets/fonts/NotoSansKR-Black.ttf") format("truetype"),
-    url("./assets/fonts/NotoSansKR-Black.eot?iefix") format("embedded-opentype");
-
-  /* Font Weight
-    100 Thin
-    200 Extra Light
-    300 Light
-    400 Normal
-    500 Medium
-    600 Semi Bold
-    700 Bold
-    800 Extra Bold
-    900 Ultra Bold */
-
   font-weight: 400;
   font-style: normal;
   font-size: 16px;
@@ -31,18 +14,16 @@
 }
 
 :root {
+  margin: 0 auto;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
-
-  --color-white: #fff;
-  --color-dark: #000;
-
+  --color-error-light: 600px;
   --color-error-light: #ce0000;
   --color-error-dark: #c11c0a;
-
+  --main-max-width: 1000px;
   --color-gray-100: #f4f3f1;
   --color-gray-200: #dddbd8;
   --color-gray-300: #ccc9c6;
@@ -71,17 +52,39 @@
   --color-sub-600: #9fa22c;
   --color-sub-700: #767725;
   --color-sub-800: #2a2913;
+
+  /*기본 모드일때 컬러*/
+  --color-black: #000;
+  --color-white: #fff;
+
+  --color-accent: #161a28;
+  --color-bg: #e6e9fe;
+  --color-bg-darker: #b0c0fb;
+  --color-bg-footer: #fff;
+  --color-bg-footer-hover: #e8f8fb;
+  --color-bg-actived: #023e8a;
+  --color-border: #161a28;
+  --color-text: #4285f4;
+  --color-text-actived: #fff;
+  --color-text-hover: #34579c;
+  --color-badge: #fff;
+
+  --slide-width: 500px;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  width: 100vw;
-  height: 100vh;
+/*다크모드일때 컬러*/
+html.dark {
+  --color-accent: #495057;
+  --color-bg: #212529;
+  --color-bg-darker: #495057;
+  --color-bg-footer: #343a40;
+  --color-bg-footer-hover: #222;
+  --color-bg-actived: #495057;
+  --color-border: #f8f9fa;
+  --color-text: #dee2e6;
+  --color-text-actived: #fff;
+  --color-text-hover: #adb5bd;
+  --color-badge: #495057;
 }
 
 ul {

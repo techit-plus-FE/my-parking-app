@@ -1,13 +1,18 @@
 import classes from "./MainImagesComponent.module.css";
 
-const MainImagesComponent = ({
-  product,
-}: {
-  product: ProductDetailItemType;
-}) => {
+import NOIMAGES from "../../../../assets/images/no-images.png";
+import { BASE_URL } from "../../../../services/BaseUrl";
+
+const MainImagesComponent = ({ product }: { product: ProductItemType }) => {
+  // console.log(product?.mainImages?.[0].url);
   return (
     <div className={classes.wrapper}>
-      <img src={product.mainImages[0]} alt="이미지 미리보기"></img>
+      {product.mainImages && product.mainImages!.length > 0 ? (
+        <img src={BASE_URL + product.mainImages[0].url} alt="이미지 미리보기" />
+      ) : (
+        <img src={NOIMAGES} />
+      )}
+
       {/* 추후) 케러셀로 여러 이미지 출력하기 */}
     </div>
   );

@@ -1,26 +1,30 @@
-import React, { useState } from "react";
-import IconSearch from "../../assets/icon/icon-search.svg?react";
+import Box from "@mui/material/Box";
+import { useBoundStore } from "../../store";
+import { ReactNode } from "react";
+import { useTheme } from "@mui/material";
 
-const SearchHeader = () => {
-  const [isClicked, setIsClicked] = useState(true);
+interface SearchHeaderProps {
+  children?: ReactNode;
+}
+const SearchHeader: React.FC<SearchHeaderProps> = ({ children }) => {
+  const theme = useTheme();
 
-  return isClicked ? (
-    <header>
-      <IconSearch
-        onClick={() => {
-          setIsClicked(!isClicked);
-        }}
-      />
-    </header>
-  ) : (
-    <header>
-      <input type="text" />
-      <IconSearch
-        onClick={() => {
-          setIsClicked(!isClicked);
-        }}
-      />
-    </header>
+  const isDark = useBoundStore((state) => state.isDark);
+
+  return (
+    <Box
+      sx={{
+        position: "fixed",
+        top: 0,
+        zIndex: 100,
+        width: "100vw",
+        borderBottom: isDark ? null : "1px solid var(--color-gray-300)",
+        bgcolor: theme.palette.background.default,
+        padding: "10px",
+      }}
+    >
+      {children}
+    </Box>
   );
 };
 

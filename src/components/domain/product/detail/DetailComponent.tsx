@@ -1,32 +1,56 @@
-import KakaoMap from "../../../common/map/KakaoMap";
+import ShowKakaoMap from "../../../common/map/ShowKakaoMap";
 import classes from "./DetailComponent.module.css";
+import { Typography } from "@mui/material";
 
-const DetailComponent = ({ product }: { product: ProductDetailItemType }) => {
+const DetailComponent = ({ product }: { product: ProductItemType }) => {
+  const { createdAt: productCreatedAt } = product;
+
+  // 날짜 시간 제거 함수 -> 즉시 실행함수로 -> 함수로 만들어서 사용하기 실패. 나중에 다시시도
+  // const removeLocalTime = (createdAt: string) => {
+  //   if (createdAt === replyCreatedAt) {
+  //     return replyCreatedAt.slice(0, 11);
+  //   } else if (createdAt === productCreatedAt)
+  //     return productCreatedAt.slice(0, 11);
+  // };
+
+  // const removeReplyCreatedAt = replyCreatedAt.slice(0, 11);
+  const removeProductCreatedAt = productCreatedAt?.slice(0, 11);
+
   return (
     <div className={classes.wrapper}>
-      <h3 className={classes.title}>{product.name}</h3>
+      <Typography variant="h3" fontSize="1.5rem">
+        {product.name}
+      </Typography>
+      {/* <h3 className={classes.title}>{product.name}</h3> */}
 
-      <p className={classes.createdAt}>{product.createdAt}</p>
+      <p className={classes.createdAt}>{removeProductCreatedAt}</p>
 
-      <div className={classes["location-box"]}>
-        <h3>위치</h3>
-        <KakaoMap />
-      </div>
+      <div className={classes.content}>{product.content}</div>
 
       <div className={classes.period}>
         <h3>대여기간</h3>
-        <span>{product.extra?.startDate || "2023.11.22"} </span>
-        {"~"}
-        <span> {product.extra?.endDate || "2023.11.23"}</span>
+        <span>{product.extra?.startDate} </span>
+        <span> {product.extra?.endDate}</span>
+      </div>
+
+      <div className={classes["location-box"]}>
+        <h3>위치</h3>
+        <ShowKakaoMap product={product} />
       </div>
 
       <div className={classes["replies-list"]}>
-        <h3>리뷰</h3>
-        <ul>
-          <li>1. 넘 좋아용</li>
-          <li>2. 주인분이 넘 착함</li>
-          <li>3 .안녕</li>
-        </ul>
+        {/* <h3>리뷰</h3>
+        {product.replies?.map((reply) => {
+          return (
+            <div key={reply._id} className={classes["reply-box"]}>
+              <div className={classes["reply-box-info"]}>
+                <small>{reply.userName}</small>
+                <small>{reply.createdAt.slice(0, 11)}</small>
+              </div>
+              <p>{reply.content}</p>
+            </div>
+          );
+        })} */}
       </div>
     </div>
   );

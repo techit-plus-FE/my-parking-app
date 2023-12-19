@@ -1,54 +1,77 @@
 // 실제 사용자와 인터렉션
-import React, { ChangeEvent, useState } from "react";
-import LoginInput from "./LoginInput";
-import { useBoundStore } from "../../../store/index";
+import React, { ChangeEvent } from "react";
+import { CommonButtonLarge } from "../../UI/CommonButton";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
+import { Button } from "@mui/material";
+import { useTheme } from "@mui/material";
 
-const LoginForm = () => {
-  const AuthSlice = useBoundStore((state) => state);
+interface LoginFormProps {
+  handleInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  userInputId: string;
+  userInputPassword: string;
+}
+
+const LoginForm: React.FC<LoginFormProps> = ({
+  handleInputChange,
+  handleSubmit,
+  userInputPassword,
+  userInputId,
+}) => {
   const navigate = useNavigate();
-  const [userInputId, setUserInputId] = useState("");
-  const [userInputPassword, setUserInputPassword] = useState("");
-
-  // input의 id name에 따라 값이 담김
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.id === "user-email") {
-      setUserInputId(e.target.value);
-    } else if (e.target.id === "user-password") {
-      setUserInputPassword(e.target.value);
-    }
-  };
-
-  // axios 부분 수정해야함 변경해야함
-
-  const submitFc = (e) => {
-    e.preventDefault();
-    AuthSlice.handleLoginResponse(userInputId, userInputPassword);
-    navigate("/home");
-  };
-
+  const theme = useTheme();
   return (
-    <div>
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        "& > :not(style)": { m: 1 },
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
       <h2>로그인</h2>
-      <form onSubmit={submitFc}>
-        <LoginInput
-          id="user-email"
-          label="로그인"
-          value={userInputId}
-          placeholder="아이디"
-          onChange={handleInputChange}
-        />
-        <LoginInput
-          id="user-password"
-          label="비밀번호"
-          value={userInputPassword}
-          placeholder="비밀번호"
-          type="password"
-          onChange={handleInputChange}
-        />
-        <button>로그인</button>
+      <form onSubmit={handleSubmit}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+          }}
+        >
+          <TextField
+            // helperText="Please enter your name"
+            id="user-email"
+            label="아이디"
+            value={userInputId}
+            onChange={handleInputChange}
+            type="email"
+            required
+            // error={!userInputId}
+            // helperText={!userInputId && "아이디를 입력해주세요."}
+            sx={{ padding: "10px", width: "300px" }}
+          />
+          <TextField
+            id="user-password"
+            label="비밀번호"
+            value={userInputPassword}
+            onChange={handleInputChange}
+            type="password"
+            required
+            sx={{ padding: "10px" }}
+          />
+        </Box>
+        <CommonButtonLarge text="로그인하기" />
+        <Button
+          onClick={() => navigate("/signup")}
+          sx={{ color: theme.palette.text.primary, width: "100%" }}
+        >
+          <p>이메일로 회원가입</p>
+        </Button>
       </form>
-    </div>
+    </Box>
   );
 };
 
