@@ -30,7 +30,6 @@ const DetailComponent = ({ product }: { product: ProductItemType }) => {
       <div className={classes.period}>
         <h3>대여기간</h3>
         <span>{product.extra?.startDate} </span>
-        {"~"}
         <span> {product.extra?.endDate}</span>
       </div>
 
@@ -40,7 +39,7 @@ const DetailComponent = ({ product }: { product: ProductItemType }) => {
       </div>
 
       <div className={classes["replies-list"]}>
-        <h3>리뷰</h3>
+        {/* <h3>리뷰</h3>
         {product.replies?.map((reply) => {
           return (
             <div key={reply._id} className={classes["reply-box"]}>
@@ -51,7 +50,7 @@ const DetailComponent = ({ product }: { product: ProductItemType }) => {
               <p>{reply.content}</p>
             </div>
           );
-        })}
+        })} */}
       </div>
     </div>
   );
