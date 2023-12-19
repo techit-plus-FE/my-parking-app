@@ -10,5 +10,5 @@ export const themeSlice: StateCreator<ThemeSlice, []> = (set) => ({
     set({ isDark });
   },
 
-  setNavSelected: (newValue) => set({ navSelectedValue: newValue }),
+  setNavSelected: (navSelectedValue) => set({ navSelectedValue }),
 });
