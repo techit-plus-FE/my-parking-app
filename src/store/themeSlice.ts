@@ -5,6 +5,10 @@ export const themeSlice: StateCreator<ThemeSlice, []> = (set) => ({
 
   // 선택한 navBar의 value
   navSelectedValue: 0,
-  setIsDark: (state) => set({ isDark: state }),
+
+  setIsDark: (isDark) => {
+    set({ isDark });
+  },
+
   setNavSelected: (newValue) => set({ navSelectedValue: newValue }),
 });
