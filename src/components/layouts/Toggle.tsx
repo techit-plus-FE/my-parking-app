@@ -62,7 +62,7 @@ const Toggle: React.FC = () => {
             onChange={() => setIsDark(!isDark)}
           />
         }
-        label="Dark Mode"
+        label
       />
     </>
   );
