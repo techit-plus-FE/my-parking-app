@@ -15,7 +15,7 @@ const MyProfileEdit = () => {
   const imageUploadRef = useRef<HTMLInputElement>(null);
   const [imgFileView, setImgFileView]= useState('')
   const [userInputRef, setUserInputRef] = useState<{ [key in keyof UserBasicInfoType]: React.RefObject<HTMLInputElement|null> }>({} as { [key in keyof UserBasicInfoType]: React.RefObject<HTMLInputElement|null> })
-  const [userExtraInputRef, setUserExtraInputRef] = useState<{ [key in keyof ExtraType]: React.MutableRefObject<HTMLInputElement|null> }>({} as { [key in keyof ExtraType]: React.MutableRefObject<HTMLInputElement|null> })
+  const [userExtraInputRef, setUserExtraInputRef] = useState<{ [key in keyof Required<ExtraType>]: React.RefObject<HTMLInputElement|null> }>({} as { [key in keyof Required<ExtraType>]: React.RefObject<HTMLInputElement|null> })
 
   const fetchAndSetMyInfo = async () => {
     const myInfo = await Store.getMyInfo(id, Store.userToken.accessToken);
@@ -26,19 +26,22 @@ const MyProfileEdit = () => {
     delete currentInfo['extra']
     const userBasicInfo: UserBasicInfoType = {...currentInfo} as UserBasicInfoType
     //userInputRef object 생성
-    setUserInputRef(Object.keys(userBasicInfo).reduce((acc, key) => {
-      const myInputRef: React.RefObject<HTMLInputElement|null> = React.createRef();
+    setUserInputRef(
+      Object.keys(userBasicInfo).reduce((acc, key) => {
+      const myInputRef: React.RefObject<HTMLInputElement|null> = createRef();
       acc[key as keyof UserBasicInfoType] = myInputRef;
       return acc;
-    }, {} as { [key in keyof UserBasicInfoType]: React.RefObject<HTMLInputElement|null> }))
+      }, {} as { [key in keyof UserBasicInfoType]: React.RefObject<HTMLInputElement|null> })
+    )
 
     //userExtraInputRef object 생성
     setUserExtraInputRef(
       Object.keys(userExtraInfo).reduce((acc, key) => {
-        const myInputRef: React.MutableRefObject<HTMLInputElement|null> = createRef();
-        acc[key as keyof ExtraType] = myInputRef;
-        return acc;
-      }, {} as { [key in keyof ExtraType]: React.MutableRefObject<HTMLInputElement|null> }))
+      const myInputRef: React.RefObject<HTMLInputElement|null> = createRef();
+      acc[key as keyof Required<ExtraType>] = myInputRef;
+      return acc;
+      }, {} as { [key in keyof Required<ExtraType>]: React.RefObject<HTMLInputElement|null> })
+    )
   };
 
   useEffect(()=>{
@@ -46,24 +49,24 @@ const MyProfileEdit = () => {
   },[])
 
   
-  
-    const closeModal = () => {
-      setModalIsOpen(false);
-    };
+  const closeModal = () => {
+    setModalIsOpen(false);
+  };
 
-    const boximgUpload = () => {
-      if (imageUploadRef.current === null) return
-      if (imageUploadRef.current.files === null) return
-      setImgFileView(URL.createObjectURL(imageUploadRef.current.files[0]));
-    };
+
+  const boximgUpload = () => {
+    if (imageUploadRef.current === null) return
+    if (imageUploadRef.current.files === null) return
+    setImgFileView(URL.createObjectURL(imageUploadRef.current.files[0]));
+  };
 
     
-    const handleImageUpload = async () => {
-      const uploadImage = Store.uploadImage
-      const profileImageURL = await uploadImage(imageUploadRef)
-      const updatedInfo = await Store.updateMyInfo(id, Store.userToken.accessToken, {extra: {profileImage: profileImageURL[0]}})
-      Store.setMyInfo({...updatedInfo})
-    }
+  const handleImageUpload = async () => {
+    const uploadImage = Store.uploadImage
+    const profileImageURL = await uploadImage(imageUploadRef)
+    const updatedInfo = await Store.updateMyInfo(id, Store.userToken.accessToken, {extra: {profileImage: profileImageURL[0]}})
+    Store.setMyInfo({...updatedInfo})
+  }
 
 
   const isString = (obj: string|undefined): obj is string => {
@@ -71,29 +74,35 @@ const MyProfileEdit = () => {
     return true
   }
 
+
   const handleSubmit = async() => {
     //userInputRef object에 있는 데이터를 myBasicInfo에 모으기
     const myBasicInfo = {} as Omit<Partial<{[key in keyof UserBasicInfoType]: string}>, '_id'>
-     Object.keys(userInputRef).forEach((key) => {
+    Object.keys(userInputRef).forEach((key) => {
       if (key === '_id') return;
       const userInputValue = userInputRef[key as keyof UserBasicInfoType].current?.value;
       if (isString(userInputValue)) {
         myBasicInfo[key as keyof Omit<Partial<UserBasicInfoType>, '_id'>] = userInputValue;
-      }})
+    }})
+
 
     //userExtraInputRef object에 있는 데이터를 myExtraInfo에 모으기  
     const myExtraInfo = {} as Partial<{[key in keyof UserExtraInfo]: string}>
     Object.keys(userExtraInputRef).forEach((key) => {
-      if (key === 'profileImage') return;
-      const userInputValue = userExtraInputRef[key as keyof UserExtraInfo]?.current?.value;
+      // if (key === 'profileImage') return;
+      console.log('key:', key)
+      const userInputValue = userExtraInputRef[key as keyof typeof userExtraInputRef]?.current?.value;
       if (isString(userInputValue)) {
-        myExtraInfo[key as keyof Omit<Partial<UserExtraInfo>, 'profileImage'>] = userInputValue;
+        myExtraInfo[key as keyof Partial<UserExtraInfo>] = userInputValue;
       }
     });
     myExtraInfo['profileImage'] = myInfo.extra.profileImage
+    console.log('myExtraInfo:', myExtraInfo)
 
+    
     //editedInfo에 담아서 patch하기
     const editedInfo = {...myBasicInfo, extra: {...myExtraInfo}}
+    console.log('editedInto:', editedInfo)
     if (await Store.updateMyInfo(id, Store.userToken.accessToken, editedInfo)){
       alert('수정이 완료되었습니다')
       navigate(`/mypage/${myInfo._id}`)

@@ -3,6 +3,7 @@ import { Button, Card, TextField } from "@mui/material";
 import Dialog from '@mui/material/Dialog';
 import React from "react";
 import DEFAULTIMAGE from '../../../assets/images/default-avatar.png'
+import { UserExtraInfo } from "../../../types/classImplementations";
 
 interface MyProfileEditFormProps {
   myInfo: UserDetailInfoType
@@ -84,7 +85,6 @@ const MyProfileEditForm: React.FC<MyProfileEditFormProps>  = ({
             </div>
           );
         })}
-        <Button onClick={handleSubmit}>수정 완료</Button>
         {Object.keys(userExtraInputRef) 
         .filter((v) => v!=='lat' && v!=='lng' && v!=='profileImage')
         .map((item) => {
@@ -94,12 +94,15 @@ const MyProfileEditForm: React.FC<MyProfileEditFormProps>  = ({
               <TextField
               fullWidth 
               required
+              inputRef = {userExtraInputRef[item as keyof UserExtraInfo]}
+              defaultValue = {myInfo.extra[item as keyof UserExtraInfo]}
               name = {item}           
               variant="standard"
               />
             </div>
           );
         })}
+        <Button onClick={handleSubmit}>수정 완료</Button>
     </Box>);
 };
 
