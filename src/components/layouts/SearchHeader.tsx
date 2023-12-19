@@ -16,7 +16,7 @@ const SearchHeader: React.FC<SearchHeaderProps> = ({ children }) => {
       sx={{
         position: "fixed",
         top: 0,
-        zIndex: 100,
+        zIndex: 110,
         width: "100vw",
         borderBottom: isDark ? null : "1px solid var(--color-gray-300)",
         bgcolor: theme.palette.background.default,

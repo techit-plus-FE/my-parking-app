@@ -3,6 +3,11 @@
   display: flex;
   flex-direction: column;
   height: 100vh;
+  width: 400px;
+}
+
+.containerMobile {
+  width: 100%;
 }
 
 .container button {

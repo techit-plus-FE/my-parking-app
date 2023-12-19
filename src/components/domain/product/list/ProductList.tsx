@@ -30,7 +30,7 @@ const ProductList = ({ products, isMobile }: Props) => {
   return (
     <>
       {isMobile ? (
-        <div className={classes.container}>
+        <div className={classes.containerMobile}>
           <button type="button" onClick={handleCheckUser}>
             내 주차장 등록하기
           </button>
