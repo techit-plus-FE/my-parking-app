@@ -85,7 +85,6 @@ const MyProfileEditForm: React.FC<MyProfileEditFormProps>  = ({
             </div>
           );
         })}
-        <Button onClick={handleSubmit}>수정 완료</Button>
         {Object.keys(userExtraInputRef) 
         .filter((v) => v!=='lat' && v!=='lng' && v!=='profileImage')
         .map((item) => {
@@ -103,6 +102,7 @@ const MyProfileEditForm: React.FC<MyProfileEditFormProps>  = ({
             </div>
           );
         })}
+        <Button onClick={handleSubmit}>수정 완료</Button>
     </Box>);
 };
 
