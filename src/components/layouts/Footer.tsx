@@ -33,6 +33,8 @@ const Footer: React.FC<FooterProps> = ({ position, width }) => {
       sx={{
         // 모바일 일 땐
         position: position ? position : "fixed",
+
+        right: position ? 0 : null,
         bottom: 0,
         zIndex: 1000,
         width: width ? width : "100%",
