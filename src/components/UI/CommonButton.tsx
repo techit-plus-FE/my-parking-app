@@ -85,7 +85,7 @@ export const MuiButton = (props: MuiButtonProps) => {
   onClick = {onClick}
   sx={{
     color: theme.palette.text.primary,
-    fontSize: fontSize
+    fontSize:fontSize? fontSize : null
   }}
   >
     {text}
