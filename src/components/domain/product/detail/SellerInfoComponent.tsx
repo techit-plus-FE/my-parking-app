@@ -5,11 +5,12 @@ import DEFAUlT_AVATAR from "../../../../assets/images/default-avatar.png";
 import { Box } from "@mui/system";
 import { useBoundStore } from "../../../../store";
 import { useNavigate } from "react-router-dom";
+import { Button } from "@mui/material";
 // import { useBoundStore } from "../../../../store";
 // import useCustomAxios from "../../../../services/useCustomAxios";
 
 const SellerInfoComponent = ({ product }: { product: ProductItemType }) => {
-  const navgate = useNavigate();
+  const navigate = useNavigate();
   // const [userName, setUserName] = useState("");
   // const user = useBoundStore((state) => state.userBasicInfo);
 
@@ -34,9 +35,9 @@ const SellerInfoComponent = ({ product }: { product: ProductItemType }) => {
     >
       <div className={classes.wrapper}>
         <div className={classes["seller-info"]}>
-          <button
+          <Button
             onClick={() => {
-              navgate(`/reply/seller-replies/${product.seller_id}`);
+              navigate(`/reply/seller-replies/${product.seller_id}`);
             }}
             className={classes.btn}
           >
@@ -44,7 +45,7 @@ const SellerInfoComponent = ({ product }: { product: ProductItemType }) => {
               <img src={DEFAUlT_AVATAR} alt="" />
             </div>
             <h4>{product.extra?.sellerNickname}</h4>
-          </button>
+          </Button>
         </div>
         <button className={classes.scrapBtn}>스트랩버튼</button>
       </div>
