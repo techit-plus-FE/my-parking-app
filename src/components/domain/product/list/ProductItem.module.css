@@ -17,12 +17,11 @@
 }
 
 .product-imgBox {
-  flex: 0.5;
+  flex: 0.8;
   border-radius: 20px;
-
+  width: 250px;
   height: 100px;
   overflow: hidden;
-  margin: 0 auto;
 }
 
 .product-imgBox img {

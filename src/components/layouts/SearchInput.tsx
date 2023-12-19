@@ -1,46 +1,104 @@
-import React, { ChangeEvent, useState, forwardRef } from "react";
+import React, { useState, forwardRef } from "react";
+import { Box } from "@mui/material";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DemoItem } from "@mui/x-date-pickers/internals/demo";
+import { DateRangePicker } from "@mui/x-date-pickers-pro/DateRangePicker";
+import { DateRange } from "@mui/x-date-pickers-pro";
+import dayjs, { Dayjs } from "dayjs";
+import SearchIcon from "@mui/icons-material/Search";
 
+import MediaQueryMain from "../UI/MediaQueryMain";
+import { CommonButton } from "../UI/CommonButton";
+
+import classes from "./SearchInput.module.css";
 interface SearchInputProps {
-  onKeywordChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
-  value?: string;
-  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  handleSearch: () => void;
   searchInfo: MapInfoType;
   setSearchInfo: (searchInfo: MapInfoType) => void;
 }
 
-const SearchInput = 
-forwardRef(function SearchInput(props: SearchInputProps, ref: React.ForwardedRef<HTMLInputElement>) {
-  const { onKeywordChange,
-    onKeyDown,
-    onClick,
-    searchInfo,
-    setSearchInfo} = props;
-  
-  const [period] = useState(['', ''])
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    onClick(e),
-    setSearchInfo({...searchInfo, period : period})
-  }
+const SearchInput = forwardRef(function SearchInput(
+  props: SearchInputProps,
+  ref: React.ForwardedRef<HTMLInputElement>
+) {
+  const isMobile = MediaQueryMain();
+  const { onKeyDown, handleSearch, searchInfo, setSearchInfo } = props;
+
+  // const [period] = useState(["", ""]);
+  const [period, setPeriod] = useState<DateRange<Dayjs>>([
+    dayjs("2023-12-17"),
+    dayjs("2023-12-21"),
+  ]);
+
+  const handleClick = () => {
+    handleSearch();
+    setSearchInfo({ ...searchInfo, period: period });
+  };
 
   return (
-    <div>
-    <input
-        type="text"
-        onChange={onKeywordChange}
-        onKeyDown={onKeyDown}
-        ref = {ref}
-      />
-      <input type="date"
-      onChange = {(e)=> {
-        period[0] = e.target.value
-      }}/>
-      <input type="date"
-      onChange = {(e)=> {
-        period[1] = e.target.value
-      }}/>
-      <button onClick={handleClick}>검색하기</button>
-    </div>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: isMobile ? "row" : "column",
+        alignItems: "center",
+        justifyContent: isMobile ? "center" : "space-between",
+        gap: isMobile ? "30px" : "50px",
+      }}
+    >
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: isMobile ? "row" : "column",
+          gap: isMobile ? "30px" : "50px",
+        }}
+      >
+        <input
+          className={classes.searchInput}
+          type="text"
+          onKeyDown={onKeyDown}
+          ref={ref}
+          placeholder="찾을 주차장을 검색하세요."
+          required
+        />
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DemoItem component={"DateRangePicker"}>
+            <DateRangePicker
+              localeText={{ start: "시작일", end: "종료일" }}
+              value={period}
+              onChange={(period) => {
+                setPeriod(period);
+              }}
+            />
+          </DemoItem>
+        </LocalizationProvider>
+
+        {/* <input
+          type="date"
+          onChange={(e) => {
+            period[0] = e.target.value;
+          }}
+          onKeyDown={onKeyDown}
+          required
+        />
+        <input
+          type="date"
+          onChange={(e) => {
+            period[1] = e.target.value;
+          }}
+          onKeyDown={onKeyDown}
+          required
+        /> */}
+      </Box>
+      {isMobile ? (
+        <button onClick={handleClick} className={classes.searchBtn}>
+          <SearchIcon />
+        </button>
+      ) : (
+        <CommonButton text="검색하기" btnType={true} onClick={handleClick} />
+      )}
+    </Box>
   );
 });
 

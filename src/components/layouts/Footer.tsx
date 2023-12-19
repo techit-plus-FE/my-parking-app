@@ -41,7 +41,7 @@ const Footer: React.FC<FooterProps> = ({ position, width }) => {
       <BottomNavigation
         showLabels
         value={navSelectedValue}
-        onChange={(e, newValue) => {
+        onChange={(_, newValue) => {
           setNavSelected(newValue);
           // navigate(event.target.);
         }}
@@ -54,7 +54,7 @@ const Footer: React.FC<FooterProps> = ({ position, width }) => {
           label="홈"
           icon={<HomeIcon />}
           onClick={() => handelNavigate("/home")}
-          sx={{ flex: 1 }}
+          sx={{ flex: 1, minWidth: 0 }}
         />
         <BottomNavigationAction
           label="검색"
@@ -63,12 +63,13 @@ const Footer: React.FC<FooterProps> = ({ position, width }) => {
             //검색페이지 없음
             handelNavigate("/home")
           }
+          sx={{ flex: 1, minWidth: 0 }}
         />
         <BottomNavigationAction
           label="프로필"
           icon={<PersonIcon />}
           onClick={() => handelNavigate(`/mypage/${user_id}`)}
-          sx={{ flex: 1 }}
+          sx={{ flex: 1, minWidth: 0 }}
         />
         <BottomNavigationAction
           label="로그아웃"
@@ -78,7 +79,7 @@ const Footer: React.FC<FooterProps> = ({ position, width }) => {
             setNavSelected(0);
             alert("로그아웃이 완료되었습니다");
           }}
-          sx={{ flex: 1 }}
+          sx={{ flex: 1, minWidth: 0 }}
         />
       </BottomNavigation>
     </Box>

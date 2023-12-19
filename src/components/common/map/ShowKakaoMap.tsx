@@ -10,7 +10,7 @@ type Props = {
 
 // 등록된 지도의 위치를 마커로 표시해주는 지도 컴포넌트입니다.
 const ShowKakaoMap = ({ product }: Props) => {
-  const [map, setMap] = useState<kakao.maps.Map | undefined>();
+  const [_, setMap] = useState<kakao.maps.Map | undefined>();
   const [level, setLevel] = useState<number | undefined>();
 
   const productLocation = {

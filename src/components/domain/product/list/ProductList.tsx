@@ -7,8 +7,6 @@ import classes from "./ProductList.module.css";
 
 import { useNavigate } from "react-router-dom";
 import { useBoundStore } from "../../../../store";
-import { Box } from "@mui/system";
-import { useTheme } from "@mui/material/styles";
 
 type Props = {
   products: ProductListType | undefined;
@@ -16,13 +14,7 @@ type Props = {
 };
 const ProductList = ({ products, isMobile }: Props) => {
   const navigate = useNavigate();
-  const theme = useTheme();
-
   const user = useBoundStore((state) => state.userBasicInfo);
-
-  // useEffect(() => {
-  //   handleGetProducts();
-  // }, []);
 
   const handleCheckUser = () => {
     if (user.type === "seller") {
@@ -39,7 +31,6 @@ const ProductList = ({ products, isMobile }: Props) => {
     <>
       {isMobile ? (
         <div className={classes.container}>
-          <Box sx={{ fontSize: "2rem" }}>주차장 리스트</Box>
           <button type="button" onClick={handleCheckUser}>
             내 주차장 등록하기
           </button>
@@ -54,29 +45,20 @@ const ProductList = ({ products, isMobile }: Props) => {
           </ul>
         </div>
       ) : (
-        <Box
-          sx={{
-            backgroundColor: theme.palette.background.default,
-            //pc 버전일 때 list 너비
-            width: "300px",
-          }}
-        >
-          <div className={classes.container}>
-            <Box sx={{ fontSize: "2rem" }}>주차장 리스트</Box>
-            <button type="button" onClick={handleCheckUser}>
-              내 주차장 등록하기
-            </button>
-            <ul className={classes["product-list"]}>
-              {products && products.length > 0 ? (
-                products.map((product) => {
-                  return <ProductItem key={product._id} product={product} />;
-                })
-              ) : (
-                <p>등록된 상품이 암것도 없어요ㅠㅠ</p>
-              )}
-            </ul>
-          </div>
-        </Box>
+        <div className={classes.container}>
+          <button type="button" onClick={handleCheckUser}>
+            내 주차장 등록하기
+          </button>
+          <ul className={classes["product-list"]}>
+            {products && products.length > 0 ? (
+              products.map((product) => {
+                return <ProductItem key={product._id} product={product} />;
+              })
+            ) : (
+              <p>해당 위치에 등록된 주차장이 없네요😭</p>
+            )}
+          </ul>
+        </div>
       )}
     </>
   );

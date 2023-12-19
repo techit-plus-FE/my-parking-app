@@ -1,4 +1,4 @@
-.container {
-  /* 기본 모바일 뷰 사이즈로 설정 */
-  margin: 0 auto;
+.pageContainer {
+  max-width: var(--main-max-width);
+  margin: 60px auto;
 }

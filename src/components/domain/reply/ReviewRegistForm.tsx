@@ -1,4 +1,4 @@
-import { InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
+import { InputLabel } from "@mui/material";
 import React, { SyntheticEvent } from "react";
 import Box from "@mui/material/Box";
 import Rating from "@mui/material/Rating";
@@ -25,9 +25,9 @@ const ReviewRegistForm: React.FC<ReviewRegistForm> = ({
   return (
     <>
       <form onSubmit={onSubmit}>
-        <input type="text" value={value} onChange={onChange} />
+        <input type="text" value={value} onChange={onChange} required />
         <button>후기 등록하기 </button>
-        <InputLabel id="demo-simple-select-label">Age</InputLabel>
+        <InputLabel id="demo-simple-select-label"></InputLabel>
         <Box
           sx={{
             "& > legend": { mt: 2 },

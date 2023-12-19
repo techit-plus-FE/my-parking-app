@@ -28,8 +28,8 @@ const ProductDetail = () => {
       startDate: "",
       endDate: "",
       address: "",
-      lat: "",
-      lng: "",
+      lat: 0,
+      lng: 0,
     },
     replies: [],
   });

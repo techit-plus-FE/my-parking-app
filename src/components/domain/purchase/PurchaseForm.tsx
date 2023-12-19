@@ -43,19 +43,19 @@ const PurchaseForm: React.FC<PurchaseFormProps> = ({
                 value="card"
                 control={<Radio />}
                 label="신용/체크카드"
-                onChange={onChange}
+                // onChange={onChange}
               />
               <FormControlLabel
                 value="noPassBook"
                 control={<Radio />}
                 label="무통장입금"
-                onChange={onChange}
+                // onChange={onChange}
               />
               <FormControlLabel
                 value="phone"
                 control={<Radio />}
                 label="휴대폰"
-                onChange={onChange}
+                // onChange={onChange}
               />
             </RadioGroup>
           </FormControl>
