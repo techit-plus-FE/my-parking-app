@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -13,9 +13,9 @@ const Header = () => {
   const isDark = useBoundStore((state) => state.isDark);
   const setIsDark = useBoundStore((state) => state.setIsDark);
   const navigate = useNavigate();
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
-  const handleMenuClick = (e) => {
+  const handleMenuClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(e.currentTarget);
   };
 

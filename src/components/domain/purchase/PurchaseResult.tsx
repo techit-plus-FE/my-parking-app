@@ -1,6 +1,5 @@
-import { CardMedia } from "@mui/material";
-import { Box, flexbox } from "@mui/system";
-import React from "react";
+import { Box } from "@mui/system";
+
 import CheckIcon from "@mui/icons-material/Check";
 import { CommonButtonMiddle } from "../../UI/CommonButton";
 import { useNavigate } from "react-router-dom";

@@ -43,8 +43,7 @@ const MainKakaoMap = ({
     false
   );
   const [selectedMarker, setSelectedMarker] = useState<number | null>(null);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [isBtnClick, setIsBtnClick] = useState<boolean>(false);
+  const [_, setIsBtnClick] = useState<boolean>(false);
 
   // 검색어에 해당하는 주차장 쿼리 요청 함수
   const searchProducts = async () => {

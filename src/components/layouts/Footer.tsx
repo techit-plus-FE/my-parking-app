@@ -41,7 +41,7 @@ const Footer: React.FC<FooterProps> = ({ position, width }) => {
       <BottomNavigation
         showLabels
         value={navSelectedValue}
-        onChange={(e, newValue) => {
+        onChange={(_, newValue) => {
           setNavSelected(newValue);
           // navigate(event.target.);
         }}

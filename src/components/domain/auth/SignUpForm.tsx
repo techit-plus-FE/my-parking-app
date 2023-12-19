@@ -1,12 +1,12 @@
-import React, { ChangeEvent, ChangeEventHandler, useState } from "react";
-import { Person, UserInputClass } from "../../../types/classImplementations";
+import { ChangeEvent, ChangeEventHandler, useState } from "react";
+import { UserInputClass } from "../../../types/classImplementations";
 import { useBoundStore } from "../../../store/index";
 import { useNavigate } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import { Button, MenuItem } from "@mui/material";
 import { Box } from "@mui/system";
 import classes from "./SignUpForm.module.css";
-import { useTheme } from "@emotion/react";
+import { useTheme } from "@mui/material";
 import { CommonButtonLarge } from "../../UI/CommonButton";
 
 const SignUpForm = () => {
