@@ -33,10 +33,17 @@ interface ExtraDataType {
   sellerNickname?: string; // 게시글을 올린 판매자의 이름
 }
 
+// 상품 등록시 메인이미지
 interface mainImageType {
   url: string;
   fileName: string;
   orgName: string;
+}
+
+interface FilesResType {
+  originalname: string;
+  name: string;
+  path: string;
 }
 
 // 리뷰 데이터 타입
@@ -69,9 +76,3 @@ interface ProductSlice {
   productItem: ProductItemType;
   productList: ProductListType;
 }
-
-type FilesResType = {
-  originalname: string;
-  name: string;
-  path: string;
-};

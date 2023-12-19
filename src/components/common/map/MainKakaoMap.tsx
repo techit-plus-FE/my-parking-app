@@ -113,7 +113,7 @@ const MainKakaoMap = ({
                     startDate={el.extra?.startDate}
                     endDate={el.extra?.endDate}
                     linkId={el?._id}
-                    mainImage={el.mainImages && BASE_URL + el.mainImages[0].url}
+                    mainImage={BASE_URL + el.mainImages?.[0].url}
                   />
                 </CustomOverlayMap>
               )}

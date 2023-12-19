@@ -27,7 +27,7 @@ const ProductRegist = () => {
 
   const handleSubmit = async (
     data: ProductItemType,
-    mainImages: string[] | undefined
+    mainImages: mainImageType[] | undefined
   ) => {
     if (!data.extra) return alert("모든 양식을 채워 주어야 합니다.");
 

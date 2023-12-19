@@ -30,12 +30,12 @@ const requestUploadImages = async (ImageRef: RefObject<HTMLInputElement>) => {
 
     if (imagesRes.data.files) {
       imageUrlLists = imagesRes.data.files.map(
-        (file: FilesResType) => `${BASE_URL}/${file.path}`
+        (file: FilesResType) => `${file.path}`
         // (file: FilesResType) => `${file.path}`
       );
     }
     if (imagesRes.data.file) {
-      const imagePath = `${BASE_URL}/${imagesRes.data.file.path}`;
+      const imagePath = `${imagesRes.data.file.path}`;
       // const imagePath = `${imagesRes.data.file.path}`;
       imageUrlLists.push(imagePath);
     }
