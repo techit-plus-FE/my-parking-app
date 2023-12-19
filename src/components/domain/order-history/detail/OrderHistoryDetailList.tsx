@@ -1,16 +1,12 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import OrderCard from "../ordercard/OrderCard";
 import OrderTitleBox from "../ordercard/OrderTitleBox";
-import { useEffect } from "react";
-import useCustomAxios from "../../../../services/useCustomAxios";
 
 const OrderHistoryDetailList = () => {
   //orderHistoryList에서 넘겨준 data
   // 주문건에 대한 item 이 productItems에 arr 형식으로 저장되어있습니다.
   const productItems = useLocation().state.orderHistoryData;
   const navigate = useNavigate();
-
-  const handleReviewSubmit = () => {};
 
   return (
     <>

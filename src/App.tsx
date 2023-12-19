@@ -21,7 +21,7 @@ import OrderHistoryDetailPage from "./pages/order-hisotry/OrderHistoryDetailPage
 import PurchasePage from "./pages/purchase/PurchaseFormPage";
 import PurchaseResultPage from "./pages/purchase/PurchaseResultPage";
 import SearchPage from "./pages/SearchPage";
-import classes from "./App.module.css";
+
 import Theme from "./components/UI/Theme";
 import ReplyPage from "./pages/reply/ReplyPage";
 import SellerRepliesPage from "./pages/reply/SellerRepliesPage";

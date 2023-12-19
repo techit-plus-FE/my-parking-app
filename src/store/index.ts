@@ -8,6 +8,7 @@ import { createProductSlice } from "./ProductSlice";
 import { createPurchaseSlice } from "./PurchaseSlice";
 import { createSearchSlice } from "./searchSlice";
 import { themeSlice } from "./themeSlice";
+import { createImageSlice } from "./imageSlice";
 
 export const useBoundStore = create<
   AuthSlice &
@@ -15,7 +16,8 @@ export const useBoundStore = create<
     PurchaseSlice &
     ProductSlice &
     SearchSlice &
-    ThemeSlice
+    ThemeSlice &
+    ImageSlice
 >()(
   devtools(
     persist(
@@ -26,6 +28,7 @@ export const useBoundStore = create<
         ...createPurchaseSlice(...a),
         ...themeSlice(...a),
         ...createSearchSlice(...a),
+        ...createImageSlice(...a),
       }),
       {
         name: "boundStore",
@@ -35,6 +38,7 @@ export const useBoundStore = create<
           isLoggedIn: state.isLoggedIn,
           productDetailData: state.productDetailData,
           isDark: state.isDark,
+          navSelectedValue: state.navSelectedValue,
         }),
       }
     )

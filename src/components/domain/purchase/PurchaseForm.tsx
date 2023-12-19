@@ -12,7 +12,7 @@ import PurchaseInformation from "./PurchaseInformation";
 
 interface PurchaseFormProps {
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (e: React.SyntheticEvent<Element, Event>) => void;
   total: number;
 }
 

@@ -50,7 +50,7 @@ const ProductDetail = () => {
         `/products/${productId}`
       );
       const resItem = response.data.item;
-      console.log(resItem);
+      // console.log(resItem);
 
       setProductData({
         seller_id: resItem.seller_id,
