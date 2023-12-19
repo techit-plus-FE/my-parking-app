@@ -95,7 +95,7 @@ const ProductDetail = () => {
 
   useEffect(() => {
     handleGetProduct();
-  }, [productId]);
+  }, [productData]);
 
   if (loading) return <Loading />;
   return (

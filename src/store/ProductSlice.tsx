@@ -28,7 +28,7 @@ const initialItem = {
 // const requsetProductDelete = () => {};
 
 // 상품 등록, 삭제, 세팅(수정)
-export const createProductSlice: StateCreator<ProductSlice> = (set) => ({
+export const createProductSlice: StateCreator<ProductSlice> = () => ({
   productItem: initialItem,
   productList: [],
 });

@@ -1,5 +1,5 @@
 import React, { useState, forwardRef } from "react";
-import { Box } from "@mui/material";
+import { Box, Input } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DemoItem } from "@mui/x-date-pickers/internals/demo";
@@ -28,8 +28,8 @@ const SearchInput = forwardRef(function SearchInput(
 
   // const [period] = useState(["", ""]);
   const [period, setPeriod] = useState<DateRange<Dayjs>>([
-    dayjs("2023-12-17"),
-    dayjs("2023-12-21"),
+    dayjs("2024-01-01"),
+    dayjs("2024-12-31"),
   ]);
 
   const handleClick = () => {
@@ -54,11 +54,11 @@ const SearchInput = forwardRef(function SearchInput(
           gap: isMobile ? "30px" : "50px",
         }}
       >
-        <input
+        <Input
           className={classes.searchInput}
           type="text"
           onKeyDown={onKeyDown}
-          ref={ref}
+          inputRef={ref}
           placeholder="찾을 주차장을 검색하세요."
           required
         />

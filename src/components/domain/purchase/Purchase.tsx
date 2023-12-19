@@ -27,8 +27,13 @@ const Purchase = () => {
     }
   };
 
-  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedValue = e.target.value;
+  const handleOnChange = (
+    e:
+      | React.SyntheticEvent<Element, Event>
+      | React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const selectedValue = (e as React.ChangeEvent<HTMLInputElement>).target
+      .value;
 
     //체크된 라디오 버튼이 있는지 검사
     setChecked((prev) => ({
