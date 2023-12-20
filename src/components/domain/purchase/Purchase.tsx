@@ -12,13 +12,10 @@ const Purchase = () => {
   const navigate = useNavigate();
   const isMobile = MediaQuery();
   const productDetailData = useBoundStore((state) => state.productDetailData);
+
   const axiosInstance = useCustomAxios();
   const userBasicInfo = useBoundStore((state) => state.userBasicInfo);
   const [checked, setChecked] = useState({ name: "", value: false });
-  const [todayDate, setTodayDate] = useState({
-    dateString: "",
-    timeString: "",
-  });
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -46,17 +43,12 @@ const Purchase = () => {
     }));
   };
 
-  // 오늘 날짜 받아오는 로직
-  const getDateNow = () => {
-    const today = new Date();
-    const dateString = today.toLocaleDateString("ko-KR");
-    const timeString = today.toLocaleTimeString("ko-KR");
-    const todayDate = {
-      dateString: dateString,
-      timeString: timeString,
-    };
-
-    return todayDate;
+  // 오늘 날짜 받아오는 함수
+  const nowDate = () => {
+    const year = new Date().getFullYear() + 1;
+    const month = new Date().getMonth();
+    const day = new Date().getDate();
+    return `${year}.${month}.${day}`;
   };
 
   const postData = async () => {
@@ -71,9 +63,10 @@ const Purchase = () => {
         name: userBasicInfo.address,
         value: productDetailData.name,
       },
+      extra: {
+        buyDate: nowDate(),
+      },
     };
-
-    console.log(body);
 
     try {
       await axiosInstance.post("/orders", body);
@@ -83,10 +76,6 @@ const Purchase = () => {
       console.error("결제 에러");
     }
   };
-
-  useEffect(() => {
-    setTodayDate(getDateNow());
-  }, []);
 
   return (
     <>
@@ -103,7 +92,7 @@ const Purchase = () => {
       <OrderCard
         title={productDetailData.name}
         image={BASE_URL + productDetailData.mainImages[0].url}
-        buyDate={todayDate.dateString}
+        // buyDate={todayDate.dateString}
         totalPrice={productDetailData.price}
         isVisible={false}
         startDate={productDetailData.extra.startDate}
