@@ -27,7 +27,7 @@ const OrderHistoryDetailList = () => {
               image={BASE_URL + item.image.url}
               title={item.name}
               productPrice={item.price}
-              buyDate={productItems.updatedAt}
+              buyDate={productItems.buyDate}
               isVisible={true}
               btnText="후기"
             />
