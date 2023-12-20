@@ -4,7 +4,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DemoItem } from "@mui/x-date-pickers/internals/demo";
 import { DateRangePicker } from "@mui/x-date-pickers-pro/DateRangePicker";
-import { DateRange } from "@mui/x-date-pickers-pro";
+import { DateRange, DateRangeValidationError, PickerChangeHandlerContext } from "@mui/x-date-pickers-pro";
 import dayjs, { Dayjs } from "dayjs";
 import SearchIcon from "@mui/icons-material/Search";
 
@@ -27,15 +27,28 @@ const SearchInput = forwardRef(function SearchInput(
   const { onKeyDown, handleSearch, searchInfo, setSearchInfo } = props;
 
   // const [period] = useState(["", ""]);
-  const [period, setPeriod] = useState<DateRange<Dayjs>>([
-    dayjs("2024-01-01"),
-    dayjs("2024-12-31"),
+  const [dateRange, setDateRange] = useState<DateRange<Dayjs>>([
+    dayjs("2023-12-01"),
+    dayjs("2024-01-31"),
+  ]);
+
+  const [period, setPeriod] = useState<string[]>([
+    "2023-12-01",  
+    "2024-01-31"
   ]);
 
   const handleClick = () => {
     handleSearch();
     setSearchInfo({ ...searchInfo, period: period });
   };
+
+  const handleDatePicking: (value: DateRange<Dayjs>) => void = (value) => {
+    setDateRange(value)
+    //period setting logic here
+    if (value[0] === null) return
+    if (value[1] === null) return
+    setPeriod([value[0]?.format('YYYY-MM-DD'), value[1]?.format('YYYY-MM-DD')])
+  }
 
   return (
     <Box
@@ -63,15 +76,13 @@ const SearchInput = forwardRef(function SearchInput(
           required
         />
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DemoItem component={"DateRangePicker"}>
             <DateRangePicker
               localeText={{ start: "시작일", end: "종료일" }}
-              value={period}
-              onChange={(period) => {
-                setPeriod(period);
+              value={dateRange}
+              onChange={(dateRange) => {
+                handleDatePicking(dateRange)
               }}
             />
-          </DemoItem>
         </LocalizationProvider>
 
         {/* <input
