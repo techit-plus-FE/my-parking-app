@@ -59,13 +59,14 @@ const Home = () => {
     function placeSearchCB(result: kakao.maps.services.PlacesSearchResult, status: kakao.maps.services.Status) {
       if (!map) return;
       if (status === kakao.maps.services.Status.OK) {
-        // 남서,북동 기본값(애플트리타워)
-        const bound = new kakao.maps.LatLngBounds(); // 지도 영역생성 -> 사각형
-
         const data = result[0]; // 가장 유사한 상위검색객체 저장
+        //지도의 중심 좌표 이동
+        map.setCenter(new kakao.maps.LatLng(Number(data.y), Number(data.x)))
 
-        bound.extend(new kakao.maps.LatLng(Number(data.y), Number(data.x)));
-        map.setBounds(bound);
+        //지정한 영역이 가장 잘 보이는 최적의 지도 중심 좌표와 레벨이 지정
+        // const bound = new kakao.maps.LatLngBounds(); // 지도 영역생성 -> 사각형
+        // bound.extend(new kakao.maps.LatLng(Number(data.y), Number(data.x)));
+        // map.setBounds(bound);
 
         // (추가)검색한 키워드, 중심좌표, 영역을 담은 객체 상태를 변경해줍니다.
         setSearchInfo({
