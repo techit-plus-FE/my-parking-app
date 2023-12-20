@@ -32,7 +32,10 @@ const SearchInput = forwardRef(function SearchInput(
     dayjs("2024-01-31"),
   ]);
 
-  const [period, setPeriod] = useState<string[]>(["", ""]);
+  const [period, setPeriod] = useState<string[]>([
+    "2023-12-01",  
+    "2024-01-31"
+  ]);
 
   const handleClick = () => {
     handleSearch();
