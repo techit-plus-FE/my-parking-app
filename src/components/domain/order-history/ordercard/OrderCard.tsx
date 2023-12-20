@@ -5,6 +5,7 @@ import { CommonButton } from "../../../UI/CommonButton";
 import OrderTotalPrice from "./OrderTotalPrice";
 import { useBoundStore } from "../../../../store";
 import MediaQuery from "../../../UI/MediaQuery";
+import classes from "./OrderCard.module.css";
 
 interface OrderCardProps {
   title: string;
@@ -65,14 +66,9 @@ const OrderCard: React.FC<OrderCardProps> = ({
             flex: isMobile ? 2 : undefined,
           }}
         >
-          {isMobile ? (
-            <Box>
-              주문날짜
-              <Box>{buyDate}</Box>
-            </Box>
-          ) : (
-            <Box>주문날짜: {buyDate}</Box>
-          )}
+          <div className={classes.orderDate}>
+            <span>주문날짜</span> {buyDate}
+          </div>
           <CardMedia
             component="img"
             image={image}
@@ -88,6 +84,7 @@ const OrderCard: React.FC<OrderCardProps> = ({
           sx={{
             textAlign: "center",
             display: isMobile ? undefined : "flex",
+            alignItems: "center",
             fontSize: isMobile ? "0.7rem" : undefined,
             width: "100%",
             justifyContent: "space-around",
@@ -97,7 +94,7 @@ const OrderCard: React.FC<OrderCardProps> = ({
           {orderItems ? (
             <Typography
               variant={isMobile ? "body2" : "body1"}
-              sx={{ fontWeight: "bold" }}
+              sx={{ fontWeight: "bold", fontSize: "1.2rem" }}
             >
               {/* 배열의 length가 1 이상일 때만 랜더링 */}
               {title} {orderItems >= 2 && `외 ${orderItems}`}
@@ -105,7 +102,7 @@ const OrderCard: React.FC<OrderCardProps> = ({
           ) : (
             <Typography
               variant={isMobile ? "body2" : "body1"}
-              sx={{ fontWeight: "bold" }}
+              sx={{ fontWeight: "bold", fontSize: "1.2rem" }}
             >
               {title}
             </Typography>
@@ -113,8 +110,7 @@ const OrderCard: React.FC<OrderCardProps> = ({
 
           {startDate && (
             <Box>
-              <Box>{startDate} ~</Box>
-              {endDate}
+              <div>{startDate}</div>~<div>{endDate}</div>
             </Box>
           )}
 
