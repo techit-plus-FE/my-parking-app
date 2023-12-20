@@ -37,9 +37,7 @@ const ProductDetail = () => {
   const setProductDetailData = useBoundStore(
     (state) => state.setProductDetailData
   );
-
   const user = useBoundStore((state) => state.userBasicInfo);
-
   // 로그인한 유저가 판매자이면서, 본인이 작성한 글일때만 수정,삭제 버튼 나오는 상태변수 선언
   const isRightUser =
     user.type === "seller" && user._id === productData.seller_id;
@@ -104,7 +102,7 @@ const ProductDetail = () => {
       <MainImagesComponent product={productData} />
       {/* 판매자 정보 컴포넌트 */}
       <SellerInfoComponent product={productData} />
-      {/*추후 헤더에 들어갈 삭제 수정하는 엑션 버튼들 컴포넌트로 만들예정*/}
+
       {isRightUser && (
         <div className={classes["util-action"]}>
           <button type="button" onClick={() => handleRemoveProduct(productId)}>
