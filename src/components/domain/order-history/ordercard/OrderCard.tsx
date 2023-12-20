@@ -21,7 +21,7 @@ interface OrderCardProps {
   sellerId?: string; //구매자 아이디
   productPrice?: number; // 상품 개당가격
   flexDirection?: string;
-  btnText: string;
+  btnText?: string;
 }
 
 const OrderCard: React.FC<OrderCardProps> = ({

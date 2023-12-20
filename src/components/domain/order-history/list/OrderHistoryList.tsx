@@ -31,6 +31,7 @@ const OrderHistoryList: React.FC = () => {
       updatedAt: productItems.updatedAt,
       _id: productItems._id,
       products: productItems.products,
+      buyDate: productItems.extra.buyDate,
     };
 
     // 상품 디테일 페이지로 이동하기
