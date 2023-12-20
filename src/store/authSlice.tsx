@@ -22,9 +22,11 @@ const requestSignUp: (arg: Person) => Promise<boolean> = async (
       return true;
     }
   } catch (error: unknown) {
-    if (!axios.isAxiosError(error)) return false
-    if (error.response) {
-      alert(error.response.data.message);
+    if (axios.isAxiosError(error)) {
+      if (error.response) {
+        const errorMessage: string = error.response.data.errors[0]?.msg? error.response.data.errors[0].msg : error.response.data.message
+        alert(errorMessage);
+      }
     }
     console.error("Error:", error);
     return false;
@@ -46,7 +48,9 @@ const requestEmailVerification: (arg: string) => void = async (
   } catch (error: unknown) {
     if (!axios.isAxiosError(error)) return 
     if (error.response) {
-      alert(error.response.data.message);
+      const errorMessage: string = error.response.data.errors[0]?.msg? error.response.data.errors[0].msg : error.response.data.message
+      alert(errorMessage);
+      // alert(error.response.data.message);
     }
     console.error("Error:", error);
   }
@@ -74,7 +78,8 @@ const requestUserLogin = async (email: string, password: string) => {
   } catch (error: unknown) {
     if (axios.isAxiosError(error)) 
     if (error.response) {
-      alert(error.response.data.message);
+      const errorMessage: string = error.response.data.errors[0]?.msg? error.response.data.errors[0].msg : error.response.data.message
+      alert(errorMessage);
     }
     console.error("로그인이 실패하였습니다.");
   }
