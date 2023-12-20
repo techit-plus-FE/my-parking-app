@@ -3,11 +3,14 @@ import PurchaseForm from "./PurchaseForm";
 import OrderCard from "../order-history/ordercard/OrderCard";
 import { useBoundStore } from "../../../store";
 import useCustomAxios from "../../../services/useCustomAxios";
-import OrderTitleBox from "../order-history/ordercard/OrderTitleBox";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../../../services/BaseUrl";
+import classes from "./purchase.module.css";
+import MediaQuery from "../../UI/MediaQuery";
 
 const Purchase = () => {
   const navigate = useNavigate();
+  const isMobile = MediaQuery();
   const productDetailData = useBoundStore((state) => state.productDetailData);
   const axiosInstance = useCustomAxios();
   const userBasicInfo = useBoundStore((state) => state.userBasicInfo);
@@ -57,7 +60,6 @@ const Purchase = () => {
   };
 
   const postData = async () => {
-    console.log(productDetailData);
     const body = {
       products: [
         {
@@ -88,15 +90,19 @@ const Purchase = () => {
 
   return (
     <>
-      <OrderTitleBox
-        pageTitle="결제하기"
-        option1="상품정보"
-        option2="대여기간"
-        option4="총 금액"
-      />
+      {isMobile || (
+        <div className={classes.purchaseContainer}>
+          <ul>
+            <li>상품정보</li>
+            <li>대여기간</li>
+            <li>결제금액</li>
+          </ul>
+        </div>
+      )}
+
       <OrderCard
         title={productDetailData.name}
-        image={productDetailData.mainImages[0]}
+        image={BASE_URL + productDetailData.mainImages[0].url}
         buyDate={todayDate.dateString}
         totalPrice={productDetailData.price}
         isVisible={false}
