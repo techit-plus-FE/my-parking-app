@@ -6,3 +6,7 @@
 .orderDate {
   font-size: 0.9rem;
 }
+
+.orderCardTitle {
+  width: 150px;
+}

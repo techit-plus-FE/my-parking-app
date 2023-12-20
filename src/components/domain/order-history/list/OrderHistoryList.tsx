@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import useCustomAxios from "../../../../services/useCustomAxios";
 import OrderCard from "../ordercard/OrderCard";
 import { useNavigate } from "react-router-dom";
-import OrderTitleBox from "../ordercard/OrderTitleBox";
 import MediaQuery from "../../../UI/MediaQuery";
+import classes from "./OrderHistory.module.css";
+import { BASE_URL } from "../../../../services/BaseUrl";
 
 const OrderHistoryList: React.FC = () => {
   const navigate = useNavigate();
@@ -44,11 +45,12 @@ const OrderHistoryList: React.FC = () => {
   return (
     <>
       {mediaQuery || (
-        <OrderTitleBox
-          pageTitle="주문목록"
-          option1="상품정보"
-          option3="총 결제금액"
-        />
+        <div className={classes.orderHistoryListContainer}>
+          <ul>
+            <li>상품정보</li>
+            <li>결제금액</li>
+          </ul>
+        </div>
       )}
       {getOrderHistoryData?.map((item) => {
         return (
@@ -56,7 +58,10 @@ const OrderHistoryList: React.FC = () => {
             <OrderCard
               orderItems={item.products.length}
               title={item.products[0].name}
-              image={item.products[0].image}
+              image={
+                item.products[0].image?.url &&
+                BASE_URL + item.products[0].image?.url
+              }
               buyDate={item.extra?.buyDate}
               onClick={() => handleNavigate(item._id, item)}
               totalPrice={item.cost.total}
