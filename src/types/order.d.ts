@@ -14,6 +14,9 @@ interface OrderHistoryProduct {
   cost: {
     total: number;
   };
+  extra: {
+    buyDate: string;
+  };
 }
 
 //주문한 상품의 개별 item 정보

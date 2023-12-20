@@ -92,7 +92,6 @@ const Purchase = () => {
       <OrderCard
         title={productDetailData.name}
         image={BASE_URL + productDetailData.mainImages[0].url}
-        // buyDate={todayDate.dateString}
         totalPrice={productDetailData.price}
         isVisible={false}
         startDate={productDetailData.extra.startDate}

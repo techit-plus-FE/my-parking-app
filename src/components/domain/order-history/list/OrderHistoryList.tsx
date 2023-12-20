@@ -57,7 +57,7 @@ const OrderHistoryList: React.FC = () => {
               orderItems={item.products.length}
               title={item.products[0].name}
               image={item.products[0].image}
-              buyDate={item.updatedAt}
+              buyDate={item.extra?.buyDate}
               onClick={() => handleNavigate(item._id, item)}
               totalPrice={item.cost.total}
               productPrice={item.products[0].price}
