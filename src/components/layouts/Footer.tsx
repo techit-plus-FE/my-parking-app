@@ -58,7 +58,7 @@ const Footer: React.FC<FooterProps> = ({ position, width }) => {
           onClick={() => handelNavigate("/home")}
           sx={{ flex: 1, minWidth: 0 }}
         />
-        <BottomNavigationAction
+        {/* <BottomNavigationAction
           label="검색"
           icon={<SearchIcon />}
           onClick={() =>
@@ -66,7 +66,7 @@ const Footer: React.FC<FooterProps> = ({ position, width }) => {
             handelNavigate("/home")
           }
           sx={{ flex: 1, minWidth: 0 }}
-        />
+        /> */}
         <BottomNavigationAction
           label="프로필"
           icon={<PersonIcon />}
