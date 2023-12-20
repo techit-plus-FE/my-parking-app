@@ -14,8 +14,8 @@ const MyProfileEdit = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const imageUploadRef = useRef<HTMLInputElement>(null);
   const [imgFileView, setImgFileView]= useState('')
-  const [userInputRef, setUserInputRef] = useState<{ [key in keyof UserBasicInfoType]: React.RefObject<HTMLInputElement|null> }>({} as { [key in keyof UserBasicInfoType]: React.RefObject<HTMLInputElement|null> })
-  const [userExtraInputRef, setUserExtraInputRef] = useState<{ [key in keyof Required<ExtraType>]: React.RefObject<HTMLInputElement|null> }>({} as { [key in keyof Required<ExtraType>]: React.RefObject<HTMLInputElement|null> })
+  const [userInputRef, setUserInputRef] = useState<{ [key in keyof UserBasicInfoType]: React.MutableRefObject<HTMLInputElement|null> }>({} as { [key in keyof UserBasicInfoType]: React.MutableRefObject<HTMLInputElement|null> })
+  const [userExtraInputRef, setUserExtraInputRef] = useState<{ [key in keyof Required<ExtraType>]: React.MutableRefObject<HTMLInputElement|null> }>({} as { [key in keyof Required<ExtraType>]: React.MutableRefObject<HTMLInputElement|null> })
 
   const fetchAndSetMyInfo = async () => {
     const myInfo = await Store.getMyInfo(id, Store.userToken.accessToken);
@@ -28,19 +28,19 @@ const MyProfileEdit = () => {
     //userInputRef object 생성
     setUserInputRef(
       Object.keys(userBasicInfo).reduce((acc, key) => {
-      const myInputRef: React.RefObject<HTMLInputElement|null> = createRef();
+      const myInputRef: React.MutableRefObject<HTMLInputElement|null> = createRef();
       acc[key as keyof UserBasicInfoType] = myInputRef;
       return acc;
-      }, {} as { [key in keyof UserBasicInfoType]: React.RefObject<HTMLInputElement|null> })
+      }, {} as { [key in keyof UserBasicInfoType]: React.MutableRefObject<HTMLInputElement|null> })
     )
 
     //userExtraInputRef object 생성
     setUserExtraInputRef(
       Object.keys(userExtraInfo).reduce((acc, key) => {
-      const myInputRef: React.RefObject<HTMLInputElement|null> = createRef();
+      const myInputRef: React.MutableRefObject<HTMLInputElement|null> = createRef();
       acc[key as keyof Required<ExtraType>] = myInputRef;
       return acc;
-      }, {} as { [key in keyof Required<ExtraType>]: React.RefObject<HTMLInputElement|null> })
+      }, {} as { [key in keyof Required<ExtraType>]: React.MutableRefObject<HTMLInputElement|null> })
     )
   };
 

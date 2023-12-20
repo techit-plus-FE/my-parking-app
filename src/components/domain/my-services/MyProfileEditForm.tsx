@@ -8,7 +8,7 @@ import classes from "./Mypage.module.css";
 
 interface MyProfileEditFormProps {
   myInfo: UserDetailInfoType
-  userInputRef: { [key in keyof UserBasicInfoType]: React.RefObject<HTMLInputElement|null> }
+  userInputRef: { [key in keyof UserBasicInfoType]: React.MutableRefObject<HTMLInputElement|null> }
   userExtraInputRef: { [key in keyof ExtraType]: React.MutableRefObject<HTMLInputElement|null> }
   imageUploadRef: React.RefObject<HTMLInputElement>
   handleImageUpload: () => Promise<void>
