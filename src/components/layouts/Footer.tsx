@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
@@ -6,7 +6,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import SearchIcon from "@mui/icons-material/Search";
 import PersonIcon from "@mui/icons-material/Person";
 import Box from "@mui/material/Box";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useBoundStore } from "../../store";
 import { useTheme } from "@mui/material/styles";
 
@@ -22,11 +22,21 @@ const Footer: React.FC<FooterProps> = ({ position, width }) => {
   const navSelectedValue = useBoundStore((state) => state.navSelectedValue);
 
   const navigate = useNavigate();
-
+  const location = useLocation().pathname;
+  const pathName = location.split("/")[1];
   const handelNavigate = (path: string) => {
     navigate(path);
   };
   const theme = useTheme();
+
+  //pathName 이 바뀔때 마다 nav의 color 변경됩니다.
+  useEffect(() => {
+    if (pathName === "home") {
+      setNavSelected(0);
+    } else if (pathName === "mypage") {
+      setNavSelected(1);
+    }
+  }, [pathName, setNavSelected]);
 
   return (
     <Box
@@ -43,10 +53,10 @@ const Footer: React.FC<FooterProps> = ({ position, width }) => {
       <BottomNavigation
         showLabels
         value={navSelectedValue}
-        onChange={(_, newValue) => {
-          setNavSelected(newValue);
-          // navigate(event.target.);
-        }}
+        // onChange={(_, newValue) => {
+        //   setNavSelected(newValue);
+        //   // navigate(event.target.);
+        // }}
         sx={{
           maxWidth: "var(--main-max-width)",
           bgcolor: theme.palette.background.default,
