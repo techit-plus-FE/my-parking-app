@@ -15,6 +15,7 @@ const SlideBar: React.FC<SlideBarProps> = ({ children }) => {
         sx={{
           display: "flex",
           flexDirection: "column",
+          gap: "20px",
         }}
       >
         <div className={classes.logoWrapper}>
