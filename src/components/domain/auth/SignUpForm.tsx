@@ -7,7 +7,7 @@ import { Button, MenuItem } from "@mui/material";
 import { Box } from "@mui/system";
 import classes from "./SignUpForm.module.css";
 import { useTheme } from "@mui/material";
-import { CommonButtonLarge } from "../../UI/CommonButton";
+import { CommonButtonLarge, MuiButton } from "../../UI/CommonButton";
 
 const SignUpForm = () => {
   const AuthSlice: AuthSlice = useBoundStore((state) => state);
@@ -202,6 +202,11 @@ const SignUpForm = () => {
               text="회원가입"
               onClick={() => handleSignUp(userInputs)}
             />
+            <MuiButton            
+            text="회원이십니까? 로그인하러 가기"
+            onClick = {()=>navigate('/login')}
+            />
+
           </Box>
         </Box>
       </form>
