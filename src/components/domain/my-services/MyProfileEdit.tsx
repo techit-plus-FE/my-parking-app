@@ -62,6 +62,9 @@ const MyProfileEdit = () => {
 
     
   const handleImageUpload = async () => {
+    if (imageUploadRef.current === null) return
+    if (imageUploadRef.current.files === null ) return
+    if (imageUploadRef.current.files.length === 0 ) return
     const uploadImage = Store.uploadImage
     const profileImageURL = await uploadImage(imageUploadRef)
     const updatedInfo = await Store.updateMyInfo(id, Store.userToken.accessToken, {extra: {...myInfo.extra, profileImage: profileImageURL[0]}})
