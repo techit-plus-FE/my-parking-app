@@ -43,7 +43,6 @@ const RootLayout = (props: LayoutProps) => {
       ) : (
         // 로그인이 되어 있거나 로그인이 필요하지 않은 페이지일 때
         <PageContainer>
-          <Toggle />
           {hasHeader && <Header />}
           {hasSearchHeader && <SearchHeader />}
           <Outlet />

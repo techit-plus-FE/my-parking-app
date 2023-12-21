@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import ProductItem from "./ProductItem";
@@ -12,6 +12,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Toggle from "../../../layouts/Toggle";
 
 type Props = {
   products: ProductListType | undefined;
@@ -23,12 +24,16 @@ const ProductList = ({ products, isMobile }: Props) => {
 
   const [selectValue, setSelectValue] = useState<string>("");
   const [open, setOpen] = useState<boolean>(false);
+  const [filteredProducts, setFilteredProducts] = useState<
+    ProductListType | undefined
+  >(products);
 
-  // select의 item의 value값을 받아 처리하는 함수 -> 여기서 받아오는 값에 따라 정렬 요청 트리거를 생성해주어야 합니다.
+  // 필터 셀렉터 체인지 헨들러 함수
   const handleSelectChange = (event: SelectChangeEvent) => {
     setSelectValue(event.target.value as string);
   };
 
+  // 상품 등록페이지 이동 함수
   const handleMoveRegist = () => {
     if (user.type === "seller") {
       navigate("/products/regist");
@@ -40,11 +45,68 @@ const ProductList = ({ products, isMobile }: Props) => {
     }
   };
 
+  // [...products!].map((p) => {
+  //   console.log(typeof new Date(p.createdAt).getTime());
+  // });
+
+  const handleFiltering = () => {
+    if (products) {
+      switch (selectValue) {
+        case "latestStartDate":
+          // 오늘 날짜 기준으로 가장 가까운 날짜 대여기간이 있는 리스트부터 정렬
+          setFilteredProducts(
+            [...products].sort((a, b) => {
+              const today = new Date();
+              const startDateA = new Date(a.extra?.startDate as string);
+              const startDateB = new Date(b.extra?.startDate as string);
+
+              // 오늘시간과 시작시간 절댓값 차이를 비교
+              const diffA = Math.abs(today.getTime() - startDateA.getTime());
+              const diffB = Math.abs(today.getTime() - startDateB.getTime());
+              console.log("diffA : " + diffA);
+              console.log("diffB : " + diffB);
+
+              return diffA - diffB;
+            })
+          );
+
+          break;
+        case "latestCreatedAt":
+          // 최근 등록한 상품글이 먼저 오게 정렬
+          setFilteredProducts(
+            [...products].sort(
+              (a, b) =>
+                new Date(a.createdAt as string).getTime() -
+                new Date(b.createdAt as string).getTime()
+            )
+          );
+          break;
+        case "lowPrice":
+          // 가격이 낮은것부터(오름차순)으로 정렬
+          setFilteredProducts([...products].sort((a, b) => a.price - b.price));
+          break;
+        case "choise":
+          // 선택이라는 항목을 클릭하면 기존 초기 상품리스트 출력
+          setFilteredProducts(products);
+          break;
+        default:
+          // 어떤 케이스에도 포함되지 않는다면 기존 초기 상품리스트 출력
+          setFilteredProducts(products);
+          break;
+      }
+    }
+  };
+
+  useEffect(() => {
+    handleFiltering();
+  }, [selectValue, products]);
+
   return (
     <>
       {isMobile ? (
         <div className={classes.containerMobile}>
           <div className={classes["product-utils"]}>
+            <Toggle />
             <IconButton size="large" onClick={handleMoveRegist}>
               <AddLocationIcon
                 fontSize="large"
@@ -65,30 +127,29 @@ const ProductList = ({ products, isMobile }: Props) => {
                   onOpen={() => setOpen(true)}
                   onChange={handleSelectChange}
                 >
-                  <MenuItem value="choice">
-                    <em>선택</em>
-                  </MenuItem>
-                  <MenuItem value={10}>날짜순</MenuItem>
-                  <MenuItem value={20}>최신순</MenuItem>
-                  <MenuItem value={30}>저렴한순</MenuItem>
+                  <MenuItem value="choice">선택</MenuItem>
+                  <MenuItem value="latestStartDate">최신날짜순</MenuItem>
+                  <MenuItem value="latestCreatedAt">최신등록순</MenuItem>
+                  <MenuItem value="lowPrice">저렴한순</MenuItem>
                 </Select>
               </FormControl>
             </Box>
           </div>
 
           <ul className={classes["product-list"]}>
-            {products && products.length > 0 ? (
-              products.map((product) => {
+            {filteredProducts && filteredProducts.length > 0 ? (
+              filteredProducts.map((product) => {
                 return <ProductItem key={product._id} product={product} />;
               })
             ) : (
-              <p>등록된 상품이 암것도 없어요ㅠㅠ</p>
+              <p>해당 위치에 등록된 주차장이 없네요😭</p>
             )}
           </ul>
         </div>
       ) : (
         <div className={classes.container}>
           <div className={classes["product-utils"]}>
+            <Toggle />
             <IconButton size="medium" onClick={handleMoveRegist}>
               <AddLocationIcon
                 fontSize="large"
@@ -112,20 +173,17 @@ const ProductList = ({ products, isMobile }: Props) => {
                   onOpen={() => setOpen(true)}
                   onChange={handleSelectChange}
                 >
-                  <MenuItem value="choice">
-                    <em>선택</em>
-                  </MenuItem>
-                  <MenuItem value={10}>날짜순</MenuItem>
-                  <MenuItem value={20}>최신순</MenuItem>
-                  <MenuItem value={30}>저렴한순</MenuItem>
+                  <MenuItem value="choice">선택</MenuItem>
+                  <MenuItem value="latestStartDate">최신날짜순</MenuItem>
+                  <MenuItem value="latestCreatedAt">최신등록순</MenuItem>
+                  <MenuItem value="lowPrice">저렴한순</MenuItem>
                 </Select>
               </FormControl>
             </Box>
           </div>
-
           <ul className={classes["product-list"]}>
-            {products && products.length > 0 ? (
-              products.map((product) => {
+            {filteredProducts && filteredProducts.length > 0 ? (
+              filteredProducts.map((product) => {
                 return <ProductItem key={product._id} product={product} />;
               })
             ) : (

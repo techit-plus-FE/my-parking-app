@@ -15,13 +15,18 @@ const SlideBar: React.FC<SlideBarProps> = ({ children }) => {
         sx={{
           display: "flex",
           flexDirection: "column",
+          gap: "20px",
         }}
       >
         <div className={classes.logoWrapper}>
-          <div className={classes.imgWrapper}>
-            <img src={LOGOBLUE} alt="logo-img" />
+          <div>
+            <div className={classes.logoImgWrapper}>
+              <div className={classes.imgWrapper}>
+                <img src={LOGOBLUE} alt="logo-img" />
+              </div>
+              <p>마이파킹</p>
+            </div>
           </div>
-          <p>마이파킹</p>
         </div>
 
         {/* 검색 및 날짜 필터 양식 */}
