@@ -1,0 +1,6 @@
+.reviewRegistContainer {
+  height: calc(100vh - 125px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
