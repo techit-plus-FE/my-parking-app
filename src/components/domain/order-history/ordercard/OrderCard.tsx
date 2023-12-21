@@ -5,6 +5,7 @@ import { CommonButton } from "../../../UI/CommonButton";
 import OrderTotalPrice from "./OrderTotalPrice";
 import { useBoundStore } from "../../../../store";
 import MediaQuery from "../../../UI/MediaQuery";
+import classes from "./OrderCard.module.css";
 
 interface OrderCardProps {
   title: string;
@@ -20,6 +21,7 @@ interface OrderCardProps {
   sellerId?: string; //구매자 아이디
   productPrice?: number; // 상품 개당가격
   flexDirection?: string;
+  btnText?: string;
 }
 
 const OrderCard: React.FC<OrderCardProps> = ({
@@ -34,6 +36,7 @@ const OrderCard: React.FC<OrderCardProps> = ({
   totalPrice,
   isVisible = true,
   flexDirection,
+  btnText,
   // sellerId,
 }) => {
   const isDark = useBoundStore((state) => state.isDark);
@@ -65,14 +68,9 @@ const OrderCard: React.FC<OrderCardProps> = ({
             flex: isMobile ? 2 : undefined,
           }}
         >
-          {isMobile ? (
-            <Box>
-              주문날짜
-              <Box>{buyDate}</Box>
-            </Box>
-          ) : (
-            <Box>주문날짜: {buyDate}</Box>
-          )}
+          <div className={classes.orderDate}>
+            <span>주문날짜</span> {buyDate}
+          </div>
           <CardMedia
             component="img"
             image={image}
@@ -87,17 +85,21 @@ const OrderCard: React.FC<OrderCardProps> = ({
         <Box
           sx={{
             textAlign: "center",
-            display: isMobile ? undefined : "flex",
+            display: "flex",
+            alignItems: "center",
             fontSize: isMobile ? "0.7rem" : undefined,
             width: "100%",
             justifyContent: "space-around",
             flex: 3,
+            flexDirection: isMobile ? "column" : "row",
+            gap: isMobile ? "10px" : null,
           }}
         >
           {orderItems ? (
             <Typography
+              className={classes.orderCardTitle}
               variant={isMobile ? "body2" : "body1"}
-              sx={{ fontWeight: "bold" }}
+              sx={{ fontWeight: "bold", fontSize: "1.2rem" }}
             >
               {/* 배열의 length가 1 이상일 때만 랜더링 */}
               {title} {orderItems >= 2 && `외 ${orderItems}`}
@@ -105,16 +107,14 @@ const OrderCard: React.FC<OrderCardProps> = ({
           ) : (
             <Typography
               variant={isMobile ? "body2" : "body1"}
-              sx={{ fontWeight: "bold" }}
+              sx={{ fontWeight: "bold", fontSize: "1.2rem" }}
             >
               {title}
             </Typography>
           )}
-
           {startDate && (
             <Box>
-              <Box>{startDate} ~</Box>
-              {endDate}
+              <div>{startDate}</div>~<div>{endDate}</div>
             </Box>
           )}
 
@@ -126,7 +126,7 @@ const OrderCard: React.FC<OrderCardProps> = ({
           )}
           {isVisible && (
             <CommonButton
-              text="상세보기"
+              text={btnText ? btnText : "상세보기"}
               onClick={onClick}
               isVisible={isVisible}
             />

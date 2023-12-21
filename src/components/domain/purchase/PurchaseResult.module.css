@@ -1,11 +1,12 @@
-.loginContainer {
+.purchaseResultContainer {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate3d(-50%, -50%, 0);
 }
 
-.title {
-  font-size: 1.5rem;
+.purchaseResultContainer p {
+  padding: 20px 0;
+  font-size: 1.2rem;
   font-weight: bold;
 }
