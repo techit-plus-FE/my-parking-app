@@ -1,7 +1,7 @@
-import React from "react";
+import MyProductList from "../../components/domain/product/list/MyProductList";
 
 const MyProductPage = () => {
-  return <div></div>;
+  return <MyProductList />;
 };
 
 export default MyProductPage;
