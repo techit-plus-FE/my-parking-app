@@ -4,10 +4,11 @@ import Dialog from '@mui/material/Dialog';
 import React from "react";
 import DEFAULTIMAGE from '../../../assets/images/default-avatar.png'
 import { UserExtraInfo } from "../../../types/classImplementations";
+import classes from "./Mypage.module.css";
 
 interface MyProfileEditFormProps {
   myInfo: UserDetailInfoType
-  userInputRef: { [key in keyof UserBasicInfoType]: React.RefObject<HTMLInputElement|null> }
+  userInputRef: { [key in keyof UserBasicInfoType]: React.MutableRefObject<HTMLInputElement|null> }
   userExtraInputRef: { [key in keyof ExtraType]: React.MutableRefObject<HTMLInputElement|null> }
   imageUploadRef: React.RefObject<HTMLInputElement>
   handleImageUpload: () => Promise<void>
@@ -33,7 +34,7 @@ const MyProfileEditForm: React.FC<MyProfileEditFormProps>  = ({
   handleSubmit,
 }) => {
   return(
-  <Box>
+  <Box className={classes.myProfileEditContainer}>
       <div>
         {/*프로필 이미지 표시*/}
         <img src={`${myInfo.extra?.profileImage}`}/>
