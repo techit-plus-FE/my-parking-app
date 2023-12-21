@@ -22,9 +22,7 @@ const requestUploadImages = async (ImageRef: RefObject<HTMLInputElement>) => {
         },
       }
     );
-    if (imagesRes.data.ok === 1) {
-      alert("업로드가 완료되었습니다");
-    }
+  
     // 응답에서 'path' 값만 추출하여 배열로
     let imageUrlLists: string[] = [];
 
