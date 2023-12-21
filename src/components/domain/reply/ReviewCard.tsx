@@ -4,9 +4,9 @@ import { Rating } from "@mui/material";
 
 interface ReviewCardProps {
   src: string;
-  title: string;
-  price: number;
-  content: string;
+  title?: string;
+  price?: number;
+  content?: string;
   ratingValue: number;
 }
 
@@ -25,7 +25,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({
       <div>
         <h2>{title}</h2>
         <div>
-          <p>금액: {price}</p>
+          {price && <p>금액: {price}</p>}
           <Rating
             name="basic"
             value={ratingValue}

@@ -25,3 +25,20 @@ interface RepliesItem {
   content: string;
   rating: number;
 }
+
+//MyReplies item data 타입
+
+interface MyReplies {
+  item: MyRepliesItem[];
+}
+
+interface MyRepliesItem {
+  content: string;
+  name: string;
+  rating: number;
+  product: {
+    image: {
+      url: string;
+    };
+  };
+}
