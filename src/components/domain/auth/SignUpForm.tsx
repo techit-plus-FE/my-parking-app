@@ -56,6 +56,15 @@ const SignUpForm = () => {
     return true;
   }
 
+  const titleDict = {
+    email: '이메일',
+    password: '비밀번호',
+    password_check: '비밀번호 확인',
+    name: '이름',
+    phone: '전화번호',
+    address: '주소',
+  }
+
   return (
     <div className={classes.signUpContainer}>
       <h2>회원가입</h2>
@@ -82,7 +91,7 @@ const SignUpForm = () => {
             </TextField>
           </div>
           <div>
-            <div>email</div>
+            <div>이메일</div>
             <TextField
               fullWidth
               required
@@ -100,7 +109,7 @@ const SignUpForm = () => {
             이메일 중복확인
           </Button>
           <div>
-            <div>password</div>
+            <div>비밀번호</div>
             <TextField
               required
               fullWidth
@@ -126,7 +135,7 @@ const SignUpForm = () => {
             />
           </div>
           <div>
-            <div>password check</div>
+            <div>비밀번호 확인</div>
             <TextField
               required
               fullWidth
@@ -172,7 +181,7 @@ const SignUpForm = () => {
             .map((item) => {
               return (
                 <div key={item}>
-                  <div>{item}</div>
+                  <div>{titleDict[item as keyof typeof titleDict]}</div>
                   <TextField
                     fullWidth
                     required
