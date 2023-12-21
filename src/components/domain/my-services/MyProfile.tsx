@@ -110,7 +110,7 @@ const MyProfile = () => {
                 text={"리뷰 관리"}
                 fontSize={fontSize}
                 onClick={() => {
-                  navigate(`/reply/1`);
+                  navigate(`/reply/replies`);
                 }}
               />
             </>

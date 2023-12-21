@@ -37,7 +37,7 @@ const ReviewRegist: React.FC = () => {
 
       const response = await axiosInstance.post("/replies", body);
       if (response.data.ok === 1) {
-        navigate(-1);
+        navigate("/reply/replies");
       }
     }
   };

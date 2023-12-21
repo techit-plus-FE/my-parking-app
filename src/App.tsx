@@ -175,7 +175,7 @@ const router = createBrowserRouter([
         children: [
           // 내가 쓴 리뷰 보기
           {
-            path: ":userId",
+            path: "replies",
             element: <MyReplyPage />,
           },
           {
