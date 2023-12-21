@@ -19,10 +19,10 @@ interface MarkerType {
 type MarkerListType = MarkerType[];
 
 interface MapInfoType {
-  keyword: string | null;
+  place_name: string | null;
   centerLatLng: {
-    lat: number;
-    lng: number;
+    lat: number|null;
+    lng: number|null;
   };
   period: string[]|undefined;
   isPanTo: boolean;

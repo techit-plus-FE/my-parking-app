@@ -25,7 +25,6 @@ const requestItemsInThisBoundAndPeriod: (
       query
     );
     if (response.data.ok === 1) {
-      console.log('hello world')
       return response.data.item;
     }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
