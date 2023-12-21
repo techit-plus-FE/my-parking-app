@@ -35,6 +35,7 @@ const SearchInput = forwardRef(function SearchInput(
   const [period, setPeriod] = useState<string[]>([
     "2023-12-01",  
     "2024-01-31"
+
   ]);
 
   const handleClick = () => {
@@ -84,23 +85,6 @@ const SearchInput = forwardRef(function SearchInput(
               }}
             />
         </LocalizationProvider>
-
-        {/* <input
-          type="date"
-          onChange={(e) => {
-            period[0] = e.target.value;
-          }}
-          onKeyDown={onKeyDown}
-          required
-        />
-        <input
-          type="date"
-          onChange={(e) => {
-            period[1] = e.target.value;
-          }}
-          onKeyDown={onKeyDown}
-          required
-        /> */}
       </Box>
       {isMobile ? (
         <button onClick={handleClick} className={classes.searchBtn}>

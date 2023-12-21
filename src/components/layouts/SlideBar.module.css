@@ -1,6 +1,6 @@
 .slideBarContainer {
-  display: flex;
-  flex-direction: column;
+  /* display: flex;
+  flex-direction: column; */
   padding: 0 50px;
 }
 
@@ -8,7 +8,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 150px 0 80px;
+  margin: 120px 0 80px;
 }
 
 .logoWrapper p {
@@ -30,4 +30,5 @@
   color: var(--color-primary-500);
   text-align: center;
   font-size: 12px;
+  margin: 20px;
 }
