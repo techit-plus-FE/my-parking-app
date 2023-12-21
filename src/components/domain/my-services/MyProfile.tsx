@@ -40,29 +40,28 @@ const MyProfile = () => {
           justifyContent: "center",
         }}
       >
-        <h1>마이 페이지</h1>
-        <div className={classes.imgWrapper}>
+        <h1>마이 페이지</h1>        
           {/*프로필 이미지 표시*/}
           {myInfo.extra?.profileImage ? (
-            <img src={`${myInfo.extra?.profileImage}`} />
+            <img className = {classes.myProfileImage} src={`${myInfo.extra?.profileImage}`} />
           ) : (
             <img src={usericon} />
-          )}
-        </div>
+          )}        
         <div className={classes.user}>
-          <h2>이름 : {myInfo.name}</h2>
+          <h2>{myInfo.name}</h2>
           <div>
-            회원유형 : {myInfo.type === "seller" ? "판매자" : "일반회원"}
+            {myInfo.type === "seller" ? "판매자" : "일반회원"}
           </div>
-          <div>이메일 : {myInfo.email}</div>
-          <div>전화번호 : {myInfo.phone}</div>
-          <div>주소 : {myInfo.address}</div>
+          <div>{myInfo.email}</div>
+          <div>{myInfo.phone}</div>
+          <div>{myInfo.address}</div>
           <Box
             sx={{
               color: "#4285F4",
             }}
           >
-            차량번호 :{" "}
+            {/* 차량번호 */}
+            {" "} 
             {myInfo.extra?.carNumber === "" ||
             myInfo.extra?.carNumber == undefined
               ? "등록된 차량이 없습니다"
