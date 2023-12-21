@@ -32,10 +32,7 @@ const Home = () => {
     isLoading: true,
   });
 
-  const [period, setPeriod] = useState<string[]>([
-    "2023-12-01",  
-    "2024-01-31"
-  ]);
+  const [period, setPeriod] = useState<string[]>(["2023-12-01", "2024-01-31"]);
   // 지도 정보 상태
   const [searchInfo, setSearchInfo] = useState<MapInfoType>({
     place_name: null,
@@ -51,26 +48,30 @@ const Home = () => {
   //상품 검색에 필요한 정보(searchInfo)를 변경하고, 사용자의 검색 의도에 따라 조건적으로 지도를 움직이는 함수
   const handleSearch = () => {
     if (!map || !searchRef.current) return;
-  
+
     // 검색어 입력값이 없는 경우, 날짜 필터만 적용해서 상품 검색
-    if (searchRef.current.value === '') {
+    if (searchRef.current.value === "") {
       setSearchInfo({
         ...searchInfo,
         period: period,
         place_name: null,
-      })
-    return}
-  
+      });
+      return;
+    }
+
     //검색어 입력값이 있는 경우, 지도를 이동한 후 상품 검색
     const ps = new kakao.maps.services.Places(map);
     ps.keywordSearch(`${searchRef.current.value}`, placeSearchCB);
 
-    function placeSearchCB(result: kakao.maps.services.PlacesSearchResult, status: kakao.maps.services.Status) {
+    function placeSearchCB(
+      result: kakao.maps.services.PlacesSearchResult,
+      status: kakao.maps.services.Status
+    ) {
       if (!map) return;
       if (status === kakao.maps.services.Status.OK) {
         const data = result[0]; // 가장 유사한 상위검색객체 저장
         //지도의 중심 좌표 이동
-        map.setCenter(new kakao.maps.LatLng(Number(data.y), Number(data.x)))
+        map.setCenter(new kakao.maps.LatLng(Number(data.y), Number(data.x)));
 
         //지정한 영역이 가장 잘 보이는 최적의 지도 중심 좌표와 레벨이 지정
         // const bound = new kakao.maps.LatLngBounds(); // 지도 영역생성 -> 사각형
@@ -92,7 +93,8 @@ const Home = () => {
   };
 
   // 현재 위치 불러오는 함수 -> 한번 불러온 위치 캐시메모리에 저장(useCallback)
-  const handleFetchNowLocation = useCallback(() => {
+  const handleFetchNowLocation = () => {
+    if (!map) return;
     if (navigator.geolocation) {
       // geo서비스를 사용해서 접속 위치 추출
       navigator.geolocation.getCurrentPosition(
@@ -105,8 +107,16 @@ const Home = () => {
             },
             isLoading: false,
           }));
+
+          map.setCenter(
+            new kakao.maps.LatLng(
+              Number(position.coords.latitude),
+              Number(position.coords.longitude)
+            )
+          );
           setSearchInfo((prev) => ({
             ...prev,
+            place_name: null,
             centerLatLng: {
               lat: position.coords.latitude,
               lng: position.coords.longitude,
@@ -130,7 +140,7 @@ const Home = () => {
         isLoading: false,
       }));
     }
-  }, []);
+  };
 
   //searchInput이 받는 props 를 여기에 정의해주세요
   const searchInputElement = (
@@ -138,7 +148,7 @@ const Home = () => {
       ref={searchRef}
       handleSearch={handleSearch}
       searchInfo={searchInfo}
-      setPeriod = {setPeriod}
+      setPeriod={setPeriod}
     />
   );
 
@@ -177,6 +187,7 @@ const Home = () => {
           width: isMobile ? "80%" : "auto",
           height: isMobile ? "300px" : "auto",
           margin: isMobile ? "0 auto" : "0",
+          paddingTop: isMobile ? "77px" : "0",
         }}
       >
         <MainKakaoMap
