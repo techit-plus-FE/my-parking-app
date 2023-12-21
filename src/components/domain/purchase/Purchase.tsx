@@ -45,8 +45,8 @@ const Purchase = () => {
 
   // 오늘 날짜 받아오는 함수
   const nowDate = () => {
-    const year = new Date().getFullYear() + 1;
-    const month = new Date().getMonth();
+    const year = new Date().getFullYear();
+    const month = new Date().getMonth() + 1;
     const day = new Date().getDate();
     return `${year}.${month}.${day}`;
   };
@@ -92,7 +92,6 @@ const Purchase = () => {
       <OrderCard
         title={productDetailData.name}
         image={BASE_URL + productDetailData.mainImages[0].url}
-        // buyDate={todayDate.dateString}
         totalPrice={productDetailData.price}
         isVisible={false}
         startDate={productDetailData.extra.startDate}

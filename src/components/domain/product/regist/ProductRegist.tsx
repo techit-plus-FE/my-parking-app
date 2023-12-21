@@ -11,6 +11,8 @@ const ProductRegist = () => {
   //로그인 한 user의 name
   const userBasicInfo = useBoundStore((state) => state.userBasicInfo);
 
+  console.log(userBasicInfo.name);
+
   const initialProduct: ProductItemType = {
     name: "",
     content: "",
