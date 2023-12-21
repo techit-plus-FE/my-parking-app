@@ -5,6 +5,7 @@ import React from "react";
 import DEFAULTIMAGE from '../../../assets/images/default-avatar.png'
 import { UserExtraInfo } from "../../../types/classImplementations";
 import classes from "./Mypage.module.css";
+import usericon from "../../../assets/images/user-default-profile.png";
 
 interface MyProfileEditFormProps {
   myInfo: UserDetailInfoType
@@ -37,7 +38,7 @@ const MyProfileEditForm: React.FC<MyProfileEditFormProps>  = ({
   <Box className={classes.myProfileEditContainer}>
       <div>
         {/*프로필 이미지 표시*/}
-        <img src={`${myInfo.extra?.profileImage}`}/>
+        <img src={`${myInfo.extra?.profileImage ? myInfo.extra?.profileImage : DEFAULTIMAGE}`}/>
         <Button onClick ={()=>setModalIsOpen(!modalIsOpen)}>프로필사진 변경</Button>
         <Dialog
         open={modalIsOpen}
