@@ -31,7 +31,11 @@ const OrderHistoryList: React.FC = () => {
       updatedAt: productItems.updatedAt,
       _id: productItems._id,
       products: productItems.products,
-      buyDate: productItems.extra.buyDate,
+      // 기존 data는 buyDate 가 없기 때문에 없다면 null 을 부여합니다.
+      buyDate:
+        productItems.extra && productItems.extra.buyDate
+          ? productItems.extra.buyDate
+          : null,
     };
 
     // 상품 디테일 페이지로 이동하기
@@ -53,24 +57,28 @@ const OrderHistoryList: React.FC = () => {
           </ul>
         </div>
       )}
-      {getOrderHistoryData?.map((item) => {
-        return (
-          <div key={item._id}>
-            <OrderCard
-              orderItems={item.products.length}
-              title={item.products[0].name}
-              image={
-                item.products[0].image?.url &&
-                BASE_URL + item.products[0].image?.url
-              }
-              buyDate={item.extra?.buyDate}
-              onClick={() => handleNavigate(item._id, item)}
-              totalPrice={item.cost.total}
-              productPrice={item.products[0].price}
-            />
-          </div>
-        );
-      })}
+      {getOrderHistoryData.length !== 0 ? (
+        getOrderHistoryData?.map((item) => {
+          return (
+            <div key={item._id}>
+              <OrderCard
+                orderItems={item.products.length}
+                title={item.products[0].name}
+                image={
+                  item.products[0].image?.url &&
+                  BASE_URL + item.products[0].image?.url
+                }
+                buyDate={item.extra?.buyDate}
+                onClick={() => handleNavigate(item._id, item)}
+                totalPrice={item.cost.total}
+                productPrice={item.products[0].price}
+              />
+            </div>
+          );
+        })
+      ) : (
+        <p className={classes.text}>구매한 상품이 없습니다</p>
+      )}
     </>
   );
 };

@@ -29,18 +29,13 @@ const OrderHistoryDetailList = () => {
               productPrice={item.price}
               buyDate={productItems.buyDate}
               isVisible={true}
-              btnText="후기"
-            />
-
-            {/* <button
+              btnText="후기쓰기"
               onClick={() =>
+                // 후기 쓰는 페이지로 이동합니다.
                 // productId  /   orderId 순서 입니다.
                 navigate(`/reply/${item._id}/${productItems._id}`)
               }
-              // onClick={handleReviewSubmit}
-            >
-              후기등록하기
-            </button> */}
+            />
           </div>
         );
       })}

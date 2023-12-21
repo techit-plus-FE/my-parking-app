@@ -3,6 +3,8 @@ import React, { SyntheticEvent } from "react";
 import Box from "@mui/material/Box";
 import Rating from "@mui/material/Rating";
 import Typography from "@mui/material/Typography";
+import classes from "./ReviewRegistForm.module.css";
+import { CommonButtonLarge } from "../../UI/CommonButton";
 
 interface ReviewRegistForm {
   value: string;
@@ -23,21 +25,34 @@ const ReviewRegistForm: React.FC<ReviewRegistForm> = ({
   ratingValue,
 }) => {
   return (
-    <>
-      <form onSubmit={onSubmit}>
-        <input type="text" value={value} onChange={onChange} required />
-        <button>후기 등록하기 </button>
-        <InputLabel id="demo-simple-select-label"></InputLabel>
-        <Box
-          sx={{
-            "& > legend": { mt: 2 },
-          }}
-        >
-          <Typography component="legend">별점을 선택해주세요</Typography>
-          <Rating name="basic" value={ratingValue} onChange={handleDrag} />
-        </Box>
-      </form>
-    </>
+    <div className={classes.reviewRegistFormContainer}>
+      <h2>리뷰작성</h2>
+      <div className={classes.formWrapper}>
+        <form onSubmit={onSubmit}>
+          <input type="text" value={value} onChange={onChange} required />
+          <InputLabel id="demo-simple-select-label"></InputLabel>
+          <Box
+            sx={{
+              "& > legend": { mt: 2 },
+              padding: "50px",
+            }}
+          >
+            <Typography component="legend">별점을 선택해주세요</Typography>
+            <Rating
+              name="basic"
+              value={ratingValue}
+              onChange={handleDrag}
+              sx={{
+                "& .MuiSvgIcon-root": {
+                  fontSize: "2rem", // 아이콘 크기 조절
+                },
+              }}
+            />
+          </Box>
+          <CommonButtonLarge text="후기 등록하기" />
+        </form>
+      </div>
+    </div>
   );
 };
 

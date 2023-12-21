@@ -2,6 +2,7 @@ import React, { FormEvent, SyntheticEvent, useEffect, useState } from "react";
 import useCustomAxios from "../../../services/useCustomAxios";
 import ReviewRegistForm from "./ReviewRegistForm";
 import { useNavigate, useParams } from "react-router-dom";
+import classes from "./ReviewRegist.module.css";
 
 const ReviewRegist: React.FC = () => {
   const navigate = useNavigate();
@@ -36,7 +37,7 @@ const ReviewRegist: React.FC = () => {
 
       const response = await axiosInstance.post("/replies", body);
       if (response.data.ok === 1) {
-        navigate(-1);
+        navigate("/reply/replies");
       }
     }
   };
@@ -48,7 +49,7 @@ const ReviewRegist: React.FC = () => {
   };
 
   return (
-    <>
+    <div className={classes.reviewRegistContainer}>
       <ReviewRegistForm
         value={repliesInput}
         onChange={(e) => setRepliesInput(e.target.value)}
@@ -56,7 +57,7 @@ const ReviewRegist: React.FC = () => {
         handleDrag={handleDrag}
         ratingValue={rating}
       />
-    </>
+    </div>
   );
 };
 export default ReviewRegist;

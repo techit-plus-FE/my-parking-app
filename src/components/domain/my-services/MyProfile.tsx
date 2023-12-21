@@ -16,7 +16,7 @@ const MyProfile = () => {
   const fetchAndSetMyInfo = async () => {
     Store.setMyInfo(await Store.getMyInfo(id, Store.userToken.accessToken));
   };
-  const fontSize = "1.2rem"
+  const fontSize = "1.2rem";
   useEffect(() => {
     Store.isLoggedIn
       ? fetchAndSetMyInfo()
@@ -76,42 +76,42 @@ const MyProfile = () => {
           }}
         >
           <div>
-              <h3>내정보</h3>
-              <MuiButton
-                text = {"프로필 수정하기"}
-                fontSize = {fontSize}
-                onClick={() => {
-                  navigate(`/mypage/${myInfo._id}/edit`);
-                }}
-              />
+            <h3>내정보</h3>
+            <MuiButton
+              text={"프로필 수정하기"}
+              fontSize={fontSize}
+              onClick={() => {
+                navigate(`/mypage/${myInfo._id}/edit`);
+              }}
+            />
           </div>
           {/* 버튼들 */}
           {myInfo.type === "seller" ? (
             <>
+              <MuiButton text={"내상품 목록"} fontSize={fontSize} />
               <MuiButton
-                text = {"내상품 목록"}
-                fontSize = {fontSize}
-              />
-              <MuiButton
-                text = {"내 주차장 등록하기"}
-                fontSize = {fontSize}
-                onClick = {()=>{
-                  navigate(`/products/regist`)
+                text={"내 주차장 등록하기"}
+                fontSize={fontSize}
+                onClick={() => {
+                  navigate(`/products/regist`);
                 }}
               />
             </>
           ) : (
             <>
               <MuiButton
-              text = {"주문 목록"}
-              fontSize = {fontSize}
-              onClick={() => {
-                navigate(`/order-history`);
-              }}
+                text={"주문 목록"}
+                fontSize={fontSize}
+                onClick={() => {
+                  navigate(`/order-history`);
+                }}
               />
               <MuiButton
-              text = {"리뷰 관리"}
-              fontSize = {fontSize}
+                text={"리뷰 관리"}
+                fontSize={fontSize}
+                onClick={() => {
+                  navigate(`/reply/replies`);
+                }}
               />
             </>
           )}

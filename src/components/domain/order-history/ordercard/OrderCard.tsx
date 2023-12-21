@@ -69,7 +69,11 @@ const OrderCard: React.FC<OrderCardProps> = ({
           }}
         >
           <div className={classes.orderDate}>
-            <span>주문날짜</span> {buyDate}
+            {buyDate && (
+              <div>
+                <span>주문날짜</span> {buyDate}
+              </div>
+            )}
           </div>
           <CardMedia
             component="img"
