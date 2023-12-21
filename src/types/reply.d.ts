@@ -13,7 +13,9 @@ interface RepliesGetType {
 
 interface RepliesGetItemType {
   _id: number;
-  image: string;
+  image: {
+    url: string;
+  };
   name: string;
   price: number;
   replies: RepliesItem[];
