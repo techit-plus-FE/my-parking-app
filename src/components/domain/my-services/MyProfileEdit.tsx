@@ -17,6 +17,8 @@ const MyProfileEdit = () => {
   const [userInputRef, setUserInputRef] = useState<{ [key in keyof UserBasicInfoType]: React.MutableRefObject<HTMLInputElement|null> }>({} as { [key in keyof UserBasicInfoType]: React.MutableRefObject<HTMLInputElement|null> })
   const [userExtraInputRef, setUserExtraInputRef] = useState<{ [key in keyof Required<ExtraType>]: React.MutableRefObject<HTMLInputElement|null> }>({} as { [key in keyof Required<ExtraType>]: React.MutableRefObject<HTMLInputElement|null> })
   const [isLoading, setIsLoading] = useState(false);
+  const [isToastOpen, setIsToastOpen] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
 
   const fetchAndSetMyInfo = async () => {
     const myInfo = await Store.getMyInfo(id, Store.userToken.accessToken);
@@ -73,6 +75,10 @@ const MyProfileEdit = () => {
     Store.setMyInfo({...myInfo, ...updatedInfo})
     closeModal()
     setIsLoading(false)
+    if (profileImageURL.length !== 0) {
+      setIsToastOpen(true)
+      setToastMessage("업로드가 완료되었습니다.")
+    }
   }
 
 
@@ -133,6 +139,9 @@ const MyProfileEdit = () => {
       handleSubmit = {handleSubmit}
       isLoading ={isLoading}
       setIsLoading = {setIsLoading}
+      isToastOpen = {isToastOpen}
+      setIsToastOpen = {setIsToastOpen}
+      toastMessage = {toastMessage}
      />
      </>
   )

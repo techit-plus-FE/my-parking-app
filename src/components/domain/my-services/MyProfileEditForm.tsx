@@ -6,6 +6,7 @@ import DEFAULTIMAGE from '../../../assets/images/default-avatar.png'
 import { UserExtraInfo } from "../../../types/classImplementations";
 import classes from "./Mypage.module.css";
 import Loading from "../../common/Loading";
+import { Toast } from "../../UI/Toast";
 
 interface MyProfileEditFormProps {
   myInfo: UserDetailInfoType
@@ -21,6 +22,9 @@ interface MyProfileEditFormProps {
   handleSubmit: () => Promise<void>
   isLoading: boolean;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>
+  isToastOpen: boolean
+  setIsToastOpen: React.Dispatch<React.SetStateAction<boolean>>
+  toastMessage : string
 }
 
 const MyProfileEditForm: React.FC<MyProfileEditFormProps>  = ({
@@ -37,6 +41,9 @@ const MyProfileEditForm: React.FC<MyProfileEditFormProps>  = ({
   handleSubmit,
   isLoading,
   setIsLoading,
+  isToastOpen,
+  setIsToastOpen,
+  toastMessage
 }) => {
   return(
     <>
@@ -112,6 +119,11 @@ const MyProfileEditForm: React.FC<MyProfileEditFormProps>  = ({
           })}
           <Button onClick={handleSubmit}>수정 완료</Button>
       </Box>)}
+      <Toast
+        isToastOpen = {isToastOpen}
+        setIsToastOpen={setIsToastOpen}
+        alertText = {toastMessage}
+      />
     </>)
   };
 
