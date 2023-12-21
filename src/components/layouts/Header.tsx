@@ -8,6 +8,7 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { useBoundStore } from "../../store";
 import { useNavigate } from "react-router-dom";
+import Toggle from "./Toggle";
 
 const Header = () => {
   const isDark = useBoundStore((state) => state.isDark);
@@ -83,14 +84,12 @@ const Header = () => {
         }}
       >
         <MenuItem onClick={() => handleMenuOptionClick("option1")}>
-          메뉴 항목 1
+          <Toggle />
         </MenuItem>
         <MenuItem onClick={() => handleMenuOptionClick("option2")}>
           메뉴 항목 2
         </MenuItem>
-        <MenuItem onClick={() => handleMenuOptionClick("option3")}>
-          다크모드
-        </MenuItem>
+        <MenuItem onClick={() => handleMenuOptionClick("option3")}></MenuItem>
       </Menu>
     </Box>
   );

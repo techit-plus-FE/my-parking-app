@@ -75,8 +75,8 @@ const MainKakaoMap = ({
     <div className={classes.container}>
       <Map
         center={{
-          lat: searchInfo.centerLatLng.lat,
-          lng: searchInfo.centerLatLng.lng,
+          lat: 37.5070100333146,
+          lng: 127.055618149788,
         }}
         style={{ height: "100vh" }}
         level={level}
@@ -89,7 +89,29 @@ const MainKakaoMap = ({
           setLevel(map.getLevel());
         }}
         onDragEnd={() => searchProducts()}
+        maxLevel={6}
       >
+      {searchInfo.place_name && <MapMarker
+        position={{
+          lat: Number(searchInfo.centerLatLng.lat),
+          lng: Number(searchInfo.centerLatLng.lng),
+        }}
+      >
+        <div
+          style={{
+            padding: "5px 0 10px 18px",
+            color: "#000",
+            textAlign: "center",
+          }}
+        >
+          <p
+            style={{ fontWeight: "700", color: "var(--color-primary-800)" }}
+          >
+          {searchInfo.place_name}
+          </p>
+        </div>
+      </MapMarker>}
+          
         {/* 1. 상품들 데이터리스트를 맵핑해서 해당 위치값을 마커로 보여주기 */}
         {markers &&
           markers?.map((el, idx) => (

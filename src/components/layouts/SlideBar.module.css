@@ -2,13 +2,13 @@
   /* display: flex;
   flex-direction: column; */
   padding: 0 50px;
+  margin-top: 150px;
 }
 
 .logoWrapper {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 120px 0 80px;
 }
 
 .logoWrapper p {
@@ -19,8 +19,15 @@
   color: var(--color-primary-600);
 }
 
+.logoImgWrapper {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
 .imgWrapper {
+  display: flex;
   width: 80px;
+  padding-top: 20px;
 }
 .imgWrapper img {
   width: 100%;

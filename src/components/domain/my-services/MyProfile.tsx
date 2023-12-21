@@ -110,7 +110,15 @@ const MyProfile = () => {
                   navigate(`/order-history`);
                 }}
               />
-              <MuiButton text={"리뷰 관리"} fontSize={fontSize} />
+              <MuiButton
+                text={"리뷰 관리"}
+                fontSize={fontSize}
+                onClick={() => {
+                  navigate(`/reply/replies`);
+                }}
+
+              />
+
             </>
           )}
         </Box>

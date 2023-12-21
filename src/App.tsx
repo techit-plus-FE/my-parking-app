@@ -25,6 +25,8 @@ import Theme from "./components/UI/Theme";
 import ReplyPage from "./pages/reply/ReplyPage";
 import SellerRepliesPage from "./pages/reply/SellerRepliesPage";
 import MyProductPage from "./pages/my-services/MyProductPage";
+import MyReplyPage from "./pages/reply/MyReplyPage";
+
 
 // 라우터 설정
 
@@ -176,6 +178,11 @@ const router = createBrowserRouter([
         id: "reply",
         path: "/reply",
         children: [
+          // 내가 쓴 리뷰 보기
+          {
+            path: "replies",
+            element: <MyReplyPage />,
+          },
           {
             // 리뷰 쓰는 page
             path: ":productId/:orderId",
