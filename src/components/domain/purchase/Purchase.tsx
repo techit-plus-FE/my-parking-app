@@ -3,19 +3,19 @@ import PurchaseForm from "./PurchaseForm";
 import OrderCard from "../order-history/ordercard/OrderCard";
 import { useBoundStore } from "../../../store";
 import useCustomAxios from "../../../services/useCustomAxios";
-import OrderTitleBox from "../order-history/ordercard/OrderTitleBox";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../../../services/BaseUrl";
+import classes from "./purchase.module.css";
+import MediaQuery from "../../UI/MediaQuery";
 
 const Purchase = () => {
   const navigate = useNavigate();
+  const isMobile = MediaQuery();
   const productDetailData = useBoundStore((state) => state.productDetailData);
+
   const axiosInstance = useCustomAxios();
   const userBasicInfo = useBoundStore((state) => state.userBasicInfo);
   const [checked, setChecked] = useState({ name: "", value: false });
-  const [todayDate, setTodayDate] = useState({
-    dateString: "",
-    timeString: "",
-  });
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -43,21 +43,15 @@ const Purchase = () => {
     }));
   };
 
-  // 오늘 날짜 받아오는 로직
-  const getDateNow = () => {
-    const today = new Date();
-    const dateString = today.toLocaleDateString("ko-KR");
-    const timeString = today.toLocaleTimeString("ko-KR");
-    const todayDate = {
-      dateString: dateString,
-      timeString: timeString,
-    };
-
-    return todayDate;
+  // 오늘 날짜 받아오는 함수
+  const nowDate = () => {
+    const year = new Date().getFullYear();
+    const month = new Date().getMonth() + 1;
+    const day = new Date().getDate();
+    return `${year}.${month}.${day}`;
   };
 
   const postData = async () => {
-    console.log(productDetailData);
     const body = {
       products: [
         {
@@ -69,9 +63,10 @@ const Purchase = () => {
         name: userBasicInfo.address,
         value: productDetailData.name,
       },
+      extra: {
+        buyDate: nowDate(),
+      },
     };
-
-    console.log(body);
 
     try {
       await axiosInstance.post("/orders", body);
@@ -82,22 +77,21 @@ const Purchase = () => {
     }
   };
 
-  useEffect(() => {
-    setTodayDate(getDateNow());
-  }, []);
-
   return (
     <>
-      <OrderTitleBox
-        pageTitle="결제하기"
-        option1="상품정보"
-        option2="대여기간"
-        option4="총 금액"
-      />
+      {isMobile || (
+        <div className={classes.purchaseContainer}>
+          <ul>
+            <li>상품정보</li>
+            <li>대여기간</li>
+            <li>결제금액</li>
+          </ul>
+        </div>
+      )}
+
       <OrderCard
         title={productDetailData.name}
-        image={productDetailData.mainImages[0]}
-        buyDate={todayDate.dateString}
+        image={BASE_URL + productDetailData.mainImages[0].url}
         totalPrice={productDetailData.price}
         isVisible={false}
         startDate={productDetailData.extra.startDate}
