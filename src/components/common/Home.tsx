@@ -152,8 +152,8 @@ const Home = () => {
             flex: "0.5",
             backgroundColor: theme.palette.background.default,
             position: "relative",
-            flexBasis: "120px",
           }}
+          minWidth="360px"
         >
           <SlideBar children={searchInputElement} />
         </Box>
@@ -163,7 +163,7 @@ const Home = () => {
 
       <Box
         sx={{
-          flex: "1",
+          flex: "2",
           width: isMobile ? "80%" : "auto",
           height: isMobile ? "300px" : "auto",
           margin: isMobile ? "0 auto" : "0",
