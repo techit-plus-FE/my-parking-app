@@ -3,7 +3,6 @@
   background-color: #767676;
   border-radius: 10px;
   display: flex;
-
 }
 
 .imgWrapper {
@@ -16,4 +15,29 @@
 
 img {
   width: 100%;
+}
+
+.orderHistoryListContainer {
+  padding: 10px;
+  background-color: var(--color-primary-600);
+}
+
+.orderHistoryListContainer ul {
+  display: flex;
+}
+
+.orderHistoryListContainer ul li {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--color-badge);
+  flex: 1;
+  text-align: center;
+}
+
+.text {
+  margin: 100px auto;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-primary-400);
 }

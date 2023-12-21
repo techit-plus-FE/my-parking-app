@@ -6,6 +6,7 @@ import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import { useTheme } from "@mui/material";
+import classes from "./Login.module.css";
 
 interface LoginFormProps {
   handleInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -32,7 +33,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
         alignItems: "center",
       }}
     >
-      <h2>로그인</h2>
+      <h2 className={classes.title}>로그인</h2>
       <form onSubmit={handleSubmit}>
         <Box
           sx={{

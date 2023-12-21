@@ -21,6 +21,7 @@ interface OrderCardProps {
   sellerId?: string; //구매자 아이디
   productPrice?: number; // 상품 개당가격
   flexDirection?: string;
+  btnText?: string;
 }
 
 const OrderCard: React.FC<OrderCardProps> = ({
@@ -35,6 +36,7 @@ const OrderCard: React.FC<OrderCardProps> = ({
   totalPrice,
   isVisible = true,
   flexDirection,
+  btnText,
   // sellerId,
 }) => {
   const isDark = useBoundStore((state) => state.isDark);
@@ -67,7 +69,11 @@ const OrderCard: React.FC<OrderCardProps> = ({
           }}
         >
           <div className={classes.orderDate}>
-            <span>주문날짜</span> {buyDate}
+            {buyDate && (
+              <div>
+                <span>주문날짜</span> {buyDate}
+              </div>
+            )}
           </div>
           <CardMedia
             component="img"
@@ -83,16 +89,19 @@ const OrderCard: React.FC<OrderCardProps> = ({
         <Box
           sx={{
             textAlign: "center",
-            display: isMobile ? undefined : "flex",
+            display: "flex",
             alignItems: "center",
             fontSize: isMobile ? "0.7rem" : undefined,
             width: "100%",
             justifyContent: "space-around",
             flex: 3,
+            flexDirection: isMobile ? "column" : "row",
+            gap: isMobile ? "10px" : null,
           }}
         >
           {orderItems ? (
             <Typography
+              className={classes.orderCardTitle}
               variant={isMobile ? "body2" : "body1"}
               sx={{ fontWeight: "bold", fontSize: "1.2rem" }}
             >
@@ -107,7 +116,6 @@ const OrderCard: React.FC<OrderCardProps> = ({
               {title}
             </Typography>
           )}
-
           {startDate && (
             <Box>
               <div>{startDate}</div>~<div>{endDate}</div>
@@ -122,7 +130,7 @@ const OrderCard: React.FC<OrderCardProps> = ({
           )}
           {isVisible && (
             <CommonButton
-              text="상세보기"
+              text={btnText ? btnText : "상세보기"}
               onClick={onClick}
               isVisible={isVisible}
             />

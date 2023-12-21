@@ -2,10 +2,9 @@ import axios from "axios";
 import { StateCreator } from "zustand";
 import { BASE_URL } from "../services/BaseUrl";
 
-
 const requestItemsInThisBoundAndPeriod: (
   bound: kakao.maps.LatLngBounds,
-  period?: string[]|undefined,
+  period?: string[] | undefined
 ) => Promise<ProductListType> = async (bound, period?) => {
   const sw: kakao.maps.LatLng = bound.getSouthWest();
   const ne: kakao.maps.LatLng = bound.getNorthEast();
@@ -15,10 +14,10 @@ const requestItemsInThisBoundAndPeriod: (
   //Lat의 범위 : sw[0] <= lat <= ne[0]
   //lng의 범위 : sw[1] <= lng <= ne[1]
   // `{"extra.startDate": {"$gte": ${period[0]}}, "extra.endDate": {"$lte": ${period[1]}}}`
-  const query = (period!==undefined ? 
-  `${BASE_URL}/products?custom={"extra.lat" : {"$gte": ${min_lat}, "$lte": ${max_lat}}, "extra.lng" : {"$gte": ${min_lng}, "$lte": ${max_lng}}, "extra.startDate" : {"$gte": "${period[0]}"}, "extra.endDate" : {"$lte": "${period[1]}"}}` : 
-  `${BASE_URL}/products?custom={"extra.lat" : {"$gte": ${min_lat}, "$lte": ${max_lat}}, "extra.lng" : {"$gte": ${min_lng}, "$lte": ${max_lng}}}`)
-
+  const query =
+    period !== undefined
+      ? `${BASE_URL}/products?custom={"extra.lat" : {"$gte": ${min_lat}, "$lte": ${max_lat}}, "extra.lng" : {"$gte": ${min_lng}, "$lte": ${max_lng}}, "extra.startDate" : {"$gte": "${period[0]}"}, "extra.endDate" : {"$lte": "${period[1]}"}}`
+      : `${BASE_URL}/products?custom={"extra.lat" : {"$gte": ${min_lat}, "$lte": ${max_lat}}, "extra.lng" : {"$gte": ${min_lng}, "$lte": ${max_lng}}}`;
 
   try {
     const response = await axios.get<string, { data: ProductListResType }>(
@@ -45,5 +44,5 @@ export const createSearchSlice: StateCreator<SearchSlice, []> = () => ({
   },
   searchItemsInThisBoundAndPeriod: (bound, period?) => {
     return requestItemsInThisBoundAndPeriod(bound, period);
-  }
+  },
 });

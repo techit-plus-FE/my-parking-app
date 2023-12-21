@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import ReviewCard from "./ReviewCard";
 import useCustomAxios from "../../../services/useCustomAxios";
 import { useParams } from "react-router-dom";
+import { BASE_URL } from "../../../services/BaseUrl";
 
 const SellerRepliesList: React.FC = () => {
   const { sellerId } = useParams();
@@ -26,11 +27,12 @@ const SellerRepliesList: React.FC = () => {
         return (
           <div key={item._id}>
             <ReviewCard
-              src={item.image}
+              src={BASE_URL + item.image.url}
               title={item.name}
               price={item.price}
               // 하나의 상품에 여러 리뷰가 올 수 없기 때문에 첫번쨰 리뷰만 보여집니다
               content={item.replies[0].content}
+              ratingValue={item.replies[0].rating}
             />
           </div>
         );
