@@ -88,7 +88,11 @@ const MyProfile = () => {
           {/* 버튼들 */}
           {myInfo.type === "seller" ? (
             <>
-              <MuiButton text={"내상품 목록"} fontSize={fontSize} />
+              <MuiButton
+                text={"내상품 목록"}
+                fontSize={fontSize}
+                onClick={() => navigate(`/mypage/${myInfo._id}/mylist`)}
+              />
               <MuiButton
                 text={"내 주차장 등록하기"}
                 fontSize={fontSize}
@@ -112,7 +116,9 @@ const MyProfile = () => {
                 onClick={() => {
                   navigate(`/reply/replies`);
                 }}
+
               />
+
             </>
           )}
         </Box>

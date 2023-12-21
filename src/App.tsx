@@ -21,11 +21,12 @@ import OrderHistoryDetailPage from "./pages/order-hisotry/OrderHistoryDetailPage
 import PurchasePage from "./pages/purchase/PurchaseFormPage";
 import PurchaseResultPage from "./pages/purchase/PurchaseResultPage";
 import SearchPage from "./pages/SearchPage";
-
 import Theme from "./components/UI/Theme";
 import ReplyPage from "./pages/reply/ReplyPage";
 import SellerRepliesPage from "./pages/reply/SellerRepliesPage";
+import MyProductPage from "./pages/my-services/MyProductPage";
 import MyReplyPage from "./pages/reply/MyReplyPage";
+
 
 // 라우터 설정
 
@@ -109,6 +110,10 @@ const router = createBrowserRouter([
           {
             path: ":userId/edit",
             element: <MyPageEditPage />,
+          },
+          {
+            path: ":userId/mylist",
+            element: <MyProductPage />,
           },
         ],
       },

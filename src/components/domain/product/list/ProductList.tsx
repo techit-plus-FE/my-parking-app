@@ -63,8 +63,8 @@ const ProductList = ({ products, isMobile }: Props) => {
               // 오늘시간과 시작시간 절댓값 차이를 비교
               const diffA = Math.abs(today.getTime() - startDateA.getTime());
               const diffB = Math.abs(today.getTime() - startDateB.getTime());
-              console.log("diffA : " + diffA);
-              console.log("diffB : " + diffB);
+              // console.log("diffA : " + diffA);
+              // console.log("diffB : " + diffB);
 
               return diffA - diffB;
             })
@@ -76,8 +76,8 @@ const ProductList = ({ products, isMobile }: Props) => {
           setFilteredProducts(
             [...products].sort(
               (a, b) =>
-                new Date(a.createdAt as string).getTime() -
-                new Date(b.createdAt as string).getTime()
+                new Date(b.createdAt as string).getTime() -
+                new Date(a.createdAt as string).getTime()
             )
           );
           break;
