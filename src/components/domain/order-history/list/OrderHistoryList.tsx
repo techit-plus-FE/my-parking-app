@@ -57,24 +57,28 @@ const OrderHistoryList: React.FC = () => {
           </ul>
         </div>
       )}
-      {getOrderHistoryData?.map((item) => {
-        return (
-          <div key={item._id}>
-            <OrderCard
-              orderItems={item.products.length}
-              title={item.products[0].name}
-              image={
-                item.products[0].image?.url &&
-                BASE_URL + item.products[0].image?.url
-              }
-              buyDate={item.extra?.buyDate}
-              onClick={() => handleNavigate(item._id, item)}
-              totalPrice={item.cost.total}
-              productPrice={item.products[0].price}
-            />
-          </div>
-        );
-      })}
+      {getOrderHistoryData.length !== 0 ? (
+        getOrderHistoryData?.map((item) => {
+          return (
+            <div key={item._id}>
+              <OrderCard
+                orderItems={item.products.length}
+                title={item.products[0].name}
+                image={
+                  item.products[0].image?.url &&
+                  BASE_URL + item.products[0].image?.url
+                }
+                buyDate={item.extra?.buyDate}
+                onClick={() => handleNavigate(item._id, item)}
+                totalPrice={item.cost.total}
+                productPrice={item.products[0].price}
+              />
+            </div>
+          );
+        })
+      ) : (
+        <p className={classes.text}>구매한 상품이 없습니다</p>
+      )}
     </>
   );
 };

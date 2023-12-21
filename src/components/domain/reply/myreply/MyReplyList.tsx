@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import useCustomAxios from "../../../../services/useCustomAxios";
 import ReviewCard from "../ReviewCard";
 import { BASE_URL } from "../../../../services/BaseUrl";
+import classes from "./MyPeplyList.module.css";
 
 const MyReplyList: React.FC = () => {
   const axiosInstance = useCustomAxios();
@@ -19,16 +20,19 @@ const MyReplyList: React.FC = () => {
 
   return (
     <>
-      {myReplies.map((item) => {
-        console.log(item);
-        return (
-          <ReviewCard
-            title={item.content}
-            src={BASE_URL + item.product.image?.url}
-            ratingValue={item.rating}
-          />
-        );
-      })}
+      {myReplies.length !== 0 ? (
+        myReplies.map((item) => {
+          return (
+            <ReviewCard
+              title={item.content}
+              src={BASE_URL + item.product.image?.url}
+              ratingValue={item.rating}
+            />
+          );
+        })
+      ) : (
+        <p className={classes.text}>후기 목록이 없습니다</p>
+      )}
     </>
   );
 };
