@@ -24,6 +24,6 @@ interface MapInfoType {
     lat: number;
     lng: number;
   };
-  period: DateRange<Dayjs> | undefined;
+  period: string[]|undefined;
   isPanTo: boolean;
 }

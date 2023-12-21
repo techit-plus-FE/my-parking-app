@@ -2,9 +2,8 @@ import React, { useState, forwardRef } from "react";
 import { Box, Input } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DemoItem } from "@mui/x-date-pickers/internals/demo";
 import { DateRangePicker } from "@mui/x-date-pickers-pro/DateRangePicker";
-import { DateRange, DateRangeValidationError, PickerChangeHandlerContext } from "@mui/x-date-pickers-pro";
+import { DateRange} from "@mui/x-date-pickers-pro";
 import dayjs, { Dayjs } from "dayjs";
 import SearchIcon from "@mui/icons-material/Search";
 
@@ -84,23 +83,6 @@ const SearchInput = forwardRef(function SearchInput(
               }}
             />
         </LocalizationProvider>
-
-        {/* <input
-          type="date"
-          onChange={(e) => {
-            period[0] = e.target.value;
-          }}
-          onKeyDown={onKeyDown}
-          required
-        />
-        <input
-          type="date"
-          onChange={(e) => {
-            period[1] = e.target.value;
-          }}
-          onKeyDown={onKeyDown}
-          required
-        /> */}
       </Box>
       {isMobile ? (
         <button onClick={handleClick} className={classes.searchBtn}>
@@ -110,6 +92,7 @@ const SearchInput = forwardRef(function SearchInput(
         <CommonButton text="검색하기" btnType={true} onClick={handleClick} />
       )}
     </Box>
+    
   );
 });
 
