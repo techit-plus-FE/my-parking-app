@@ -16,6 +16,7 @@ const MyProfileEdit = () => {
   const [imgFileView, setImgFileView]= useState('')
   const [userInputRef, setUserInputRef] = useState<{ [key in keyof UserBasicInfoType]: React.MutableRefObject<HTMLInputElement|null> }>({} as { [key in keyof UserBasicInfoType]: React.MutableRefObject<HTMLInputElement|null> })
   const [userExtraInputRef, setUserExtraInputRef] = useState<{ [key in keyof Required<ExtraType>]: React.MutableRefObject<HTMLInputElement|null> }>({} as { [key in keyof Required<ExtraType>]: React.MutableRefObject<HTMLInputElement|null> })
+  const [isLoading, setIsLoading] = useState(false);
 
   const fetchAndSetMyInfo = async () => {
     const myInfo = await Store.getMyInfo(id, Store.userToken.accessToken);
@@ -65,10 +66,13 @@ const MyProfileEdit = () => {
     if (imageUploadRef.current === null) return
     if (imageUploadRef.current.files === null ) return
     if (imageUploadRef.current.files.length === 0 ) return
+    setIsLoading(true)
     const uploadImage = Store.uploadImage
     const profileImageURL = await uploadImage(imageUploadRef)
     const updatedInfo = await Store.updateMyInfo(id, Store.userToken.accessToken, {extra: {...myInfo.extra, profileImage: profileImageURL[0]}})
     Store.setMyInfo({...myInfo, ...updatedInfo})
+    closeModal()
+    setIsLoading(false)
   }
 
 
@@ -127,6 +131,8 @@ const MyProfileEdit = () => {
       setModalIsOpen ={setModalIsOpen}
       closeModal ={closeModal}
       handleSubmit = {handleSubmit}
+      isLoading ={isLoading}
+      setIsLoading = {setIsLoading}
      />
      </>
   )
