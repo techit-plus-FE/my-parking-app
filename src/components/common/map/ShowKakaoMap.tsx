@@ -11,7 +11,6 @@ type Props = {
 // 등록된 지도의 위치를 마커로 표시해주는 지도 컴포넌트입니다.
 const ShowKakaoMap = ({ product }: Props) => {
   const [_, setMap] = useState<kakao.maps.Map | undefined>();
-  const [level, setLevel] = useState<number | undefined>();
 
   const productLocation = {
     address: product?.extra?.address,
@@ -27,9 +26,9 @@ const ShowKakaoMap = ({ product }: Props) => {
           lng: Number(productLocation.lng),
         }}
         style={{ width: "100%", height: "400px" }}
-        level={level}
+        minLevel={4}
+        maxLevel={4}
         onCreate={(map) => setMap(map)}
-        onZoomChanged={(map) => setLevel(map.getLevel())}
       >
         <MapMarker
           position={{
@@ -37,7 +36,6 @@ const ShowKakaoMap = ({ product }: Props) => {
             lng: Number(productLocation.lng),
           }}
         />
-        <ZoomControl />
       </Map>
     </div>
   );
