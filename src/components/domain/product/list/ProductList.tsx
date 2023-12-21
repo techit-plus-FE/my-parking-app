@@ -12,6 +12,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Toggle from "../../../layouts/Toggle";
 
 type Props = {
   products: ProductListType | undefined;
@@ -105,6 +106,7 @@ const ProductList = ({ products, isMobile }: Props) => {
       {isMobile ? (
         <div className={classes.containerMobile}>
           <div className={classes["product-utils"]}>
+            <Toggle />
             <IconButton size="large" onClick={handleMoveRegist}>
               <AddLocationIcon
                 fontSize="large"
@@ -147,6 +149,7 @@ const ProductList = ({ products, isMobile }: Props) => {
       ) : (
         <div className={classes.container}>
           <div className={classes["product-utils"]}>
+            <Toggle />
             <IconButton size="medium" onClick={handleMoveRegist}>
               <AddLocationIcon
                 fontSize="large"
@@ -178,7 +181,6 @@ const ProductList = ({ products, isMobile }: Props) => {
               </FormControl>
             </Box>
           </div>
-
           <ul className={classes["product-list"]}>
             {filteredProducts && filteredProducts.length > 0 ? (
               filteredProducts.map((product) => {
