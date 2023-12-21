@@ -21,12 +21,14 @@ const requestSignUp: (arg: Person) => Promise<boolean> = async (
       alert("회원가입이 완료되었습니다.");
       return true;
     }
-  } catch (Error: any) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    if (Error.response) {
-      alert(Error.response.data.message);
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      if (error.response) {
+        const errorMessage: string = error.response.data.errors[0]?.msg? error.response.data.errors[0].msg : error.response.data.message
+        alert(errorMessage);
+      }
     }
-    console.error("Error:", Error);
+    console.error("Error:", error);
     return false;
   }
   return false;
@@ -43,12 +45,14 @@ const requestEmailVerification: (arg: string) => void = async (
     if (response.data.ok === 1) {
       alert("이메일 인증이 완료되었습니다.");
     }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (Error: any) {
-    if (Error.response) {
-      alert(Error.response.data.message);
+  } catch (error: unknown) {
+    if (!axios.isAxiosError(error)) return 
+    if (error.response) {
+      const errorMessage: string = error.response.data.errors[0]?.msg? error.response.data.errors[0].msg : error.response.data.message
+      alert(errorMessage);
+      // alert(error.response.data.message);
     }
-    console.error("Error:", Error);
+    console.error("Error:", error);
   }
 };
 
@@ -71,10 +75,11 @@ const requestUserLogin = async (email: string, password: string) => {
     }
     // response 객체 안에 item return
     return response.data.item;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (Error: any) {
-    if (Error.response) {
-      alert(Error.response.data.message);
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) 
+    if (error.response) {
+      const errorMessage: string = error.response.data.errors[0]?.msg? error.response.data.errors[0].msg : error.response.data.message
+      alert(errorMessage);
     }
     console.error("로그인이 실패하였습니다.");
   }
