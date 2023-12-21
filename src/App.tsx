@@ -27,7 +27,6 @@ import SellerRepliesPage from "./pages/reply/SellerRepliesPage";
 import MyProductPage from "./pages/my-services/MyProductPage";
 import MyReplyPage from "./pages/reply/MyReplyPage";
 
-
 // 라우터 설정
 
 const router = createBrowserRouter([
@@ -62,6 +61,7 @@ const router = createBrowserRouter([
       },
     ],
   },
+
   {
     path: "/",
     id: "noLayoutAndNeedLoggedIn",
@@ -142,39 +142,24 @@ const router = createBrowserRouter([
           },
         ],
       },
-
-      // 주문
+    ],
+  },
+  // 헤더만 랜더링 되는 라우터
+  {
+    path: "/",
+    id: "headerOnly",
+    element: (
+      <RootLayout
+        isNeedLoggedIn={false}
+        hasHeader={true}
+        hasFooter={false}
+        hasSearchHeader={false}
+      />
+    ),
+    errorElement: <ErrorPage />,
+    children: [
       {
-        id: "order-history",
-        path: "order-history",
-        children: [
-          {
-            index: true,
-            element: <OrderHistoryPage />,
-          },
-          {
-            path: "/order-history/:orderId",
-            element: <OrderHistoryDetailPage />,
-          },
-        ],
-      },
-      // 구매
-      {
-        id: "purchase",
-        path: "/purchase",
-        children: [
-          {
-            path: "/purchase",
-            element: <PurchasePage />,
-          },
-          {
-            path: "/purchase/result",
-            element: <PurchaseResultPage />,
-          },
-        ],
-      },
-      // 리뷰
-      {
+        // 리뷰
         id: "reply",
         path: "/reply",
         children: [
@@ -192,6 +177,34 @@ const router = createBrowserRouter([
           {
             path: "seller-replies/:sellerId",
             element: <SellerRepliesPage />,
+          },
+        ],
+      }, // 주문
+      {
+        id: "order-history",
+        path: "order-history",
+        children: [
+          {
+            index: true,
+            element: <OrderHistoryPage />,
+          },
+          {
+            path: "/order-history/:orderId",
+            element: <OrderHistoryDetailPage />,
+          },
+        ],
+      }, // 구매
+      {
+        id: "purchase",
+        path: "/purchase",
+        children: [
+          {
+            path: "/purchase",
+            element: <PurchasePage />,
+          },
+          {
+            path: "/purchase/result",
+            element: <PurchaseResultPage />,
           },
         ],
       },
