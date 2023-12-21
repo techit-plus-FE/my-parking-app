@@ -73,6 +73,7 @@ const MainKakaoMap = ({
 
   return (
     <div className={classes.container}>
+      {/* 현재위치버튼을 클릭하지 않았을경우와 클릭했을경우 Map의 center좌표 다르게 */}
       <Map
         center={{
           lat: 37.5070100333146,
@@ -91,28 +92,34 @@ const MainKakaoMap = ({
         onDragEnd={() => searchProducts()}
         maxLevel={6}
       >
-      {searchInfo.place_name && <MapMarker
-        position={{
-          lat: Number(searchInfo.centerLatLng.lat),
-          lng: Number(searchInfo.centerLatLng.lng),
-        }}
-      >
-        <div
-          style={{
-            padding: "5px 0 10px 18px",
-            color: "#000",
-            textAlign: "center",
-          }}
-        >
-          <p
-            style={{ fontWeight: "700", color: "var(--color-primary-800)" }}
+        {/* 검색한 위치 마커 보여주기 */}
+        {searchInfo.place_name && (
+          <MapMarker
+            position={{
+              lat: Number(searchInfo.centerLatLng.lat),
+              lng: Number(searchInfo.centerLatLng.lng),
+            }}
           >
-          {searchInfo.place_name}
-          </p>
-        </div>
-      </MapMarker>}
-          
-        {/* 1. 상품들 데이터리스트를 맵핑해서 해당 위치값을 마커로 보여주기 */}
+            <div
+              style={{
+                padding: "5px 0 10px 18px",
+                color: "#000",
+                textAlign: "center",
+              }}
+            >
+              <p
+                style={{
+                  fontWeight: "700",
+                  color: "var(--color-primary-800)",
+                }}
+              >
+                {searchInfo.place_name}
+              </p>
+            </div>
+          </MapMarker>
+        )}
+
+        {/* 상품들 데이터리스트를 맵핑해서 해당 위치값을 마커로 보여주기 */}
         {markers &&
           markers?.map((el, idx) => (
             <>

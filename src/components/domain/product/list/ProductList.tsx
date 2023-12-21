@@ -45,15 +45,39 @@ const ProductList = ({ products, isMobile }: Props) => {
     }
   };
 
-  // [...products!].map((p) => {
-  //   console.log(typeof new Date(p.createdAt).getTime());
-  // });
-
   const handleFiltering = () => {
     if (products) {
       switch (selectValue) {
         case "latestStartDate":
-          // 오늘 날짜 기준으로 가장 가까운 날짜 대여기간이 있는 리스트부터 정렬
+          // 오늘 날짜 이전의 상품들은 제거후 정렬
+          // const getTodayDate = (): string => {
+          //   const today = new Date();
+          //   const year = today.getFullYear();
+          //   const month = String(today.getMonth() + 1).padStart(2, "0");
+          //   const day = String(today.getDate()).padStart(2, "0");
+
+          //   return `${year}-${month}-${day}`;
+          // };
+
+          // // console.log(products.map((p) => typeof p.extra?.startDate));
+
+          // const sortedAndFilteredProducts = [...products]
+          //   .filter(
+          //     (product) =>
+          //       (product.extra?.startDate as string | undefined) &&
+          //       (product.extra?.startDate as string) >= getTodayDate()
+          //   )
+          //   .sort((a, b) =>
+          //     (a.extra?.startDate as string | undefined) &&
+          //     (b.extra?.startDate as string | undefined) &&
+          //     new Date(a.extra?.startDate) > new Date(b.extra?.startDate)
+          //       ? 1
+          //       : -1
+          //   );
+
+          // console.log(sortedAndFilteredProducts);
+          // setFilteredProducts(sortedAndFilteredProducts);
+
           setFilteredProducts(
             [...products].sort((a, b) => {
               const today = new Date();
@@ -63,8 +87,6 @@ const ProductList = ({ products, isMobile }: Props) => {
               // 오늘시간과 시작시간 절댓값 차이를 비교
               const diffA = Math.abs(today.getTime() - startDateA.getTime());
               const diffB = Math.abs(today.getTime() - startDateB.getTime());
-              // console.log("diffA : " + diffA);
-              // console.log("diffB : " + diffB);
 
               return diffA - diffB;
             })
@@ -128,7 +150,7 @@ const ProductList = ({ products, isMobile }: Props) => {
                   onChange={handleSelectChange}
                 >
                   <MenuItem value="choice">선택</MenuItem>
-                  <MenuItem value="latestStartDate">최신날짜순</MenuItem>
+                  <MenuItem value="latestStartDate">대여날짜순</MenuItem>
                   <MenuItem value="latestCreatedAt">최신등록순</MenuItem>
                   <MenuItem value="lowPrice">저렴한순</MenuItem>
                 </Select>
@@ -142,7 +164,7 @@ const ProductList = ({ products, isMobile }: Props) => {
                 return <ProductItem key={product._id} product={product} />;
               })
             ) : (
-              <p>해당 위치에 등록된 주차장이 없네요😭</p>
+              <p>해당 위치와 날짜에 등록된 주차장이 없어요😭</p>
             )}
           </ul>
         </div>
@@ -174,7 +196,7 @@ const ProductList = ({ products, isMobile }: Props) => {
                   onChange={handleSelectChange}
                 >
                   <MenuItem value="choice">선택</MenuItem>
-                  <MenuItem value="latestStartDate">최신날짜순</MenuItem>
+                  <MenuItem value="latestStartDate">대여날짜순</MenuItem>
                   <MenuItem value="latestCreatedAt">최신등록순</MenuItem>
                   <MenuItem value="lowPrice">저렴한순</MenuItem>
                 </Select>
@@ -187,7 +209,7 @@ const ProductList = ({ products, isMobile }: Props) => {
                 return <ProductItem key={product._id} product={product} />;
               })
             ) : (
-              <p>해당 위치에 등록된 주차장이 없네요😭</p>
+              <p>해당 위치와 날짜에 등록된 주차장이 없어요😭</p>
             )}
           </ul>
         </div>
