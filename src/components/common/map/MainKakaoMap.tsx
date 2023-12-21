@@ -90,7 +90,7 @@ const MainKakaoMap = ({
           setLevel(map.getLevel());
         }}
         onDragEnd={() => searchProducts()}
-        maxLevel={6}
+        maxLevel={7}
       >
         {/* 검색한 위치 마커 보여주기 */}
         {searchInfo.place_name && (
