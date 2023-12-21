@@ -2,10 +2,16 @@ import { useNavigate } from "react-router-dom";
 
 import ProductForm from "./ProductForm";
 import useCustomAxios from "../../../../services/useCustomAxios";
+import { useBoundStore } from "../../../../store/index";
 
 const ProductRegist = () => {
   const navigate = useNavigate();
   const axiosInstance = useCustomAxios();
+
+  //로그인 한 user의 name
+  const userBasicInfo = useBoundStore((state) => state.userBasicInfo);
+
+  console.log(userBasicInfo.name);
 
   const initialProduct: ProductItemType = {
     name: "",
@@ -23,7 +29,7 @@ const ProductRegist = () => {
 
   const handleSubmit = async (
     data: ProductItemType,
-    mainImages: string[] | undefined
+    mainImages: mainImageType[] | undefined
   ) => {
     if (!data.extra) return alert("모든 양식을 채워 주어야 합니다.");
 
@@ -44,6 +50,8 @@ const ProductRegist = () => {
           address: data.extra?.address,
           lat: Number(data.extra?.lat),
           lng: Number(data.extra?.lng),
+          //판매자의 namer값
+          sellerNickname: userBasicInfo.name,
         },
       };
 

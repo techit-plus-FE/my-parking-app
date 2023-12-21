@@ -1,12 +1,12 @@
-import React, { ChangeEvent, ChangeEventHandler, useState } from "react";
-import { Person, UserInputClass } from "../../../types/classImplementations";
+import { ChangeEvent, ChangeEventHandler, useState } from "react";
+import { UserInputClass } from "../../../types/classImplementations";
 import { useBoundStore } from "../../../store/index";
 import { useNavigate } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import { Button, MenuItem } from "@mui/material";
 import { Box } from "@mui/system";
 import classes from "./SignUpForm.module.css";
-import { useTheme } from "@emotion/react";
+import { useTheme } from "@mui/material";
 import { CommonButtonLarge } from "../../UI/CommonButton";
 
 const SignUpForm = () => {
@@ -36,9 +36,8 @@ const SignUpForm = () => {
     userInputs: UserInputClass
   ) => {
     //userInputs에서 passwordCheck를 삭제한 객체 newPerson을 만들어 줍니다.
-    const newPerson: {
-      [key in keyof Person]: Person[key];
-    } = { ...userInputs } satisfies Person;
+    const newPerson: Partial<UserInputClass> = { ...userInputs };
+    delete newPerson["passwordCheck"];
 
     //newPerson을 넣어 회원가입을 진행합니다. 잘 완료되었다면 login 페이지로 이동합니다.
     if ((await AuthSlice.signUp(newPerson)) == true) {
@@ -49,7 +48,8 @@ const SignUpForm = () => {
   const theme = useTheme();
 
   return (
-    <div className={classes.login}>
+    <div className={classes.signUpContainer}>
+      <h2>회원가입</h2>
       <form onSubmit={(e) => e.preventDefault()}>
         <Box>
           <div>

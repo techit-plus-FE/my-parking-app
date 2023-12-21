@@ -1,39 +1,16 @@
 /* 폰트 셋팅 - Google fonts */
-@font-face {
-  /* 사용할 폰트의 이름 */
-  font-family: "NotoSansKR";
-  font-display: fallback;
-
-  /* 
-  src: 사용할 폰트의 위치 및 형식 
-     Safari, Android, iOS => ttf
-     Modern Browsers => woff
-     IE6-IE8 => eot => eot부분에 #iefix을 입력해주는 이유는 IE6~8의 경우 format()구문을 인식하지 못하기 때문에 삽입
-  */
-  src: url("./assets/fonts/NotoSansKR-Black.ttf") format("truetype"),
-    url("./assets/fonts/NotoSansKR-Black.eot?iefix") format("embedded-opentype");
-
-  /* Font Weight
-    100 Thin
-    200 Extra Light
-    300 Light
-    400 Normal
-    500 Medium
-    600 Semi Bold
-    700 Bold
-    800 Extra Bold
-    900 Ultra Bold */
-
-  font-weight: 400;
-  font-style: normal;
-  font-size: 16px;
-  line-height: 1.5;
-}
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: "Nanum Gothic", sans-serif;
+  font-display: fallback;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 16px;
+  line-height: 1.5;
 }
 
 :root {
@@ -92,7 +69,7 @@
   --color-text-hover: #34579c;
   --color-badge: #fff;
 
-  --slide-width: 300px;
+  --slide-width: 500px;
 }
 
 /*다크모드일때 컬러*/

@@ -2,13 +2,17 @@
   padding: 15px;
   display: flex;
   flex-direction: column;
-  width: 300px;
   height: 100vh;
+  width: 400px;
+}
+
+.containerMobile {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .container button {
-  align-self: flex-end;
-  border: none;
   border-radius: 10px;
   background-color: var(--color-primary-600);
   color: var(--color-white);
@@ -19,9 +23,20 @@
 }
 
 .container h2 {
+  text-align: center;
   font-family: inherit;
   font-size: 30px;
   color: var(--color-primary-800);
+}
+
+.product-utils {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  margin: 15px 0;
+  padding: 15px 0;
+  border-bottom: 2px solid var(--color-primary-600);
 }
 
 .product-list {

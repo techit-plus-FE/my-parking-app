@@ -1,16 +1,13 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useBoundStore } from "../../../store";
 import { useNavigate } from "react-router-dom";
-import { CommonButtonMiddle } from "../../UI/CommonButton";
 import Box from "@mui/material/Box";
 import classes from "./Mypage.module.css";
-import { useTheme } from "@emotion/react";
-import { Button } from "@mui/material";
-
+import { MuiButton } from "../../UI/CommonButton";
 import usericon from "../../../assets/images/user-default-profile.png";
+import { useTheme } from "@mui/material/styles";
 
 const MyProfile = () => {
-  const isDark = useBoundStore((state) => state.isDark);
   const theme = useTheme();
   const Store = useBoundStore((state) => state);
   const myInfo: UserDetailInfoType = useBoundStore((state) => state.myInfo);
@@ -19,7 +16,7 @@ const MyProfile = () => {
   const fetchAndSetMyInfo = async () => {
     Store.setMyInfo(await Store.getMyInfo(id, Store.userToken.accessToken));
   };
-
+  const fontSize = "1.2rem"
   useEffect(() => {
     Store.isLoggedIn
       ? fetchAndSetMyInfo()
@@ -79,50 +76,43 @@ const MyProfile = () => {
           }}
         >
           <div>
-            <h3>내정보</h3>
-            <Button
-              onClick={() => {
-                navigate(`/mypage/${myInfo._id}/edit`);
-              }}
-              sx={{
-                color: theme.palette.text.primary,
-                fontSize: "20px",
-              }}
-            >
-              프로필 수정하기
-            </Button>
+              <h3>내정보</h3>
+              <MuiButton
+                text = {"프로필 수정하기"}
+                fontSize = {fontSize}
+                onClick={() => {
+                  navigate(`/mypage/${myInfo._id}/edit`);
+                }}
+              />
           </div>
           {/* 버튼들 */}
           {myInfo.type === "seller" ? (
-            <Button
-              sx={{
-                color: theme.palette.text.primary,
-                fontSize: "1.2rem",
-              }}
-            >
-              내상품 목록
-            </Button>
+            <>
+              <MuiButton
+                text = {"내상품 목록"}
+                fontSize = {fontSize}
+              />
+              <MuiButton
+                text = {"내 주차장 등록하기"}
+                fontSize = {fontSize}
+                onClick = {()=>{
+                  navigate(`/products/regist`)
+                }}
+              />
+            </>
           ) : (
             <>
-              <Button
-                onClick={() => {
-                  navigate(`/order-history`);
-                }}
-                sx={{
-                  color: theme.palette.text.primary,
-                  fontSize: "1.2rem",
-                }}
-              >
-                주문 목록
-              </Button>
-              <Button
-                sx={{
-                  color: theme.palette.text.primary,
-                  fontSize: "20px",
-                }}
-              >
-                리뷰 관리
-              </Button>
+              <MuiButton
+              text = {"주문 목록"}
+              fontSize = {fontSize}
+              onClick={() => {
+                navigate(`/order-history`);
+              }}
+              />
+              <MuiButton
+              text = {"리뷰 관리"}
+              fontSize = {fontSize}
+              />
             </>
           )}
         </Box>

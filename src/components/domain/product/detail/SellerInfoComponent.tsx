@@ -1,43 +1,58 @@
-// import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import classes from "./SellerInfoComponent.module.css";
-import DEFAUlT_AVATAR from "../../../../assets/images/default-avatar.png";
 import { Box } from "@mui/system";
+import { Button } from "@mui/material";
+import BookmarkIcon from "@mui/icons-material/Bookmark";
+
 import { useBoundStore } from "../../../../store";
-// import { useBoundStore } from "../../../../store";
-// import useCustomAxios from "../../../../services/useCustomAxios";
+import DEFAUlT_AVATAR from "../../../../assets/images/default-avatar.png";
 
 const SellerInfoComponent = ({ product }: { product: ProductItemType }) => {
-  // const [userName, setUserName] = useState("");
-  // const user = useBoundStore((state) => state.userBasicInfo);
-
-  // const axiosInstance = useCustomAxios();
-
-  // const handleRightUserName = async () => {
-  //   if (user._id === product.seller_id) {
-  //     await axiosInstance(`/users/5/name`);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   handleRightUserName();
-  // }, [user, product]);
+  const navigate = useNavigate();
   const isDark = useBoundStore((state) => state.isDark);
-  console.log(isDark);
+  const userInfo = useBoundStore((state) => state.myInfo);
+
   return (
     <Box
       sx={{
-        borderBottom: isDark ? null : "1px solid var(--color-gray-300)",
+        borderBottom: isDark
+          ? "1px solid var(--color-white)"
+          : "1px solid var(--color-gray-300)",
       }}
+      //해당 판매자가 올린 상품에 대한 리뷰
     >
       <div className={classes.wrapper}>
         <div className={classes["seller-info"]}>
-          <div className={classes["avatar-box"]}>
-            <img src={DEFAUlT_AVATAR} alt="" />
-          </div>
-          <h4>{product.seller_id}</h4>
+          <Button
+            onClick={() => {
+              navigate(`/reply/seller-replies/${product.seller_id}`);
+            }}
+            className={classes.btn}
+          >
+            <div className={classes["avatar-box"]}>
+              <img
+                src={
+                  userInfo.extra.profileImage
+                    ? userInfo.extra.profileImage
+                    : DEFAUlT_AVATAR
+                }
+                alt="사용자 아바타 이미지"
+              />
+            </div>
+            <h4>{product.extra?.sellerNickname}</h4>
+          </Button>
         </div>
-        <button>스트랩버튼</button>
+
+        {/* 북마크 기능 추후 도입 예정 */}
+        <Button className={classes.scrapBtn}>
+          <BookmarkIcon
+            fontSize="large"
+            sx={{
+              color: "var(--color-primary-600)",
+            }}
+          />
+        </Button>
       </div>
     </Box>
   );

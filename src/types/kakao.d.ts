@@ -1,5 +1,5 @@
 interface LocationType {
-  center: {
+  centerLatLng: {
     lat: number | undefined;
     lng: number | undefined;
   };
@@ -19,10 +19,11 @@ interface MarkerType {
 type MarkerListType = MarkerType[];
 
 interface MapInfoType {
-  keyword: string;
+  keyword: string | null;
   centerLatLng: {
     lat: number;
     lng: number;
   };
-  period: string[]|undefined
+  period: DateRange<Dayjs> | undefined;
+  isPanTo: boolean;
 }

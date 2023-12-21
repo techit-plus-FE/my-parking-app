@@ -1,43 +1,100 @@
-import React, { ChangeEvent, useEffect } from "react";
+import React, { useState, forwardRef } from "react";
+import { Box, Input } from "@mui/material";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DemoItem } from "@mui/x-date-pickers/internals/demo";
+import { DateRangePicker } from "@mui/x-date-pickers-pro/DateRangePicker";
+import { DateRange, DateRangeValidationError, PickerChangeHandlerContext } from "@mui/x-date-pickers-pro";
+import dayjs, { Dayjs } from "dayjs";
+import SearchIcon from "@mui/icons-material/Search";
 
+import MediaQueryMain from "../UI/MediaQueryMain";
+import { CommonButton } from "../UI/CommonButton";
+
+import classes from "./SearchInput.module.css";
 interface SearchInputProps {
-  onKeywordChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
-  value?: string;
-  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  handleSearch: () => void;
   searchInfo: MapInfoType;
   setSearchInfo: (searchInfo: MapInfoType) => void;
 }
 
-const SearchInput: React.FC<SearchInputProps> = ({
-  onKeywordChange,
-  onKeyDown,
-  value,
-  onClick,
-  searchInfo,
-  setSearchInfo
-}) => {
+const SearchInput = forwardRef(function SearchInput(
+  props: SearchInputProps,
+  ref: React.ForwardedRef<HTMLInputElement>
+) {
+  const isMobile = MediaQueryMain();
+  const { onKeyDown, handleSearch, searchInfo, setSearchInfo } = props;
 
+  // const [period] = useState(["", ""]);
+  const [dateRange, setDateRange] = useState<DateRange<Dayjs>>([
+    dayjs("2023-12-01"),
+    dayjs("2024-01-31"),
+  ]);
+
+  const [period, setPeriod] = useState<string[]>([
+    "2023-12-01",  
+    "2024-01-31"
+
+  ]);
+
+  const handleClick = () => {
+    handleSearch();
+    setSearchInfo({ ...searchInfo, period: period });
+  };
+
+  const handleDatePicking: (value: DateRange<Dayjs>) => void = (value) => {
+    setDateRange(value)
+    //period setting logic here
+    if (value[0] === null) return
+    if (value[1] === null) return
+    setPeriod([value[0]?.format('YYYY-MM-DD'), value[1]?.format('YYYY-MM-DD')])
+  }
 
   return (
-    <div>
-      <input
-        type="text"
-        onChange={onKeywordChange}
-        onKeyDown={onKeyDown}
-        value={value || ""}
-      />
-      <input type="date"
-      onChange = {(e)=> {
-        const formattedDate = (originalDate: Date)=>`${originalDate.getFullYear()}.${(originalDate.getMonth() + 1).toString().padStart(2, '0')}.${originalDate.getDate().toString().padStart(2, '0')}`
-        const period_start = formattedDate(new Date(e.target.value))
-        const period_end = formattedDate(new Date(e.target.value))
-        console.log(period_start, period_end)
-        setSearchInfo({...searchInfo, period : [period_start, period_end]});
-      }}/>
-      <button onClick={onClick}>검색하기</button>
-    </div>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: isMobile ? "row" : "column",
+        alignItems: "center",
+        justifyContent: isMobile ? "center" : "space-between",
+        gap: isMobile ? "30px" : "50px",
+      }}
+    >
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: isMobile ? "row" : "column",
+          gap: isMobile ? "30px" : "50px",
+        }}
+      >
+        <Input
+          className={classes.searchInput}
+          type="text"
+          onKeyDown={onKeyDown}
+          inputRef={ref}
+          placeholder="찾을 주차장을 검색하세요."
+          required
+        />
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DateRangePicker
+              localeText={{ start: "시작일", end: "종료일" }}
+              value={dateRange}
+              onChange={(dateRange) => {
+                handleDatePicking(dateRange)
+              }}
+            />
+        </LocalizationProvider>
+      </Box>
+      {isMobile ? (
+        <button onClick={handleClick} className={classes.searchBtn}>
+          <SearchIcon />
+        </button>
+      ) : (
+        <CommonButton text="검색하기" btnType={true} onClick={handleClick} />
+      )}
+    </Box>
   );
-};
+});
 
 export default SearchInput;

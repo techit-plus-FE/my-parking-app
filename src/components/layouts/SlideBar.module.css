@@ -1,19 +1,34 @@
+.slideBarContainer {
+  /* display: flex;
+  flex-direction: column; */
+  padding: 0 50px;
+}
+
 .logoWrapper {
   display: flex;
-  width: 150px;
   justify-content: center;
   align-items: center;
-  /* box-shadow: inset 0px 0px 3px 1px rgb(0, 38, 255); */
-  margin-top: 150px;
+  margin: 120px 0 80px;
 }
 
 .logoWrapper p {
-  color: #4285f4;
-  font-weight: bold;
-  font-size: 1.5rem;
+  align-self: flex-end;
+  font-weight: 800;
+  font-size: 35px;
   margin: 0 20px;
+  color: var(--color-primary-600);
 }
 
 .imgWrapper {
-  width: 100px;
+  width: 80px;
+}
+.imgWrapper img {
+  width: 100%;
+}
+
+.etc {
+  color: var(--color-primary-500);
+  text-align: center;
+  font-size: 12px;
+  margin: 20px;
 }

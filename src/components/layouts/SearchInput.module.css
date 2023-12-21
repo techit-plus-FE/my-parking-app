@@ -1,0 +1,10 @@
+.searchInput {
+  width: 100%;
+  padding: 10px;
+}
+
+.searchBtn {
+  border: none;
+  background-color: #fff;
+  cursor: pointer;
+}

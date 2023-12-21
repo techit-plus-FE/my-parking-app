@@ -17,12 +17,11 @@
 }
 
 .product-imgBox {
-  flex: 0.5;
+  flex: 0.8;
   border-radius: 20px;
-
+  width: 250px;
   height: 100px;
   overflow: hidden;
-  margin: 0 auto;
 }
 
 .product-imgBox img {
@@ -37,6 +36,11 @@
   flex-direction: column;
   gap: 5px;
   padding-left: 20px;
+}
+
+.product-info h4 {
+  font-size: 18px;
+  font-weight: 600;
 }
 
 .product-price {

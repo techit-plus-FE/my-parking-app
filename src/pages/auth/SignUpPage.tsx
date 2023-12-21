@@ -1,9 +1,7 @@
-import React from "react";
 import SignUpForm from "../../components/domain/auth/SignUpForm";
 
 const SignUpPage = () => {
-  return  (
-    <SignUpForm/>
-  )};
+  return <SignUpForm />;
+};
 
 export default SignUpPage;

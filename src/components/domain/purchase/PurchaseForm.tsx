@@ -9,10 +9,11 @@ import {
 } from "@mui/material";
 import { CommonButtonMiddle } from "../../UI/CommonButton";
 import PurchaseInformation from "./PurchaseInformation";
+import classes from "./purchase.module.css";
 
 interface PurchaseFormProps {
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (e: React.SyntheticEvent<Element, Event>) => void;
   total: number;
 }
 
@@ -22,11 +23,9 @@ const PurchaseForm: React.FC<PurchaseFormProps> = ({
   total,
 }) => {
   return (
-    <Box mt="50px">
+    <Box mt="50px" className={classes.purchaseFormContainer}>
       <PurchaseInformation />
-      <Typography fontWeight="bold" marginBottom="20px">
-        결제 수단
-      </Typography>
+      <h2>결제 수단</h2>
       <Box
         sx={{
           borderTop: "1px solid var(--color-gray-300)",

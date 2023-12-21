@@ -1,5 +1,12 @@
-const ReplyPage = () => {
-  return <div>후기 페이지 입니다.</div>;
+import React from "react";
+import Reply from "../../components/domain/reply/Reply";
+
+const ReplyPage: React.FC = () => {
+  return (
+    <>
+      <Reply />
+    </>
+  );
 };
 
 export default ReplyPage;

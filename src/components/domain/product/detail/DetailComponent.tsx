@@ -1,47 +1,67 @@
-import { Box } from "@mui/system";
+import MediaQuery from "../../../UI/MediaQuery";
 import ShowKakaoMap from "../../../common/map/ShowKakaoMap";
 import classes from "./DetailComponent.module.css";
 import { Typography } from "@mui/material";
 
 const DetailComponent = ({ product }: { product: ProductItemType }) => {
   const { createdAt: productCreatedAt } = product;
-
-  // 날짜 시간 제거 함수 -> 즉시 실행함수로 -> 함수로 만들어서 사용하기 실패. 나중에 다시시도
-  // const removeLocalTime = (createdAt: string) => {
-  //   if (createdAt === replyCreatedAt) {
-  //     return replyCreatedAt.slice(0, 11);
-  //   } else if (createdAt === productCreatedAt)
-  //     return productCreatedAt.slice(0, 11);
-  // };
-
-  // const removeReplyCreatedAt = replyCreatedAt.slice(0, 11);
   const removeProductCreatedAt = productCreatedAt?.slice(0, 11);
+  const isMobile = MediaQuery();
 
   return (
     <div className={classes.wrapper}>
-      <Typography variant="h3" fontSize="1.5rem">
+      <Typography
+        variant="h3"
+        fontSize={isMobile ? "25px" : "35px"}
+        sx={{ color: "var(--color-primary-700)", fontWeight: "600" }}
+      >
         {product.name}
       </Typography>
-      {/* <h3 className={classes.title}>{product.name}</h3> */}
 
-      <p className={classes.createdAt}>{removeProductCreatedAt}</p>
+      <Typography className={classes.createdAt}>
+        {removeProductCreatedAt}
+      </Typography>
 
-      <div className={classes.content}>{product.content}</div>
+      <Typography
+        className={classes.content}
+        fontSize={isMobile ? "12px" : "18px"}
+      >
+        {product.content}
+      </Typography>
 
       <div className={classes.period}>
-        <h3>대여기간</h3>
-        <span>{product.extra?.startDate} </span>
-        {"~"}
-        <span> {product.extra?.endDate}</span>
+        <Typography
+          fontSize={isMobile ? "15px" : "24px"}
+          sx={{
+            color: "var(--color-primary-700)",
+            fontWeight: "600",
+            marginBottom: "20px",
+          }}
+        >
+          대여기간
+        </Typography>
+        <div>
+          <span>{product.extra?.startDate} </span>
+          <span> {product.extra?.endDate}</span>
+        </div>
       </div>
 
       <div className={classes["location-box"]}>
-        <h3>위치</h3>
+        <Typography
+          fontSize={isMobile ? "15px" : "24px"}
+          sx={{
+            color: "var(--color-primary-700)",
+            fontWeight: "600",
+            marginBottom: "20px",
+          }}
+        >
+          위치
+        </Typography>
         <ShowKakaoMap product={product} />
       </div>
 
       <div className={classes["replies-list"]}>
-        <h3>리뷰</h3>
+        {/* <h3>리뷰</h3>
         {product.replies?.map((reply) => {
           return (
             <div key={reply._id} className={classes["reply-box"]}>
@@ -52,7 +72,7 @@ const DetailComponent = ({ product }: { product: ProductItemType }) => {
               <p>{reply.content}</p>
             </div>
           );
-        })}
+        })} */}
       </div>
     </div>
   );

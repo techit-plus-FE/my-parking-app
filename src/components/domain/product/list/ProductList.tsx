@@ -1,13 +1,17 @@
-// import { useEffect } from "react";
-// import axios from "axios";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import ProductItem from "./ProductItem";
+import { useBoundStore } from "../../../../store";
 
 import classes from "./ProductList.module.css";
-
-import { useNavigate } from "react-router-dom";
-import { useBoundStore } from "../../../../store";
-import { Box } from "@mui/system";
-import { useTheme } from "@emotion/react";
+import { IconButton } from "@mui/material";
+import AddLocationIcon from "@mui/icons-material/AddLocation";
+import Box from "@mui/material/Box";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 
 type Props = {
   products: ProductListType | undefined;
@@ -15,15 +19,21 @@ type Props = {
 };
 const ProductList = ({ products, isMobile }: Props) => {
   const navigate = useNavigate();
-
-  const theme = useTheme();
   const user = useBoundStore((state) => state.userBasicInfo);
 
-  // useEffect(() => {
-  //   handleGetProducts();
-  // }, []);
+  const [selectValue, setSelectValue] = useState<string>("");
+  const [open, setOpen] = useState<boolean>(false);
+  const [filteredProducts, setFilteredProducts] = useState<
+    ProductListType | undefined
+  >(products);
 
-  const handleCheckUser = () => {
+  // 필터 셀렉터 체인지 헨들러 함수
+  const handleSelectChange = (event: SelectChangeEvent) => {
+    setSelectValue(event.target.value as string);
+  };
+
+  // 상품 등록페이지 이동 함수
+  const handleMoveRegist = () => {
     if (user.type === "seller") {
       navigate("/products/regist");
     } else {
@@ -34,67 +44,153 @@ const ProductList = ({ products, isMobile }: Props) => {
     }
   };
 
+  // [...products!].map((p) => {
+  //   console.log(typeof new Date(p.createdAt).getTime());
+  // });
+
+  const handleFiltering = () => {
+    if (products) {
+      switch (selectValue) {
+        case "latestStartDate":
+          // 오늘 날짜 기준으로 가장 가까운 날짜 대여기간이 있는 리스트부터 정렬
+          setFilteredProducts(
+            [...products].sort((a, b) => {
+              const today = new Date();
+              const startDateA = new Date(a.extra?.startDate as string);
+              const startDateB = new Date(b.extra?.startDate as string);
+
+              // 오늘시간과 시작시간 절댓값 차이를 비교
+              const diffA = Math.abs(today.getTime() - startDateA.getTime());
+              const diffB = Math.abs(today.getTime() - startDateB.getTime());
+              console.log("diffA : " + diffA);
+              console.log("diffB : " + diffB);
+
+              return diffA - diffB;
+            })
+          );
+
+          break;
+        case "latestCreatedAt":
+          // 최근 등록한 상품글이 먼저 오게 정렬
+          setFilteredProducts(
+            [...products].sort(
+              (a, b) =>
+                new Date(a.createdAt as string).getTime() -
+                new Date(b.createdAt as string).getTime()
+            )
+          );
+          break;
+        case "lowPrice":
+          // 가격이 낮은것부터(오름차순)으로 정렬
+          setFilteredProducts([...products].sort((a, b) => a.price - b.price));
+          break;
+        case "choise":
+          // 선택이라는 항목을 클릭하면 기존 초기 상품리스트 출력
+          setFilteredProducts(products);
+          break;
+        default:
+          // 어떤 케이스에도 포함되지 않는다면 기존 초기 상품리스트 출력
+          setFilteredProducts(products);
+          break;
+      }
+    }
+  };
+
+  useEffect(() => {
+    handleFiltering();
+  }, [selectValue, products]);
+
   return (
-    <div>
+    <>
       {isMobile ? (
-        <div>
-          <Box
-            className={classes.container}
-            sx={{
-              width: "100%",
-            }}
-          >
-            <Box sx={{ fontSize: "2rem" }}>주차장 리스트</Box>
-            <button type="button" onClick={handleCheckUser}>
-              내 주차장 등록하기
-            </button>
-            <ul className={classes["product-list"]}>
-              {products && products.length > 0 ? (
-                products.map((product) => {
-                  return <ProductItem key={product._id} product={product} />;
-                })
-              ) : (
-                <p>등록된 상품이 암것도 없어요ㅠㅠ</p>
-              )}
-            </ul>
-          </Box>
+        <div className={classes.containerMobile}>
+          <div className={classes["product-utils"]}>
+            <IconButton size="large" onClick={handleMoveRegist}>
+              <AddLocationIcon
+                fontSize="large"
+                sx={{ color: "var(--color-primary-600)" }}
+              />
+            </IconButton>
+
+            <Box sx={{ minWidth: 100 }}>
+              <FormControl fullWidth>
+                <InputLabel id="filter">필터</InputLabel>
+                <Select
+                  labelId="filter"
+                  id="filter-select"
+                  label="filter"
+                  value={selectValue}
+                  open={open}
+                  onClose={() => setOpen(false)}
+                  onOpen={() => setOpen(true)}
+                  onChange={handleSelectChange}
+                >
+                  <MenuItem value="choice">선택</MenuItem>
+                  <MenuItem value="latestStartDate">최신날짜순</MenuItem>
+                  <MenuItem value="latestCreatedAt">최신등록순</MenuItem>
+                  <MenuItem value="lowPrice">저렴한순</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
+          </div>
+
+          <ul className={classes["product-list"]}>
+            {filteredProducts && filteredProducts.length > 0 ? (
+              filteredProducts.map((product) => {
+                return <ProductItem key={product._id} product={product} />;
+              })
+            ) : (
+              <p>해당 위치에 등록된 주차장이 없네요😭</p>
+            )}
+          </ul>
         </div>
       ) : (
-        <Box
-          className={classes.container}
-          sx={{
-            width: "300px",
-            zIndex: 1200,
-            position: "fixed",
-            top: 0,
-            right: 0,
-            backgroundColor: theme.palette.background.default,
-          }}
-        >
-          <div className={classes.container}>
-            <Box sx={{ fontSize: "2rem" }}>주차장 리스트</Box>
-            <button type="button" onClick={handleCheckUser}>
-              내 주차장 등록하기
-            </button>
-            <ul className={classes["product-list"]}>
-              {products && products.length > 0 ? (
-                products.map((product) => {
-                  return (
-                    <ProductItem
-                      key={product._id}
-                      product={product}
-                      flexDirection="column"
-                    />
-                  );
-                })
-              ) : (
-                <p>등록된 상품이 암것도 없어요ㅠㅠ</p>
-              )}
-            </ul>
+        <div className={classes.container}>
+          <div className={classes["product-utils"]}>
+            <IconButton size="medium" onClick={handleMoveRegist}>
+              <AddLocationIcon
+                fontSize="large"
+                sx={{
+                  color: "var(--color-white)",
+                  borderRadius: "10px",
+                }}
+              />
+            </IconButton>
+
+            <Box sx={{ minWidth: 100 }}>
+              <FormControl fullWidth>
+                <InputLabel id="filter">필터</InputLabel>
+                <Select
+                  labelId="filter"
+                  id="filter-select"
+                  label="filter"
+                  value={selectValue}
+                  open={open}
+                  onClose={() => setOpen(false)}
+                  onOpen={() => setOpen(true)}
+                  onChange={handleSelectChange}
+                >
+                  <MenuItem value="choice">선택</MenuItem>
+                  <MenuItem value="latestStartDate">최신날짜순</MenuItem>
+                  <MenuItem value="latestCreatedAt">최신등록순</MenuItem>
+                  <MenuItem value="lowPrice">저렴한순</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
           </div>
-        </Box>
+
+          <ul className={classes["product-list"]}>
+            {filteredProducts && filteredProducts.length > 0 ? (
+              filteredProducts.map((product) => {
+                return <ProductItem key={product._id} product={product} />;
+              })
+            ) : (
+              <p>해당 위치에 등록된 주차장이 없네요😭</p>
+            )}
+          </ul>
+        </div>
       )}
-    </div>
+    </>
   );
 };
 

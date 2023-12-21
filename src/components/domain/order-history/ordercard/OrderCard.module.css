@@ -1,34 +1,12 @@
-.orderCardContainer {
-  /* border: 1px solid red; */
-  padding: 20px;
-  background-color: #e0e0e0;
-  border-radius: 10px;
-  margin: 20px 0;
-}
-
-.orderWrapper {
-  /* border: 1px solid blue; */
-  background-color: #e0e0e0;
-  display: flex;
-  align-items: center;
-}
-
-.imgWrapper {
-  width: 200px;
-  height: 120px;
-}
-
-.imgWrapper img {
-  border-radius: 10px;
-  width: 100%;
-  height: 100%;
-}
-
-.orderPrice {
+.orderDate span {
   font-weight: bold;
+  font-size: 0.9rem;
 }
 
-.itemWrapper {
-  flex-grow: 2;
-  text-align: center;
+.orderDate {
+  font-size: 0.9rem;
+}
+
+.orderCardTitle {
+  width: 150px;
 }
