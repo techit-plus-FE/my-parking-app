@@ -31,7 +31,11 @@ const OrderHistoryList: React.FC = () => {
       updatedAt: productItems.updatedAt,
       _id: productItems._id,
       products: productItems.products,
-      buyDate: productItems.extra.buyDate,
+      // 기존 data는 buyDate 가 없기 때문에 없다면 null 을 부여합니다.
+      buyDate:
+        productItems.extra && productItems.extra.buyDate
+          ? productItems.extra.buyDate
+          : null,
     };
 
     // 상품 디테일 페이지로 이동하기
