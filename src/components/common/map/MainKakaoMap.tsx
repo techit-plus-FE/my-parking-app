@@ -100,7 +100,7 @@ const MainKakaoMap = ({
               lng: Number(searchInfo.centerLatLng.lng),
             }}
           >
-            <div
+      <div
               style={{
                 padding: "5px 0 10px 18px",
                 color: "#000",
@@ -111,6 +111,7 @@ const MainKakaoMap = ({
                 style={{
                   fontWeight: "700",
                   color: "var(--color-primary-800)",
+                  fontSize: "14px"
                 }}
               >
                 {searchInfo.place_name}
