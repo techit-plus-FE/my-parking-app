@@ -42,7 +42,7 @@ const MyProfileEditForm: React.FC<MyProfileEditFormProps>  = ({
     <>
       {isLoading ? (<Loading />) : 
       (<Box className={classes.myProfileEditContainer}>
-          <div>
+          <div className={classes.imgWrapperContainer}>
             {/*프로필 이미지 표시*/}
             <img className = {classes.myProfileImage} src={`${myInfo.extra?.profileImage ? myInfo.extra?.profileImage : DEFAULTIMAGE}`}/>
             <Button onClick ={()=>setModalIsOpen(!modalIsOpen)}>프로필사진 변경</Button>
