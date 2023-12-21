@@ -30,18 +30,18 @@ const requestUploadImages = async (ImageRef: RefObject<HTMLInputElement>) => {
 
     if (imagesRes.data.files) {
       imageUrlLists = imagesRes.data.files.map(
-        (file: FilesResType) => `${file.path}`
+        (file: FilesResType) => `${BASE_URL+file.path}`
         // (file: FilesResType) => `${file.path}`
       );
     }
     if (imagesRes.data.file) {
-      const imagePath = `${imagesRes.data.file.path}`;
+      const imagePath = `${BASE_URL+imagesRes.data.file.path}`;
       // const imagePath = `${imagesRes.data.file.path}`;
       imageUrlLists.push(imagePath);
     }
 
     return imageUrlLists;
-  } catch (err) {
+  } catch (err: unknown) {
     console.error("이미지를 업로드하는데 문제가 발생하였습니다.", err);
     return [] as string[];
   }
