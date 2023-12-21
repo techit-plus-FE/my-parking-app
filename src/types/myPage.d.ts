@@ -7,7 +7,9 @@ interface MyPageSlice {
     accessToken: string,
     editedInfo: Partial<UserDetailInfoType>
   ) => Promise<Partial<UserDetailInfoType>>;
+  getMyProducts: (accessToken: string) => Promise<ProductListType>;
 }
+  
 
 type UserDetailInfoType = UserBasicInfoType & { extra: ExtraType };
 
@@ -32,3 +34,11 @@ type MyPageErrorResType = {
   message: string;
   errorName: string;
 };
+
+type MyProductsResponseType = {
+  config: object;
+  data: {
+    ok: number;
+    item: ProductListType;
+  };
+}
