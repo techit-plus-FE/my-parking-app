@@ -19,7 +19,7 @@ type Props = {
   isMobile: boolean;
   isMyList?: boolean;
 };
-const ProductList = ({ products, isMobile, isMyList }: Props) => {
+const ProductList = ({ products, isMobile }: Props) => {
   const navigate = useNavigate();
   const user = useBoundStore((state) => state.userBasicInfo);
 

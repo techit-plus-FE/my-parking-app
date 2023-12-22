@@ -1,6 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import OrderCard from "../ordercard/OrderCard";
-import OrderTitleBox from "../ordercard/OrderTitleBox";
 import { BASE_URL } from "../../../../services/BaseUrl";
 import classes from "./OrderHistory.module.css";
 

@@ -61,7 +61,7 @@ const SignUpForm = () => {
     }
   };
 
-  const handleEmailVerification: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleEmailVerification: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void = async (_: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     const AuthAlert = await AuthSlice.verifyEmail(userInputs.email)
     if (AuthAlert['ok'] == true) {
       setIsToastOpen(true)
@@ -74,8 +74,6 @@ const SignUpForm = () => {
       setBgColor('var(--toast-error)')
     } 
   }
-
-  const theme = useTheme();
 
   const checkPassword = () => {
     const pw = userInputs.password

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import PurchaseForm from "./PurchaseForm";
 import OrderCard from "../order-history/ordercard/OrderCard";
 import { useBoundStore } from "../../../store";

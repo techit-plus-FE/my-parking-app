@@ -17,10 +17,7 @@ export const Toast: React.FC<ToastProps> = ({
 }) => {
   const setIsToastOpen = useBoundStore((state) => state.setIsToastOpen);
 
-  const handleClose = (
-    event: React.SyntheticEvent | Event,
-    reason?: string
-  ) => {
+  const handleClose = (_: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === "clickaway") {
       return;
     }

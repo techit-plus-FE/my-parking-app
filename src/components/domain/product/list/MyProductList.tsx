@@ -1,9 +1,7 @@
 // 유저가 seller일때 마이프로덕트페이지에서 본인의 판매 상품 리스트를 보여주는 컴포넌트입니다.
-import React, { useEffect, useState } from "react";
-import useCustomAxios from "../../../../services/useCustomAxios";
-import { useNavigate } from "react-router-dom";
-import MediaQuery from "../../../UI/MediaQuery";
-import classes from "./MyProductList.module.css"
+import { useEffect, useState } from "react";
+
+import classes from "./MyProductList.module.css";
 import Loading from "../../../common/Loading";
 import { useBoundStore } from "../../../../store";
 import MediaQueryMain from "../../../UI/MediaQueryMain";
@@ -28,7 +26,7 @@ const MyProductList = () => {
 
   return (
     <>
-    <h2 className={classes.myProductList}>내 상품 목록</h2>
+      <h2 className={classes.myProductList}>내 상품 목록</h2>
       {loading ? (
         <Loading />
       ) : (

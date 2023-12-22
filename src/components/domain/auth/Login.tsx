@@ -3,7 +3,6 @@ import React, { ChangeEvent, useState } from "react";
 import LoginForm from "./LoginForm";
 import { useNavigate } from "react-router-dom";
 import { useBoundStore } from "../../../store/index";
-import classes from "./Login.module.css";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -16,10 +15,9 @@ const Login = () => {
   const setIsToastOpen = useBoundStore((state) => state.setIsToastOpen);
   const setAlertText = useBoundStore((state) => state.setAlertText);
   const setBgColor = useBoundStore((state) => state.setBgColor);
-  const isToastOpen = useBoundStore(state=>state.isToastOpen)
-  const alertText = useBoundStore(state=>state.alertText)
-  const bgColor = useBoundStore(state=>state.bgColor)
-
+  const isToastOpen = useBoundStore((state) => state.isToastOpen);
+  const alertText = useBoundStore((state) => state.alertText);
+  const bgColor = useBoundStore((state) => state.bgColor);
 
   // input의 id name에 따라 값이 담김
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
