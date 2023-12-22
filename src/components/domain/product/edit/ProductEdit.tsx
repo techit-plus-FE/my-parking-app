@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import useCustomAxios from "../../../../services/useCustomAxios";
+import { useBoundStore } from "../../../../store";
 
 import ProductForm from "../regist/ProductForm";
 import Loading from "../../../common/Loading";
@@ -10,6 +11,10 @@ const ProductEdit = () => {
   const navigate = useNavigate();
   const { productId } = useParams();
   const axiosInstance = useCustomAxios();
+
+  const setAlertText = useBoundStore((state) => state.setAlertText);
+  const setIsToastOpen = useBoundStore((state) => state.setIsToastOpen);
+  const userBasicInfo = useBoundStore((state) => state.userBasicInfo);
 
   const [loading, setLoading] = useState(true);
   const [initialProduct, setInitialProduct] = useState<ProductItemType>({
@@ -72,6 +77,8 @@ const ProductEdit = () => {
           address: updatedData.extra?.address,
           lat: Number(updatedData.extra?.lat),
           lng: Number(updatedData.extra?.lng),
+          //판매자의 namer값
+          sellerNickname: userBasicInfo.name,
         },
       };
 
@@ -80,9 +87,12 @@ const ProductEdit = () => {
         `seller/products/${productId}`,
         sendAllData
       );
-      console.log(response.data);
 
-      navigate(`/products/${productId}`);
+      if (response.data.ok === 1) {
+        setIsToastOpen(true);
+        setAlertText("상품수정이 완료되었습니다.");
+        navigate(`/products/${productId}`);
+      }
     } catch (error) {
       console.error("상품 수정에 실패하였습니다", error);
     }

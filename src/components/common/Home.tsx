@@ -17,7 +17,7 @@ import { Toast } from "../UI/Toast";
 
 const Home = () => {
   const isToastOpen = useBoundStore((state) => state.isToastOpen);
-  const setIsToastOpen = useBoundStore((state) => state.setIsToastOpen);
+
   const alertText = useBoundStore((state) => state.alertText);
 
   const isMobile = MediaQueryMain();
@@ -94,11 +94,11 @@ const Home = () => {
   };
 
   // 현재 위치 불러오는 함수 -> 한번 불러온 위치 캐시메모리에 저장(useCallback)
-  const handleFetchNowLocation = () => {
+  const handleFetchNowLocation = async () => {
     if (!map) return;
     if (navigator.geolocation) {
       // geo서비스를 사용해서 접속 위치 추출
-      navigator.geolocation.getCurrentPosition(
+      await navigator.geolocation.getCurrentPosition(
         (position) => {
           setNowLocation((prev) => ({
             ...prev,
