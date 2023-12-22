@@ -17,8 +17,9 @@ import Toggle from "../../../layouts/Toggle";
 type Props = {
   products: ProductListType | undefined;
   isMobile: boolean;
+  isMyList?: boolean;
 };
-const ProductList = ({ products, isMobile }: Props) => {
+const ProductList = ({ products, isMobile, isMyList }: Props) => {
   const navigate = useNavigate();
   const user = useBoundStore((state) => state.userBasicInfo);
 
@@ -106,7 +107,16 @@ const ProductList = ({ products, isMobile }: Props) => {
   return (
     <>
       {isMobile ? (
-        <div className={classes.containerMobile}>
+        <Box
+          sx={{
+            padding: "15px",
+            display: "flex",
+            flexDirection: "column",
+            height: "100vh",
+            width: isMyList ? "100%" : "400px",
+          }}
+          className={classes.containerMobile}
+        >
           <div className={classes["product-utils"]}>
             <Toggle />
             <IconButton size="large" onClick={handleMoveRegist}>
@@ -147,9 +157,18 @@ const ProductList = ({ products, isMobile }: Props) => {
               <p>해당 위치와 날짜에 등록된 주차장이 없어요😭</p>
             )}
           </ul>
-        </div>
+        </Box>
       ) : (
-        <div className={classes.container}>
+        <Box
+          sx={{
+            padding: "15px",
+            display: "flex",
+            flexDirection: "column",
+            height: "100vh",
+            width: isMyList ? "auto" : "400px",
+          }}
+          className={classes.container}
+        >
           <div className={classes["product-utils"]}>
             <Toggle />
             <IconButton size="medium" onClick={handleMoveRegist}>
@@ -192,7 +211,7 @@ const ProductList = ({ products, isMobile }: Props) => {
               <p>해당 위치와 날짜에 등록된 주차장이 없어요😭</p>
             )}
           </ul>
-        </div>
+        </Box>
       )}
     </>
   );
