@@ -20,6 +20,7 @@ const MyProfile = () => {
   const fontSize = "1.2rem";
   const isToastOpen = useBoundStore(state=>state.isToastOpen)
   const toastMessage = useBoundStore(state=>state.alertText)
+  const bgColor = useBoundStore(state=>state.bgColor)
   useEffect(() => {
     Store.isLoggedIn
       ? fetchAndSetMyInfo()
@@ -128,6 +129,7 @@ const MyProfile = () => {
       <Toast
         isToastOpen = {isToastOpen}
         alertText = {toastMessage}
+        bgColor = {bgColor}
       />
     </>
   );

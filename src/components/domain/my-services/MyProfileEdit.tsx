@@ -21,6 +21,8 @@ const MyProfileEdit = () => {
   const setIsToastOpen = useBoundStore(state=>state.setIsToastOpen)
   const toastMessage = useBoundStore(state=>state.alertText)
   const setToastMessage = useBoundStore(state=>state.setAlertText)
+  const setBgColor = useBoundStore(state=>state.setBgColor)
+  const bgColor = useBoundStore(state=>state.bgColor)
 
   const fetchAndSetMyInfo = async () => {
     const myInfo = await Store.getMyInfo(id, Store.userToken.accessToken);
@@ -80,6 +82,7 @@ const MyProfileEdit = () => {
     if (profileImageURL.length !== 0) {
       setIsToastOpen(true)
       setToastMessage("업로드가 완료되었습니다.")
+      setBgColor("var(--toast-success)")
     }
   }
 
@@ -121,6 +124,7 @@ const MyProfileEdit = () => {
     if (await Store.updateMyInfo(id, Store.userToken.accessToken, editedInfo)){
       setIsToastOpen(true)
       setToastMessage("프로필 수정이 완료되었습니다.")
+      setBgColor("var(--toast-success)");
       navigate(`/mypage/${myInfo._id}`)
     }
   }
@@ -144,6 +148,7 @@ const MyProfileEdit = () => {
       setIsLoading = {setIsLoading}
       isToastOpen = {isToastOpen}
       toastMessage = {toastMessage}
+      bgColor = {bgColor}
      />
      </>
   )
