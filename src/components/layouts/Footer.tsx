@@ -17,6 +17,8 @@ interface FooterProps {
 
 const Footer: React.FC<FooterProps> = ({ position, width }) => {
   const logout = useBoundStore((state) => state.logout);
+  const isLoggedIn = useBoundStore((state) => state.isLoggedIn);
+
   const user_id = useBoundStore((state) => state.myInfo._id);
   const setNavSelected = useBoundStore((state) => state.setNavSelected);
   const navSelectedValue = useBoundStore((state) => state.navSelectedValue);
@@ -83,16 +85,28 @@ const Footer: React.FC<FooterProps> = ({ position, width }) => {
           onClick={() => handelNavigate(`/mypage/${user_id}`)}
           sx={{ flex: 1, minWidth: 0 }}
         />
-        <BottomNavigationAction
-          label="로그아웃"
-          icon={<PersonIcon />}
-          onClick={() => {
-            logout();
-            setNavSelected(0);
-            alert("로그아웃이 완료되었습니다");
-          }}
-          sx={{ flex: 1, minWidth: 0 }}
-        />
+
+        {isLoggedIn ? (
+          <BottomNavigationAction
+            label="로그아웃"
+            icon={<PersonIcon />}
+            onClick={() => {
+              logout();
+              setNavSelected(0);
+              alert("로그아웃이 완료되었습니다");
+            }}
+            sx={{ flex: 1, minWidth: 0 }}
+          />
+        ) : (
+          <BottomNavigationAction
+            label="로그인"
+            icon={<PersonIcon />}
+            onClick={() => {
+              handelNavigate("/login");
+            }}
+            sx={{ flex: 1, minWidth: 0 }}
+          />
+        )}
       </BottomNavigation>
     </Box>
   );
