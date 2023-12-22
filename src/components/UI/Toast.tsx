@@ -27,9 +27,6 @@ export const Toast: React.FC<ToastProps> = ({
     setIsToastOpen(false);
   };
 
-  console.log(bgColor);
-  console.log(alertText);
-
   const action = (
     <React.Fragment>
       <Button color="secondary" size="small" onClick={handleClose}>
@@ -56,7 +53,7 @@ export const Toast: React.FC<ToastProps> = ({
       <Alert
         sx={{
           color: "#fff",
-          backgroundColor: `${bgColor}`,
+          backgroundColor: `${bgColor || "var(--toast-success)"}`,
         }}
         onClose={() => {}}
       >
