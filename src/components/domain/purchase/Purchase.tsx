@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../../../services/BaseUrl";
 import classes from "./purchase.module.css";
 import MediaQuery from "../../UI/MediaQuery";
+import { Toast } from "../../UI/Toast";
 
 const Purchase = () => {
   const navigate = useNavigate();
@@ -17,11 +18,20 @@ const Purchase = () => {
   const userBasicInfo = useBoundStore((state) => state.userBasicInfo);
   const [checked, setChecked] = useState({ name: "", value: false });
 
+  const setIsToastOpen = useBoundStore((state) => state.setIsToastOpen);
+  const setAlertText = useBoundStore((state) => state.setAlertText);
+  const setBgColor = useBoundStore((state) => state.setBgColor);
+  const isToastOpen = useBoundStore((state) => state.isToastOpen);
+  const alertText = useBoundStore((state) => state.alertText);
+  const bgColor = useBoundStore((state) => state.bgColor);
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // 결제수단을 입력하지 않을 시 경고 창
     if (!checked.value) {
-      alert("결제수단을 선택해주세요");
+      setIsToastOpen(true);
+      setAlertText("결제수단을 입력해주세요");
+      setBgColor("var(--toast-error)");
     } else if (checked.value) {
       postData();
     }
@@ -70,7 +80,6 @@ const Purchase = () => {
 
     try {
       await axiosInstance.post("/orders", body);
-      alert("결제가 완료 되었습니다");
       navigate("/purchase/result");
     } catch (error) {
       console.error("결제 에러");
@@ -102,6 +111,11 @@ const Purchase = () => {
         onSubmit={handleSubmit}
         onChange={handleOnChange}
         total={productDetailData.price}
+      />
+      <Toast
+        isToastOpen={isToastOpen}
+        alertText={alertText}
+        bgColor={bgColor}
       />
     </>
   );

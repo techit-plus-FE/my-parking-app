@@ -6,7 +6,7 @@ import { useBoundStore } from "../../store";
 interface ToastProps {
   isToastOpen: boolean;
   alertText: string;
-  bgColor: string;
+  bgColor?: string;
 }
 
 //useState로 isToastOpen, setIsToastOpen을 만들어서 사용해야 함

@@ -52,6 +52,7 @@ const OrderHistoryList: React.FC = () => {
 
   return (
     <>
+      <h2 className={classes.h2}>내 주문목록</h2>
       {mediaQuery || (
         <div className={classes.orderHistoryListContainer}>
           <ul>

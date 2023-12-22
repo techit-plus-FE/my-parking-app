@@ -12,6 +12,7 @@ const OrderHistoryDetailList = () => {
   console.log(productItems);
   return (
     <>
+      <h2 className={classes.h2}>주문목록상세</h2>
       <div className={classes.orderHistoryDetailListContainer}>
         <ul>
           <li>상품정보</li>
