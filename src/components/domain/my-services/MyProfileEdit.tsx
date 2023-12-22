@@ -72,16 +72,21 @@ const MyProfileEdit = () => {
     if (imageUploadRef.current === null) return
     if (imageUploadRef.current.files === null ) return
     if (imageUploadRef.current.files.length === 0 ) return
-    setIsLoading(true)
+    // setIsLoading(true)
+    setIsToastOpen(true)
+    setToastMessage("프로필 사진 변경을 요청하였습니다.")
+    setBgColor("var(--toast-success)") 
+    closeModal()
+    
     const uploadImage = Store.uploadImage
     const profileImageURL = await uploadImage(imageUploadRef)
     const updatedInfo = await Store.updateMyInfo(id, Store.userToken.accessToken, {extra: {...myInfo.extra, profileImage: profileImageURL[0]}})
     Store.setMyInfo({...myInfo, ...updatedInfo})
-    closeModal()
+    
     setIsLoading(false)
     if (profileImageURL.length !== 0) {
       setIsToastOpen(true)
-      setToastMessage("업로드가 완료되었습니다.")
+      setToastMessage("프로필 사진 변경이 완료되었습니다.")
       setBgColor("var(--toast-success)")
     }
   }

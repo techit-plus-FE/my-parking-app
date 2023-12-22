@@ -13,7 +13,6 @@ import { Box } from "@mui/material";
 
 
 const MyProductList = () => {
-  const mediaQuery = MediaQuery();
   const [loading, setLoading] = useState(true);
   const isMobile = MediaQueryMain();
   const getMyProducts = useBoundStore(state=>state.getMyProducts)
