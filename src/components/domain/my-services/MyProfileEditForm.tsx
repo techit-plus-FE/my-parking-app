@@ -23,7 +23,6 @@ interface MyProfileEditFormProps {
   isLoading: boolean;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>
   isToastOpen: boolean
-  setIsToastOpen: React.Dispatch<React.SetStateAction<boolean>>
   toastMessage : string
 }
 
@@ -42,7 +41,6 @@ const MyProfileEditForm: React.FC<MyProfileEditFormProps>  = ({
   isLoading,
   setIsLoading,
   isToastOpen,
-  setIsToastOpen,
   toastMessage
 }) => {
   return(
@@ -121,7 +119,6 @@ const MyProfileEditForm: React.FC<MyProfileEditFormProps>  = ({
       </Box>)}
       <Toast
         isToastOpen = {isToastOpen}
-        setIsToastOpen={setIsToastOpen}
         alertText = {toastMessage}
       />
     </>)
