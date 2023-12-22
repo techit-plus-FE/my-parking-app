@@ -1,10 +1,8 @@
-import { useState } from "react";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import Box from "@mui/material/Box";
-
 
 import { useBoundStore } from "../../store";
 import { useNavigate } from "react-router-dom";
