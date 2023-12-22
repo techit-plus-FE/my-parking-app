@@ -9,6 +9,7 @@ import MenuItem from "@mui/material/MenuItem";
 import { useBoundStore } from "../../store";
 import { useNavigate } from "react-router-dom";
 import Toggle from "./Toggle";
+import classes from "./Header.module.css";
 
 const Header = () => {
   const isDark = useBoundStore((state) => state.isDark);
@@ -60,17 +61,21 @@ const Header = () => {
             alignItems: "flex-start",
           }}
         />
+        {/* 
         <BottomNavigationAction
           icon={<MoreVertIcon />}
           sx={{
             alignItems: "end",
           }}
           onClick={handleMenuClick}
-        />
+        /> */}
       </BottomNavigation>
+      <div className={classes.toggle}>
+        <Toggle />
+      </div>
 
       {/* 드롭다운 메뉴 */}
-      <Menu
+      {/* <Menu
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={handleCloseMenu}
@@ -83,14 +88,12 @@ const Header = () => {
           horizontal: "right",
         }}
       >
-        <MenuItem onClick={() => handleMenuOptionClick("option1")}>
-          <Toggle />
-        </MenuItem>
+        <MenuItem onClick={() => handleMenuOptionClick("option1")}></MenuItem>
         <MenuItem onClick={() => handleMenuOptionClick("option2")}>
           메뉴 항목 2
         </MenuItem>
         <MenuItem onClick={() => handleMenuOptionClick("option3")}></MenuItem>
-      </Menu>
+      </Menu> */}
     </Box>
   );
 };
