@@ -19,6 +19,7 @@ const Home = () => {
   const isToastOpen = useBoundStore((state) => state.isToastOpen);
   const setIsToastOpen = useBoundStore((state) => state.setIsToastOpen);
   const alertText = useBoundStore((state) => state.alertText);
+  const bgColor = useBoundStore((state) => state.bgColor);
 
   const isMobile = MediaQueryMain();
   const theme = useTheme();
@@ -213,7 +214,11 @@ const Home = () => {
 
       {isMobile && <Footer />}
 
-      <Toast isToastOpen={isToastOpen} alertText={alertText} />
+      <Toast
+        isToastOpen={isToastOpen}
+        alertText={alertText}
+        bgColor={bgColor}
+      />
     </Box>
   );
 };
