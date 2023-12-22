@@ -18,9 +18,9 @@ const MyProfile = () => {
     Store.setMyInfo(await Store.getMyInfo(id, Store.userToken.accessToken));
   };
   const fontSize = "1.2rem";
-  const isToastOpen = useBoundStore(state=>state.isToastOpen)
-  const toastMessage = useBoundStore(state=>state.alertText)
-  const bgColor = useBoundStore(state=>state.bgColor)
+  const isToastOpen = useBoundStore((state) => state.isToastOpen);
+  const toastMessage = useBoundStore((state) => state.alertText);
+  const bgColor = useBoundStore((state) => state.bgColor);
   useEffect(() => {
     Store.isLoggedIn
       ? fetchAndSetMyInfo()
@@ -44,18 +44,23 @@ const MyProfile = () => {
           justifyContent: "center",
         }}
       >
-        <h1>마이 페이지</h1>        
-          {/*프로필 이미지 표시*/}
-          {myInfo.extra?.profileImage ? (
-            <img className = {classes.myProfileImage} src={`${myInfo.extra?.profileImage}`} />
-          ) : (
+        <h1>마이 페이지</h1>
+        {/*프로필 이미지 표시*/}
+        {myInfo.extra?.profileImage ? (
+          <div className={classes.imgWrapperA}>
+            <img
+              className={classes.myProfileImage}
+              src={`${myInfo.extra?.profileImage}`}
+            />
+          </div>
+        ) : (
+          <div className={classes.imgWrapperA}>
             <img src={usericon} />
-          )}        
+          </div>
+        )}
         <div className={classes.user}>
           <h2>{myInfo.name}</h2>
-          <div>
-            {myInfo.type === "seller" ? "판매자" : "일반회원"}
-          </div>
+          <div>{myInfo.type === "seller" ? "판매자" : "일반회원"}</div>
           <div>{myInfo.email}</div>
           <div>{myInfo.phone}</div>
           <div>{myInfo.address}</div>
@@ -64,8 +69,7 @@ const MyProfile = () => {
               color: "#4285F4",
             }}
           >
-            {/* 차량번호 */}
-            {" "} 
+            {/* 차량번호 */}{" "}
             {myInfo.extra?.carNumber === "" ||
             myInfo.extra?.carNumber == undefined
               ? "등록된 차량이 없습니다"
@@ -119,17 +123,15 @@ const MyProfile = () => {
                 onClick={() => {
                   navigate(`/reply/replies`);
                 }}
-
               />
-
             </>
           )}
         </Box>
       </Box>
       <Toast
-        isToastOpen = {isToastOpen}
-        alertText = {toastMessage}
-        bgColor = {bgColor}
+        isToastOpen={isToastOpen}
+        alertText={toastMessage}
+        bgColor={bgColor}
       />
     </>
   );

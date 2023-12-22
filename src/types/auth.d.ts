@@ -20,8 +20,8 @@ interface AuthSlice {
   userToken: TokenInfoType['token'];
   userBasicInfo: UserBasicInfoType;
   isLoggedIn: boolean;
-  signUp: (UserInput: UserInputType) => Promise<boolean>;
-  verifyEmail: (email: string) => void;
+  signUp: (UserInput: UserInputType) => Promise<AuthAlertType>;
+  verifyEmail: (email: string) => Promise<AuthAlertType>;
   login: (
     email: string,
     password: string
@@ -63,4 +63,9 @@ interface LoginResponseType {
     ok: number;
     item: UserBasicInfoType & TokenInfoType;
   };
+}
+
+interface AuthAlertType {
+  ok: boolean,
+  message: string
 }
