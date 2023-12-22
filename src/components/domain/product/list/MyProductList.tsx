@@ -33,7 +33,7 @@ const MyProductList = () => {
     <>
     {loading ? <Loading /> 
     : <Box>
-      <ProductList products={myProducts} isMobile={isMobile} />  
+      <ProductList products={myProducts} isMobile={isMobile} isMyList={true}/>  
     </Box>}
     </>
   );
