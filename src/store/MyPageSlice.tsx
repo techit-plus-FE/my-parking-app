@@ -81,6 +81,31 @@ const requestUpdateMyInfo = async (
   return new UserDetailInfo();
 };
 
+const requestMyProducts = async (
+  accessToken: string
+) => {
+  try {
+    const response = await axios.get<number, MyProductsResponseType>(
+      `${BASE_URL}/seller/products`,
+      {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      }
+    );
+    if (response.data.ok === 1) {
+      return response.data.item;
+    }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (Error: any) {
+    if (Error.response) {
+      alert(Error.response.data.message);
+      console.log("error");
+    }
+    console.error("Error:", Error);
+  }
+  return [] as ProductListType;
+};
+
+
 export const createMyPageSlice: StateCreator<MyPageSlice, []> = (set) => ({
   myInfo: new UserDetailInfo(),
   getMyInfo: async (id: number, accessToken: string) => {
@@ -96,4 +121,7 @@ export const createMyPageSlice: StateCreator<MyPageSlice, []> = (set) => ({
   ) => {
     return await requestUpdateMyInfo(editedInfo, id, accessToken);
   },
+  getMyProducts: async (accessToken: string) => {
+    return await requestMyProducts(accessToken);
+  }
 });

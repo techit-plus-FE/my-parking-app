@@ -90,7 +90,7 @@ const MainKakaoMap = ({
           setLevel(map.getLevel());
         }}
         onDragEnd={() => searchProducts()}
-        maxLevel={6}
+        maxLevel={7}
       >
         {/* 검색한 위치 마커 보여주기 */}
         {searchInfo.place_name && (
@@ -100,7 +100,7 @@ const MainKakaoMap = ({
               lng: Number(searchInfo.centerLatLng.lng),
             }}
           >
-            <div
+      <div
               style={{
                 padding: "5px 0 10px 18px",
                 color: "#000",
@@ -111,6 +111,7 @@ const MainKakaoMap = ({
                 style={{
                   fontWeight: "700",
                   color: "var(--color-primary-800)",
+                  fontSize: "14px"
                 }}
               >
                 {searchInfo.place_name}
