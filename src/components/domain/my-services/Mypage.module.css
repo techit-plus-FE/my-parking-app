@@ -7,6 +7,11 @@
   margin-top: 50px;
 }
 
+.imgWrapperA {
+  width: 200px;
+  height: 200px;
+}
+
 .imgWrapper {
   width: 100px;
   height: 100px;
@@ -39,4 +44,38 @@
   flex-direction: column;
   align-items: center;
   margin-top: 100px;
+}
+
+.myProfileEditContainer {
+  width: 300px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate3d(-50%, -50%, 0);
+}
+
+.myProfileEditContainer h2 {
+  text-align: center;
+}
+
+.myProfileEditContainer * {
+  width: 100%;
+}
+
+.myProfileImage {
+  justify-content: center;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+}
+
+.imgWrapperContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

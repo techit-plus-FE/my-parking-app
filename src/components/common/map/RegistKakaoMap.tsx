@@ -14,20 +14,28 @@ type Props = {
 };
 
 type PositionType = {
-  lat: number | undefined;
-  lng: number | undefined;
+  placeName?: string;
+  centerLatLng: {
+    lat: number | undefined;
+    lng: number | undefined;
+  };
 };
 // 위치 등록시 사용할 카카오 맵 컴포넌트
 const RegistKakaoMap = ({ product, formData, setFormData }: Props) => {
   // 지도의 초기 중심좌표위치(카카오본사)
   const [searchAddress, setSearchAddress] = useState<string>("");
   const [mapLocation, setMapLocation] = useState<PositionType>({
-    lat: Number(product.extra?.lat) || 33.450701,
-    lng: Number(product.extra?.lng) || 126.570667,
+    placeName: "",
+    centerLatLng: {
+      lat: Number(product.extra?.lat) || 33.450701,
+      lng: Number(product.extra?.lng) || 126.570667,
+    },
   }); // 지도 중심 좌표
   const [clickPosition, setClickPosition] = useState<PositionType | undefined>({
-    lat: Number(product.extra?.lat) || undefined,
-    lng: Number(product.extra?.lng) || undefined,
+    centerLatLng: {
+      lat: Number(product.extra?.lat) || undefined,
+      lng: Number(product.extra?.lng) || undefined,
+    },
   }); // 지도 이동 후 클릭한 위치의 좌표
 
   const [searchCheckbox, setSearchCheckbox] = useState<boolean>(true);
@@ -48,8 +56,11 @@ const RegistKakaoMap = ({ product, formData, setFormData }: Props) => {
           const newSearch = result[0];
           // 지도에 표시할 상태 변경
           setMapLocation({
-            lat: newSearch.y,
-            lng: newSearch.x,
+            placeName: newSearch.place_name,
+            centerLatLng: {
+              lat: newSearch.y,
+              lng: newSearch.x,
+            },
           });
           // 부모에서 전달받은 props 상태 변경해주기
           if (setFormData) {
@@ -75,8 +86,10 @@ const RegistKakaoMap = ({ product, formData, setFormData }: Props) => {
   // 클릭한 좌표로 지도 업데이팅
   const handleClickUpdate = (_t: any, mouseEvent: any) => {
     setClickPosition({
-      lat: mouseEvent.latLng.getLat(),
-      lng: mouseEvent.latLng.getLng(),
+      centerLatLng: {
+        lat: mouseEvent.latLng.getLat(),
+        lng: mouseEvent.latLng.getLng(),
+      },
     });
 
     if (setFormData) {
@@ -165,27 +178,45 @@ const RegistKakaoMap = ({ product, formData, setFormData }: Props) => {
           {/* 지도 */}
           <Map
             center={{
-              lat: Number(mapLocation.lat),
-              lng: Number(mapLocation.lng),
+              lat: Number(mapLocation.centerLatLng.lat),
+              lng: Number(mapLocation.centerLatLng.lng),
             }}
             style={{ width: "100%", height: "400px" }}
             level={4}
             draggable={false}
           >
-            {/* 추후 상품들 데이터리스트를 맵핑해서 해당 위치값을 마커로 보여주게 해야함 */}
-            <MapMarker
-              position={{
-                lat: Number(mapLocation.lat),
-                lng: Number(mapLocation.lng),
-              }}
-            ></MapMarker>
+            {mapLocation.placeName && (
+              <MapMarker
+                position={{
+                  lat: Number(mapLocation.centerLatLng.lat),
+                  lng: Number(mapLocation.centerLatLng.lng),
+                }}
+              >
+                <div
+                  style={{
+                    padding: "5px 0 10px 18px",
+                    color: "#000",
+                    textAlign: "center",
+                  }}
+                >
+                  <p
+                    style={{
+                      fontWeight: "700",
+                      color: "var(--color-primary-800)",
+                    }}
+                  >
+                    {mapLocation.placeName}
+                  </p>
+                </div>
+              </MapMarker>
+            )}
           </Map>
         </>
       ) : (
         <Map
           center={{
-            lat: Number(mapLocation.lat),
-            lng: Number(mapLocation.lng),
+            lat: Number(mapLocation.centerLatLng.lat),
+            lng: Number(mapLocation.centerLatLng.lng),
           }}
           style={{ width: "100%", height: "400px" }}
           level={4}
@@ -194,8 +225,8 @@ const RegistKakaoMap = ({ product, formData, setFormData }: Props) => {
           {clickPosition && (
             <MapMarker
               position={{
-                lat: Number(clickPosition.lat),
-                lng: Number(clickPosition.lng),
+                lat: Number(clickPosition.centerLatLng.lat),
+                lng: Number(clickPosition.centerLatLng.lng),
               }}
             />
           )}

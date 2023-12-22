@@ -2,12 +2,15 @@ import React, { useEffect, useState } from "react";
 import useCustomAxios from "../../../../services/useCustomAxios";
 import OrderCard from "../ordercard/OrderCard";
 import { useNavigate } from "react-router-dom";
-import OrderTitleBox from "../ordercard/OrderTitleBox";
 import MediaQuery from "../../../UI/MediaQuery";
+import classes from "./OrderHistory.module.css";
+import { BASE_URL } from "../../../../services/BaseUrl";
+import Loading from "../../../common/Loading";
 
 const OrderHistoryList: React.FC = () => {
   const navigate = useNavigate();
   const mediaQuery = MediaQuery();
+  const [loading, setLoading] = useState(true);
 
   //주문 목록 조회 데이터
   const [getOrderHistoryData, setGetOrderHistoryData] = useState<
@@ -19,6 +22,7 @@ const OrderHistoryList: React.FC = () => {
     const getOrdersData = async () => {
       //orders 로 주문 목록 조회 데이터
       const getOrdersData = await axiosInstance<OrderHistoryData>("/orders");
+      setLoading(false);
       return setGetOrderHistoryData(getOrdersData.data.item);
     };
 
@@ -30,6 +34,11 @@ const OrderHistoryList: React.FC = () => {
       updatedAt: productItems.updatedAt,
       _id: productItems._id,
       products: productItems.products,
+      // 기존 data는 buyDate 가 없기 때문에 없다면 null 을 부여합니다.
+      buyDate:
+        productItems.extra && productItems.extra.buyDate
+          ? productItems.extra.buyDate
+          : null,
     };
 
     // 상품 디테일 페이지로 이동하기
@@ -43,28 +52,40 @@ const OrderHistoryList: React.FC = () => {
 
   return (
     <>
+      <h2 className={classes.h2}>내 주문목록</h2>
       {mediaQuery || (
-        <OrderTitleBox
-          pageTitle="주문목록"
-          option1="상품정보"
-          option3="총 결제금액"
-        />
+        <div className={classes.orderHistoryListContainer}>
+          <ul>
+            <li>상품정보</li>
+            <li>결제금액</li>
+          </ul>
+        </div>
       )}
-      {getOrderHistoryData?.map((item) => {
-        return (
-          <div key={item._id}>
-            <OrderCard
-              orderItems={item.products.length}
-              title={item.products[0].name}
-              image={item.products[0].image}
-              buyDate={item.updatedAt}
-              onClick={() => handleNavigate(item._id, item)}
-              totalPrice={item.cost.total}
-              productPrice={item.products[0].price}
-            />
-          </div>
-        );
-      })}
+
+      {loading ? (
+        <Loading />
+      ) : getOrderHistoryData.length !== 0 ? (
+        getOrderHistoryData?.map((item) => {
+          return (
+            <div key={item._id}>
+              <OrderCard
+                orderItems={item.products.length}
+                title={item.products[0].name}
+                image={
+                  item.products[0].image?.url &&
+                  BASE_URL + item.products[0].image?.url
+                }
+                buyDate={item.extra?.buyDate}
+                onClick={() => handleNavigate(item._id, item)}
+                totalPrice={item.cost.total}
+                productPrice={item.products[0].price}
+              />
+            </div>
+          );
+        })
+      ) : (
+        <p className={classes.text}>구매한 상품이 없습니다</p>
+      )}
     </>
   );
 };

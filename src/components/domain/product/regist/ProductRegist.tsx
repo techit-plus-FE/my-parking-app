@@ -8,6 +8,9 @@ const ProductRegist = () => {
   const navigate = useNavigate();
   const axiosInstance = useCustomAxios();
 
+  const setAlertText = useBoundStore((state) => state.setAlertText);
+  const setIsToastOpen = useBoundStore((state) => state.setIsToastOpen);
+
   //로그인 한 user의 name
   const userBasicInfo = useBoundStore((state) => state.userBasicInfo);
 
@@ -58,19 +61,24 @@ const ProductRegist = () => {
         sendAllData
       );
 
-      console.log(response.data);
-      navigate("/home");
+      if (response.data.ok === 1) {
+        setIsToastOpen(true);
+        setAlertText("상품등록이 완료되었습니다.");
+        navigate("/home");
+      }
     } catch (error) {
       console.error("상품을 등록하는데 문제가 발생했습니다.", error);
     }
   };
 
   return (
-    <ProductForm
-      title="등록"
-      onSubmit={handleSubmit}
-      product={initialProduct}
-    />
+    <>
+      <ProductForm
+        title="등록"
+        onSubmit={handleSubmit}
+        product={initialProduct}
+      />
+    </>
   );
 };
 

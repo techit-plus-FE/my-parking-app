@@ -3,7 +3,6 @@ import React, { ChangeEvent, useState } from "react";
 import LoginForm from "./LoginForm";
 import { useNavigate } from "react-router-dom";
 import { useBoundStore } from "../../../store/index";
-import classes from "./Login.module.css";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -13,6 +12,13 @@ const Login = () => {
   const updateUserBasicInfo = useBoundStore(
     (state) => state.updateUserBasicInfo
   );
+  const setIsToastOpen = useBoundStore((state) => state.setIsToastOpen);
+  const setAlertText = useBoundStore((state) => state.setAlertText);
+  const setBgColor = useBoundStore((state) => state.setBgColor);
+  const isToastOpen = useBoundStore((state) => state.isToastOpen);
+  const alertText = useBoundStore((state) => state.alertText);
+  const bgColor = useBoundStore((state) => state.bgColor);
+
   // input의 id name에 따라 값이 담김
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.id === "user-email") {
@@ -26,18 +32,24 @@ const Login = () => {
     e.preventDefault();
     const responseItem = await login(userInputId, userInputPassword);
     if (responseItem._id !== -1) {
+      setIsToastOpen(true);
+      setAlertText("로그인이 완료되었습니다");
+      setBgColor("var(--toast-success)");
       updateUserBasicInfo(responseItem.token, responseItem);
       navigate("/home");
     }
   };
 
   return (
-    <div className={classes.loginContainer}>
+    <div>
       <LoginForm
         handleInputChange={handleInputChange}
         handleSubmit={handleSubmit}
         userInputPassword={userInputPassword}
         userInputId={userInputId}
+        isToastOpen={isToastOpen}
+        alertText={alertText}
+        bgColor={bgColor}
       />
     </div>
   );

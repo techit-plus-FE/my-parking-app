@@ -10,11 +10,17 @@ import classes from "./ProductDetail.module.css";
 import Loading from "../../../common/Loading";
 import useCustomAxios from "../../../../services/useCustomAxios";
 import { useBoundStore } from "../../../../store";
+import { Toast } from "../../../UI/Toast";
 
 const ProductDetail = () => {
   const { productId } = useParams();
   const navigate = useNavigate();
   const axiosInstance = useCustomAxios();
+
+  const isToastOpen = useBoundStore((state) => state.isToastOpen);
+  const alertText = useBoundStore((state) => state.alertText);
+  const setAlertText = useBoundStore((state) => state.setAlertText);
+  const setIsToastOpen = useBoundStore((state) => state.setIsToastOpen);
 
   const [loading, setLoading] = useState(true);
   const [productData, setProductData] = useState<ProductItemType>({
@@ -37,9 +43,7 @@ const ProductDetail = () => {
   const setProductDetailData = useBoundStore(
     (state) => state.setProductDetailData
   );
-
   const user = useBoundStore((state) => state.userBasicInfo);
-
   // 로그인한 유저가 판매자이면서, 본인이 작성한 글일때만 수정,삭제 버튼 나오는 상태변수 선언
   const isRightUser =
     user.type === "seller" && user._id === productData.seller_id;
@@ -50,8 +54,6 @@ const ProductDetail = () => {
         `/products/${productId}`
       );
       const resItem = response.data.item;
-      // console.log(resItem);
-
       setProductData({
         seller_id: resItem.seller_id,
         name: resItem.name,
@@ -63,7 +65,6 @@ const ProductDetail = () => {
         replies: resItem.replies,
       });
       setLoading(false);
-
       //PurchaseSlice에 저장 및 업데이트
       setProductDetailData({
         seller_id: resItem.seller_id,
@@ -84,10 +85,12 @@ const ProductDetail = () => {
 
   const handleRemoveProduct = async (id: string | undefined) => {
     try {
-      await axiosInstance.delete(`/seller/products/${id}`);
-
-      alert("해당 상품이 정상적으로 삭제되었습니다.");
-      navigate(-1);
+      const response = await axiosInstance.delete(`/seller/products/${id}`);
+      if (response.data.ok === 1) {
+        setIsToastOpen(true);
+        setAlertText("해당 상품이 삭제되었습니다.");
+        navigate(`/home`);
+      }
     } catch (err) {
       console.error("해당 상품글 삭제중 문제가 발생하였습니다.", err);
     }
@@ -104,7 +107,7 @@ const ProductDetail = () => {
       <MainImagesComponent product={productData} />
       {/* 판매자 정보 컴포넌트 */}
       <SellerInfoComponent product={productData} />
-      {/*추후 헤더에 들어갈 삭제 수정하는 엑션 버튼들 컴포넌트로 만들예정*/}
+
       {isRightUser && (
         <div className={classes["util-action"]}>
           <button type="button" onClick={() => handleRemoveProduct(productId)}>
@@ -120,6 +123,8 @@ const ProductDetail = () => {
       <DetailComponent product={productData} />
       {/* 구매 및 가격 컴포넌트 */}
       <PriceAndBtnComponent product={productData} />
+
+      <Toast isToastOpen={isToastOpen} alertText={alertText} />
     </div>
   );
 };

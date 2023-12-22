@@ -21,10 +21,11 @@ import OrderHistoryDetailPage from "./pages/order-hisotry/OrderHistoryDetailPage
 import PurchasePage from "./pages/purchase/PurchaseFormPage";
 import PurchaseResultPage from "./pages/purchase/PurchaseResultPage";
 import SearchPage from "./pages/SearchPage";
-
 import Theme from "./components/UI/Theme";
 import ReplyPage from "./pages/reply/ReplyPage";
 import SellerRepliesPage from "./pages/reply/SellerRepliesPage";
+import MyProductPage from "./pages/my-services/MyProductPage";
+import MyReplyPage from "./pages/reply/MyReplyPage";
 
 // 라우터 설정
 
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
         element: <LandingPage />,
       },
       {
+        path: "/home",
+        element: <HomePage />,
+      },
+      {
         path: "/login",
         element: <LoginPage />,
       },
@@ -60,6 +65,7 @@ const router = createBrowserRouter([
       },
     ],
   },
+
   {
     path: "/",
     id: "noLayoutAndNeedLoggedIn",
@@ -73,10 +79,6 @@ const router = createBrowserRouter([
     ),
     errorElement: <ErrorPage />,
     children: [
-      {
-        path: "home",
-        element: <HomePage />,
-      },
       {
         path: "search",
         element: <SearchPage />,
@@ -109,6 +111,10 @@ const router = createBrowserRouter([
             path: ":userId/edit",
             element: <MyPageEditPage />,
           },
+          {
+            path: ":userId/mylist",
+            element: <MyProductPage />,
+          },
         ],
       },
       // 상품
@@ -136,8 +142,44 @@ const router = createBrowserRouter([
           },
         ],
       },
-
-      // 주문
+    ],
+  },
+  // 헤더만 랜더링 되는 라우터
+  {
+    path: "/",
+    id: "headerOnly",
+    element: (
+      <RootLayout
+        isNeedLoggedIn={false}
+        hasHeader={true}
+        hasFooter={false}
+        hasSearchHeader={false}
+      />
+    ),
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        // 리뷰
+        id: "reply",
+        path: "/reply",
+        children: [
+          // 내가 쓴 리뷰 보기
+          {
+            path: "replies",
+            element: <MyReplyPage />,
+          },
+          {
+            // 리뷰 쓰는 page
+            path: ":productId/:orderId",
+            element: <ReplyPage />,
+          },
+          // 판매자의 리뷰를 볼 수 있는 page
+          {
+            path: "seller-replies/:sellerId",
+            element: <SellerRepliesPage />,
+          },
+        ],
+      }, // 주문
       {
         id: "order-history",
         path: "order-history",
@@ -151,8 +193,7 @@ const router = createBrowserRouter([
             element: <OrderHistoryDetailPage />,
           },
         ],
-      },
-      // 구매
+      }, // 구매
       {
         id: "purchase",
         path: "/purchase",
@@ -164,23 +205,6 @@ const router = createBrowserRouter([
           {
             path: "/purchase/result",
             element: <PurchaseResultPage />,
-          },
-        ],
-      },
-      // 리뷰
-      {
-        id: "reply",
-        path: "/reply",
-        children: [
-          {
-            // 리뷰 쓰는 page
-            path: ":productId/:orderId",
-            element: <ReplyPage />,
-          },
-          // 판매자의 리뷰를 볼 수 있는 page
-          {
-            path: "seller-replies/:sellerId",
-            element: <SellerRepliesPage />,
           },
         ],
       },

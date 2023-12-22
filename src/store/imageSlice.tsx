@@ -22,26 +22,24 @@ const requestUploadImages = async (ImageRef: RefObject<HTMLInputElement>) => {
         },
       }
     );
-    if (imagesRes.data.ok === 1) {
-      alert("업로드가 완료되었습니다");
-    }
+  
     // 응답에서 'path' 값만 추출하여 배열로
     let imageUrlLists: string[] = [];
 
     if (imagesRes.data.files) {
       imageUrlLists = imagesRes.data.files.map(
-        (file: FilesResType) => `${file.path}`
+        (file: FilesResType) => `${BASE_URL+file.path}`
         // (file: FilesResType) => `${file.path}`
       );
     }
     if (imagesRes.data.file) {
-      const imagePath = `${imagesRes.data.file.path}`;
+      const imagePath = `${BASE_URL+imagesRes.data.file.path}`;
       // const imagePath = `${imagesRes.data.file.path}`;
       imageUrlLists.push(imagePath);
     }
 
     return imageUrlLists;
-  } catch (err) {
+  } catch (err: unknown) {
     console.error("이미지를 업로드하는데 문제가 발생하였습니다.", err);
     return [] as string[];
   }

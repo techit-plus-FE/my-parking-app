@@ -5,7 +5,9 @@ interface OrderHistoryData {
 
 //주문한 상품의 디테일 정보
 interface OrderHistoryProduct {
-  image: string;
+  image: {
+    url: string;
+  };
   name: string;
   price: number;
   _id: number;
@@ -13,6 +15,9 @@ interface OrderHistoryProduct {
   products: ProductsItem[];
   cost: {
     total: number;
+  };
+  extra: {
+    buyDate: string;
   };
 }
 
@@ -22,6 +27,8 @@ interface ProductsItem {
   quantity: number;
   seller_id: number;
   name: string;
-  image: string;
+  image: {
+    url: string;
+  };
   price: number;
 }

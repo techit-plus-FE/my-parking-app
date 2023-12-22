@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef } from "react";
 
 import ProductList from "../domain/product/list/ProductList";
 import MainKakaoMap from "./map/MainKakaoMap";
@@ -12,17 +12,21 @@ import SearchInput from "../layouts/SearchInput";
 import SearchHeader from "../layouts/SearchHeader";
 import MediaQueryMain from "../UI/MediaQueryMain";
 import { useTheme } from "@mui/material";
+import { useBoundStore } from "../../store";
+import { Toast } from "../UI/Toast";
 
 const Home = () => {
+  const isToastOpen = useBoundStore((state) => state.isToastOpen);
+
+  const alertText = useBoundStore((state) => state.alertText);
+  const bgColor = useBoundStore((state) => state.bgColor);
+
   const isMobile = MediaQueryMain();
   const theme = useTheme();
-
   const searchRef = useRef<HTMLInputElement>(null); // 검색 인풋
 
   const [map, setMap] = useState<kakao.maps.Map>();
-  // 서버 요청 받는 상품들 데이터(초기, 검색후)
-  const [products, setProducts] = useState<ProductListType | []>([]);
-  // 현재위치 상태
+  const [products, setProducts] = useState<ProductListType | []>([]); // 서버 요청 받는 상품들 데이터(초기, 검색후)
   const [nowLocation, setNowLocation] = useState<LocationType>({
     centerLatLng: {
       lat: undefined,
@@ -30,50 +34,60 @@ const Home = () => {
     },
     error: null,
     isLoading: true,
-  });
-  // 지도 정보 상태
+  }); // 현재위치 상태
+  const [period, setPeriod] = useState<string[]>(["2023-12-01", "2024-01-31"]);
   const [searchInfo, setSearchInfo] = useState<MapInfoType>({
-    keyword: null,
+    place_name: null,
     centerLatLng: {
       // 현재 위치로 초기 좌표 설정 현재 좌표 못불러오면 애플트리타워로 초기 좌표설정
-      lat: 37.5070100333146,
-      lng: 127.055618149788,
+      lat: null,
+      lng: null,
     },
     period: undefined,
     isPanTo: false,
-  });
+  }); // 지도 정보 상태
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      handleSearch();
-    }
-  };
-
-  // 위치검색을 통한 지도 영역생성 함수
+  //상품 검색에 필요한 정보(searchInfo)를 변경하고, 사용자의 검색 의도에 따라 조건적으로 지도를 움직이는 함수
   const handleSearch = () => {
     if (!map || !searchRef.current) return;
 
+    // 검색어 입력값이 없는 경우, 날짜 필터만 적용해서 상품 검색
+    if (searchRef.current.value === "") {
+      setSearchInfo({
+        ...searchInfo,
+        period: period,
+        place_name: null,
+      });
+      return;
+    }
+
+    //검색어 입력값이 있는 경우, 지도를 이동한 후 상품 검색
     const ps = new kakao.maps.services.Places(map);
     ps.keywordSearch(`${searchRef.current.value}`, placeSearchCB);
 
-    function placeSearchCB(result: any, status: any) {
+    function placeSearchCB(
+      result: kakao.maps.services.PlacesSearchResult,
+      status: kakao.maps.services.Status
+    ) {
       if (!map) return;
       if (status === kakao.maps.services.Status.OK) {
-        // 남서,북동 기본값(애플트리타워)
-        const bound = new kakao.maps.LatLngBounds(); // 지도 영역생성 -> 사각형
-
         const data = result[0]; // 가장 유사한 상위검색객체 저장
+        //지도의 중심 좌표 이동
+        map.setCenter(new kakao.maps.LatLng(Number(data.y), Number(data.x)));
 
-        bound.extend(new kakao.maps.LatLng(data.y, data.x));
-        map.setBounds(bound);
+        //지정한 영역이 가장 잘 보이는 최적의 지도 중심 좌표와 레벨이 지정
+        // const bound = new kakao.maps.LatLngBounds(); // 지도 영역생성 -> 사각형
+        // bound.extend(new kakao.maps.LatLng(Number(data.y), Number(data.x)));
+        // map.setBounds(bound);
 
         // (추가)검색한 키워드, 중심좌표, 영역을 담은 객체 상태를 변경해줍니다.
         setSearchInfo({
           ...searchInfo,
-          keyword: searchRef.current && searchRef.current.value,
+          place_name: data.place_name,
+          period: period,
           centerLatLng: {
-            lat: data.y,
-            lng: data.x,
+            lat: Number(data.y),
+            lng: Number(data.x),
           },
         });
       }
@@ -81,10 +95,11 @@ const Home = () => {
   };
 
   // 현재 위치 불러오는 함수 -> 한번 불러온 위치 캐시메모리에 저장(useCallback)
-  const handleFetchNowLocation = useCallback(() => {
+  const handleFetchNowLocation = async () => {
+    if (!map) return;
     if (navigator.geolocation) {
       // geo서비스를 사용해서 접속 위치 추출
-      navigator.geolocation.getCurrentPosition(
+      await navigator.geolocation.getCurrentPosition(
         (position) => {
           setNowLocation((prev) => ({
             ...prev,
@@ -94,8 +109,16 @@ const Home = () => {
             },
             isLoading: false,
           }));
+
+          map.setCenter(
+            new kakao.maps.LatLng(
+              Number(position.coords.latitude),
+              Number(position.coords.longitude)
+            )
+          );
           setSearchInfo((prev) => ({
             ...prev,
+            place_name: null,
             centerLatLng: {
               lat: position.coords.latitude,
               lng: position.coords.longitude,
@@ -119,16 +142,15 @@ const Home = () => {
         isLoading: false,
       }));
     }
-  }, []);
+  };
 
   //searchInput이 받는 props 를 여기에 정의해주세요
   const searchInputElement = (
     <SearchInput
-      onKeyDown={handleKeyDown}
       ref={searchRef}
       handleSearch={handleSearch}
       searchInfo={searchInfo}
-      setSearchInfo={setSearchInfo}
+      setPeriod={setPeriod}
     />
   );
 
@@ -152,8 +174,8 @@ const Home = () => {
             flex: "0.5",
             backgroundColor: theme.palette.background.default,
             position: "relative",
-            flexBasis: "120px",
           }}
+          minWidth="360px"
         >
           <SlideBar children={searchInputElement} />
         </Box>
@@ -163,10 +185,11 @@ const Home = () => {
 
       <Box
         sx={{
-          flex: "1",
+          flex: "2",
           width: isMobile ? "80%" : "auto",
           height: isMobile ? "300px" : "auto",
           margin: isMobile ? "0 auto" : "0",
+          paddingTop: isMobile ? "77px" : "0",
         }}
       >
         <MainKakaoMap
@@ -190,6 +213,12 @@ const Home = () => {
       </Box>
 
       {isMobile && <Footer />}
+
+      <Toast
+        isToastOpen={isToastOpen}
+        alertText={alertText}
+        bgColor={bgColor}
+      />
     </Box>
   );
 };

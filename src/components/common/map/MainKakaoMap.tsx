@@ -8,9 +8,13 @@ import {
 
 import CustomOverlayBox from "./CustomOverlayBox";
 import { useBoundStore } from "../../../store";
+import { BASE_URL } from "../../../services/BaseUrl";
 
 import classes from "./MainKakaoMap.module.css";
-import { BASE_URL } from "../../../services/BaseUrl";
+import MyLocationIcon from "@mui/icons-material/MyLocation";
+
+import USER_MARKER from "../../../assets/images/user-marker2-image.png";
+import PARKING_MARKER from "../../../assets/images/parking-marker-image.png";
 
 // 홈페이지 메인 지도 서비스
 type Props = {
@@ -45,6 +49,9 @@ const MainKakaoMap = ({
   const [selectedMarker, setSelectedMarker] = useState<number | null>(null);
   const [_, setIsBtnClick] = useState<boolean>(false);
 
+  const setIsToastOpen = useBoundStore((state) => state.setIsToastOpen);
+  const setAlertText = useBoundStore((state) => state.setAlertText);
+
   // 검색어에 해당하는 주차장 쿼리 요청 함수
   const searchProducts = async () => {
     if (!map) return;
@@ -59,6 +66,9 @@ const MainKakaoMap = ({
   // 현위치 버튼 클릭시,
   const handleToggleLocation = () => {
     setIsBtnClick(true);
+    // 로딩중 토스트 ui설정
+    setIsToastOpen(true);
+    setAlertText("현재위치를 불러오고 있습니다. 잠시만 기다려주세요!");
     handleFetchNowLocation();
   };
 
@@ -69,10 +79,11 @@ const MainKakaoMap = ({
 
   return (
     <div className={classes.container}>
+      {/* 현재위치버튼을 클릭하지 않았을경우와 클릭했을경우 Map의 center좌표 다르게 */}
       <Map
         center={{
-          lat: searchInfo.centerLatLng.lat,
-          lng: searchInfo.centerLatLng.lng,
+          lat: 37.5070100333146,
+          lng: 127.055618149788,
         }}
         style={{ height: "100vh" }}
         level={level}
@@ -81,13 +92,41 @@ const MainKakaoMap = ({
           setMapExist(true);
         }}
         onZoomChanged={(map) => {
-          searchProducts()
-          setLevel(map.getLevel())
-          }
-        }
+          searchProducts();
+          setLevel(map.getLevel());
+        }}
         onDragEnd={() => searchProducts()}
+        maxLevel={7}
       >
-        {/* 1. 상품들 데이터리스트를 맵핑해서 해당 위치값을 마커로 보여주기 */}
+        {/* 검색한 위치 마커 보여주기 */}
+        {searchInfo.place_name && (
+          <MapMarker
+            position={{
+              lat: Number(searchInfo.centerLatLng.lat),
+              lng: Number(searchInfo.centerLatLng.lng),
+            }}
+          >
+            <div
+              style={{
+                padding: "5px 0 10px 18px",
+                color: "#000",
+                textAlign: "center",
+              }}
+            >
+              <p
+                style={{
+                  fontWeight: "700",
+                  color: "var(--color-primary-800)",
+                  fontSize: "14px",
+                }}
+              >
+                {searchInfo.place_name}
+              </p>
+            </div>
+          </MapMarker>
+        )}
+
+        {/* 상품들 데이터리스트를 맵핑해서 해당 위치값을 마커로 보여주기 */}
         {markers &&
           markers?.map((el, idx) => (
             <>
@@ -100,6 +139,10 @@ const MainKakaoMap = ({
                 onClick={() => {
                   setIsOverlayOpen(true);
                   setSelectedMarker(idx);
+                }}
+                image={{
+                  src: PARKING_MARKER,
+                  size: { width: 60, height: 60 },
                 }}
               />
               {isOverlayOpen && selectedMarker === idx && (
@@ -117,7 +160,7 @@ const MainKakaoMap = ({
                     startDate={el.extra?.startDate}
                     endDate={el.extra?.endDate}
                     linkId={el?._id}
-                    mainImage={BASE_URL + el.mainImages?.[0].url}
+                    mainImage={el.mainImages && BASE_URL + el.mainImages[0].url}
                   />
                 </CustomOverlayMap>
               )}
@@ -132,36 +175,28 @@ const MainKakaoMap = ({
               lng: Number(nowLocation.centerLatLng.lng),
             }}
             image={{
-              src: "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png",
-              size: { width: 38, height: 55 },
+              src: USER_MARKER,
+              size: { width: 60, height: 60 },
             }}
-          >
-            <div
-              style={{
-                padding: "5px 0 10px 18px",
-                color: "#000",
-                textAlign: "center",
-              }}
-            >
-              <p
-                style={{ fontWeight: "700", color: "var(--color-primary-800)" }}
-              >
-                현재 위치 입니다
-              </p>
-            </div>
-          </MapMarker>
+          ></MapMarker>
         )}
         <ZoomControl />
       </Map>
 
       <div className={classes["map-control"]}>
-        <button
-          type="button"
+        <MyLocationIcon
+          sx={{
+            cursor: "pointer",
+            backgroundColor: "var(--color-sub-500)",
+            color: "var(--color-white)",
+            padding: "6px",
+            fontSize: "40px",
+            boxShadow: "1px 2px 2px rgba(0, 0, 0, 0.3)",
+            borderRadius: "10px",
+          }}
           className={classes["location-btn"]}
           onClick={handleToggleLocation}
-        >
-          내 위치 보기
-        </button>
+        />
       </div>
     </div>
   );

@@ -109,7 +109,6 @@ const ProductForm = ({ title, onSubmit, product }: Props) => {
   // 최종 서버로 상태 끌어올리기
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-    console.log(mainImages);
     onSubmit(formData, mainImages);
   };
 

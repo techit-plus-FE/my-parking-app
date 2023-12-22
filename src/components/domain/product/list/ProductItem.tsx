@@ -12,6 +12,7 @@ type Props = {
 };
 
 const ProductItem: React.FC<Props> = ({ product }) => {
+  const removeProductCreatedAt = product.createdAt?.slice(0, 11);
   return (
     <Box
       sx={{
@@ -36,17 +37,24 @@ const ProductItem: React.FC<Props> = ({ product }) => {
           <div className={classes["product-info"]}>
             <h4>{product.name}</h4>
             <div className={classes["product-period"]}>
-              <small>
-                {product.extra?.startDate
-                  ? product.extra?.startDate
-                  : "등록날짜가 없습니다."}
-                ~
-              </small>
-              <small>
-                {product.extra?.endDate
-                  ? product.extra?.endDate
-                  : "등록날짜가 없습니다."}
-              </small>
+              <span>대여기간</span>
+              <div className={classes["period-content"]}>
+                <small>
+                  {product.extra?.startDate
+                    ? product.extra?.startDate
+                    : "등록날짜가 없습니다."}
+                  ~
+                </small>
+                <small>
+                  {product.extra?.endDate
+                    ? product.extra?.endDate
+                    : "등록날짜가 없습니다."}
+                </small>
+              </div>
+            </div>
+            <div className={classes["product-createdAt"]}>
+              <span>등록날짜</span>
+              <small>{removeProductCreatedAt}</small>
             </div>
             <p className={classes["product-price"]}>{product.price}원</p>
           </div>
