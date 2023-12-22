@@ -46,7 +46,7 @@ export const Toast: React.FC<ToastProps> = ({
   return (
     <Snackbar
       open={toastOpen}
-      autoHideDuration={2000}
+      autoHideDuration={1500}
       onClose={handleClose}
       action={action}
     >
@@ -55,7 +55,9 @@ export const Toast: React.FC<ToastProps> = ({
           color: "#fff",
           backgroundColor: `${bgColor || "var(--toast-success)"}`,
         }}
-        onClose={() => {}}
+        onClose={() => {
+          setIsToastOpen(false);
+        }}
       >
         {alertText}
       </Alert>

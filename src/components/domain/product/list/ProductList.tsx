@@ -113,7 +113,7 @@ const ProductList = ({ products, isMobile, isMyList }: Props) => {
             display: "flex",
             flexDirection: "column",
             height: "100vh",
-            width: isMyList ? "100%" : "400px",
+            // width: isMyList ? "auto" : "400px",
           }}
           className={classes.containerMobile}
         >
@@ -165,7 +165,7 @@ const ProductList = ({ products, isMobile, isMyList }: Props) => {
             display: "flex",
             flexDirection: "column",
             height: "100vh",
-            width: isMyList ? "auto" : "400px",
+            // width: isMyList ? "400p" : "auto",
           }}
           className={classes.container}
         >
