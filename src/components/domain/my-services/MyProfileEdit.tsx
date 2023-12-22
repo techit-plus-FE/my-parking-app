@@ -17,8 +17,12 @@ const MyProfileEdit = () => {
   const [userInputRef, setUserInputRef] = useState<{ [key in keyof UserBasicInfoType]: React.MutableRefObject<HTMLInputElement|null> }>({} as { [key in keyof UserBasicInfoType]: React.MutableRefObject<HTMLInputElement|null> })
   const [userExtraInputRef, setUserExtraInputRef] = useState<{ [key in keyof Required<ExtraType>]: React.MutableRefObject<HTMLInputElement|null> }>({} as { [key in keyof Required<ExtraType>]: React.MutableRefObject<HTMLInputElement|null> })
   const [isLoading, setIsLoading] = useState(false);
-  const [isToastOpen, setIsToastOpen] = useState(false);
-  const [toastMessage, setToastMessage] = useState("");
+  const isToastOpen= useBoundStore(state=>state.isToastOpen)
+  const setIsToastOpen = useBoundStore(state=>state.setIsToastOpen)
+  const toastMessage = useBoundStore(state=>state.alertText)
+  const setToastMessage = useBoundStore(state=>state.setAlertText)
+  const setBgColor = useBoundStore(state=>state.setBgColor)
+  const bgColor = useBoundStore(state=>state.bgColor)
 
   const fetchAndSetMyInfo = async () => {
     const myInfo = await Store.getMyInfo(id, Store.userToken.accessToken);
@@ -68,16 +72,22 @@ const MyProfileEdit = () => {
     if (imageUploadRef.current === null) return
     if (imageUploadRef.current.files === null ) return
     if (imageUploadRef.current.files.length === 0 ) return
-    setIsLoading(true)
+    // setIsLoading(true)
+    setIsToastOpen(true)
+    setToastMessage("프로필 사진 변경을 요청하였습니다.")
+    setBgColor("var(--toast-success)") 
+    closeModal()
+    
     const uploadImage = Store.uploadImage
     const profileImageURL = await uploadImage(imageUploadRef)
     const updatedInfo = await Store.updateMyInfo(id, Store.userToken.accessToken, {extra: {...myInfo.extra, profileImage: profileImageURL[0]}})
     Store.setMyInfo({...myInfo, ...updatedInfo})
-    closeModal()
+    
     setIsLoading(false)
     if (profileImageURL.length !== 0) {
       setIsToastOpen(true)
-      setToastMessage("업로드가 완료되었습니다.")
+      setToastMessage("프로필 사진 변경이 완료되었습니다.")
+      setBgColor("var(--toast-success)")
     }
   }
 
@@ -117,7 +127,9 @@ const MyProfileEdit = () => {
     const editedInfo = {...myBasicInfo, extra: {...myExtraInfo}}
     console.log('editedInto:', editedInfo)
     if (await Store.updateMyInfo(id, Store.userToken.accessToken, editedInfo)){
-      alert('수정이 완료되었습니다')
+      setIsToastOpen(true)
+      setToastMessage("프로필 수정이 완료되었습니다.")
+      setBgColor("var(--toast-success)");
       navigate(`/mypage/${myInfo._id}`)
     }
   }
@@ -140,8 +152,8 @@ const MyProfileEdit = () => {
       isLoading ={isLoading}
       setIsLoading = {setIsLoading}
       isToastOpen = {isToastOpen}
-      setIsToastOpen = {setIsToastOpen}
       toastMessage = {toastMessage}
+      bgColor = {bgColor}
      />
      </>
   )

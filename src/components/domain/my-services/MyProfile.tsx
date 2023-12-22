@@ -6,6 +6,7 @@ import classes from "./Mypage.module.css";
 import { MuiButton } from "../../UI/CommonButton";
 import usericon from "../../../assets/images/user-default-profile.png";
 import { useTheme } from "@mui/material/styles";
+import { Toast } from "../../UI/Toast";
 
 const MyProfile = () => {
   const theme = useTheme();
@@ -17,6 +18,9 @@ const MyProfile = () => {
     Store.setMyInfo(await Store.getMyInfo(id, Store.userToken.accessToken));
   };
   const fontSize = "1.2rem";
+  const isToastOpen = useBoundStore(state=>state.isToastOpen)
+  const toastMessage = useBoundStore(state=>state.alertText)
+  const bgColor = useBoundStore(state=>state.bgColor)
   useEffect(() => {
     Store.isLoggedIn
       ? fetchAndSetMyInfo()
@@ -122,6 +126,11 @@ const MyProfile = () => {
           )}
         </Box>
       </Box>
+      <Toast
+        isToastOpen = {isToastOpen}
+        alertText = {toastMessage}
+        bgColor = {bgColor}
+      />
     </>
   );
 };
