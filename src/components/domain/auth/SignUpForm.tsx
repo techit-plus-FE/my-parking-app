@@ -8,9 +8,16 @@ import { Box } from "@mui/system";
 import classes from "./SignUpForm.module.css";
 import { useTheme } from "@mui/material";
 import { CommonButtonLarge, MuiButton } from "../../UI/CommonButton";
+import { Toast } from "../../UI/Toast";
 
 const SignUpForm = () => {
   const AuthSlice: AuthSlice = useBoundStore((state) => state);
+  const isToastOpen = useBoundStore((state)=>state.isToastOpen)
+  const setIsToastOpen = useBoundStore((state)=>state.setIsToastOpen)
+  const bgColor = useBoundStore((state)=>state.bgColor)
+  const setBgColor = useBoundStore((state)=>state.setBgColor)
+  const toastMessage = useBoundStore((state)=>state.alertText)
+  const setToastMessage = useBoundStore((state)=>state.setAlertText)
   const navigate = useNavigate();
   const [userInputs, setUserInputs] = useState<UserInputClass>(
     new UserInputClass()
@@ -39,11 +46,34 @@ const SignUpForm = () => {
     const newPerson: Partial<UserInputClass> = { ...userInputs };
     delete newPerson["passwordCheck"];
 
+    const AuthAlert = await AuthSlice.signUp(newPerson)
     //newPerson을 넣어 회원가입을 진행합니다. 잘 완료되었다면 login 페이지로 이동합니다.
-    if ((await AuthSlice.signUp(newPerson)) == true) {
+    if (AuthAlert['ok'] == true) {
+      setIsToastOpen(true)
+      setToastMessage(AuthAlert['message'])
+      setBgColor('var(--toast-success)')
       navigate("/login");
     }
+    else {
+      setIsToastOpen(true)
+      setToastMessage(AuthAlert['message'])
+      setBgColor('var(--toast-error)')
+    }
   };
+
+  const handleEmailVerification: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const AuthAlert = await AuthSlice.verifyEmail(userInputs.email)
+    if (AuthAlert['ok'] == true) {
+      setIsToastOpen(true)
+      setToastMessage(AuthAlert['message'])
+      setBgColor('var(--toast-success)')
+    }
+    else {
+      setIsToastOpen(true)
+      setToastMessage(AuthAlert['message'])
+      setBgColor('var(--toast-error)')
+    } 
+  }
 
   const theme = useTheme();
 
@@ -66,6 +96,7 @@ const SignUpForm = () => {
   }
 
   return (
+    <>
     <div className={classes.signUpContainer}>
       <h2>회원가입</h2>
       <form onSubmit={(e) => e.preventDefault()}>
@@ -100,14 +131,13 @@ const SignUpForm = () => {
               onChange={saveUserInputs}
             />
           </div>
-          <Button
-            onClick={() => AuthSlice.verifyEmail(userInputs.email)}
-            sx={{
-              color: theme.palette.text.primary,
-            }}
-          >
-            이메일 중복확인
-          </Button>
+          <MuiButton
+            onClick={handleEmailVerification}
+            // sx={{
+            //   color: theme.palette.text.primary,
+            // }}
+            text={"이메일 중복확인"}
+          />
           <div>
             <div>비밀번호</div>
             <TextField
@@ -211,6 +241,12 @@ const SignUpForm = () => {
         </Box>
       </form>
     </div>
+    <Toast
+        bgColor = {bgColor}
+        alertText ={toastMessage}
+        isToastOpen = {isToastOpen}
+      />
+    </>
   );
 };
 

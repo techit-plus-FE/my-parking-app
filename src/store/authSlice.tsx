@@ -5,10 +5,8 @@ import { StateCreator } from "zustand";
 import { BASE_URL } from "../services/BaseUrl";
 import { UserBasicInfo } from "../types/classImplementations";
 
-//index.ts Store에서도 AuthSlice를 참조하기 때문에 types 파일에 AuthSlice type을 선언하였습니다.
-
 //회원가입 API 요청 -> 성공 시 true, 실패 시 false 반환
-const requestSignUp: (arg: Person) => Promise<boolean> = async (
+const requestSignUp: (arg: Person) => Promise<AuthAlertType> = async (
   UserInput: Person
 ) => {
   // 서버로 회원가입 요청 보내기
@@ -18,8 +16,7 @@ const requestSignUp: (arg: Person) => Promise<boolean> = async (
       AuthResponseType
     >(`${BASE_URL}/users/`, UserInput);
     if (response.data.ok === 1) {
-      alert("회원가입이 완료되었습니다.");
-      return true;
+      return {ok: true, message: "회원가입이 완료되었습니다"};
     }
   } catch (error: unknown) {
     if (axios.isAxiosError(error)) {
@@ -27,37 +24,40 @@ const requestSignUp: (arg: Person) => Promise<boolean> = async (
         const errorMessage: string = error.response.data.errors[0]?.msg
           ? error.response.data.errors[0].msg
           : error.response.data.message;
-        alert(errorMessage);
+        return {ok: false, message: errorMessage}
       }
     }
     console.error("Error:", error);
-    return false;
+    return {ok: false, message: "unknown error"};
   }
-  return false;
+  return {ok: false, message: "unknown error"};
 };
 
 //이메일 중복확인 요청
-const requestEmailVerification: (arg: string) => void = async (
+const requestEmailVerification: (arg: string) => Promise<AuthAlertType> = async (
   email: string
 ) => {
   try {
     const response = await axios.get<string, AuthResponseType>(
       `${BASE_URL}/users/email?email=${email}`
     );
+    console.log(response)
+    console.log(response.data)
     if (response.data.ok === 1) {
-      alert("이메일 인증이 완료되었습니다.");
+      return {ok: true, message: "이메일 인증이 완료되었습니다"};
     }
   } catch (error: unknown) {
-    if (!axios.isAxiosError(error)) return;
+    console.log(error)
+    if (!axios.isAxiosError(error)) return {ok: false, message: "unknown error"};
     if (error.response) {
-      const errorMessage: string = error.response.data.errors[0]?.msg
+      const errorMessage: string = error.response.data.errors
         ? error.response.data.errors[0].msg
         : error.response.data.message;
-      alert(errorMessage);
-      // alert(error.response.data.message);
+      return {ok: false, message: errorMessage}
     }
-    console.error("Error:", error);
+  return {ok: false, message: "unknown error"}
   }
+  return {ok: false, message: "unknown error"}
 };
 
 //로그인 후 토큰 받아오는 함수
@@ -103,7 +103,7 @@ export const createAuthSlice: StateCreator<AuthSlice, []> = (set) => ({
 
   //이메일 중복확인
   verifyEmail: (email: string) => {
-    requestEmailVerification(email);
+    return requestEmailVerification(email);
   },
   //회원가입
   signUp: (UserInput: Person) => {
