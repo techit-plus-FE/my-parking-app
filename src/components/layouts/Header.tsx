@@ -41,6 +41,7 @@ const Header = () => {
 
   return (
     <Box
+      className={classes.headerContainer}
       sx={{
         width: "100%",
         position: "fixed",
@@ -61,6 +62,9 @@ const Header = () => {
             alignItems: "flex-start",
           }}
         />
+        <div className={classes.toggle}>
+          <Toggle />
+        </div>
         {/* 
         <BottomNavigationAction
           icon={<MoreVertIcon />}
@@ -70,9 +74,6 @@ const Header = () => {
           onClick={handleMenuClick}
         /> */}
       </BottomNavigation>
-      <div className={classes.toggle}>
-        <Toggle />
-      </div>
 
       {/* 드롭다운 메뉴 */}
       {/* <Menu
