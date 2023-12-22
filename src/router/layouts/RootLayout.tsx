@@ -8,7 +8,7 @@ import ScrollTop from "../../components/common/ScrollTop";
 import { useBoundStore } from "../../store";
 import ErrorPage from "../../pages/ErrorPage";
 import LoginPage from "../../pages/auth/LoginPage";
-import Toggle from "../../components/layouts/Toggle";
+// import HomePage from "../../pages/HomePage";
 
 // 이 레이아웃은 헤더와 푸터가 적용되지 않은 레이아웃입니다.
 // 모든 페이지에서 적용할 상태나 테마를 여기서 꾸려주어야 합니다. -> 전체 색상테마(다크모드상태), 토큰상태)
