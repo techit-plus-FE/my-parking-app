@@ -10,11 +10,17 @@ import classes from "./ProductDetail.module.css";
 import Loading from "../../../common/Loading";
 import useCustomAxios from "../../../../services/useCustomAxios";
 import { useBoundStore } from "../../../../store";
+import { Toast } from "../../../UI/Toast";
 
 const ProductDetail = () => {
   const { productId } = useParams();
   const navigate = useNavigate();
   const axiosInstance = useCustomAxios();
+
+  const isToastOpen = useBoundStore((state) => state.isToastOpen);
+  const alertText = useBoundStore((state) => state.alertText);
+  const setAlertText = useBoundStore((state) => state.setAlertText);
+  const setIsToastOpen = useBoundStore((state) => state.setIsToastOpen);
 
   const [loading, setLoading] = useState(true);
   const [productData, setProductData] = useState<ProductItemType>({
@@ -48,8 +54,6 @@ const ProductDetail = () => {
         `/products/${productId}`
       );
       const resItem = response.data.item;
-      // console.log(resItem);
-
       setProductData({
         seller_id: resItem.seller_id,
         name: resItem.name,
@@ -61,7 +65,6 @@ const ProductDetail = () => {
         replies: resItem.replies,
       });
       setLoading(false);
-
       //PurchaseSlice에 저장 및 업데이트
       setProductDetailData({
         seller_id: resItem.seller_id,
@@ -82,10 +85,12 @@ const ProductDetail = () => {
 
   const handleRemoveProduct = async (id: string | undefined) => {
     try {
-      await axiosInstance.delete(`/seller/products/${id}`);
-
-      alert("해당 상품이 정상적으로 삭제되었습니다.");
-      navigate(-1);
+      const response = await axiosInstance.delete(`/seller/products/${id}`);
+      if (response.data.ok === 1) {
+        setIsToastOpen(true);
+        setAlertText("해당 상품이 삭제되었습니다.");
+        navigate(`/home`);
+      }
     } catch (err) {
       console.error("해당 상품글 삭제중 문제가 발생하였습니다.", err);
     }
@@ -118,6 +123,8 @@ const ProductDetail = () => {
       <DetailComponent product={productData} />
       {/* 구매 및 가격 컴포넌트 */}
       <PriceAndBtnComponent product={productData} />
+
+      <Toast isToastOpen={isToastOpen} alertText={alertText} />
     </div>
   );
 };

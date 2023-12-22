@@ -49,6 +49,9 @@ const MainKakaoMap = ({
   const [selectedMarker, setSelectedMarker] = useState<number | null>(null);
   const [_, setIsBtnClick] = useState<boolean>(false);
 
+  const setIsToastOpen = useBoundStore((state) => state.setIsToastOpen);
+  const setAlertText = useBoundStore((state) => state.setAlertText);
+
   // 검색어에 해당하는 주차장 쿼리 요청 함수
   const searchProducts = async () => {
     if (!map) return;
@@ -63,6 +66,9 @@ const MainKakaoMap = ({
   // 현위치 버튼 클릭시,
   const handleToggleLocation = () => {
     setIsBtnClick(true);
+    // 로딩중 토스트 ui설정
+    setIsToastOpen(true);
+    setAlertText("현재위치를 불러오고 있습니다. 잠시만 기다려주세요!");
     handleFetchNowLocation();
   };
 
@@ -100,7 +106,7 @@ const MainKakaoMap = ({
               lng: Number(searchInfo.centerLatLng.lng),
             }}
           >
-      <div
+            <div
               style={{
                 padding: "5px 0 10px 18px",
                 color: "#000",
@@ -111,7 +117,7 @@ const MainKakaoMap = ({
                 style={{
                   fontWeight: "700",
                   color: "var(--color-primary-800)",
-                  fontSize: "14px"
+                  fontSize: "14px",
                 }}
               >
                 {searchInfo.place_name}
@@ -154,7 +160,7 @@ const MainKakaoMap = ({
                     startDate={el.extra?.startDate}
                     endDate={el.extra?.endDate}
                     linkId={el?._id}
-                    mainImage={BASE_URL + el.mainImages?.[0].url}
+                    mainImage={el.mainImages && BASE_URL + el.mainImages[0].url}
                   />
                 </CustomOverlayMap>
               )}

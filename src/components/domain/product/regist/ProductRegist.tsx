@@ -60,7 +60,7 @@ const ProductRegist = () => {
         `/seller/products`,
         sendAllData
       );
-      // console.log(response.data);
+
       if (response.data.ok === 1) {
         setIsToastOpen(true);
         setAlertText("상품등록이 완료되었습니다.");
