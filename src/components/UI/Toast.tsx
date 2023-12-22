@@ -1,24 +1,28 @@
 import { Button, IconButton, Snackbar } from "@mui/material";
-import CloseIcon from '@mui/icons-material/Close';
+import CloseIcon from "@mui/icons-material/Close";
 import React from "react";
+import { useBoundStore } from "../../store";
 
 interface ToastProps {
-  isToastOpen: boolean,
-  setIsToastOpen: React.Dispatch<React.SetStateAction<boolean>>,
-  alertText: string
+  isToastOpen: boolean;
+  alertText: string;
 }
 
-//useState로 toast, setToastOpen을 만들어서 사용해야 함
-export const Toast: React.FC<ToastProps>  = ({
+//useState로 isToastOpen, setIsToastOpen을 만들어서 사용해야 함
+export const Toast: React.FC<ToastProps> = ({
   isToastOpen: toastOpen,
-  setIsToastOpen: setToastOpen,
   alertText,
 }) => {
-    const handleClose = (event: React.SyntheticEvent | Event, reason?: string) => {
-      if (reason === 'clickaway') {
-        return;
-      }
-      setToastOpen(false);
+  const setIsToastOpen = useBoundStore((state) => state.setIsToastOpen);
+
+  const handleClose = (
+    event: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setIsToastOpen(false);
   };
 
   const action = (
@@ -38,11 +42,12 @@ export const Toast: React.FC<ToastProps>  = ({
   );
 
   return (
-      <Snackbar
+    <Snackbar
       open={toastOpen}
       autoHideDuration={2000}
       onClose={handleClose}
       message={alertText}
       action={action}
-  />)
-}
+    />
+  );
+};

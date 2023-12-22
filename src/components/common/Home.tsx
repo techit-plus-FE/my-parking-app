@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef } from "react";
 
 import ProductList from "../domain/product/list/ProductList";
 import MainKakaoMap from "./map/MainKakaoMap";
@@ -12,17 +12,20 @@ import SearchInput from "../layouts/SearchInput";
 import SearchHeader from "../layouts/SearchHeader";
 import MediaQueryMain from "../UI/MediaQueryMain";
 import { useTheme } from "@mui/material";
+import { useBoundStore } from "../../store";
+import { Toast } from "../UI/Toast";
 
 const Home = () => {
+  const isToastOpen = useBoundStore((state) => state.isToastOpen);
+  const setIsToastOpen = useBoundStore((state) => state.setIsToastOpen);
+  const alertText = useBoundStore((state) => state.alertText);
+
   const isMobile = MediaQueryMain();
   const theme = useTheme();
-
   const searchRef = useRef<HTMLInputElement>(null); // 검색 인풋
 
   const [map, setMap] = useState<kakao.maps.Map>();
-  // 서버 요청 받는 상품들 데이터(초기, 검색후)
-  const [products, setProducts] = useState<ProductListType | []>([]);
-  // 현재위치 상태
+  const [products, setProducts] = useState<ProductListType | []>([]); // 서버 요청 받는 상품들 데이터(초기, 검색후)
   const [nowLocation, setNowLocation] = useState<LocationType>({
     centerLatLng: {
       lat: undefined,
@@ -30,10 +33,8 @@ const Home = () => {
     },
     error: null,
     isLoading: true,
-  });
-
+  }); // 현재위치 상태
   const [period, setPeriod] = useState<string[]>(["2023-12-01", "2024-01-31"]);
-  // 지도 정보 상태
   const [searchInfo, setSearchInfo] = useState<MapInfoType>({
     place_name: null,
     centerLatLng: {
@@ -43,7 +44,7 @@ const Home = () => {
     },
     period: undefined,
     isPanTo: false,
-  });
+  }); // 지도 정보 상태
 
   //상품 검색에 필요한 정보(searchInfo)를 변경하고, 사용자의 검색 의도에 따라 조건적으로 지도를 움직이는 함수
   const handleSearch = () => {
@@ -211,6 +212,8 @@ const Home = () => {
       </Box>
 
       {isMobile && <Footer />}
+
+      <Toast isToastOpen={isToastOpen} alertText={alertText} />
     </Box>
   );
 };

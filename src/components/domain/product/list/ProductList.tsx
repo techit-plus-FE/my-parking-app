@@ -45,53 +45,33 @@ const ProductList = ({ products, isMobile }: Props) => {
     }
   };
 
+  // 오늘 날짜 추출 함수
+  const getTodayDate = (): string => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+  };
+
   const handleFiltering = () => {
     if (products) {
       switch (selectValue) {
         case "latestStartDate":
           // 오늘 날짜 이전의 상품들은 제거후 정렬
-          // const getTodayDate = (): string => {
-          //   const today = new Date();
-          //   const year = today.getFullYear();
-          //   const month = String(today.getMonth() + 1).padStart(2, "0");
-          //   const day = String(today.getDate()).padStart(2, "0");
-
-          //   return `${year}-${month}-${day}`;
-          // };
-
-          // // console.log(products.map((p) => typeof p.extra?.startDate));
-
-          // const sortedAndFilteredProducts = [...products]
-          //   .filter(
-          //     (product) =>
-          //       (product.extra?.startDate as string | undefined) &&
-          //       (product.extra?.startDate as string) >= getTodayDate()
-          //   )
-          //   .sort((a, b) =>
-          //     (a.extra?.startDate as string | undefined) &&
-          //     (b.extra?.startDate as string | undefined) &&
-          //     new Date(a.extra?.startDate) > new Date(b.extra?.startDate)
-          //       ? 1
-          //       : -1
-          //   );
-
-          // console.log(sortedAndFilteredProducts);
-          // setFilteredProducts(sortedAndFilteredProducts);
-
           setFilteredProducts(
-            [...products].sort((a, b) => {
-              const today = new Date();
-              const startDateA = new Date(a.extra?.startDate as string);
-              const startDateB = new Date(b.extra?.startDate as string);
-
-              // 오늘시간과 시작시간 절댓값 차이를 비교
-              const diffA = Math.abs(today.getTime() - startDateA.getTime());
-              const diffB = Math.abs(today.getTime() - startDateB.getTime());
-
-              return diffA - diffB;
-            })
+            [...products]
+              .filter(
+                (product) =>
+                  (product.extra?.startDate as string | undefined) &&
+                  (product.extra?.startDate as string) >= getTodayDate()
+              )
+              .sort(
+                (a, b) =>
+                  Number(a.extra?.startDate) - Number(b.extra?.startDate)
+              )
           );
-
           break;
         case "latestCreatedAt":
           // 최근 등록한 상품글이 먼저 오게 정렬
@@ -219,3 +199,17 @@ const ProductList = ({ products, isMobile }: Props) => {
 };
 
 export default ProductList;
+
+// setFilteredProducts(
+//   [...products].sort((a, b) => {
+//     const today = new Date();
+//     const startDateA = new Date(a.extra?.startDate as string);
+//     const startDateB = new Date(b.extra?.startDate as string);
+
+//     // 오늘시간과 시작시간 절댓값 차이를 비교
+//     const diffA = Math.abs(today.getTime() - startDateA.getTime());
+//     const diffB = Math.abs(today.getTime() - startDateB.getTime());
+
+//     return diffA - diffB;
+//   })
+// );
