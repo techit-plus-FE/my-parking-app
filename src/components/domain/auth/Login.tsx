@@ -16,6 +16,10 @@ const Login = () => {
   const setIsToastOpen = useBoundStore((state) => state.setIsToastOpen);
   const setAlertText = useBoundStore((state) => state.setAlertText);
   const setBgColor = useBoundStore((state) => state.setBgColor);
+  const isToastOpen = useBoundStore(state=>state.isToastOpen)
+  const alertText = useBoundStore(state=>state.alertText)
+  const bgColor = useBoundStore(state=>state.bgColor)
+
 
   // input의 id name에 따라 값이 담김
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -39,12 +43,15 @@ const Login = () => {
   };
 
   return (
-    <div className={classes.loginContainer}>
+    <div>
       <LoginForm
         handleInputChange={handleInputChange}
         handleSubmit={handleSubmit}
         userInputPassword={userInputPassword}
         userInputId={userInputId}
+        isToastOpen={isToastOpen}
+        alertText={alertText}
+        bgColor={bgColor}
       />
     </div>
   );

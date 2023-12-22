@@ -7,12 +7,16 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import { useTheme } from "@mui/material";
 import classes from "./Login.module.css";
+import { Toast } from "../../UI/Toast";
 
 interface LoginFormProps {
   handleInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   userInputId: string;
   userInputPassword: string;
+  isToastOpen: boolean;
+  alertText: string;
+  bgColor: string;
 }
 
 const LoginForm: React.FC<LoginFormProps> = ({
@@ -20,11 +24,15 @@ const LoginForm: React.FC<LoginFormProps> = ({
   handleSubmit,
   userInputPassword,
   userInputId,
+  isToastOpen,
+  alertText,
+  bgColor
 }) => {
   const navigate = useNavigate();
   const theme = useTheme();
   return (
-    <Box
+    <>
+    <Box className={classes.loginContainer}
       sx={{
         display: "flex",
         justifyContent: "center",
@@ -73,6 +81,12 @@ const LoginForm: React.FC<LoginFormProps> = ({
         </Button>
       </form>
     </Box>
+    <Toast
+      isToastOpen={isToastOpen}
+      bgColor={bgColor}
+      alertText={alertText}
+    />
+  </>
   );
 };
 
