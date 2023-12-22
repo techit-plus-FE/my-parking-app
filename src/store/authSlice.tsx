@@ -24,7 +24,9 @@ const requestSignUp: (arg: Person) => Promise<boolean> = async (
   } catch (error: unknown) {
     if (axios.isAxiosError(error)) {
       if (error.response) {
-        const errorMessage: string = error.response.data.errors[0]?.msg? error.response.data.errors[0].msg : error.response.data.message
+        const errorMessage: string = error.response.data.errors[0]?.msg
+          ? error.response.data.errors[0].msg
+          : error.response.data.message;
         alert(errorMessage);
       }
     }
@@ -46,9 +48,11 @@ const requestEmailVerification: (arg: string) => void = async (
       alert("이메일 인증이 완료되었습니다.");
     }
   } catch (error: unknown) {
-    if (!axios.isAxiosError(error)) return 
+    if (!axios.isAxiosError(error)) return;
     if (error.response) {
-      const errorMessage: string = error.response.data.errors[0]?.msg? error.response.data.errors[0].msg : error.response.data.message
+      const errorMessage: string = error.response.data.errors[0]?.msg
+        ? error.response.data.errors[0].msg
+        : error.response.data.message;
       alert(errorMessage);
       // alert(error.response.data.message);
     }
@@ -70,17 +74,16 @@ const requestUserLogin = async (email: string, password: string) => {
       userInfo
     );
 
-    if (response.data.ok) {
-      alert("로그인이 완료되었습니다.");
-    }
     // response 객체 안에 item return
     return response.data.item;
   } catch (error: unknown) {
-    if (axios.isAxiosError(error)) 
-    if (error.response) {
-      const errorMessage: string = error.response.data.errors[0]?.msg? error.response.data.errors[0].msg : error.response.data.message
-      alert(errorMessage);
-    }
+    if (axios.isAxiosError(error))
+      if (error.response) {
+        const errorMessage: string = error.response.data.errors[0]?.msg
+          ? error.response.data.errors[0].msg
+          : error.response.data.message;
+        alert(errorMessage);
+      }
     console.error("로그인이 실패하였습니다.");
   }
   return {

@@ -13,6 +13,10 @@ const Login = () => {
   const updateUserBasicInfo = useBoundStore(
     (state) => state.updateUserBasicInfo
   );
+  const setIsToastOpen = useBoundStore((state) => state.setIsToastOpen);
+  const setAlertText = useBoundStore((state) => state.setAlertText);
+  const setBgColor = useBoundStore((state) => state.setBgColor);
+
   // input의 id name에 따라 값이 담김
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.id === "user-email") {
@@ -26,6 +30,9 @@ const Login = () => {
     e.preventDefault();
     const responseItem = await login(userInputId, userInputPassword);
     if (responseItem._id !== -1) {
+      setIsToastOpen(true);
+      setAlertText("로그인이 완료되었습니다");
+      setBgColor("var(--toast-success)");
       updateUserBasicInfo(responseItem.token, responseItem);
       navigate("/home");
     }
