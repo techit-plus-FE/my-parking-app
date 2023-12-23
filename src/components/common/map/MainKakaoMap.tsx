@@ -52,7 +52,13 @@ const MainKakaoMap = ({
   const setIsToastOpen = useBoundStore((state) => state.setIsToastOpen);
   const setAlertText = useBoundStore((state) => state.setAlertText);
 
-  // 검색어에 해당하는 주차장 쿼리 요청 함수
+
+  useEffect(() => {
+    // 해당하는 bounds영역에 맞는 범위의 상품리스트 요청
+    searchProducts();
+  }, [mapExist, searchInfo]);
+
+  // 해당하는 주차장 쿼리 요청 함수
   const searchProducts = async () => {
     if (!map) return;
 
@@ -72,10 +78,6 @@ const MainKakaoMap = ({
     handleFetchNowLocation();
   };
 
-  useEffect(() => {
-    // 해당하는 bounds영역에 맞는 범위의 상품리스트 요청
-    searchProducts();
-  }, [mapExist, searchInfo]);
 
   return (
     <div className={classes.container}>
