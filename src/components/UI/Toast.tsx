@@ -46,11 +46,15 @@ export const Toast: React.FC<ToastProps> = ({
       autoHideDuration={1500}
       onClose={handleClose}
       action={action}
+      color={"#fff"}
     >
       <Alert
         sx={{
           color: "#fff",
           backgroundColor: `${bgColor || "var(--toast-success)"}`,
+          "& .MuiAlert-icon": {
+            color: "#fff",
+          },
         }}
         onClose={() => {
           setIsToastOpen(false);
