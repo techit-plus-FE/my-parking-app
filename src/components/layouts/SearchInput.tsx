@@ -1,30 +1,98 @@
-import React, { ChangeEvent } from "react";
+import React, { useState, forwardRef } from "react";
+import { Box, Input } from "@mui/material";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DateRangePicker } from "@mui/x-date-pickers-pro/DateRangePicker";
+import { DateRange} from "@mui/x-date-pickers-pro";
+import dayjs, { Dayjs } from "dayjs";
+import SearchIcon from "@mui/icons-material/Search";
 
+import MediaQueryMain from "../UI/MediaQueryMain";
+import { CommonButton } from "../UI/CommonButton";
+
+import classes from "./SearchInput.module.css";
 interface SearchInputProps {
-  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
-  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
-  value?: string;
-  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  handleSearch: () => void;
+  searchInfo: MapInfoType;
+  setPeriod: (period: string[]) => void;
 }
 
-const SearchInput: React.FC<SearchInputProps> = ({
-  onChange,
-  onKeyDown,
-  value,
-  onClick,
-}) => {
+const SearchInput = forwardRef(function SearchInput(
+  props: SearchInputProps,
+  ref: React.ForwardedRef<HTMLInputElement>
+) {
+  const isMobile = MediaQueryMain();
+  const {handleSearch, setPeriod } = props;
+
+  // const [period] = useState(["", ""]);
+  const [dateRange, setDateRange] = useState<DateRange<Dayjs>>([
+    dayjs("2023-12-01"),
+    dayjs("2024-01-31"),
+  ]);
+  
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
+
+  const handleClick = () => {
+    handleSearch(); 
+  };
+
+  const handleDatePicking: (value: DateRange<Dayjs>) => void = (value) => {
+    setDateRange(value)
+    //period setting logic here
+    if (value[0] === null) return
+    if (value[1] === null) return
+    setPeriod([value[0]?.format('YYYY-MM-DD'), value[1]?.format('YYYY-MM-DD')])
+  }
+
   return (
-    <div>
-      <input
-        type="text"
-        onChange={onChange}
-        onKeyDown={onKeyDown}
-        value={value || ""}
-      />
-      <input type="date" />
-      <button onClick={onClick}>검색하기</button>
-    </div>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: isMobile ? "row" : "column",
+        alignItems: "center",
+        justifyContent: isMobile ? "center" : "space-between",
+        gap: isMobile ? "30px" : "50px",
+      }}
+    >
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: isMobile ? "row" : "column",
+          gap: isMobile ? "30px" : "50px",
+        }}
+      >
+        <Input
+          className={classes.searchInput}
+          type="text"
+          onKeyDown={handleKeyDown}
+          inputRef={ref}
+          placeholder="찾을 주차장을 검색하세요."
+          required
+        />
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DateRangePicker
+              localeText={{ start: "시작일", end: "종료일" }}
+              value={dateRange}
+              onChange={(dateRange) => {
+                handleDatePicking(dateRange)
+              }}
+            />
+        </LocalizationProvider>
+      </Box>
+      {isMobile ? (
+        <button onClick={handleClick} className={classes.searchBtn}>
+          <SearchIcon />
+        </button>
+      ) : (
+        <CommonButton text="검색하기" btnType={true} onClick={handleClick} />
+      )}
+    </Box>
+    
   );
-};
+});
 
 export default SearchInput;

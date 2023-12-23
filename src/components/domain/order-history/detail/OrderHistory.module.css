@@ -1,19 +1,23 @@
-.OrderHistoryDetailListContainer * {
-  font-size: 16px;
+.orderHistoryDetailListContainer {
+  padding: 10px;
+  background-color: var(--color-primary-600);
 }
 
-.OrderHistoryDetailListContainer {
-  box-shadow: inset 0px 0px 3px 1px rgb(0, 38, 255);
-}
-
-.OrderHistoryDetailContainer {
+.orderHistoryDetailListContainer ul {
   display: flex;
 }
 
-.OrderHistoryDetailContainer .imgWrapper {
-  width: 150px;
+.h2 {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding: 50px 0;
 }
 
-.OrderHistoryDetailContainer .imgWrapper img {
-  width: 100%;
+.orderHistoryDetailListContainer ul li {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--color-badge);
+  flex: 1;
+  text-align: center;
 }

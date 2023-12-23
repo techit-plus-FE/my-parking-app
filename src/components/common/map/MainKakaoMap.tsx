@@ -8,60 +8,82 @@ import {
 
 import CustomOverlayBox from "./CustomOverlayBox";
 import { useBoundStore } from "../../../store";
+import { BASE_URL } from "../../../services/BaseUrl";
+
+import classes from "./MainKakaoMap.module.css";
+import MyLocationIcon from "@mui/icons-material/MyLocation";
+
+import USER_MARKER from "../../../assets/images/user-marker2-image.png";
+import PARKING_MARKER from "../../../assets/images/parking-marker-image.png";
 
 // 홈페이지 메인 지도 서비스
 type Props = {
   map: kakao.maps.Map | undefined;
   setMap: (m: kakao.maps.Map | undefined) => void;
-  searchInfo: InfoType;
   setProducts: (list: ProductListType) => void;
+  searchInfo: MapInfoType;
+  nowLocation: LocationType;
+  handleFetchNowLocation: () => void;
 };
 
 // Home에서 내려준 props검색시 사용된 주소 받기
 
-const MainKakaoMap = ({ map, setMap, searchInfo, setProducts }: Props) => {
+const MainKakaoMap = ({
+  map,
+  setMap,
+  setProducts,
+  searchInfo,
+  nowLocation,
+  handleFetchNowLocation,
+}: Props) => {
   const searchItemsInThisBound = useBoundStore(
-    (state) => state.searchItemsInThisBound
+    (state) => state.searchItemsInThisBoundAndPeriod
   );
+
   const [mapExist, setMapExist] = useState<boolean>(false);
-  // const [location, setLocation] = useState({
-  //   center: {
-  //     lat: 37.5069632,
-  //     lng: 127.0556291,
-  //   },
-  //   error: null,
-  //   isLoading: true,
-  // }); // 보여줄 위치상태
   const [markers, setMarkers] = useState<ProductListType | []>();
   const [level, setLevel] = useState<number | undefined>(4);
   const [isOverlayOpen, setIsOverlayOpen] = useState<boolean | undefined>(
     false
   );
   const [selectedMarker, setSelectedMarker] = useState<number | null>(null);
+  const [_, setIsBtnClick] = useState<boolean>(false);
 
-  const requsetSearchProduct = async () => {
-    if (map && mapExist) {
-      const bound = map.getBounds()      
-      const res = await searchItemsInThisBound(bound);
+  const setIsToastOpen = useBoundStore((state) => state.setIsToastOpen);
+  const setAlertText = useBoundStore((state) => state.setAlertText);
 
-      setMarkers(res); // 마커변경출력
-      setProducts(res); // 리스트변경출력
-    }
+  // 검색어에 해당하는 주차장 쿼리 요청 함수
+  const searchProducts = async () => {
+    if (!map) return;
+
+    const bound = map.getBounds();
+    const res = await searchItemsInThisBound(bound, searchInfo.period);
+
+    setMarkers(res); // 마커변경출력
+    setProducts(res); // 리스트변경출력
+  };
+
+  // 현위치 버튼 클릭시,
+  const handleToggleLocation = () => {
+    setIsBtnClick(true);
+    // 로딩중 토스트 ui설정
+    setIsToastOpen(true);
+    setAlertText("현재위치를 불러오고 있습니다. 잠시만 기다려주세요!");
+    handleFetchNowLocation();
   };
 
   useEffect(() => {
-      // 해당하는 bounds영역에 맞는 범위의 상품리스트 요청
-      requsetSearchProduct();
-  }, [map, mapExist, searchInfo]);
-
-  
+    // 해당하는 bounds영역에 맞는 범위의 상품리스트 요청
+    searchProducts();
+  }, [mapExist, searchInfo]);
 
   return (
-    <>
+    <div className={classes.container}>
+      {/* 현재위치버튼을 클릭하지 않았을경우와 클릭했을경우 Map의 center좌표 다르게 */}
       <Map
         center={{
-          lat: searchInfo.centerLatLng.lat,
-          lng: searchInfo.centerLatLng.lng,
+          lat: 37.5070100333146,
+          lng: 127.055618149788,
         }}
         style={{ height: "100vh" }}
         level={level}
@@ -69,10 +91,42 @@ const MainKakaoMap = ({ map, setMap, searchInfo, setProducts }: Props) => {
           setMap(map); // 생성
           setMapExist(true);
         }}
-        onZoomChanged={(map) => setLevel(map.getLevel())}
-        onDragEnd={() => requsetSearchProduct()}
+        onZoomChanged={(map) => {
+          searchProducts();
+          setLevel(map.getLevel());
+        }}
+        onDragEnd={() => searchProducts()}
+        maxLevel={7}
       >
-        {/* 1. 상품들 데이터리스트를 맵핑해서 해당 위치값을 마커로 보여주기 */}
+        {/* 검색한 위치 마커 보여주기 */}
+        {searchInfo.place_name && (
+          <MapMarker
+            position={{
+              lat: Number(searchInfo.centerLatLng.lat),
+              lng: Number(searchInfo.centerLatLng.lng),
+            }}
+          >
+            <div
+              style={{
+                padding: "5px 0 10px 18px",
+                color: "#000",
+                textAlign: "center",
+              }}
+            >
+              <p
+                style={{
+                  fontWeight: "700",
+                  color: "var(--color-primary-800)",
+                  fontSize: "14px",
+                }}
+              >
+                {searchInfo.place_name}
+              </p>
+            </div>
+          </MapMarker>
+        )}
+
+        {/* 상품들 데이터리스트를 맵핑해서 해당 위치값을 마커로 보여주기 */}
         {markers &&
           markers?.map((el, idx) => (
             <>
@@ -86,6 +140,10 @@ const MainKakaoMap = ({ map, setMap, searchInfo, setProducts }: Props) => {
                   setIsOverlayOpen(true);
                   setSelectedMarker(idx);
                 }}
+                image={{
+                  src: PARKING_MARKER,
+                  size: { width: 60, height: 60 },
+                }}
               />
               {isOverlayOpen && selectedMarker === idx && (
                 <CustomOverlayMap
@@ -93,6 +151,7 @@ const MainKakaoMap = ({ map, setMap, searchInfo, setProducts }: Props) => {
                     lat: Number(el?.extra?.lat),
                     lng: Number(el?.extra?.lng),
                   }}
+                  clickable={true}
                 >
                   <CustomOverlayBox
                     setIsOverlayOpen={setIsOverlayOpen}
@@ -101,95 +160,46 @@ const MainKakaoMap = ({ map, setMap, searchInfo, setProducts }: Props) => {
                     startDate={el.extra?.startDate}
                     endDate={el.extra?.endDate}
                     linkId={el?._id}
-                    mainImage={el.mainImages && el.mainImages[0]}
+                    mainImage={el.mainImages && BASE_URL + el.mainImages[0].url}
                   />
                 </CustomOverlayMap>
               )}
             </>
           ))}
 
-
-        {/* {!location.isLoading && (
+        {/* 현재 위치 마커 */}
+        {!nowLocation.isLoading && (
           <MapMarker
-            position={location.center}
-            image={{
-              src: "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png",
-              size: { width: 38, height: 55 },
+            position={{
+              lat: Number(nowLocation.centerLatLng.lat),
+              lng: Number(nowLocation.centerLatLng.lng),
             }}
-            title="내 위치"
+            image={{
+              src: USER_MARKER,
+              size: { width: 60, height: 60 },
+            }}
           ></MapMarker>
-        )} */}
-
+        )}
         <ZoomControl />
       </Map>
-    </>
+
+      <div className={classes["map-control"]}>
+        <MyLocationIcon
+          sx={{
+            cursor: "pointer",
+            backgroundColor: "var(--color-sub-500)",
+            color: "var(--color-white)",
+            padding: "6px",
+            fontSize: "40px",
+            boxShadow: "1px 2px 2px rgba(0, 0, 0, 0.3)",
+            borderRadius: "10px",
+          }}
+          className={classes["location-btn"]}
+          onClick={handleToggleLocation}
+        />
+      </div>
+    </div>
   );
 };
 
 export default MainKakaoMap;
-
-// 3. 실시간 현재위치에따른 지도 이동
-// useEffect(() => {
-//   moveFirstLocation();
-// }, []);
-
-// 4. 지도의 정보를 다시 받아오기
-// useEffect(() => {
-//   handleMapInfo();
-// }, [map, location]);
-
-// 첫 랜더링시 현재 접속 위치로 이동
-// const moveFirstLocation = () => {
-//   if (navigator.geolocation) {
-//     // geo서비스를 사용해서 접속 위치 추출
-//     navigator.geolocation.getCurrentPosition(
-//       (position) => {
-//         setLocation((prev) => ({
-//           ...prev,
-//           center: {
-//             lat: position.coords.latitude,
-//             lng: position.coords.longitude,
-//           },
-//           isLoading: false,
-//         }));
-//       },
-//       (err) => {
-//         setLocation((prev) => ({
-//           ...prev,
-//           errMsg: err.message,
-//           isLoading: false,
-//         }));
-//       }
-//     );
-//   } else {
-//     // geo서비스를 사용못할때 마커표시와 인포윈도우 내용 설정
-//     setLocation((prev) => ({
-//       ...prev,
-//       errMsg: "실시간 위치정보를 불러오는데 문제가 생겼습니다.",
-//       isLoading: false,
-//     }));
-//   }
-// };
-
-// // 주소 반경 정보 받아오기
-// const handleMapInfo = () => {
-//   {
-//     map &&
-//       setInfo({
-//         center: {
-//           lat: map.getCenter().getLat(),
-//           lng: map.getCenter().getLng(),
-//         },
-//         level: map.getLevel(),
-//         typeId: map.getMapTypeId(),
-//         swLatLng: {
-//           lat: map.getBounds().getSouthWest().getLat(),
-//           lng: map.getBounds().getSouthWest().getLng(),
-//         },
-//         neLatLng: {
-//           lat: map.getBounds().getNorthEast().getLat(),
-//           lng: map.getBounds().getNorthEast().getLng(),
-//         },
-//       });
-//   }
-// };

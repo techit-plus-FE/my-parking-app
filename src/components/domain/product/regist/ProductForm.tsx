@@ -1,32 +1,28 @@
 // 이전 모바일 스타일 등록하기 양식을 하나로 합쳐진 양식 폼입니다.
 // 해당 상품 등록하기 폼은 추후 수정할 페이지와 공통으로 사용할 컴포넌트로 생각하고 구성한 컴포넌트입니다.
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import classes from "./ProductForm.module.css";
 
-import KakaoMap from "../../../common/map/KakaoMap";
-
 import { BASE_URL } from "../../../../services/BaseUrl";
-import { PROTOCAL } from "../../../../services/BaseUrl";
-import { HOST } from "../../../../services/BaseUrl";
-import { PORT } from "../../../../services/BaseUrl";
+
+import RegistKakaoMap from "../../../common/map/RegistKakaoMap";
+// import { useBoundStore } from "../../../../store";
 
 type Props = {
   title: string;
-  onSubmit: (data: ProductItemType, images: string[] | undefined) => void;
+  onSubmit: (
+    data: ProductItemType,
+    mainImages: mainImageType[] | undefined
+  ) => void;
   product: ProductItemType;
 };
 
-// 이미지 파일 응답 데이터 타입
-type FilesResType = {
-  originalname: string;
-  name: string;
-  path: string;
-};
 const ProductForm = ({ title, onSubmit, product }: Props) => {
   const navigate = useNavigate();
+  // const imageUpload = useBoundStore((state) => state.uploadImage);
   const [formData, setFormData] = useState<ProductItemType>({
     name: product.name,
     content: product.content,
@@ -39,12 +35,8 @@ const ProductForm = ({ title, onSubmit, product }: Props) => {
       lng: product.extra?.lng,
     },
   });
-  // 이미지서버응답값중 path값만 추출해서 담은 배열 -> 추후 상품등록하기때 첨부할 이미지 파일배열 상태
-  const [mainImages, setMainImages] = useState<string[] | undefined>([]);
-  // 미리보기 이미지 배열 상태
-  const [images, setImages] = useState<string[] | undefined>(
-    product.mainImages
-  );
+  const inputRefImage = useRef<HTMLInputElement>(null);
+  const [mainImages, setMainImages] = useState<mainImageType[] | undefined>([]);
 
   const handleChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -87,62 +79,30 @@ const ProductForm = ({ title, onSubmit, product }: Props) => {
             "Content-Type": "multipart/form-data",
           },
         });
-        // console.log(imagesRes.data);
-        // 응답에서 'path' 값만 추출하여 배열로
-        let imageUrlLists: string[] = [];
+
+        // 이미지 응답 데이터 담아서 배열로 추출(path === url, name === fileName, orginalname === orgName)
+        let imageUrlLists: mainImageType[] = [];
 
         if (imagesRes.data.files) {
-          imageUrlLists = imagesRes.data.files.map(
-            (file: FilesResType) => `${PROTOCAL}://${HOST}:${PORT}${file.path}`
-          );
+          imageUrlLists = imagesRes.data.files.map((file: FilesResType) => ({
+            url: file.path,
+            orgName: file.originalname,
+            fileName: file.name,
+          }));
         }
         if (imagesRes.data.file) {
-          const imagePath = `${PROTOCAL}://${HOST}:${PORT}${imagesRes.data.file.path}`;
+          const imagePath = {
+            url: imagesRes.data.file.path,
+            orgName: imagesRes.data.file.originalname,
+            fileName: imagesRes.data.file.name,
+          };
           imageUrlLists.push(imagePath);
         }
 
-        // 최대 10개까지만
-        const slicedImageUrlLists = imageUrlLists.slice(0, 10);
-
-        setMainImages(slicedImageUrlLists);
+        setMainImages(imageUrlLists);
       } catch (err) {
         console.error("이미지를 업로드하는데 문제가 발생하였습니다.", err);
       }
-    }
-
-    // 기존 미리보기 이미지 출력 로직
-    if (imageLists) {
-      let imageUrlLists: string[] = [...images!];
-      for (let i = 0; i < imageLists!.length; i++) {
-        // 해당 filelist 객체를 url로 반환시켜주는 메소드 적용
-        const currentImageUrl = URL.createObjectURL(imageLists![i]);
-        imageUrlLists.push(currentImageUrl);
-      }
-
-      // 최대 10장까지만 받기
-      if (imageUrlLists.length > 10) {
-        imageUrlLists = imageUrlLists.slice(0, 10);
-      }
-
-      setImages(imageUrlLists);
-    }
-  };
-
-  // 클릭 시 이미지 삭제 -> issues: 서버에 이미 보낸 이미지파일이라 삭제가 안됨.. 미리보기 사진만 없어지는 문제있음
-  const handleDeleteImage = (id: number) => {
-    // 클릭한 이미지의 path 값을 가져오기
-    const deletedImagePath = mainImages?.[id];
-
-    // images 상태에서 클릭한 이미지를 제거
-    const updatedImages = images?.filter((_, index: number) => index !== id);
-    setImages(updatedImages);
-
-    // mainImages 상태에서도 클릭한 이미지의 path를 제거
-    if (deletedImagePath) {
-      const updatedMainImages = mainImages?.filter(
-        (imagePath) => imagePath !== deletedImagePath
-      );
-      setMainImages(updatedMainImages);
     }
   };
 
@@ -213,31 +173,19 @@ const ProductForm = ({ title, onSubmit, product }: Props) => {
         />
       </div>
       <div className={classes["images-wrapper"]}>
-        <label htmlFor="images">파일 선택하기</label>
+        <label htmlFor="images">주차장 사진 등록</label>
         <input
           type="file"
           id="images"
           name="images"
           multiple
+          ref={inputRefImage}
           onChange={handleAddImagesChange}
         />
-
-        {/* 이미지 미리보기 */}
-        <div className={classes["img-pre-list"]}>
-          {images?.map((image, id) => (
-            <div key={id} className={classes["img-pre-item"]}>
-              <img src={image} alt={`${image}-${id}`} />
-              <button type="button" onClick={() => handleDeleteImage(id)}>
-                삭제
-              </button>
-            </div>
-          ))}
-        </div>
       </div>
-
       <div className={classes["location-wrapper"]}>
         <label>위치 선택하기</label>
-        <KakaoMap
+        <RegistKakaoMap
           formData={formData}
           setFormData={setFormData}
           product={product}
@@ -255,3 +203,21 @@ const ProductForm = ({ title, onSubmit, product }: Props) => {
 };
 
 export default ProductForm;
+
+// // 클릭 시 이미지 삭제 -> issues: 서버에 이미 보낸 이미지파일이라 삭제가 안됨.. 미리보기 사진만 없어지는 문제있음
+// const handleDeleteImage = (id: number) => {
+//   // 클릭한 이미지의 path 값을 가져오기
+//   const deletedImagePath = mainImages?.[id];
+
+//   // images 상태에서 클릭한 이미지를 제거
+//   const updatedImages = images?.filter((_, index: number) => index !== id);
+//   setImages(updatedImages);
+
+//   // mainImages 상태에서도 클릭한 이미지의 path를 제거
+//   if (deletedImagePath) {
+//     const updatedMainImages = mainImages?.filter(
+//       (imagePath) => imagePath !== deletedImagePath
+//     );
+//     setMainImages(updatedMainImages);
+//   }
+// };

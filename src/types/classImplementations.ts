@@ -54,11 +54,26 @@ export class UserDetailInfo extends UserBasicInfo {
   constructor(){
     super(),
     this.extra = {
-      x_position : "",
-      y_position : "",
+      lat : "",
+      lng : "",
       carNumber : "",
       profileImage: "",
     }
+  }
+}
+
+
+export class UserExtraInfo implements ExtraType {
+  lat : "";
+  lng : "";
+  carNumber : "";
+  profileImage : "";
+  
+  constructor(){
+    this.lat = ""
+    this.lng = ""
+    this.carNumber = ""
+    this.profileImage = ""
   }
 }
 

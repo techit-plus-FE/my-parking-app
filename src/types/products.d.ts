@@ -7,7 +7,7 @@ interface ProductItemType {
   show?: boolean;
   active?: boolean;
   name: string;
-  mainImages?: string[];
+  mainImages?: mainImageType[];
   content: string;
   createdAt?: string;
   updatedAt?: string;
@@ -30,6 +30,20 @@ interface ExtraDataType {
   address?: string; // 상품등록주소
   lat?: number; // 상품 주소의 위도 좌표
   lng?: number; // 상품 주소의 경도 좌표
+  sellerNickname?: string; // 게시글을 올린 판매자의 이름
+}
+
+// 상품 등록시 메인이미지
+interface mainImageType {
+  url: string;
+  fileName: string;
+  orgName: string;
+}
+
+interface FilesResType {
+  originalname: string;
+  name: string;
+  path: string;
 }
 
 // 리뷰 데이터 타입
@@ -62,29 +76,3 @@ interface ProductSlice {
   productItem: ProductItemType;
   productList: ProductListType;
 }
-
-// // 상품 등록양식 전체 데이터 타입(모바일)
-// interface ProductAllFormDataType {
-//   location: ProductLocationType; // x,y좌표(카카오 지도로부터 받은 위치)
-//   startDate: string;
-//   endDate: string;
-//   othersInfo: ProductOthersInfoType;
-//   mainImages: string[];
-//   shippingFees: number;
-//   show: boolean;
-//   active: boolean;
-// }
-
-// // 위치 좌표 타입
-// interface ProductLocationType {
-//   address: string;
-//   lat: string;
-//   lng: string;
-// }
-
-// // 상품등록 마지막에 받을 양식 타입
-// interface ProductOthersInfoType {
-//   name: string;
-//   price: string;
-//   content: string;
-// }

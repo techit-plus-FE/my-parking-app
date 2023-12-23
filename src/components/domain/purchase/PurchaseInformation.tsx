@@ -1,7 +1,7 @@
-import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import React from "react";
 import { useBoundStore } from "../../../store";
+import classes from "./purchase.module.css";
 
 const PurchaseInformation: React.FC = () => {
   const userBasicInfo = useBoundStore((state) => state.userBasicInfo);
@@ -24,28 +24,24 @@ const PurchaseInformation: React.FC = () => {
   const maskedUserInfo = maskSensitiveInfo(userBasicInfo);
 
   return (
-    <>
+    <div className={classes.purchaseInformationContainer}>
       <Box
         sx={{
           borderBottom: "1px solid var(--color-gray-300)",
         }}
       >
-        <Typography fontWeight="bold" mt="20px">
-          구매자 정보
-        </Typography>
+        <h2>구매자 정보</h2>
       </Box>
       <Box
-        mt="20px"
-        mb="20px"
         sx={{
           borderBottom: "1px solid var(--color-gray-300)",
         }}
       >
-        <Typography>이름: {maskedUserInfo.name}</Typography>
-        <Typography>연락처: {maskedUserInfo.phone}</Typography>
-        <Typography>이메일: {maskedUserInfo.email}</Typography>
+        <p>이름: {maskedUserInfo.name}</p>
+        <p>연락처: {maskedUserInfo.phone}</p>
+        <p>이메일: {maskedUserInfo.email}</p>
       </Box>
-    </>
+    </div>
   );
 };
 

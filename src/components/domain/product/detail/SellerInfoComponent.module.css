@@ -5,6 +5,15 @@
   padding: 10px;
 }
 
+.btn {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  border: none;
+  gap: 14px;
+  cursor: pointer;
+}
+
 .seller-info {
   display: flex;
   align-items: center;
@@ -20,12 +29,13 @@
 .avatar-box img {
   width: 40px;
   height: 40px;
+  object-fit: cover;
 }
 
-.wrapper button {
+/* .wrapper .scrapBtn {
   border: none;
   border-radius: 10px;
   padding: 10px;
   background-color: var(--color-primary-600);
   cursor: pointer;
-}
+} */

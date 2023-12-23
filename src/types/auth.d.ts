@@ -9,25 +9,25 @@ interface Person {
 }
 
 type ExtraType = {
-  x_position?: string;
-  y_position?: string;
+  lat?: string;
+  lng?: string;
   carNumber?: string;
   profileImage?: string;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface AuthSlice {
-  userToken: TokenType;
+  userToken: TokenInfoType['token'];
   userBasicInfo: UserBasicInfoType;
   isLoggedIn: boolean;
-  signUp: (UserInput: UserInputType) => Promise<boolean>;
-  verifyEmail: (email: string) => void;
+  signUp: (UserInput: UserInputType) => Promise<AuthAlertType>;
+  verifyEmail: (email: string) => Promise<AuthAlertType>;
   login: (
     email: string,
     password: string
-  ) => Promise<UserBasicInfoType & { token: TokenType }>;
+  ) => Promise<UserBasicInfoType & TokenInfoType>;
   updateUserBasicInfo: (
-    userToken: TokenType,
+    userToken: TokenInfoType['token'],
     userBasicInfo: UserBasicInfoType
   ) => void;
   logout: () => void;
@@ -51,15 +51,21 @@ interface UserBasicInfoType {
   updatedAt: string;
 }
 
-interface TokenType {
+interface TokenInfoType {
+  token : {
   accessToken: string;
   refreshToken: string;
-}
+}}
 
 interface LoginResponseType {
   config: object;
   data: {
     ok: number;
-    item: UserBasicInfoType & { token: TokenType };
+    item: UserBasicInfoType & TokenInfoType;
   };
+}
+
+interface AuthAlertType {
+  ok: boolean,
+  message: string
 }

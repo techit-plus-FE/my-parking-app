@@ -1,6 +1,7 @@
 import React from "react";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
+import { useTheme } from "@mui/system";
 
 interface CommonButtonProps {
   text?: string;
@@ -8,10 +9,16 @@ interface CommonButtonProps {
   textColor?: string;
   width?: string;
   disabled?: boolean;
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   className?: string;
   isVisible?: boolean;
   btnType?: boolean;
+}
+
+interface MuiButtonProps {
+  text? : string;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  fontSize?: string;
 }
 
 export const CommonButton: React.FC<CommonButtonProps> = ({
@@ -70,3 +77,17 @@ export const CommonButtonDark = () => {
   // props로 내려줄때 다크모드일때 컬러를 지정해서 하드코딩하여 넣어주셔야해요! -> index.css에 있어요
   return <CommonButton width="90%" bgColor="var()" />;
 };
+
+export const MuiButton = (props: MuiButtonProps) => {
+  const theme = useTheme()
+  const {fontSize, onClick, text} = {...props}
+  return<Button
+  onClick = {onClick}
+  sx={{
+    color: theme.palette.text.primary,
+    fontSize:fontSize? fontSize : null
+  }}
+  >
+    {text}
+  </Button>
+}

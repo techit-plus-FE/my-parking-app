@@ -17,18 +17,18 @@ const initialItem = {
 };
 
 // 상품 전체 조회하는 함수
-const requestGetProductList = () => {};
+// const requestGetProductList = () => {};
 
-// 특정상품 조회해주는 함수
-const requsetGetProductItem = () => {};
-// 상품 등록해주는 함수
-const requsetProductRegist = () => {};
+// // 특정상품 조회해주는 함수
+// const requsetGetProductItem = () => {};
+// // 상품 등록해주는 함수
+// const requsetProductRegist = () => {};
 
-// 상품 삭제 함수
-const requsetProductDelete = () => {};
+// // 상품 삭제 함수
+// const requsetProductDelete = () => {};
 
 // 상품 등록, 삭제, 세팅(수정)
-export const createProductSlice: StateCreator<ProductSlice> = (set) => ({
+export const createProductSlice: StateCreator<ProductSlice> = () => ({
   productItem: initialItem,
   productList: [],
 });

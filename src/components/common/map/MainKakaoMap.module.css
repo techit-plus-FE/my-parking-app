@@ -1,0 +1,23 @@
+.container {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+.map-control {
+  position: absolute;
+  bottom: 20px;
+  right: 0%;
+  overflow: fixed;
+  transform: translate3d(50%, -50%, 0);
+  width: 130px;
+  height: 30px;
+  margin: 0;
+  padding: 0;
+  z-index: 100;
+  font-size: 12px;
+}
+
+.location-btn:active {
+  transform: scale(1.03);
+}

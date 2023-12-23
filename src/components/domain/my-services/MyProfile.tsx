@@ -1,16 +1,14 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useBoundStore } from "../../../store";
 import { useNavigate } from "react-router-dom";
-import { CommonButtonMiddle } from "../../UI/CommonButton";
 import Box from "@mui/material/Box";
 import classes from "./Mypage.module.css";
-import { useTheme } from "@emotion/react";
-import { Button } from "@mui/material";
-
+import { MuiButton } from "../../UI/CommonButton";
 import usericon from "../../../assets/images/user-default-profile.png";
+import { useTheme } from "@mui/material/styles";
+import { Toast } from "../../UI/Toast";
 
 const MyProfile = () => {
-  const isDark = useBoundStore((state) => state.isDark);
   const theme = useTheme();
   const Store = useBoundStore((state) => state);
   const myInfo: UserDetailInfoType = useBoundStore((state) => state.myInfo);
@@ -19,7 +17,10 @@ const MyProfile = () => {
   const fetchAndSetMyInfo = async () => {
     Store.setMyInfo(await Store.getMyInfo(id, Store.userToken.accessToken));
   };
-
+  const fontSize = "1.2rem";
+  const isToastOpen = useBoundStore((state) => state.isToastOpen);
+  const toastMessage = useBoundStore((state) => state.alertText);
+  const bgColor = useBoundStore((state) => state.bgColor);
   useEffect(() => {
     Store.isLoggedIn
       ? fetchAndSetMyInfo()
@@ -44,28 +45,31 @@ const MyProfile = () => {
         }}
       >
         <h1>마이 페이지</h1>
-        <div className={classes.imgWrapper}>
-          {/*프로필 이미지 표시*/}
-          {myInfo.extra?.profileImage ? (
-            <img src={`${myInfo.extra?.profileImage}`} />
-          ) : (
-            <img src={usericon} />
-          )}
-        </div>
-        <div className={classes.user}>
-          <h2>이름 : {myInfo.name}</h2>
-          <div>
-            회원유형 : {myInfo.type === "seller" ? "판매자" : "일반회원"}
+        {/*프로필 이미지 표시*/}
+        {myInfo.extra?.profileImage ? (
+          <div className={classes.imgWrapperA}>
+            <img
+              className={classes.myProfileImage}
+              src={`${myInfo.extra?.profileImage}`}
+            />
           </div>
-          <div>이메일 : {myInfo.email}</div>
-          <div>전화번호 : {myInfo.phone}</div>
-          <div>주소 : {myInfo.address}</div>
+        ) : (
+          <div className={classes.imgWrapperA}>
+            <img src={usericon} />
+          </div>
+        )}
+        <div className={classes.user}>
+          <h2>{myInfo.name}</h2>
+          <div>{myInfo.type === "seller" ? "판매자" : "일반회원"}</div>
+          <div>{myInfo.email}</div>
+          <div>{myInfo.phone}</div>
+          <div>{myInfo.address}</div>
           <Box
             sx={{
               color: "#4285F4",
             }}
           >
-            차량번호 :{" "}
+            {/* 차량번호 */}{" "}
             {myInfo.extra?.carNumber === "" ||
             myInfo.extra?.carNumber == undefined
               ? "등록된 차량이 없습니다"
@@ -80,53 +84,55 @@ const MyProfile = () => {
         >
           <div>
             <h3>내정보</h3>
-            <Button
+            <MuiButton
+              text={"프로필 수정하기"}
+              fontSize={fontSize}
               onClick={() => {
                 navigate(`/mypage/${myInfo._id}/edit`);
               }}
-              sx={{
-                color: theme.palette.text.primary,
-                fontSize: "20px",
-              }}
-            >
-              프로필 수정하기
-            </Button>
+            />
           </div>
           {/* 버튼들 */}
           {myInfo.type === "seller" ? (
-            <Button
-              sx={{
-                color: theme.palette.text.primary,
-                fontSize: "1.2rem",
-              }}
-            >
-              내상품 목록
-            </Button>
+            <>
+              <MuiButton
+                text={"내상품 목록"}
+                fontSize={fontSize}
+                onClick={() => navigate(`/mypage/${myInfo._id}/mylist`)}
+              />
+              <MuiButton
+                text={"내 주차장 등록하기"}
+                fontSize={fontSize}
+                onClick={() => {
+                  navigate(`/products/regist`);
+                }}
+              />
+            </>
           ) : (
             <>
-              <Button
+              <MuiButton
+                text={"주문 목록"}
+                fontSize={fontSize}
                 onClick={() => {
                   navigate(`/order-history`);
                 }}
-                sx={{
-                  color: theme.palette.text.primary,
-                  fontSize: "1.2rem",
+              />
+              <MuiButton
+                text={"리뷰 관리"}
+                fontSize={fontSize}
+                onClick={() => {
+                  navigate(`/reply/replies`);
                 }}
-              >
-                주문 목록
-              </Button>
-              <Button
-                sx={{
-                  color: theme.palette.text.primary,
-                  fontSize: "20px",
-                }}
-              >
-                리뷰 관리
-              </Button>
+              />
             </>
           )}
         </Box>
       </Box>
+      <Toast
+        isToastOpen={isToastOpen}
+        alertText={toastMessage}
+        bgColor={bgColor}
+      />
     </>
   );
 };

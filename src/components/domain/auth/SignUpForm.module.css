@@ -1,9 +1,19 @@
-.login {
-  max-width: 300px;
+.signUpContainer {
+  width: 300px;
   margin: 0 auto;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate3d(-50%, -50%, 0);
 }
 
-.login * {
+.signUpContainer h2 {
+  text-align: center;
+}
+
+.signUpContainer * {
   width: 100%;
 }

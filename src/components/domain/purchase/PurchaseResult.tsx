@@ -1,14 +1,14 @@
-import { CardMedia } from "@mui/material";
-import { Box, flexbox } from "@mui/system";
-import React from "react";
+import { Box } from "@mui/system";
 import CheckIcon from "@mui/icons-material/Check";
 import { CommonButtonMiddle } from "../../UI/CommonButton";
 import { useNavigate } from "react-router-dom";
+import classes from "./PurchaseResult.module.css";
 
 const PurchaseResult = () => {
   const navigate = useNavigate();
   return (
     <Box
+      className={classes.purchaseResultContainer}
       sx={{
         width: "100%",
         display: "flex",
@@ -29,7 +29,7 @@ const PurchaseResult = () => {
             color: "#54BE0C",
           }}
         />
-        <Box>결제가 완료되었습니다.</Box>
+        <p>결제가 완료되었습니다.</p>
         <Box
           sx={{
             mb: "20px",

@@ -1,18 +1,22 @@
 // 실제 사용자와 인터렉션
 import React, { ChangeEvent } from "react";
-import { CommonButtonLarge, CommonButtonSmall } from "../../UI/CommonButton";
+import { CommonButtonLarge } from "../../UI/CommonButton";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
-import classes from "./LoginForm.module.css";
 import { Button } from "@mui/material";
-import { useTheme } from "@emotion/react";
+import { useTheme } from "@mui/material";
+import classes from "./Login.module.css";
+import { Toast } from "../../UI/Toast";
 
 interface LoginFormProps {
   handleInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   userInputId: string;
   userInputPassword: string;
+  isToastOpen: boolean;
+  alertText: string;
+  bgColor: string;
 }
 
 const LoginForm: React.FC<LoginFormProps> = ({
@@ -20,17 +24,24 @@ const LoginForm: React.FC<LoginFormProps> = ({
   handleSubmit,
   userInputPassword,
   userInputId,
+  isToastOpen,
+  alertText,
+  bgColor
 }) => {
   const navigate = useNavigate();
   const theme = useTheme();
   return (
-    <Box
+    <>
+    <Box className={classes.loginContainer}
       sx={{
         display: "flex",
         justifyContent: "center",
         "& > :not(style)": { m: 1 },
+        flexDirection: "column",
+        alignItems: "center",
       }}
     >
+      <h2 className={classes.title}>로그인</h2>
       <form onSubmit={handleSubmit}>
         <Box
           sx={{
@@ -47,20 +58,17 @@ const LoginForm: React.FC<LoginFormProps> = ({
             onChange={handleInputChange}
             type="email"
             required
-            error={!userInputId}
-            helperText={!userInputId && "아이디를 입력해주세요."}
+            // error={!userInputId}
+            // helperText={!userInputId && "아이디를 입력해주세요."}
             sx={{ padding: "10px", width: "300px" }}
           />
           <TextField
-            // helperText="Please enter your name"
             id="user-password"
             label="비밀번호"
             value={userInputPassword}
             onChange={handleInputChange}
             type="password"
             required
-            error={!userInputPassword}
-            helperText={!userInputPassword && "비밀번호를 입력해주세요."}
             sx={{ padding: "10px" }}
           />
         </Box>
@@ -73,6 +81,12 @@ const LoginForm: React.FC<LoginFormProps> = ({
         </Button>
       </form>
     </Box>
+    <Toast
+      isToastOpen={isToastOpen}
+      bgColor={bgColor}
+      alertText={alertText}
+    />
+  </>
   );
 };
 

@@ -2,10 +2,17 @@ import { useNavigate } from "react-router-dom";
 
 import ProductForm from "./ProductForm";
 import useCustomAxios from "../../../../services/useCustomAxios";
+import { useBoundStore } from "../../../../store/index";
 
 const ProductRegist = () => {
   const navigate = useNavigate();
   const axiosInstance = useCustomAxios();
+
+  const setAlertText = useBoundStore((state) => state.setAlertText);
+  const setIsToastOpen = useBoundStore((state) => state.setIsToastOpen);
+
+  //로그인 한 user의 name
+  const userBasicInfo = useBoundStore((state) => state.userBasicInfo);
 
   const initialProduct: ProductItemType = {
     name: "",
@@ -23,8 +30,10 @@ const ProductRegist = () => {
 
   const handleSubmit = async (
     data: ProductItemType,
-    mainImages: string[] | undefined
+    mainImages: mainImageType[] | undefined
   ) => {
+    if (!data.extra) return alert("모든 양식을 채워 주어야 합니다.");
+
     try {
       const sendAllData = {
         name: data.name,
@@ -42,6 +51,8 @@ const ProductRegist = () => {
           address: data.extra?.address,
           lat: Number(data.extra?.lat),
           lng: Number(data.extra?.lng),
+          //판매자의 namer값
+          sellerNickname: userBasicInfo.name,
         },
       };
 
@@ -50,19 +61,24 @@ const ProductRegist = () => {
         sendAllData
       );
 
-      console.log(response.data);
-      navigate("/home");
+      if (response.data.ok === 1) {
+        setIsToastOpen(true);
+        setAlertText("상품등록이 완료되었습니다.");
+        navigate("/home");
+      }
     } catch (error) {
       console.error("상품을 등록하는데 문제가 발생했습니다.", error);
     }
   };
 
   return (
-    <ProductForm
-      title="등록"
-      onSubmit={handleSubmit}
-      product={initialProduct}
-    />
+    <>
+      <ProductForm
+        title="등록"
+        onSubmit={handleSubmit}
+        product={initialProduct}
+      />
+    </>
   );
 };
 
