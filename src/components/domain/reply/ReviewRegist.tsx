@@ -3,6 +3,8 @@ import useCustomAxios from "../../../services/useCustomAxios";
 import ReviewRegistForm from "./ReviewRegistForm";
 import { useNavigate, useParams } from "react-router-dom";
 import classes from "./ReviewRegist.module.css";
+import { Toast } from "../../UI/Toast";
+import { useBoundStore } from "../../../store";
 
 const ReviewRegist: React.FC = () => {
   const navigate = useNavigate();
@@ -13,6 +15,13 @@ const ReviewRegist: React.FC = () => {
   const [repliesInput, setRepliesInput] = useState<string>("");
   // 평점 1~5 까지의 값
   const [rating, setRating] = useState<number>(0);
+
+  const isToastOpen = useBoundStore((state) => state.isToastOpen);
+  const alertText = useBoundStore((state) => state.alertText);
+  const bgColor = useBoundStore((state) => state.bgColor);
+  const setIsToastOpen = useBoundStore((state) => state.setIsToastOpen);
+  const setAlertText = useBoundStore((state) => state.setAlertText);
+  const setBgColor = useBoundStore((state) => state.setBgColor);
 
   useEffect(() => {
     //product id를 받아 상품 상세 조회 data 가져오기
@@ -25,7 +34,9 @@ const ReviewRegist: React.FC = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (rating === 0) {
-      alert("별점을 입력해주세요");
+      setIsToastOpen(true);
+      setAlertText("별점을 입력해주세요");
+      setBgColor("var(--toast-error)");
     } else {
       //Post 할 때 필수 값지정
       const body: RepliesPostType = {
@@ -56,6 +67,11 @@ const ReviewRegist: React.FC = () => {
         onSubmit={handleSubmit}
         handleDrag={handleDrag}
         ratingValue={rating}
+      />
+      <Toast
+        isToastOpen={isToastOpen}
+        alertText={alertText}
+        bgColor={bgColor}
       />
     </div>
   );
