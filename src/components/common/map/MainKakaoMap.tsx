@@ -42,7 +42,6 @@ const MainKakaoMap = ({
 
   const [mapExist, setMapExist] = useState<boolean>(false);
   const [markers, setMarkers] = useState<ProductListType | []>();
-  const [level, setLevel] = useState<number | undefined>(4);
   const [isOverlayOpen, setIsOverlayOpen] = useState<boolean | undefined>(
     false
   );
@@ -86,9 +85,9 @@ const MainKakaoMap = ({
         center={{
           lat: 37.5070100333146,
           lng: 127.055618149788,
-        }}
+        }} //초기 지도의 중심좌표값
         style={{ height: "100vh" }}
-        level={level}
+        level={4} //  초기 지도의 레벨 값
         onCreate={(map) => {
           setMap(map); // 생성
           setMapExist(true);
