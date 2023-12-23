@@ -93,11 +93,12 @@ const MainKakaoMap = ({
           setMap(map); // 생성
           setMapExist(true);
         }}
-        onZoomChanged={(map) => {
+        onZoomChanged={() => {
           searchProducts();
-          setLevel(map.getLevel());
         }}
-        onDragEnd={() => searchProducts()}
+        onDragEnd={() => {
+          searchProducts()
+        }}
         maxLevel={7}
       >
         {/* 검색한 위치 마커 보여주기 */}
