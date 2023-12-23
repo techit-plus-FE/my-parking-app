@@ -117,6 +117,32 @@ const router = createBrowserRouter([
           },
         ],
       },
+      //마이페이지 주문
+      {
+        id: "order-history",
+        path: "order-history",
+        children: [
+          {
+            index: true,
+            element: <OrderHistoryPage />,
+          },
+          {
+            path: "/order-history/:orderId",
+            element: <OrderHistoryDetailPage />,
+          },
+        ],
+      },
+      {
+        id: "myreply",
+        path: "/reply",
+        children: [
+          // 내가 쓴 리뷰 보기
+          {
+            path: "replies",
+            element: <MyReplyPage />,
+          },
+        ],
+      },
       // 상품
       {
         id: "products",
@@ -158,16 +184,11 @@ const router = createBrowserRouter([
     ),
     errorElement: <ErrorPage />,
     children: [
+      // 리뷰
       {
-        // 리뷰
         id: "reply",
         path: "/reply",
         children: [
-          // 내가 쓴 리뷰 보기
-          {
-            path: "replies",
-            element: <MyReplyPage />,
-          },
           {
             // 리뷰 쓰는 page
             path: ":productId/:orderId",
@@ -179,21 +200,9 @@ const router = createBrowserRouter([
             element: <SellerRepliesPage />,
           },
         ],
-      }, // 주문
-      {
-        id: "order-history",
-        path: "order-history",
-        children: [
-          {
-            index: true,
-            element: <OrderHistoryPage />,
-          },
-          {
-            path: "/order-history/:orderId",
-            element: <OrderHistoryDetailPage />,
-          },
-        ],
-      }, // 구매
+      },
+
+      // 구매
       {
         id: "purchase",
         path: "/purchase",
