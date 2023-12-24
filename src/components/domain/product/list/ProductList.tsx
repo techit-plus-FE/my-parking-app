@@ -19,7 +19,7 @@ type Props = {
   isMobile: boolean;
   isMyList?: boolean;
 };
-const ProductList = ({ products, isMobile }: Props) => {
+const ProductList = ({ products, isMobile, isMyList }: Props) => {
   const navigate = useNavigate();
   const user = useBoundStore((state) => state.userBasicInfo);
 
@@ -113,7 +113,7 @@ const ProductList = ({ products, isMobile }: Props) => {
             display: "flex",
             flexDirection: "column",
             height: "100vh",
-            // width: isMyList ? "auto" : "400px",
+            width: isMobile || isMyList ? "auto" : "400px",
           }}
           className={classes.containerMobile}
         >
@@ -165,7 +165,7 @@ const ProductList = ({ products, isMobile }: Props) => {
             display: "flex",
             flexDirection: "column",
             height: "100vh",
-            // width: isMyList ? "400p" : "auto",
+            width: isMobile || isMyList ? "auto" : "400px",
           }}
           className={classes.container}
         >
