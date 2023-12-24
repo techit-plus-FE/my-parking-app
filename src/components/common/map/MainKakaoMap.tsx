@@ -9,9 +9,11 @@ import {
 import CustomOverlayBox from "./CustomOverlayBox";
 import { useBoundStore } from "../../../store";
 import { BASE_URL } from "../../../services/BaseUrl";
+import MediaQueryMain from "../../UI/MediaQueryMain";
 
 import classes from "./MainKakaoMap.module.css";
 import MyLocationIcon from "@mui/icons-material/MyLocation";
+import { Box } from "@mui/material";
 
 import USER_MARKER from "../../../assets/images/user-marker2-image.png";
 import PARKING_MARKER from "../../../assets/images/parking-marker-image.png";
@@ -36,6 +38,7 @@ const MainKakaoMap = ({
   nowLocation,
   handleFetchNowLocation,
 }: Props) => {
+  const isMobile = MediaQueryMain();
   const searchItemsInThisBound = useBoundStore(
     (state) => state.searchItemsInThisBoundAndPeriod
   );
@@ -78,7 +81,14 @@ const MainKakaoMap = ({
   }, [mapExist, searchInfo]);
 
   return (
-    <div className={classes.container}>
+    <Box
+      sx={{
+        position: "relative",
+        overflow: "hidden",
+        width: "100%",
+        height: isMobile ? "500px" : "auto",
+      }}
+    >
       {/* 현재위치버튼을 클릭하지 않았을경우와 클릭했을경우 Map의 center좌표 다르게 */}
       <Map
         center={{
@@ -198,7 +208,7 @@ const MainKakaoMap = ({
           onClick={handleToggleLocation}
         />
       </div>
-    </div>
+    </Box>
   );
 };
 

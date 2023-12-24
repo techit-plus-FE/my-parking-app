@@ -187,7 +187,7 @@ const Home = () => {
         sx={{
           flex: "2",
           width: isMobile ? "80%" : "auto",
-          height: isMobile ? "300px" : "auto",
+          // height: isMobile ? "300px" : "auto",
           margin: isMobile ? "0 auto" : "0",
           paddingTop: isMobile ? "77px" : "0",
         }}
