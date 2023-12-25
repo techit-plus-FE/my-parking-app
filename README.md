@@ -190,20 +190,20 @@
 ## <span id="schedule">페이지 미리보기</span>
 
 **로그인 및 회원가입**
-![로그인](https://i.ibb.co/gFqcDGM/gif.gif)
-![회원가입](https://i.ibb.co/bzdqnL5/gif.gif)
+- ![로그인](https://i.ibb.co/gFqcDGM/gif.gif)
+- ![회원가입](https://i.ibb.co/bzdqnL5/gif.gif)|
 
 **메인 서비스**
-![홈페이지](https://i.ibb.co/qn2X1sB/gif.gif)
+- ![홈페이지](https://i.ibb.co/qn2X1sB/gif.gif)
 
 **상품 등록**
-![상품페이지](https://i.ibb.co/wWRj0Gz/image.gif)
+- ![상품페이지](https://i.ibb.co/wWRj0Gz/image.gif)
 
 **상품 상세조회 및 수정 삭제**
-![상품페이지](https://i.ibb.co/6RM9nrw/image.gif)
+- ![상품페이지](https://i.ibb.co/6RM9nrw/image.gif)
 
 **결제 및 주문기록 후기**
-![주문페이지](https://i.ibb.co/bvXM99s/gif.gif)
+- ![주문페이지](https://i.ibb.co/bvXM99s/gif.gif)
 
 
 <br><br>
