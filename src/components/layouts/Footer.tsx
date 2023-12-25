@@ -25,10 +25,10 @@ const Footer: React.FC<FooterProps> = ({ position, width }) => {
 
   const isToastOpen = useBoundStore((state) => state.isToastOpen);
   const alertText = useBoundStore((state) => state.alertText);
-  const bgColor = useBoundStore((state) => state.bgColor);
+  // const bgColor = useBoundStore((state) => state.bgColor);
   const setIsToastOpen = useBoundStore((state) => state.setIsToastOpen);
   const setAlertText = useBoundStore((state) => state.setAlertText);
-  const setBgColor = useBoundStore((state) => state.setBgColor);
+  // const setBgColor = useBoundStore((state) => state.setBgColor);
 
   const navigate = useNavigate();
   const location = useLocation().pathname;
