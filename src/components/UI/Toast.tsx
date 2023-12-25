@@ -2,6 +2,7 @@ import { Alert, Button, IconButton, Snackbar } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import React from "react";
 import { useBoundStore } from "../../store";
+import { Box } from "@mui/system";
 
 interface ToastProps {
   isToastOpen: boolean;
@@ -41,23 +42,35 @@ export const Toast: React.FC<ToastProps> = ({
   );
 
   return (
-    <Snackbar
-      open={toastOpen}
-      autoHideDuration={1500}
-      onClose={handleClose}
-      action={action}
+    <Box
+    // sx={{
+    //   position: "fixed",
+    //   top: 0,
+    // }}
     >
-      <Alert
-        sx={{
-          color: "#fff",
-          backgroundColor: `${bgColor || "var(--toast-success)"}`,
-        }}
-        onClose={() => {
-          setIsToastOpen(false);
-        }}
+      <Snackbar
+        open={toastOpen}
+        autoHideDuration={1500}
+        onClose={handleClose}
+        action={action}
+        color={"#fff"}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
       >
-        {alertText}
-      </Alert>
-    </Snackbar>
+        <Alert
+          sx={{
+            color: "#fff",
+            backgroundColor: `${bgColor || "var(--toast-success)"}`,
+            "& .MuiAlert-icon": {
+              color: "#fff",
+            },
+          }}
+          onClose={() => {
+            setIsToastOpen(false);
+          }}
+        >
+          {alertText}
+        </Alert>
+      </Snackbar>
+    </Box>
   );
 };

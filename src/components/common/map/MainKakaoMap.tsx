@@ -9,9 +9,11 @@ import {
 import CustomOverlayBox from "./CustomOverlayBox";
 import { useBoundStore } from "../../../store";
 import { BASE_URL } from "../../../services/BaseUrl";
+import MediaQueryMain from "../../UI/MediaQueryMain";
 
 import classes from "./MainKakaoMap.module.css";
 import MyLocationIcon from "@mui/icons-material/MyLocation";
+import { Box } from "@mui/material";
 
 import USER_MARKER from "../../../assets/images/user-marker2-image.png";
 import PARKING_MARKER from "../../../assets/images/parking-marker-image.png";
@@ -36,13 +38,13 @@ const MainKakaoMap = ({
   nowLocation,
   handleFetchNowLocation,
 }: Props) => {
+  const isMobile = MediaQueryMain();
   const searchItemsInThisBound = useBoundStore(
     (state) => state.searchItemsInThisBoundAndPeriod
   );
 
   const [mapExist, setMapExist] = useState<boolean>(false);
   const [markers, setMarkers] = useState<ProductListType | []>();
-  const [level, setLevel] = useState<number | undefined>(4);
   const [isOverlayOpen, setIsOverlayOpen] = useState<boolean | undefined>(
     false
   );
@@ -52,7 +54,13 @@ const MainKakaoMap = ({
   const setIsToastOpen = useBoundStore((state) => state.setIsToastOpen);
   const setAlertText = useBoundStore((state) => state.setAlertText);
 
-  // 검색어에 해당하는 주차장 쿼리 요청 함수
+
+  useEffect(() => {
+    // 해당하는 bounds영역에 맞는 범위의 상품리스트 요청
+    searchProducts();
+  }, [mapExist, searchInfo]);
+
+  // 해당하는 주차장 쿼리 요청 함수
   const searchProducts = async () => {
     if (!map) return;
 
@@ -72,30 +80,34 @@ const MainKakaoMap = ({
     handleFetchNowLocation();
   };
 
-  useEffect(() => {
-    // 해당하는 bounds영역에 맞는 범위의 상품리스트 요청
-    searchProducts();
-  }, [mapExist, searchInfo]);
 
   return (
-    <div className={classes.container}>
+    <Box
+      sx={{
+        position: "relative",
+        overflow: "hidden",
+        width: "100%",
+        height: isMobile ? "500px" : "auto",
+      }}
+    >
       {/* 현재위치버튼을 클릭하지 않았을경우와 클릭했을경우 Map의 center좌표 다르게 */}
       <Map
         center={{
           lat: 37.5070100333146,
           lng: 127.055618149788,
-        }}
+        }} //초기 지도의 중심좌표값
         style={{ height: "100vh" }}
-        level={level}
+        level={4} //  초기 지도의 레벨 값
         onCreate={(map) => {
           setMap(map); // 생성
           setMapExist(true);
         }}
-        onZoomChanged={(map) => {
+        onZoomChanged={() => {
           searchProducts();
-          setLevel(map.getLevel());
         }}
-        onDragEnd={() => searchProducts()}
+        onDragEnd={() => {
+          searchProducts()
+        }}
         maxLevel={7}
       >
         {/* 검색한 위치 마커 보여주기 */}
@@ -198,7 +210,7 @@ const MainKakaoMap = ({
           onClick={handleToggleLocation}
         />
       </div>
-    </div>
+    </Box>
   );
 };
 

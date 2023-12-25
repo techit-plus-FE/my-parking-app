@@ -8,6 +8,7 @@ import Box from "@mui/material/Box";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useBoundStore } from "../../store";
 import { useTheme } from "@mui/material/styles";
+import { Toast } from "../UI/Toast";
 
 interface FooterProps {
   position?: string;
@@ -21,6 +22,13 @@ const Footer: React.FC<FooterProps> = ({ position, width }) => {
   const user_id = useBoundStore((state) => state.myInfo._id);
   const setNavSelected = useBoundStore((state) => state.setNavSelected);
   const navSelectedValue = useBoundStore((state) => state.navSelectedValue);
+
+  const isToastOpen = useBoundStore((state) => state.isToastOpen);
+  const alertText = useBoundStore((state) => state.alertText);
+  // const bgColor = useBoundStore((state) => state.bgColor);
+  const setIsToastOpen = useBoundStore((state) => state.setIsToastOpen);
+  const setAlertText = useBoundStore((state) => state.setAlertText);
+  // const setBgColor = useBoundStore((state) => state.setBgColor);
 
   const navigate = useNavigate();
   const location = useLocation().pathname;
@@ -92,7 +100,8 @@ const Footer: React.FC<FooterProps> = ({ position, width }) => {
             onClick={() => {
               logout();
               setNavSelected(0);
-              alert("로그아웃이 완료되었습니다");
+              setAlertText("로그아웃이 완료되었습니다");
+              setIsToastOpen(true);
             }}
             sx={{ flex: 1, minWidth: 0 }}
           />
@@ -107,6 +116,7 @@ const Footer: React.FC<FooterProps> = ({ position, width }) => {
           />
         )}
       </BottomNavigation>
+      <Toast isToastOpen={isToastOpen} alertText={alertText} />
     </Box>
   );
 };

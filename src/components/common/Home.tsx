@@ -186,8 +186,7 @@ const Home = () => {
       <Box
         sx={{
           flex: "2",
-          width: isMobile ? "80%" : "auto",
-          height: isMobile ? "300px" : "auto",
+          width: "100%",
           margin: isMobile ? "0 auto" : "0",
           paddingTop: isMobile ? "77px" : "0",
         }}
