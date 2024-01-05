@@ -54,7 +54,6 @@ const MainKakaoMap = ({
   const setIsToastOpen = useBoundStore((state) => state.setIsToastOpen);
   const setAlertText = useBoundStore((state) => state.setAlertText);
 
-
   useEffect(() => {
     // 해당하는 bounds영역에 맞는 범위의 상품리스트 요청
     searchProducts();
@@ -79,7 +78,6 @@ const MainKakaoMap = ({
     setAlertText("현재위치를 불러오고 있습니다. 잠시만 기다려주세요!");
     handleFetchNowLocation();
   };
-
 
   return (
     <Box
@@ -106,7 +104,8 @@ const MainKakaoMap = ({
           searchProducts();
         }}
         onDragEnd={() => {
-          searchProducts()
+          searchProducts();
+          setSelectedMarker(null); // 지도 움직일시 클릭한 오버레이 초기화
         }}
         maxLevel={7}
       >
