@@ -22,6 +22,7 @@ interface OrderCardProps {
   productPrice?: number; // 상품 개당가격
   flexDirection?: string;
   btnText?: string;
+  disabled?: boolean;
 }
 
 const OrderCard: React.FC<OrderCardProps> = ({
@@ -37,6 +38,7 @@ const OrderCard: React.FC<OrderCardProps> = ({
   isVisible = true,
   flexDirection,
   btnText,
+  disabled,
   // sellerId,
 }) => {
   const isDark = useBoundStore((state) => state.isDark);
@@ -133,6 +135,7 @@ const OrderCard: React.FC<OrderCardProps> = ({
               text={btnText ? btnText : "상세보기"}
               onClick={onClick}
               isVisible={isVisible}
+              disabled={disabled}
             />
           )}
         </Box>
