@@ -44,7 +44,8 @@ const OrderHistoryDetailList = () => {
               productPrice={item.price}
               buyDate={productItems.buyDate}
               isVisible={true}
-              btnText={reviewData ? "수정하기" : "리뷰쓰기"}
+              disabled={reviewData ? true : false}
+              btnText={reviewData ? "리뷰완료" : "리뷰쓰기"}
               onClick={() =>
                 // 후기 쓰는 페이지로 이동합니다.
                 // productId  /   orderId 순서 입니다.
