@@ -9,6 +9,7 @@ import { createPurchaseSlice } from "./PurchaseSlice";
 import { createSearchSlice } from "./searchSlice";
 import { themeSlice } from "./themeSlice";
 import { createImageSlice } from "./imageSlice";
+import { createCustomAxiosSlice } from "./customAxiosSlice";
 
 export const useBoundStore = create<
   AuthSlice &
@@ -17,7 +18,8 @@ export const useBoundStore = create<
     ProductSlice &
     SearchSlice &
     ThemeSlice &
-    ImageSlice
+    ImageSlice & 
+    customAxiosSlice
 >()(
   devtools(
     persist(
@@ -29,6 +31,7 @@ export const useBoundStore = create<
         ...themeSlice(...a),
         ...createSearchSlice(...a),
         ...createImageSlice(...a),
+        ...createCustomAxiosSlice(...a),
       }),
       {
         name: "boundStore",
