@@ -46,6 +46,7 @@ const requestUpdateMyInfo = async (
     }
   } catch (error: unknown) {
     if (error instanceof AxiosError && error.response) {
+      alert(error.response.data.message);
       console.log("error", error.response);
     }
     console.error("Error:", error);
