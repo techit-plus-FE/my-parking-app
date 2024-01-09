@@ -16,7 +16,6 @@ const Purchase = () => {
   const productDetailData = useBoundStore((state) => state.productDetailData);
   const [checked, setChecked] = useState({ name: "", value: false });
 
-
   const isToastOpen = useBoundStore((state) => state.isToastOpen);
   const alertText = useBoundStore((state) => state.alertText);
   const bgColor = useBoundStore((state) => state.bgColor);
