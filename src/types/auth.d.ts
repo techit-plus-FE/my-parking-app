@@ -17,7 +17,7 @@ type ExtraType = {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface AuthSlice {
-  userToken: TokenInfoType['token'];
+  userToken: TokenInfoType["token"];
   userBasicInfo: UserBasicInfoType;
   isLoggedIn: boolean;
   signUp: (UserInput: UserInputType) => Promise<AuthAlertType>;
@@ -25,9 +25,9 @@ interface AuthSlice {
   login: (
     email: string,
     password: string
-  ) => Promise<UserBasicInfoType & TokenInfoType>;
+  ) => Promise<UserBasicInfoType & TokenInfoType & LoginDataError>;
   updateUserBasicInfo: (
-    userToken: TokenInfoType['token'],
+    userToken: TokenInfoType["token"],
     userBasicInfo: UserBasicInfoType
   ) => void;
   logout: () => void;
@@ -52,10 +52,16 @@ interface UserBasicInfoType {
 }
 
 interface TokenInfoType {
-  token : {
-  accessToken: string;
-  refreshToken: string;
-}}
+  token: {
+    accessToken: string;
+    refreshToken: string;
+  };
+}
+
+interface LoginDataError {
+  ok: number;
+  message: string;
+}
 
 interface LoginResponseType {
   config: object;
@@ -66,6 +72,6 @@ interface LoginResponseType {
 }
 
 interface AuthAlertType {
-  ok: boolean,
-  message: string
+  ok: boolean;
+  message: string;
 }

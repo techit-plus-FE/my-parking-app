@@ -16,7 +16,7 @@ interface CommonButtonProps {
 }
 
 interface MuiButtonProps {
-  text? : string;
+  text?: string;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   fontSize?: string;
 }
@@ -79,15 +79,17 @@ export const CommonButtonDark = () => {
 };
 
 export const MuiButton = (props: MuiButtonProps) => {
-  const theme = useTheme()
-  const {fontSize, onClick, text} = {...props}
-  return<Button
-  onClick = {onClick}
-  sx={{
-    color: theme.palette.text.primary,
-    fontSize:fontSize? fontSize : null
-  }}
-  >
-    {text}
-  </Button>
-}
+  const theme = useTheme();
+  const { fontSize, onClick, text } = { ...props };
+  return (
+    <Button
+      onClick={onClick}
+      sx={{
+        color: theme.palette.text.primary,
+        fontSize: fontSize ? fontSize : null,
+      }}
+    >
+      {text}
+    </Button>
+  );
+};

@@ -3,9 +3,23 @@ import CheckIcon from "@mui/icons-material/Check";
 import { CommonButtonMiddle } from "../../UI/CommonButton";
 import { useNavigate } from "react-router-dom";
 import classes from "./PurchaseResult.module.css";
+import { useEffect } from "react";
+import { Toast } from "../../UI/Toast";
+import { useBoundStore } from "../../../store";
 
 const PurchaseResult = () => {
   const navigate = useNavigate();
+  const isToastOpen = useBoundStore((state) => state.isToastOpen);
+  const alertText = useBoundStore((state) => state.alertText);
+  const bgColor = useBoundStore((state) => state.bgColor);
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      //결제완료 페이지에서 뒤로가기 눌렀을 때 home 으로 이동
+      navigate("/home");
+    };
+    window.addEventListener("popstate", handleBeforeUnload);
+  }, [navigate]);
+
   return (
     <Box
       className={classes.purchaseResultContainer}
@@ -49,6 +63,11 @@ const PurchaseResult = () => {
           <CommonButtonMiddle text="홈으로" onClick={() => navigate("/home")} />
         </Box>
       </Box>
+      <Toast
+        isToastOpen={isToastOpen}
+        alertText={alertText}
+        bgColor={bgColor}
+      />
     </Box>
   );
 };
