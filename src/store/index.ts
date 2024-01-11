@@ -1,4 +1,3 @@
-// import { updateTokenStore } from './authSlice';
 // // zustand store 생성
 import { create } from "zustand";
 import { createJSONStorage, devtools, persist } from "zustand/middleware";
@@ -12,7 +11,7 @@ import { createImageSlice } from "./imageSlice";
 import { createCustomAxiosSlice } from "./customAxiosSlice";
 
 export const useBoundStore = create<
-  AuthSlice &
+    AuthSlice &
     MyPageSlice &
     PurchaseSlice &
     ProductSlice &
@@ -48,3 +47,42 @@ export const useBoundStore = create<
     )
   )
 );
+
+
+export const useAuth = () => useBoundStore((state)=>{
+  return  {
+  userToken: state.userToken,
+  userBasicInfo : state.userBasicInfo,
+  isLoggedIn: state.isLoggedIn,
+  verifyEmail: state.verifyEmail,
+  signUp: state.signUp,
+  login: state.login,
+  updateUserBasicInfo: state.updateUserBasicInfo,
+  logout: state.logout,
+}})
+
+
+export const useMyPage = () => useBoundStore((state)=>{
+  return {
+    getMyInfo : state.getMyInfo,
+    setMyInfo : state.setMyInfo,
+    updateMyInfo : state.updateMyInfo,
+    getMyProducts : state.getMyProducts,
+}})
+
+
+export const useTheme = () => useBoundStore((state)=>{
+  return {
+  isDark: state.isDark,
+  setIsDark: state.setIsDark,
+  isToastOpen: state.isToastOpen,
+  alertText: state.alertText,
+  bgColor: state.bgColor,
+  navSelectedValue: state.navSelectedValue,
+  setNavSelected: state.setNavSelected,
+  setIsToastOpen: state.setIsToastOpen,
+  setAlertText: state.setAlertText,
+  setBgColor: state.setBgColor,
+  }
+})
+
