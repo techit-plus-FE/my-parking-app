@@ -1,7 +1,7 @@
 // import { updateTokenStore } from './authSlice';
 // // zustand store 생성
 import { create } from "zustand";
-import { devtools, persist } from "zustand/middleware";
+import { createJSONStorage, devtools, persist } from "zustand/middleware";
 import { createAuthSlice } from "./authSlice";
 import { createMyPageSlice } from "./MyPageSlice";
 import { createProductSlice } from "./ProductSlice";
@@ -43,6 +43,7 @@ export const useBoundStore = create<
           isDark: state.isDark,
           navSelectedValue: state.navSelectedValue,
         }),
+        storage: createJSONStorage(() => sessionStorage),
       }
     )
   )
