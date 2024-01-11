@@ -59,16 +59,17 @@ export const useAuth = () => useBoundStore((state)=>{
   login: state.login,
   updateUserBasicInfo: state.updateUserBasicInfo,
   logout: state.logout,
-}})
+} satisfies AuthSlice})
 
 
 export const useMyPage = () => useBoundStore((state)=>{
   return {
+    myInfo: state.myInfo,
     getMyInfo : state.getMyInfo,
     setMyInfo : state.setMyInfo,
     updateMyInfo : state.updateMyInfo,
     getMyProducts : state.getMyProducts,
-}})
+} satisfies MyPageSlice})
 
 
 export const useTheme = () => useBoundStore((state)=>{
@@ -83,6 +84,5 @@ export const useTheme = () => useBoundStore((state)=>{
   setIsToastOpen: state.setIsToastOpen,
   setAlertText: state.setAlertText,
   setBgColor: state.setBgColor,
-  }
-})
+  } satisfies ThemeSlice})
 
