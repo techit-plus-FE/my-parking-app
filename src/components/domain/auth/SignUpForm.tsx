@@ -1,6 +1,6 @@
 import { ChangeEvent, ChangeEventHandler, useState } from "react";
 import { UserInputClass } from "../../../types/classImplementations";
-import { useAuthSlice, useThemeSlice, useBoundStore } from "../../../store/index";
+import { useAuthSlice, useThemeSlice } from "../../../store/index";
 import { useNavigate } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import { MenuItem } from "@mui/material";
