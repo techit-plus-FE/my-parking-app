@@ -49,7 +49,7 @@ export const useBoundStore = create<
 );
 
 
-export const useAuth = () => useBoundStore((state)=>{
+export const useAuthSlice = () => useBoundStore((state)=>{
   return  {
   userToken: state.userToken,
   userBasicInfo : state.userBasicInfo,
@@ -62,7 +62,7 @@ export const useAuth = () => useBoundStore((state)=>{
 } satisfies AuthSlice})
 
 
-export const useMyPage = () => useBoundStore((state)=>{
+export const useMyPageSlice = () => useBoundStore((state)=>{
   return {
     myInfo: state.myInfo,
     getMyInfo : state.getMyInfo,
@@ -72,7 +72,7 @@ export const useMyPage = () => useBoundStore((state)=>{
 } satisfies MyPageSlice})
 
 
-export const useTheme = () => useBoundStore((state)=>{
+export const useThemeSlice = () => useBoundStore((state)=>{
   return {
   isDark: state.isDark,
   setIsDark: state.setIsDark,
@@ -85,4 +85,38 @@ export const useTheme = () => useBoundStore((state)=>{
   setAlertText: state.setAlertText,
   setBgColor: state.setBgColor,
   } satisfies ThemeSlice})
+
+
+export const usePurchaseSlice = () => useBoundStore((state)=>{
+  return {
+    productDetailData: state.productDetailData,
+    setProductDetailData: state.setProductDetailData,
+  } satisfies PurchaseSlice})
+
+
+export const useSearchSlice = () => useBoundStore((state)=>{
+  return {
+    searchItemsInThisBound: state.searchItemsInThisBound, 
+    searchItemsInThisBoundAndPeriod : state.searchItemsInThisBoundAndPeriod,
+  } satisfies SearchSlice })
+
+
+export const useProductSlice = () => useBoundStore((state) => {
+  return {
+    productItem : state.productItem,
+    productList : state.productList,
+  } satisfies ProductSlice })
+
+
+export const useImageSlice = () => useBoundStore((state)=>{
+  return {
+  uploadImage : state.uploadImage
+} satisfies ImageSlice})
+
+
+export const useCustomAxiosSlice = () => useBoundStore((state)=>{
+  return {
+  useCustomAxios : state.useCustomAxios
+} satisfies customAxiosSlice})
+// customAxiosSlice
 
