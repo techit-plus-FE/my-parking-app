@@ -1,6 +1,6 @@
 import { ChangeEvent, ChangeEventHandler, useState } from "react";
 import { UserInputClass } from "../../../types/classImplementations";
-import { useBoundStore } from "../../../store/index";
+import { useAuthSlice, useThemeSlice, useBoundStore } from "../../../store/index";
 import { useNavigate } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import { MenuItem } from "@mui/material";
@@ -10,13 +10,14 @@ import { CommonButtonLarge, MuiButton } from "../../UI/CommonButton";
 import { Toast } from "../../UI/Toast";
 
 const SignUpForm = () => {
-  const AuthSlice: AuthSlice = useBoundStore((state) => state);
-  const isToastOpen = useBoundStore((state) => state.isToastOpen);
-  const setIsToastOpen = useBoundStore((state) => state.setIsToastOpen);
-  const bgColor = useBoundStore((state) => state.bgColor);
-  const setBgColor = useBoundStore((state) => state.setBgColor);
-  const toastMessage = useBoundStore((state) => state.alertText);
-  const setToastMessage = useBoundStore((state) => state.setAlertText);
+  const AuthSlice: AuthSlice = useAuthSlice();
+  const ThemeSlice: ThemeSlice = useThemeSlice();
+  const isToastOpen = ThemeSlice.isToastOpen
+  const setIsToastOpen= ThemeSlice.setIsToastOpen
+  const bgColor = ThemeSlice.bgColor
+  const setBgColor = ThemeSlice.setBgColor
+  const toastMessage = ThemeSlice.alertText
+  const setToastMessage = ThemeSlice.setAlertText
   const navigate = useNavigate();
   const [userInputs, setUserInputs] = useState<UserInputClass>(
     new UserInputClass()
