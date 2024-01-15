@@ -47,7 +47,7 @@ const SignUpForm: React.FC<PropsWithChildren<FormProps>> = ({
   return (
     <>
       <div className={classes.signUpContainer}>
-        <h2>회원가입</h2>
+        <h2 className={classes.title}>회원가입</h2>
         <form onSubmit={(e) => e.preventDefault()}>
           <Box>
             <div>
