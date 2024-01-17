@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useBoundStore } from "../../../store";
+import { useMyPageSlice, useAuthSlice, useThemeSlice } from "../../../store";
 import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import classes from "./Mypage.module.css";
@@ -10,27 +10,28 @@ import { Toast } from "../../UI/Toast";
 
 const MyProfile = () => {
   const theme = useTheme();
-  const Store = useBoundStore((state) => state);
-  const myInfo: UserDetailInfoType = useBoundStore((state) => state.myInfo);
-  const id: number = Store.userBasicInfo._id;
+  const authSlice: AuthSlice = useAuthSlice()
+  const myPageSlice: MyPageSlice = useMyPageSlice()
+  const themeSlice: ThemeSlice = useThemeSlice()
+  const myInfo = myPageSlice.myInfo
+  const id = authSlice.userBasicInfo._id
   const navigate = useNavigate();
   const fetchAndSetMyInfo = async () => {
-    Store.setMyInfo(await Store.getMyInfo(id, Store.userToken.accessToken));
+    myPageSlice.setMyInfo(await myPageSlice.getMyInfo(id, authSlice.userToken.accessToken));
   };
   const fontSize = "1.2rem";
-  const isToastOpen = useBoundStore((state) => state.isToastOpen);
-  const toastMessage = useBoundStore((state) => state.alertText);
-  const bgColor = useBoundStore((state) => state.bgColor);
+  const isToastOpen = themeSlice.isToastOpen
+  const toastMessage = themeSlice.alertText
+  const bgColor = themeSlice.bgColor
   useEffect(() => {
-    Store.isLoggedIn
+    authSlice.isLoggedIn
       ? fetchAndSetMyInfo()
       : (() => {
           alert("로그인이 필요합니다"), navigate("/login");
         })();
   }, []);
 
-  // return (<></>)
-  return !Store.isLoggedIn ? (
+  return !authSlice.isLoggedIn ? (
     <>로그인을 해주세요</>
   ) : (
     <>
