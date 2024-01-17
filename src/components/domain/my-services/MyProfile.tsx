@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useMyPageSlice, useAuthSlice, useThemeSlice } from "../../../store";
 import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
@@ -7,6 +7,7 @@ import { MuiButton } from "../../UI/CommonButton";
 import usericon from "../../../assets/images/user-default-profile.png";
 import { useTheme } from "@mui/material/styles";
 import { Toast } from "../../UI/Toast";
+import Loading from "../../common/Loading";
 
 const MyProfile = () => {
   const theme = useTheme();
@@ -17,12 +18,16 @@ const MyProfile = () => {
   const id = authSlice.userBasicInfo._id
   const navigate = useNavigate();
   const fetchAndSetMyInfo = async () => {
+    setLoading(true);
     myPageSlice.setMyInfo(await myPageSlice.getMyInfo(id, authSlice.userToken.accessToken));
+    setLoading(false);
   };
   const fontSize = "1.2rem";
   const isToastOpen = themeSlice.isToastOpen
   const toastMessage = themeSlice.alertText
   const bgColor = themeSlice.bgColor
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     authSlice.isLoggedIn
       ? fetchAndSetMyInfo()
@@ -31,7 +36,7 @@ const MyProfile = () => {
         })();
   }, []);
 
-  return !authSlice.isLoggedIn ? (
+  return ( loading? (<Loading/>) : !authSlice.isLoggedIn ? (
     <>로그인을 해주세요</>
   ) : (
     <>
@@ -135,6 +140,7 @@ const MyProfile = () => {
         bgColor={bgColor}
       />
     </>
+  )
   );
 };
 
