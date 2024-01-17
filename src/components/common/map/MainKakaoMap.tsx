@@ -17,6 +17,7 @@ import { Box } from "@mui/material";
 
 import USER_MARKER from "../../../assets/images/user-marker2-image.png";
 import PARKING_MARKER from "../../../assets/images/parking-marker-image.png";
+import NOIMAGE from "../../../assets/images/car-image.png";
 
 // 홈페이지 메인 지도 서비스
 type Props = {
@@ -171,7 +172,11 @@ const MainKakaoMap = ({
                     startDate={el.extra?.startDate}
                     endDate={el.extra?.endDate}
                     linkId={el?._id}
-                    mainImage={el.mainImages && BASE_URL + el.mainImages[0].url}
+                    mainImage={
+                      el.mainImages?.length !== 0
+                        ? BASE_URL + el.mainImages[0].url
+                        : NOIMAGE
+                    }
                   />
                 </CustomOverlayMap>
               )}
