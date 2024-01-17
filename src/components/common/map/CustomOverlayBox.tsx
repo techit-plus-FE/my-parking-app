@@ -26,6 +26,7 @@ const CustomOverlayBox = ({
     setIsOverlayOpen(false);
     setSelectedMarker(null);
   };
+
   return (
     <div className={classes.wrapper}>
       <div className={classes.info}>
@@ -35,7 +36,7 @@ const CustomOverlayBox = ({
         </div>
         <div className={classes.body}>
           <div className={classes.img}>
-            <img src={mainImage || NOIMAGE} alt="등록된 이미지" />
+            <img src={mainImage} alt="등록된 이미지" />
           </div>
           <div className={classes.desc}>
             <div className={classes.period}>
