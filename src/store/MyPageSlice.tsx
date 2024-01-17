@@ -1,13 +1,12 @@
 import { StateCreator } from "zustand";
 import { BASE_URL } from "../services/BaseUrl";
-import axios, { AxiosError, AxiosInstance } from "axios";
+import { AxiosError, AxiosInstance } from "axios";
 import { UserDetailInfo } from "../types/classImplementations";
 
 const requestMyInfo: (
   id: number,
-  accessToken: string,
   axiosInstance: AxiosInstance
-) => Promise<UserDetailInfoType> = async (id: number, accessToken: string, axiosInstance) => {
+) => Promise<UserDetailInfoType> = async (id: number, axiosInstance) => {
   // 서버로 회원가입 요청 보내기
   try {
     const response = await axiosInstance.get<number, MyPageResponseType>(
@@ -30,16 +29,12 @@ const requestMyInfo: (
 const requestUpdateMyInfo = async (
   editedInfo: Partial<UserDetailInfoType>,
   id: number,
-  accessToken: string,
   axiosInstance: AxiosInstance,
 ) => {
   try {
     const response = await axiosInstance.patch<number, MyPageEditResponseType>(
       `${BASE_URL}/users/${id}`,
       editedInfo,
-      // {
-      //   headers: { Authorization: `Bearer ${accessToken}` },
-      // }
     );
     if (response.data.ok === 1) {
       return response.data.updated;
@@ -55,15 +50,11 @@ const requestUpdateMyInfo = async (
 };
 
 const requestMyProducts = async (
-  accessToken: string,
   axiosInstance: AxiosInstance,
   ) => {
   try {
     const response = await axiosInstance.get<number, MyProductsResponseType>(
       `${BASE_URL}/seller/products`,
-      // {
-      //   headers: { Authorization: `Bearer ${accessToken}` },
-      // }
     );
     if (response.data.ok === 1) {
       return response.data.item;
@@ -85,20 +76,19 @@ MyPageSlice & customAxiosSlice,
 MyPageSlice
 > = (set, get) => ({
   myInfo: new UserDetailInfo(),
-  getMyInfo: async (id: number, accessToken: string) => {
-    return await requestMyInfo(id, accessToken, get().useCustomAxios());
+  getMyInfo: async (id: number) => {
+    return await requestMyInfo(id, get().useCustomAxios());
   },
   setMyInfo: async (newInfo: Partial<UserDetailInfoType>) => {
     set((state) => ({ myInfo: { ...state.myInfo, ...newInfo } }));
   },
   updateMyInfo: async (
     id: number,
-    accessToken: string,
     editedInfo: Partial<UserDetailInfoType>
   ) => {
-    return await requestUpdateMyInfo(editedInfo, id, accessToken, get().useCustomAxios());
+    return await requestUpdateMyInfo(editedInfo, id, get().useCustomAxios());
   },
-  getMyProducts: async (accessToken: string) => {
-    return await requestMyProducts(accessToken, get().useCustomAxios());
+  getMyProducts: async () => {
+    return await requestMyProducts(get().useCustomAxios());
   },
 });

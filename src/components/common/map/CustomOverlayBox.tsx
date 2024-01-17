@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
 import classes from "./CustomOverlayBox.module.css";
-import NOIMAGE from "../../../assets/images/no-images.png";
 
 type Props = {
   setIsOverlayOpen: (b: boolean) => void;

@@ -19,7 +19,7 @@ const MyProfile = () => {
   const navigate = useNavigate();
   const fetchAndSetMyInfo = async () => {
     setLoading(true);
-    myPageSlice.setMyInfo(await myPageSlice.getMyInfo(id, authSlice.userToken.accessToken));
+    myPageSlice.setMyInfo(await myPageSlice.getMyInfo(id));
     setLoading(false);
   };
   const fontSize = "1.2rem";
