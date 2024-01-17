@@ -5,7 +5,6 @@
 ![image](https://i.ibb.co/KxvRbYc/image.png)
 <h3>도심 속 주차장 예약 서비스🚙 🛻</h3><br>
 
-
  <b>[마이파킹 앱 바로가기](https://my-parking.netlify.app/)</b> <br>
 
   <b>일반회원</b>
@@ -190,23 +189,33 @@
 ## <span id="schedule">페이지 미리보기</span>
 
 **로그인 및 회원가입**
-![로그인](https://i.ibb.co/gFqcDGM/gif.gif)
-![회원가입](https://i.ibb.co/bzdqnL5/gif.gif)
+
+
+<img src="https://i.ibb.co/gFqcDGM/gif.gif" width="1000" height="600"/>
+<img src="https://i.ibb.co/bzdqnL5/gif.gif" width="1000" height="600"/>
+
+<br/>
 
 **메인 서비스**
 
-![홈페이지](https://i.ibb.co/j5jB4Mh/gif.gif)
+<img src="https://i.ibb.co/j5jB4Mh/image.gif" width="1000" height="600"/>
 
 <br/>
 
 **상품 등록**
-![상품페이지](https://i.ibb.co/wWRj0Gz/image.gif)
+
+<img src="https://i.ibb.co/wWRj0Gz/image.gif" width="1000" height="600"/>
+
 <br/>
 **상품 상세조회 및 수정 삭제**
-![상품페이지](https://i.ibb.co/6RM9nrw/image.gif)
+
+<img src="https://i.ibb.co/6RM9nrw/image.gif" width="1000" height="600"/>
+
 <br/>
 **결제 및 주문기록 후기**
-![주문페이지](https://i.ibb.co/bvXM99s/gif.gif)
+
+<img src="https://i.ibb.co/bvXM99s/image.gif" width="1000" height="600"/>
+
 
 
 <br><br>
