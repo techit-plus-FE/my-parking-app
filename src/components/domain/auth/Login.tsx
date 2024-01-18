@@ -31,12 +31,18 @@ const Login = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const responseItem = await login(userInputId, userInputPassword);
-    if (responseItem._id !== -1) {
+    const errorMessage = responseItem.message;
+    // response 된 data 에 _id 라는 key 가 있다면 로그인 성공으로 간주합니다.
+    if ("_id" in responseItem) {
       setIsToastOpen(true);
       setAlertText("로그인이 완료되었습니다");
       setBgColor("var(--toast-success)");
       updateUserBasicInfo(responseItem.token, responseItem);
       navigate("/home");
+    } else {
+      setIsToastOpen(true);
+      setAlertText(errorMessage);
+      setBgColor("var(--toast-error)");
     }
   };
 
