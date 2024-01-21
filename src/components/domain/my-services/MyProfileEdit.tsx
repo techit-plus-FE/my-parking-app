@@ -25,6 +25,7 @@ const MyProfileEdit = () => {
   const bgColor = useBoundStore(state=>state.bgColor)
 
   const fetchAndSetMyInfo = async () => {
+    setIsLoading(true)
     const myInfo = await Store.getMyInfo(id);
     Store.setMyInfo(myInfo)
 
@@ -49,6 +50,7 @@ const MyProfileEdit = () => {
       return acc;
       }, {} as { [key in keyof Required<ExtraType>]: React.MutableRefObject<HTMLInputElement|null> })
     )
+    setIsLoading(false)
   };
 
   useEffect(()=>{
